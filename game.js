@@ -14,13 +14,36 @@ var game = new Phaser.Game(config);
 function preload ()
 {
     this.load.image('background', 'background.png');
-    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 48});
+    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 19, frameHeight: 47});
 }
 function create ()
 {
     this.add.image(400,300, 'background').setScale(4);
+	player = this.physics.add.sprite(100, 450, 'main_character');
+	player.setBounce(0.2);
+	player.setCollideWorldBounds(true);
+	this.anims.create({
+		key: 'left',
+		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
+		frameRate: 10,
+		repeat: -1
+	});
+	this.anims.create({
+		key: 'turn',
+		frames: [ { key: 'main_character', frame: 4 } ],
+		frameRate: 1
+	});
+	this.anims.create({
+		key: 'right',
+		frames: this.anims.generateFrameNumbers('main_character', { start: 5, end: 8 }),
+		frameRate: 10,
+		repeat: -1
+	});
 }
 
 function update ()
 {
+    backgroundsound.play()
 }
+const backgroundsound = new Audio('background_music.mp3');
+var player
