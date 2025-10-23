@@ -85,6 +85,6 @@ function update ()
 
     if (cursors.up.isDown)
     {
-        player.setVelocityY(-500);
+        player.setVelocityY(-50);
     }
 }
