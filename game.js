@@ -15,7 +15,7 @@ function preload ()
 {
     this.load.image('background', 'background.png');
     this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 48});
-    this.load.image('platform', 'assets/Platformit.png');
+    this.load.image('platform', 'Platformit.png');
 }
 function create ()
 {
