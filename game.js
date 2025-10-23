@@ -11,6 +11,8 @@ var config = {
 
 var game = new Phaser.Game(config);
 var platforms;
+const backgroundsound = new Audio('background_music.mp3');
+var player
 function preload ()
 {
     this.load.image('background', 'background.png');
@@ -41,12 +43,10 @@ function create ()
 		repeat: -1
 	});
     platforms = this.physics.add.staticGroup();
-    platforms.create(400, 1000, 'Platformit').setScale(2).refreshBody();
+    platforms.create(400, 100, 'Platformit').setScale(2).refreshBody();
 }
 
 function update ()
 {
     backgroundsound.play()
 }
-const backgroundsound = new Audio('background_music.mp3');
-var player
