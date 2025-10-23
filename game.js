@@ -2,6 +2,13 @@ var config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300 },
+            debug: false
+        }
+    },
     scene: {
         preload: preload,
         create: create,
@@ -22,9 +29,10 @@ function preload ()
 function create ()
 {
     this.add.image(400,300, 'background').setScale(4);
-	player = this.physics.add.sprite(100, 450, 'main_character');
+    player = this.physics.add.sprite(100, 450, 'main_character');
 	player.setBounce(0.2);
 	player.setCollideWorldBounds(true);
+    this.physics.add.collider(player, platforms);
 	this.anims.create({
 		key: 'left',
 		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
@@ -43,8 +51,8 @@ function create ()
 		repeat: -1
 	});
     platforms = this.physics.add.staticGroup();
-    platforms.create(400,568, 'Platformit').setScale(2).refreshBody();
-    platforms.create(50, 250, 'Platformit');
+    platforms.create(400,568, 'platform').setScale(2).refreshBody();
+    platforms.create(50, 250, 'platform');
        
 }
 
