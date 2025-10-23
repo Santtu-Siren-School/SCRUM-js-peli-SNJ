@@ -1,25 +1,26 @@
-class Example extends Phaser.Scene
-{
-    preload ()
-    {
-        this.load.setBaseURL('https://labs.phaser.io');
-    }
-    create ()
-    {
-
-    }
-}
-
-const config = {
+var config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    scene: Example,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 200 }
-        }
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
     }
 };
-const game = new Phaser.Game(config);
+
+var game = new Phaser.Game(config);
+
+function preload ()
+{
+    this.load.image('testbackground', 'testbackground.png');
+    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 48});
+}
+function create ()
+{
+    this.add.image(400,300, 'testbackground');
+}
+
+function update ()
+{
+}
