@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1080,
+    height: 900,
     physics: {
         default: 'arcade',
         arcade: {
@@ -23,12 +23,12 @@ var player
 function preload ()
 {
     this.load.image('background', 'background.png');
-    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 48});
+    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 42});
     this.load.image('platform', 'Platformit.png');
 }
 function create ()
 {
-    this.add.image(400,300, 'background').setScale(4);
+    this.add.image(500,400, 'background').setScale(6);
     player = this.physics.add.sprite(100, 450, 'main_character');
 	player.setBounce(0.2);
 	player.setCollideWorldBounds(true);
