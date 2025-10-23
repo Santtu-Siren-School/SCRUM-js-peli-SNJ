@@ -23,11 +23,12 @@ var player
 function preload ()
 {
     this.load.image('background', 'background.png');
-    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 42});
+    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
     this.load.image('platform', 'Platformit.png');
 }
 function create ()
 {
+    cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
     player = this.physics.add.sprite(100, 450, 'main_character');
 	player.setBounce(0.2);
@@ -59,4 +60,27 @@ function create ()
 function update ()
 {
     backgroundsound.play()
+    if (cursors.left.isDown)
+    {
+        player.setVelocityX(-160);
+
+        player.anims.play('left', true);
+    }
+    else if (cursors.right.isDown)
+    {
+        player.setVelocityX(160);
+
+        player.anims.play('right', true);
+    }
+    else
+    {
+        player.setVelocityX(0);
+
+        player.anims.play('turn');
+    }
+
+    if (cursors.up.isDown && player.body.touching.down)
+    {
+        player.setVelocityY(-330);
+    }
 }
