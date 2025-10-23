@@ -18,6 +18,7 @@ var config = {
 
 var game = new Phaser.Game(config);
 var platforms;
+var bottom_of_game;
 const backgroundsound = new Audio('background_music.mp3');
 var player
 function preload ()
@@ -25,6 +26,7 @@ function preload ()
     this.load.image('background', 'background.png');
     this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
     this.load.image('platform', 'Platformit.png');
+    this.load.image('bottom_of_game', 'bottom_of_game.png');
 }
 function create ()
 {
@@ -34,6 +36,7 @@ function create ()
 	player.setBounce(0.2);
 	player.setCollideWorldBounds(true);
     this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, bottom_of_game);
 	this.anims.create({
 		key: 'left',
 		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
@@ -52,6 +55,8 @@ function create ()
 		repeat: -1
 	});
     platforms = this.physics.add.staticGroup();
+    bottom_of_game = this.physics.add.staticGroup();
+    bottom_of_game.create(350, 900, 'bottom_of_game')
     platforms.create(350, 550, 'platform').setScale(3).refreshBody();
     platforms.create(100, 380, 'platform').setScale(2);
 	platforms.create(300, 240, 'platform').setScale(2);
@@ -80,8 +85,8 @@ function update ()
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown && player.body.touching.down)
+    if (cursors.up.isDown)
     {
-        player.setVelocityY(-330);
+        player.setVelocityY(-500);
     }
 }
