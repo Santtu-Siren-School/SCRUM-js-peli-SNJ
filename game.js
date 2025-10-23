@@ -1,25 +1,28 @@
-class Example extends Phaser.Scene
-{
-    preload ()
-    {
-        this.load.setBaseURL('https://labs.phaser.io');
+class MenuScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MenuScene' });
     }
-    create ()
-    {
+
+    preload() {
+    }
+
+    create() {
+        this.add.text(540, 200, 'Santtun peli', {
+            fontSize: '64px',
+            fill: '#ffffff'
+        }).setOrigin(0.5);
 
     }
-}
-
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    scene: Example,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 200 }
-        }
-    }
+}var config = {
+		type: Phaser.AUTO,
+		width: 1080,
+        height: 720,
+		physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 300 },
+                debug: false
+            }
+        },
+	scene: [MenuScene, ]
 };
-const game = new Phaser.Game(config);
