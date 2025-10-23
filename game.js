@@ -10,11 +10,12 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
-
+var platforms;
 function preload ()
 {
     this.load.image('background', 'background.png');
-    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 19, frameHeight: 47});
+    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 48});
+    this.load.image('platform', 'assets/Platformit.png');
 }
 function create ()
 {
@@ -39,6 +40,8 @@ function create ()
 		frameRate: 10,
 		repeat: -1
 	});
+    platforms = this.physics.add.staticGroup();
+    platforms.create(400, 1000, 'Platformit').setScale(2).refreshBody();
 }
 
 function update ()
