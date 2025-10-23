@@ -13,12 +13,12 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('testbackground', 'testbackground.png');
+    this.load.image('background', 'background.png');
     this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 32, frameHeight: 48});
 }
 function create ()
 {
-    this.add.image(400,300, 'testbackground');
+    this.add.image(400,300, 'background').setScale(4);
 }
 
 function update ()
