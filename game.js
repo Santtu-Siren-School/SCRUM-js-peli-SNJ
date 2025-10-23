@@ -55,12 +55,10 @@ function create ()
 		repeat: -1
 	});
     platforms = this.physics.add.staticGroup();
-    bottom_of_game = this.physics.add.staticGroup();
-    bottom_of_game.create(350, 900, 'bottom_of_game')
-    platforms.create(350, 550, 'platform').setScale(3).refreshBody();
-    platforms.create(100, 380, 'platform').setScale(2);
-	platforms.create(300, 240, 'platform').setScale(2);
-	platforms.create(700, 430, 'platform').setScale(6);
+    platforms.create(350, 870, 'platform').setScale(3).refreshBody();
+    platforms.create(100, 700, 'platform').setScale(2);
+	platforms.create(320, 560, 'platform').setScale(2);
+	platforms.create(700, 730, 'platform').setScale(6);
 }
 
 function update ()
