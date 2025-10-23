@@ -52,9 +52,10 @@ function create ()
 		repeat: -1
 	});
     platforms = this.physics.add.staticGroup();
-    platforms.create(400,568, 'platform').setScale(2).refreshBody();
-    platforms.create(50, 250, 'platform');
-       
+    platforms.create(350, 550, 'platform').setScale(3).refreshBody();
+    platforms.create(100, 380, 'platform').setScale(2);
+	platforms.create(300, 240, 'platform').setScale(2);
+	platforms.create(700, 430, 'platform').setScale(6);
 }
 
 function update ()
