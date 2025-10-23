@@ -41,7 +41,9 @@ function create ()
 		repeat: -1
 	});
     platforms = this.physics.add.staticGroup();
-    platforms.create(400,500, 'Platformit').setScale(2).refreshBody();
+    platforms.create(400,568, 'Platformit').setScale(2).refreshBody();
+    platforms.create(50, 250, 'Platformit');
+       
 }
 
 function update ()
