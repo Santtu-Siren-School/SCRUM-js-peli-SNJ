@@ -21,7 +21,7 @@ var platforms;
 var bottom_of_game;
 var gameOver;
 var jumping = 0;
-const backgroundsound = new Audio('background_music.mp3');
+const backgroundsound = new Audio('assets/sound/background_music.mp3');
 var player;
 var weapon;
 function preload ()
