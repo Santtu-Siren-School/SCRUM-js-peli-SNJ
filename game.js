@@ -59,6 +59,10 @@ function create ()
     platforms.create(100, 700, 'platform').setScale(2);
 	platforms.create(320, 560, 'platform').setScale(2);
 	platforms.create(700, 730, 'platform').setScale(6);
+this.cameras.main.setBounds(0, 0, 2000, 900);
+	this.physics.world.setBounds(0, 0, 2000, 900);
+
+	this.cameras.main.startFollow(player);
 }
 
 function update ()
