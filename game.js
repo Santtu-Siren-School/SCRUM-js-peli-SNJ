@@ -59,8 +59,8 @@ class Level1 extends Phaser.Scene {
     platforms.create(990, 320, 'platform').setScale(3).refreshBody();
     platforms.create(1230, 230, 'platform').setScale(3).refreshBody();
     platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
-    platforms.create(1320, 870, 'platform').setScale(4).refreshBody();
-    platforms.create(1060, 690, 'platform').setScale(3).refreshBody();
+    platforms.create(1350, 870, 'platform').setScale(4).refreshBody();
+    platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
     bottom_of_game = this.physics.add.staticGroup();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
