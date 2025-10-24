@@ -22,6 +22,8 @@ var bottom_of_game;
 const backgroundsound = new Audio('background_music.mp3');
 var player;
 var weapon;
+let cannon;
+let bullets;
 function preload ()
 {
     this.load.image('background', 'assets/textures/background.png');
@@ -29,6 +31,9 @@ function preload ()
     this.load.image('platform', 'assets/textures/Platformit.png');
     this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
     this.load.image('weapon', 'assets/textures/tikari.png');
+    this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('bullet', 'assets/textures/cannon_ball.png');
+
 }
 function create ()
 {
