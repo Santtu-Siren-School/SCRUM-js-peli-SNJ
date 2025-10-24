@@ -20,7 +20,7 @@ var game = new Phaser.Game(config);
 var platforms;
 var bottom_of_game;
 const backgroundsound = new Audio('background_music.mp3');
-var player
+var player;
 function preload ()
 {
     this.load.image('background', 'background.png');
