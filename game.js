@@ -1,4 +1,4 @@
-//kaikki tästä config filiin asti on level1 asoita, varmaan paljon copy&pastin seuraviin levelihin
+//level1
 class Level1 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level1' });
@@ -11,6 +11,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('dagger', 'assets/textures/tikari.png');
     this.load.image('cannon', 'assets/textures/cannon.png');
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
+    this.load.image('ovi','assets/textures/ovi.png')
     }
     create (){
         
@@ -56,10 +57,12 @@ class Level1 extends Phaser.Scene {
 	platforms.create(700, 730, 'platform').setScale(6).refreshBody();
     bottom_of_game = this.physics.add.staticGroup();
     this.physics.add.collider(player, bottom_of_game);
-    bottom_of_game.create(350,870, 'bottom_of_game')
+    bottom_of_game.create(100,900, 'bottom_of_game')
+    ovi=this.physics.add.staticGroup();
+    ovi.create(900,520,'ovi').setScale(0.3).refreshBody();
+    this.physics.add.overlap(player, ovi, nextlevel, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
-
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -146,6 +149,12 @@ class Level1 extends Phaser.Scene {
         });
     }
 }
+//level2
+class Level2 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Level2' });
+}
+}
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -157,8 +166,9 @@ var config = {
             debug: false
         }
     },
-    scene: [Level1]
+    scene: [Level1,Level2]
 };
+var ovi;
 var cursors;
 var game = new Phaser.Game(config);
 var platforms;
@@ -166,6 +176,7 @@ var bottom_of_game;
 var gameOver;
 var jumping = 0;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
+const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 var player;
 var weapon;
 var knife;
@@ -182,4 +193,8 @@ function shootBullet() {
 
         bullet.setVelocityX(400);
     }
+}
+function nextlevel() {
+    nextlevelsound.play()
+    this.scene.start('Level2')
 }
