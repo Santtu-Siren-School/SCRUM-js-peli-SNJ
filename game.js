@@ -14,7 +14,6 @@ class Level1 extends Phaser.Scene {
     this.load.image('ovi','assets/textures/ovi.png')
     }
     create (){
-        
     cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
     player = this.physics.add.sprite(100, 750, 'main_character');
@@ -94,6 +93,7 @@ class Level1 extends Phaser.Scene {
     }
 
     update (){
+
     if (gameOver == true)
 	{
 		this.physics.pause();
@@ -102,38 +102,31 @@ class Level1 extends Phaser.Scene {
 		return;
 	}
     backgroundsound.play()
-    if (cursors.left.isDown)
-    {
-        player.setVelocityX(-160);
-         player.anims.play('left', true);
-        player.anims.play('left', true);
-         facingRight = false;
-    }
-    else if (cursors.right.isDown)
-    {
-        player.setVelocityX(160);
-
-        player.anims.play('right', true);
-        facingRight = true;
-    }
-    else if (cursors.up.isDown&&player.body.touching.down)
-    {
-        jumping=1;
+    if (cursors.up.isDown && player.body.touching.down) {
+        jumping = 1;
         player.setVelocityY(-300);
         player.anims.play("jump");
     }
-    else if (jumping=1) 
-    {
+    if (jumping === 1) {
+        player.anims.play("jump", true);
         player.setVelocityX(0);
-        player.anims.play("jump");
         if (player.body.touching.down) {
-            jumping=0;
+            jumping = 0;
             player.setVelocityX(0);
             player.anims.play('turn');
         }
     }
-    else
-    {
+    if (cursors.left.isDown) {
+        player.setVelocityX(-160);
+        player.anims.play('left', true);
+        facingRight = false;
+    } 
+    else if (cursors.right.isDown) {
+        player.setVelocityX(160);
+        player.anims.play('right', true);
+        facingRight = true;
+    } 
+    else {
         player.setVelocityX(0);
         player.anims.play('turn');
     }
@@ -193,12 +186,25 @@ class Level2 extends Phaser.Scene {
     weapon.destroy();
     });
     this.physics.add.collider(player, platforms);
+    platforms.create(300,800, 'platform').setScale(2).refreshBody();
+    platforms.create(500,700, 'platform').setScale(2).refreshBody();
+    platforms.create(800,700, 'platform').setScale(2).refreshBody();
+    platforms.create(1100,600, 'platform').setScale(2).refreshBody();
+    platforms.create(800,440, 'platform').setScale(2).refreshBody();
+    platforms.create(550,400, 'platform').setScale(2).refreshBody();
+    platforms.create(550,230, 'platform').setScale(2).refreshBody();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
-    bottom_of_game.create(400,900, 'bottom_of_game')
-    bottom_of_game.create(600,900, 'bottom_of_game')
-    bottom_of_game.create(800,900, 'bottom_of_game')
-    bottom_of_game.create(1000,900, 'bottom_of_game')
+    bottom_of_game.create(300,900, 'bottom_of_game')
+    bottom_of_game.create(500,900, 'bottom_of_game')
+    bottom_of_game.create(700,900, 'bottom_of_game')
+    bottom_of_game.create(900,900, 'bottom_of_game')
+    bottom_of_game.create(1100,900, 'bottom_of_game')
+    bottom_of_game.create(1300,900, 'bottom_of_game')
+    bottom_of_game.create(1500,900, 'bottom_of_game')
+    bottom_of_game.create(1700,900, 'bottom_of_game')
+    bottom_of_game.create(1900,900, 'bottom_of_game')
+    bottom_of_game.create(2100,900, 'bottom_of_game')
     ovi=this.physics.add.staticGroup();
     this.physics.add.overlap(player, ovi, level3Transition, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
@@ -215,38 +221,31 @@ class Level2 extends Phaser.Scene {
             return;
         }
         backgroundsound.play()
-        if (cursors.left.isDown)
-        {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            player.anims.play('left', true);
-            facingRight = false;
-        }
-        else if (cursors.right.isDown)
-        {
-            player.setVelocityX(160);
-
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.up.isDown&&player.body.touching.down)
-        {
-            jumping=1;
+    if (cursors.up.isDown && player.body.touching.down) {
+            jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
         }
-        else if (jumping==1) 
-        {
+        if (jumping === 1) {
+            player.anims.play("jump", true);
             player.setVelocityX(0);
-            player.anims.play("jump");
             if (player.body.touching.down) {
-                jumping=0;
+                jumping = 0;
                 player.setVelocityX(0);
                 player.anims.play('turn');
             }
         }
-        else
-        {
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
+        } 
+        else {
             player.setVelocityX(0);
             player.anims.play('turn');
         }
