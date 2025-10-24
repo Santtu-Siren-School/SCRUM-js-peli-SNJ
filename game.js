@@ -19,6 +19,8 @@ var config = {
 var game = new Phaser.Game(config);
 var platforms;
 var bottom_of_game;
+var gameOver;
+var jumping = 0;
 const backgroundsound = new Audio('background_music.mp3');
 var player;
 var weapon;
@@ -40,7 +42,6 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
     player = this.physics.add.sprite(100, 450, 'main_character');
-	player.setBounce(0.2);
 	player.setCollideWorldBounds(true);
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
@@ -61,12 +62,21 @@ function create ()
 		frameRate: 10,
 		repeat: -1
 	});
+    this.anims.create({
+        key: 'jump',
+        frames: [{key: 'main_character', frame: 9}],
+        frameRate: 1
+    });
     platforms = this.physics.add.staticGroup();
+    this.physics.add.collider(player, platforms);
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
     platforms.create(100, 700, 'platform').setScale(2);
 	platforms.create(320, 560, 'platform').setScale(2);
 	platforms.create(700, 730, 'platform').setScale(6);
-this.cameras.main.setBounds(0, 0, 2000, 900);
+    bottom_of_game = this.physics.add.staticGroup();
+    this.physics.add.collider(player, bottom_of_game);
+    bottom_of_game.create(350,870, 'bottom_of_game')
+    this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 
 	this.cameras.main.startFollow(player);
@@ -74,6 +84,13 @@ this.cameras.main.setBounds(0, 0, 2000, 900);
 
 function update ()
 {
+    if (gameOver == true)
+	{
+		this.physics.pause();
+		backgroundsound.pause();
+		player.anims.play('jump');
+		return;
+	}
     backgroundsound.play()
     if (cursors.left.isDown)
     {
@@ -87,15 +104,26 @@ function update ()
 
         player.anims.play('right', true);
     }
+    else if (cursors.up.isDown&&player.body.touching.down)
+    {
+        jumping=1;
+        player.setVelocityY(-300);
+        player.anims.play("jump");
+    }
+    else if (jumping=1) 
+    {
+        player.setVelocityX(0);
+        player.anims.play("jump");
+        if (player.body.touching.down) {
+            jumping=0;
+            player.setVelocityX(0);
+            player.anims.play('turn');
+        }
+    }
     else
     {
         player.setVelocityX(0);
-
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown)
-    {
-        player.setVelocityY(-50);
-    }
 }
