@@ -70,8 +70,6 @@ class Level1 extends Phaser.Scene {
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-
     cannon = this.physics.add.image(50, 830, 'cannon');
     cannon.setImmovable(true);
     cannon.body.allowGravity = false;
@@ -213,6 +211,21 @@ class Level2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
+    cannon = this.physics.add.image(50, 600, 'cannon');
+    cannon = this.physics.add.image(50, 600, 'cannon');
+    cannon.setImmovable(true);
+    cannon.body.allowGravity = false;
+    bullets = this.physics.add.group({
+        defaultKey: 'bullet',
+        maxSize: 10
+    });
+    this.time.addEvent({
+        delay: 5000,     
+        callback: shootBullet, 
+        callbackScope: this,  
+        loop: true             
+    });
+    this.physics.add.collider(player, bullets, hitPlayer, null, this);
     }
 
     update (){
