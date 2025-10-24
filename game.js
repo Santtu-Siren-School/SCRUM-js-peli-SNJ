@@ -153,7 +153,7 @@ class Level1 extends Phaser.Scene {
             }, 1000);
         }
         bullets.children.each(b => {
-            if (b.active && b.x > 1080) {
+            if (b.active && b.x > 1580) {
                 b.disableBody(true, true); 
             }
         });
