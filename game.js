@@ -21,7 +21,7 @@ var platforms;
 var bottom_of_game;
 var gameOver;
 var jumping = 0;
-const backgroundsound = new Audio('assets/sound/background_music.mp3');
+const backgroundsound = new Audio('background_music.mp3');
 var player;
 var weapon;
 var knife;
@@ -35,7 +35,6 @@ function preload ()
     this.load.image('platform', 'assets/textures/Platformit.png');
     this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
     this.load.image('dagger', 'assets/textures/tikari.png');
-    this.load.image('weapon', 'assets/textures/tikari.png');
     this.load.image('cannon', 'assets/textures/cannon.png');
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
 
@@ -79,9 +78,9 @@ function create ()
     platforms = this.physics.add.staticGroup();
     this.physics.add.collider(player, platforms);
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
-    platforms.create(100, 700, 'platform').setScale(2);
-	platforms.create(320, 560, 'platform').setScale(2);
-	platforms.create(700, 730, 'platform').setScale(6);
+    platforms.create(100, 700, 'platform').setScale(2).refreshBody();
+	platforms.create(320, 560, 'platform').setScale(2).refreshBody();
+	platforms.create(700, 730, 'platform').setScale(6).refreshBody();
     bottom_of_game = this.physics.add.staticGroup();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(350,870, 'bottom_of_game')
@@ -90,36 +89,7 @@ function create ()
 
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-
-    cannon = this.physics.add.image(100, 300, 'cannon');
-    cannon.setImmovable(true);
-
-    bullets = this.physics.add.group({
-        defaultKey: 'bullet',
-        maxSize: 10
-    });
-
-    this.time.addEvent({
-        delay: 3000,     
-        callback: shootBullet, 
-        callbackScope: this,  
-        loop: true             
-    });
 }
-
-
-function shootBullet() {
-    const bullet = bullets.get();
-
-    if (bullet) {
-        bullet.enableBody(true, cannon.x + 40, cannon.y, true, true);
-
-        bullet.setVelocityX(400);
-    }
-}
-
-
 
 function update ()
 {
@@ -179,9 +149,4 @@ if (Phaser.Input.Keyboard.JustDown(shoot)) {
             weapon.destroy();
         }, 1000);
     }
-    bullets.children.each(b => {
-        if (b.active && b.x > 1080) {
-            b.disableBody(true, true); 
-        }
-    });
 }
