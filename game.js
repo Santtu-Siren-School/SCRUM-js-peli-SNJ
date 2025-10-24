@@ -22,13 +22,15 @@ var bottom_of_game;
 const backgroundsound = new Audio('background_music.mp3');
 var player;
 var weapon;
+var knife;
+var shoot;
 function preload ()
 {
     this.load.image('background', 'assets/textures/background.png');
     this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
     this.load.image('platform', 'assets/textures/Platformit.png');
     this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
-    this.load.image('weapon', 'assets/textures/tikari.png');
+    this.load.image('dagger', 'assets/textures/tikari.png');
 }
 function create ()
 {
@@ -37,8 +39,14 @@ function create ()
     player = this.physics.add.sprite(100, 450, 'main_character');
 	player.setBounce(0.2);
 	player.setCollideWorldBounds(true);
+    knife = this.physics.add.group();
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
+    this.physics.add.collider(knife, platforms);
+    this.physics.add.collider(knife, bottom_of_game);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+    weapon.destroy();
+});
 	this.anims.create({
 		key: 'left',
 		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
@@ -65,6 +73,7 @@ this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 
 	this.cameras.main.startFollow(player);
+    shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 }
 
 function update ()
@@ -92,5 +101,15 @@ function update ()
     if (cursors.up.isDown)
     {
         player.setVelocityY(-50);
+    }
+
+if (Phaser.Input.Keyboard.JustDown(shoot)) {
+        let weapon = knife.create(player.x, player.y, 'dagger');
+        weapon.setScale(0.1);
+        weapon.setVelocityX(400); 
+        weapon.setGravityY(-200); 
+        setTimeout(() => {
+            weapon.destroy();
+        }, 1000);
     }
 }
