@@ -67,8 +67,9 @@ class Level1 extends Phaser.Scene {
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-    cannon = this.physics.add.image(100, 300, 'cannon');
+    cannon = this.physics.add.image(50, 830, 'cannon');
     cannon.setImmovable(true);
+    cannon.body.allowGravity = false;
 
     bullets = this.physics.add.group({
         defaultKey: 'bullet',
@@ -192,6 +193,8 @@ function shootBullet() {
         bullet.enableBody(true, cannon.x + 40, cannon.y, true, true);
 
         bullet.setVelocityX(400);
+
+        bullet.body.allowGravity = false;
     }
 }
 function nextlevel() {
