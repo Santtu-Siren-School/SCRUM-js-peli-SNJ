@@ -134,12 +134,6 @@ function update ()
         player.setVelocityX(0);
         player.anims.play('turn');
     }
-
-    if (cursors.up.isDown)
-    {
-        player.setVelocityY(-50);
-    }
-
 if (Phaser.Input.Keyboard.JustDown(shoot)) {
         let weapon = knife.create(player.x, player.y, 'dagger');
         weapon.setScale(0.1);
