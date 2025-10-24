@@ -20,6 +20,18 @@ class Level1 extends Phaser.Scene {
     player = this.physics.add.sprite(100, 750, 'main_character');
 	player.setCollideWorldBounds(true);
     knife = this.physics.add.group();
+    platforms = this.physics.add.staticGroup();
+    this.physics.add.collider(player, platforms);
+    platforms.create(350, 870, 'platform').setScale(3).refreshBody();
+    platforms.create(80, 700, 'platform').setScale(2).refreshBody();
+	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
+	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
+    platforms.create(780, 480, 'platform').setScale(3).refreshBody();
+    platforms.create(990, 320, 'platform').setScale(3).refreshBody();
+    platforms.create(1230, 230, 'platform').setScale(3).refreshBody();
+    platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
+    platforms.create(1350, 870, 'platform').setScale(4).refreshBody();
+    platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
     this.physics.add.collider(knife, platforms);
@@ -49,18 +61,6 @@ class Level1 extends Phaser.Scene {
         frames: [{key: 'main_character', frame: 9}],
         frameRate: 1
     });
-    platforms = this.physics.add.staticGroup();
-    this.physics.add.collider(player, platforms);
-    platforms.create(350, 870, 'platform').setScale(3).refreshBody();
-    platforms.create(80, 700, 'platform').setScale(2).refreshBody();
-	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
-	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
-    platforms.create(780, 480, 'platform').setScale(3).refreshBody();
-    platforms.create(990, 320, 'platform').setScale(3).refreshBody();
-    platforms.create(1230, 230, 'platform').setScale(3).refreshBody();
-    platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
-    platforms.create(1350, 870, 'platform').setScale(4).refreshBody();
-    platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
     bottom_of_game = this.physics.add.staticGroup();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
