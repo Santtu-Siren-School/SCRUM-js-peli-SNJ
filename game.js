@@ -83,11 +83,14 @@ class Level1 extends Phaser.Scene {
     });
 
     this.time.addEvent({
-        delay: 3000,     
+        delay: 5000,     
         callback: shootBullet, 
         callbackScope: this,  
         loop: true             
     });
+
+    this.physics.add.collider(player, bullets, hitPlayer, null, this);
+
     }
 
     update (){
@@ -155,6 +158,8 @@ class Level1 extends Phaser.Scene {
             }
         });
     }
+
+    
 }
 //level2
 class Level2 extends Phaser.Scene {
@@ -203,6 +208,23 @@ function shootBullet() {
         bullet.body.allowGravity = false;
     }
 }
+
+function hitPlayer(player, bullet) {
+    bullet.disableBody(true, true); // poistaa kuulan kentältä
+    gameOver = true; // asettaa pelin loppuun
+    player.setTint(0xff0000); // tekee pelaajasta punaisen, visuaalinen efekti
+    player.anims.play('turn'); // pysäyttää animaation
+
+    player.scene.add.text(540, 450, 'GAME OVER', {
+        fontSize: '64px',
+        fill: '#ff0000'
+    }).setOrigin(0.5);
+
+    player.scene.physics.pause();
+
+    backgroundsound.pause();
+}
+
 function nextlevel() {
     nextlevelsound.play()
     this.scene.start('Level2')
