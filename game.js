@@ -16,7 +16,7 @@ class Level1 extends Phaser.Scene {
         
     cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
-    player = this.physics.add.sprite(100, 450, 'main_character');
+    player = this.physics.add.sprite(100, 750, 'main_character');
 	player.setCollideWorldBounds(true);
     knife = this.physics.add.group();
     this.physics.add.collider(player, platforms);
