@@ -1,35 +1,9 @@
-var config = {
-    type: Phaser.AUTO,
-    width: 1080,
-    height: 900,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 200 },
-            debug: false
-        }
-    },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
-};
-
-var game = new Phaser.Game(config);
-var platforms;
-var bottom_of_game;
-var gameOver;
-var jumping = 0;
-const backgroundsound = new Audio('background_music.mp3');
-var player;
-var weapon;
-var knife;
-var shoot;
-let cannon;
-let bullets;
-function preload ()
-{
+//kaikki tästä config filiin asti on level1 asoita, varmaan paljon copy&pastin seuraviin levelihin
+class Level1 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Level1' });
+}
+    preload (){
     this.load.image('background', 'assets/textures/background.png');
     this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
     this.load.image('platform', 'assets/textures/Platformit.png');
@@ -37,10 +11,8 @@ function preload ()
     this.load.image('dagger', 'assets/textures/tikari.png');
     this.load.image('cannon', 'assets/textures/cannon.png');
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
-
-}
-function create ()
-{
+    }
+    create (){
     cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
     player = this.physics.add.sprite(100, 450, 'main_character');
@@ -52,7 +24,7 @@ function create ()
     this.physics.add.collider(knife, bottom_of_game);
     this.physics.add.collider(knife, platforms, (weapon) => {
     weapon.destroy();
-});
+    });
 	this.anims.create({
 		key: 'left',
 		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
@@ -89,10 +61,25 @@ function create ()
 
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-}
 
-function update ()
-{
+
+    cannon = this.physics.add.image(100, 300, 'cannon');
+    cannon.setImmovable(true);
+
+    bullets = this.physics.add.group({
+        defaultKey: 'bullet',
+        maxSize: 10
+    });
+
+    this.time.addEvent({
+        delay: 3000,     
+        callback: shootBullet, 
+        callbackScope: this,  
+        loop: true             
+    });
+    }
+
+    update (){
     if (gameOver == true)
 	{
 		this.physics.pause();
@@ -134,13 +121,55 @@ function update ()
         player.setVelocityX(0);
         player.anims.play('turn');
     }
-if (Phaser.Input.Keyboard.JustDown(shoot)) {
-        let weapon = knife.create(player.x, player.y, 'dagger');
-        weapon.setScale(0.1);
-        weapon.setVelocityX(400); 
-        weapon.setGravityY(-200); 
-        setTimeout(() => {
-            weapon.destroy();
-        }, 1000);
+    if (Phaser.Input.Keyboard.JustDown(shoot)) {
+            let weapon = knife.create(player.x, player.y, 'dagger');
+            weapon.setScale(0.1);
+            weapon.setVelocityX(400); 
+            weapon.setGravityY(-200); 
+            setTimeout(() => {
+                weapon.destroy();
+            }, 1000);
+        }
+        bullets.children.each(b => {
+            if (b.active && b.x > 1080) {
+                b.disableBody(true, true); 
+            }
+        });
+    }
+}
+var config = {
+    type: Phaser.AUTO,
+    width: 1080,
+    height: 900,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 200 },
+            debug: false
+        }
+    },
+    scene: [Level1]
+};
+var cursors;
+var game = new Phaser.Game(config);
+var platforms;
+var bottom_of_game;
+var gameOver;
+var jumping = 0;
+const backgroundsound = new Audio('assets/sound/background_music.mp3');
+var player;
+var weapon;
+var knife;
+var shoot;
+let cannon;
+let bullets;
+// funktiot tänne
+function shootBullet() {
+    const bullet = bullets.get();
+
+    if (bullet) {
+        bullet.enableBody(true, cannon.x + 40, cannon.y, true, true);
+
+        bullet.setVelocityX(400);
     }
 }
