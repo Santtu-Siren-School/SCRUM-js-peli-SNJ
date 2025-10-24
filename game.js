@@ -19,14 +19,14 @@ var config = {
 var game = new Phaser.Game(config);
 var platforms;
 var bottom_of_game;
-const backgroundsound = new Audio('background_music.mp3');
+const backgroundsound = new Audio('assets/sound/background_music.mp3');
 var player
 function preload ()
 {
-    this.load.image('background', 'background.png');
-    this.load.spritesheet('main_character','tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
-    this.load.image('platform', 'Platformit.png');
-    this.load.image('bottom_of_game', 'bottom_of_game.png');
+    this.load.image('background', 'assets/textures/background.png');
+    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
+    this.load.image('platform', 'assets/textures/Platformit.png');
+    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
 }
 function create ()
 {
