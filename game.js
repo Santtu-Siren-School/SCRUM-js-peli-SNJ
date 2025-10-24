@@ -80,7 +80,36 @@ function create ()
 	this.physics.world.setBounds(0, 0, 2000, 900);
 
 	this.cameras.main.startFollow(player);
+
+
+    cannon = this.physics.add.image(100, 300, 'cannon');
+    cannon.setImmovable(true);
+
+    bullets = this.physics.add.group({
+        defaultKey: 'bullet',
+        maxSize: 10
+    });
+
+    this.time.addEvent({
+        delay: 3000,     
+        callback: shootBullet, 
+        callbackScope: this,  
+        loop: true             
+    });
 }
+
+
+function shootBullet() {
+    const bullet = bullets.get();
+
+    if (bullet) {
+        bullet.enableBody(true, cannon.x + 40, cannon.y, true, true);
+
+        bullet.setVelocityX(400);
+    }
+}
+
+
 
 function update ()
 {
@@ -126,4 +155,9 @@ function update ()
         player.anims.play('turn');
     }
 
+    bullets.children.each(b => {
+        if (b.active && b.x > 1080) {
+            b.disableBody(true, true); 
+        }
+    });
 }
