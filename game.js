@@ -189,8 +189,11 @@ class Level2 extends Phaser.Scene {
     platforms.create(800,700, 'platform').setScale(2).refreshBody();
     platforms.create(1100,600, 'platform').setScale(2).refreshBody();
     platforms.create(800,440, 'platform').setScale(2).refreshBody();
-    platforms.create(550,400, 'platform').setScale(2).refreshBody();
-    platforms.create(550,230, 'platform').setScale(2).refreshBody();
+    platforms.create(520,380, 'platform').setScale(2).refreshBody();
+    platforms.create(800,220, 'platform').setScale(2).refreshBody();
+    platforms.create(1100,220, 'platform').setScale(2).refreshBody();
+    platforms.create(1400,220, 'platform').setScale(2).refreshBody();
+    platforms.create(1800,700, 'platform').setScale(2).refreshBody();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(300,900, 'bottom_of_game')
@@ -202,8 +205,8 @@ class Level2 extends Phaser.Scene {
     bottom_of_game.create(1500,900, 'bottom_of_game')
     bottom_of_game.create(1700,900, 'bottom_of_game')
     bottom_of_game.create(1900,900, 'bottom_of_game')
-    bottom_of_game.create(2100,900, 'bottom_of_game')
     ovi=this.physics.add.staticGroup();
+    ovi.create(1800,595,'ovi').setScale(0.3).refreshBody();
     this.physics.add.overlap(player, ovi, level3Transition, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
