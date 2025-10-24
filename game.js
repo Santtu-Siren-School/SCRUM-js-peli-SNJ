@@ -24,6 +24,8 @@ var jumping = 0;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 var player;
 var weapon;
+let cannon;
+let bullets;
 function preload ()
 {
     this.load.image('background', 'assets/textures/background.png');
@@ -31,6 +33,9 @@ function preload ()
     this.load.image('platform', 'assets/textures/Platformit.png');
     this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
     this.load.image('weapon', 'assets/textures/tikari.png');
+    this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('bullet', 'assets/textures/cannon_ball.png');
+
 }
 function create ()
 {
@@ -75,7 +80,36 @@ function create ()
 	this.physics.world.setBounds(0, 0, 2000, 900);
 
 	this.cameras.main.startFollow(player);
+
+
+    cannon = this.physics.add.image(100, 300, 'cannon');
+    cannon.setImmovable(true);
+
+    bullets = this.physics.add.group({
+        defaultKey: 'bullet',
+        maxSize: 10
+    });
+
+    this.time.addEvent({
+        delay: 3000,     
+        callback: shootBullet, 
+        callbackScope: this,  
+        loop: true             
+    });
 }
+
+
+function shootBullet() {
+    const bullet = bullets.get();
+
+    if (bullet) {
+        bullet.enableBody(true, cannon.x + 40, cannon.y, true, true);
+
+        bullet.setVelocityX(400);
+    }
+}
+
+
 
 function update ()
 {
@@ -121,4 +155,9 @@ function update ()
         player.anims.play('turn');
     }
 
+    bullets.children.each(b => {
+        if (b.active && b.x > 1080) {
+            b.disableBody(true, true); 
+        }
+    });
 }
