@@ -71,7 +71,7 @@ function create ()
     bottom_of_game = this.physics.add.staticGroup();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(350,870, 'bottom_of_game')
-this.cameras.main.setBounds(0, 0, 2000, 900);
+    this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 
 	this.cameras.main.startFollow(player);
