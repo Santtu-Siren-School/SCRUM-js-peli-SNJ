@@ -106,7 +106,7 @@ class Level1 extends Phaser.Scene {
     else if (cursors.up.isDown&&player.body.touching.down)
     {
         jumping=1;
-        player.setVelocityY(-300);
+        player.setVelocityY(-250);
         player.anims.play("jump");
     }
     else if (jumping=1) 
