@@ -67,7 +67,7 @@ class Level1 extends Phaser.Scene {
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-    cannon = this.physics.add.image(50, 830, 'cannon');
+    cannon = this.physics.add.image(50, 330, 'cannon');
     cannon.setImmovable(true);
     cannon.body.allowGravity = false;
 
@@ -149,6 +149,8 @@ class Level1 extends Phaser.Scene {
             }
         });
     }
+
+    
 }
 //level2
 class Level2 extends Phaser.Scene {
