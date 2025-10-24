@@ -52,14 +52,20 @@ class Level1 extends Phaser.Scene {
     platforms = this.physics.add.staticGroup();
     this.physics.add.collider(player, platforms);
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
-    platforms.create(100, 700, 'platform').setScale(2).refreshBody();
-	platforms.create(320, 560, 'platform').setScale(2).refreshBody();
-	platforms.create(700, 730, 'platform').setScale(6).refreshBody();
+    platforms.create(80, 700, 'platform').setScale(2).refreshBody();
+	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
+	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
+    platforms.create(780, 480, 'platform').setScale(3).refreshBody();
+    platforms.create(990, 320, 'platform').setScale(3).refreshBody();
+    platforms.create(1230, 230, 'platform').setScale(3).refreshBody();
+    platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
+    platforms.create(1320, 870, 'platform').setScale(4).refreshBody();
+    platforms.create(1060, 690, 'platform').setScale(3).refreshBody();
     bottom_of_game = this.physics.add.staticGroup();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
     ovi=this.physics.add.staticGroup();
-    ovi.create(900,520,'ovi').setScale(0.3).refreshBody();
+    ovi.create(920,520,'ovi').setScale(0.3).refreshBody();
     this.physics.add.overlap(player, ovi, nextlevel, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
@@ -110,7 +116,7 @@ class Level1 extends Phaser.Scene {
     else if (cursors.up.isDown&&player.body.touching.down)
     {
         jumping=1;
-        player.setVelocityY(-250);
+        player.setVelocityY(-300);
         player.anims.play("jump");
     }
     else if (jumping=1) 
@@ -163,7 +169,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 200 },
+            gravity: { y: 270 },
             debug: false
         }
     },
