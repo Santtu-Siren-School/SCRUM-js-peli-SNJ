@@ -138,7 +138,9 @@ class Level1 extends Phaser.Scene {
         player.anims.play('turn');
     }
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
-            let weapon = knife.create(player.x, player.y, 'dagger');
+            let offset = -3.0;
+            let spawnX = player.x + (facingRight ? offset : -offset);
+            let weapon = knife.create(spawnX, player.y, 'dagger');
             weapon.setScale(0.1);
             weapon.setVelocityX(400); 
             weapon.setGravityY(-200);
