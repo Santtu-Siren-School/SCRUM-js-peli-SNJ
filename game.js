@@ -66,7 +66,7 @@ class Level1 extends Phaser.Scene {
     bottom_of_game.create(100,900, 'bottom_of_game')
     ovi=this.physics.add.staticGroup();
     ovi.create(920,520,'ovi').setScale(0.3).refreshBody();
-    this.physics.add.overlap(player, ovi, nextlevel, null, this);
+    this.physics.add.overlap(player, ovi, level2Transition, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
@@ -164,8 +164,91 @@ class Level1 extends Phaser.Scene {
 //level2
 class Level2 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Level2' });
-}
+        super({ key: 'Level2' });}
+    preload (){
+    this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
+    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
+    this.load.image('platform', 'assets/textures/Platformit.png');
+    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
+    this.load.image('dagger', 'assets/textures/tikari.png');
+    this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('bullet', 'assets/textures/cannon_ball.png');
+    this.load.image('ovi','assets/textures/ovi.png');
+    }
+    create (){
+    platforms = this.physics.add.staticGroup();
+    bottom_of_game = this.physics.add.staticGroup();
+    cursors = this.input.keyboard.createCursorKeys();
+    this.add.image(500,400, 'castle_hallway').setScale(3);
+    player = this.physics.add.sprite(100, 750, 'main_character');
+	player.setCollideWorldBounds(true);
+    knife = this.physics.add.group();
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, bottom_of_game);
+    this.physics.add.collider(knife, platforms);
+    this.physics.add.collider(knife, bottom_of_game);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+    weapon.destroy();
+    });
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, bottom_of_game);
+    bottom_of_game.create(100,900, 'bottom_of_game')
+    bottom_of_game.create(400,900, 'bottom_of_game')
+    bottom_of_game.create(600,900, 'bottom_of_game')
+    bottom_of_game.create(800,900, 'bottom_of_game')
+    bottom_of_game.create(1000,900, 'bottom_of_game')
+    ovi=this.physics.add.staticGroup();
+    this.physics.add.overlap(player, ovi, level3Transition, null, this);
+    this.cameras.main.setBounds(0, 0, 2000, 900);
+	this.physics.world.setBounds(0, 0, 2000, 900);
+	this.cameras.main.startFollow(player);
+    }
+
+    update (){
+        if (gameOver == true)
+        {
+            this.physics.pause();
+            backgroundsound.pause();
+            player.anims.play('jump');
+            return;
+        }
+        backgroundsound.play()
+        if (cursors.left.isDown)
+        {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            player.anims.play('left', true);
+            facingRight = false;
+        }
+        else if (cursors.right.isDown)
+        {
+            player.setVelocityX(160);
+
+            player.anims.play('right', true);
+            facingRight = true;
+        }
+        else if (cursors.up.isDown&&player.body.touching.down)
+        {
+            jumping=1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+        }
+        else if (jumping==1) 
+        {
+            player.setVelocityX(0);
+            player.anims.play("jump");
+            if (player.body.touching.down) {
+                jumping=0;
+                player.setVelocityX(0);
+                player.anims.play('turn');
+            }
+        }
+        else
+        {
+            player.setVelocityX(0);
+            player.anims.play('turn');
+        }
+    }
 }
 var config = {
     type: Phaser.AUTO,
@@ -225,7 +308,11 @@ function hitPlayer(player, bullet) {
     backgroundsound.pause();
 }
 
-function nextlevel() {
+function level2Transition() {
     nextlevelsound.play()
     this.scene.start('Level2')
+}
+function level3Transition() {
+    nextlevelsound.play()
+    this.scene.start('Level3')
 }
