@@ -187,12 +187,15 @@ class Level2 extends Phaser.Scene {
     });
     this.physics.add.collider(player, platforms);
     platforms.create(300,800, 'platform').setScale(2).refreshBody();
-    platforms.create(500,700, 'platform').setScale(2).refreshBody();
-    platforms.create(800,700, 'platform').setScale(2).refreshBody();
-    platforms.create(1100,600, 'platform').setScale(2).refreshBody();
-    platforms.create(800,440, 'platform').setScale(2).refreshBody();
-    platforms.create(550,400, 'platform').setScale(2).refreshBody();
-    platforms.create(550,230, 'platform').setScale(2).refreshBody();
+    platforms.create(550,800, 'platform').setScale(2).refreshBody();
+    platforms.create(870,800, 'platform').setScale(2).refreshBody();
+    platforms.create(1200,800, 'platform').setScale(2).refreshBody();
+    platforms.create(1450,740, 'platform').setScale(2).refreshBody();
+    platforms.create(1700,580, 'platform').setScale(2).refreshBody();
+    platforms.create(1300,480, 'platform').setScale(2).refreshBody();
+    platforms.create(900,480, 'platform').setScale(2).refreshBody();
+    platforms.create(500,480, 'platform').setScale(2).refreshBody();
+    platforms.create(100,350, 'platform').setScale(2).refreshBody();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(300,900, 'bottom_of_game')
