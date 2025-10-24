@@ -13,6 +13,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
     }
     create (){
+        
     cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
     player = this.physics.add.sprite(100, 450, 'main_character');
@@ -91,14 +92,16 @@ class Level1 extends Phaser.Scene {
     if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
-
+         player.anims.play('left', true);
         player.anims.play('left', true);
+         facingRight = false;
     }
     else if (cursors.right.isDown)
     {
         player.setVelocityX(160);
 
         player.anims.play('right', true);
+        facingRight = true;
     }
     else if (cursors.up.isDown&&player.body.touching.down)
     {
@@ -125,7 +128,13 @@ class Level1 extends Phaser.Scene {
             let weapon = knife.create(player.x, player.y, 'dagger');
             weapon.setScale(0.1);
             weapon.setVelocityX(400); 
-            weapon.setGravityY(-200); 
+            weapon.setGravityY(-200);
+             if (facingRight) {
+        weapon.setVelocityX(400);
+    } else {
+        weapon.setVelocityX(-400);
+        weapon.flipX = true; 
+    }
             setTimeout(() => {
                 weapon.destroy();
             }, 1000);
@@ -163,6 +172,7 @@ var knife;
 var shoot;
 let cannon;
 let bullets;
+let facingRight = true;
 // funktiot tänne
 function shootBullet() {
     const bullet = bullets.get();
