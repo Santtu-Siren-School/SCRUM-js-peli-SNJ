@@ -207,8 +207,8 @@ class Level2 extends Phaser.Scene {
     bottom_of_game.create(1500,900, 'bottom_of_game')
     bottom_of_game.create(1700,900, 'bottom_of_game')
     bottom_of_game.create(1900,900, 'bottom_of_game')
-    bottom_of_game.create(2100,900, 'bottom_of_game')
     ovi=this.physics.add.staticGroup();
+    ovi.create(1800,595,'ovi').setScale(0.3).refreshBody();
     this.physics.add.overlap(player, ovi, level3Transition, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
