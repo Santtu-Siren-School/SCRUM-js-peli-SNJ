@@ -67,7 +67,7 @@ class Level1 extends Phaser.Scene {
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-    cannon = this.physics.add.image(50, 330, 'cannon');
+    cannon = this.physics.add.image(50, 830, 'cannon');
     cannon.setImmovable(true);
     cannon.body.allowGravity = false;
 
@@ -77,11 +77,14 @@ class Level1 extends Phaser.Scene {
     });
 
     this.time.addEvent({
-        delay: 3000,     
+        delay: 5000,     
         callback: shootBullet, 
         callbackScope: this,  
         loop: true             
     });
+
+    this.physics.add.collider(player, bullets, hitPlayer, null, this);
+
     }
 
     update (){
@@ -199,6 +202,23 @@ function shootBullet() {
         bullet.body.allowGravity = false;
     }
 }
+
+function hitPlayer(player, bullet) {
+    bullet.disableBody(true, true); // poistaa kuulan kentältä
+    gameOver = true; // asettaa pelin loppuun
+    player.setTint(0xff0000); // tekee pelaajasta punaisen, visuaalinen efekti
+    player.anims.play('turn'); // pysäyttää animaation
+
+    player.scene.add.text(540, 450, 'GAME OVER', {
+        fontSize: '64px',
+        fill: '#ff0000'
+    }).setOrigin(0.5);
+
+    player.scene.physics.pause();
+
+    backgroundsound.pause();
+}
+
 function nextlevel() {
     nextlevelsound.play()
     this.scene.start('Level2')
