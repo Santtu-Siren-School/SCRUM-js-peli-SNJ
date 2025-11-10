@@ -229,7 +229,7 @@ class Level2 extends Phaser.Scene {
         maxSize: 10000000000
     });
     this.time.addEvent({
-        delay: 900,     
+        delay: 1700,     
         callback: shootBullet, 
         callbackScope: this,  
         loop: true             
