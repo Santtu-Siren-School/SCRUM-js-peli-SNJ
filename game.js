@@ -170,6 +170,7 @@ class Level2 extends Phaser.Scene {
     this.load.image('cannon', 'assets/textures/cannon.png');
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
     this.load.image('ovi','assets/textures/ovi.png');
+    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     }
     create (){
     platforms = this.physics.add.staticGroup();
@@ -229,6 +230,49 @@ class Level2 extends Phaser.Scene {
     });
     this.physics.add.collider(player, bullets, hitPlayer, null, this);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    // vihollisen luonti
+    // -- VIHOLLINEN --
+    const rightPlatform = platforms.getChildren().at(-1);
+    this.enemy = this.physics.add.sprite(
+        rightPlatform.x,
+        rightPlatform.y - 42,
+        'enemy'
+    );
+
+    // fysiikka
+    this.enemy.body.setGravityY(300);
+    this.enemy.setCollideWorldBounds(true);
+    this.enemy.setVelocityX(50);
+
+    this.physics.add.collider(this.enemy, platforms);
+
+    // vihollisen kosketus tappaa
+    this.physics.add.collider(player, this.enemy, hitByEnemy, null, this);
+
+    // --ANIMAATIOT VIHOLLISILLE--
+    this.anims.create({
+        key: 'walkLeftEnemy',
+        frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
+        frameRate: 8,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'idleEnemy',
+        frames: [{ key: 'enemy', frame: 4 }],
+        frameRate: 1
+    });
+
+    this.anims.create({
+        key: 'walkRightEnemy',
+        frames: this.anims.generateFrameNumbers('enemy', {start: 5, end: 8}),
+        frameRate: 8,
+        repeat: -1
+    });
+
+    this.enemy.play('walkRightEnemy');
+
     }
 
     update (){
@@ -285,6 +329,41 @@ class Level2 extends Phaser.Scene {
                 weapon.destroy();
             }, 1000);
         }
+
+        const e = this.enemy;
+        const dir = Math.sign(e.body.velocity.x) || 1;
+
+        // Pieni testipiste vihollisen etureunassa
+        const probeX = e.x + dir * (e.width / 2 + 2);
+        const probeY = e.y + e.height / 2 + 5;
+
+        // Tarkista onko maata edessä
+        const groundAhead = platforms.getChildren().some(p => {
+        return (
+            probeX >= p.x - p.displayWidth / 2 &&
+            probeX <= p.x + p.displayWidth / 2 &&
+            probeY >= p.y - p.displayHeight / 2 &&
+            probeY <= p.y + p.displayHeight / 2
+        );
+        });
+
+        // jos ei maata edessä → käänny
+        if (!groundAhead && e.body.blocked.down) {
+        e.setVelocityX(-e.body.velocity.x);
+        if (dir > 0) e.anims.play('walkLeftEnemy', true);
+        else e.anims.play('walkRightEnemy', true);
+        }
+
+        // jos osuu seinään → käänny
+        if (e.body.blocked.left) {
+        e.setVelocityX(50);
+        e.anims.play('walkRightEnemy', true);
+        }
+        if (e.body.blocked.right) {
+        e.setVelocityX(-50);
+        e.anims.play('walkLeftEnemy', true);
+        }
+
     }
     
 }
@@ -354,4 +433,17 @@ function level2Transition() {
 function level3Transition() {
     nextlevelsound.play()
     this.scene.start('Level3')
+}
+
+function hitByEnemy(player, enemy) {
+  gameOver = true;
+  player.setTint(0xff0000);
+  player.anims.play('turn');
+  player.scene.add.text(540, 450, 'GAME OVER', {
+    fontSize: '64px',
+    fill: '#ff0000'
+  }).setOrigin(0.5);
+
+  player.scene.physics.pause();
+  backgroundsound.pause();
 }
