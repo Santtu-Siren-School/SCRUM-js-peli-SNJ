@@ -265,6 +265,13 @@ class Level2 extends Phaser.Scene {
     }
     
     create (){
+    document.addEventListener('keydown', (event)=> {
+		if (event.key === "ä") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change 2');
+		}
+	}); 
      document.addEventListener('keydown', (event)=> {
 		if (event.key === "q") {
 				nextlevelsound.play()
@@ -482,6 +489,92 @@ class Level2 extends Phaser.Scene {
     }
     
 }
+//level3
+class Level3 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Level3' });}
+    preload (){
+    this.load.image('dungeon', 'assets/textures/dungeon.png');
+    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
+    this.load.image('platform', 'assets/textures/Platformit.png');
+    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
+    this.load.image('dagger', 'assets/textures/tikari.png');
+    this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('bullet', 'assets/textures/cannon_ball.png');
+    this.load.image('ovi','assets/textures/ovi.png');
+    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
+    }
+    
+    create (){
+        platforms = this.physics.add.staticGroup();
+        bottom_of_game = this.physics.add.staticGroup();
+        cursors = this.input.keyboard.createCursorKeys();
+        this.add.image(1000,400, 'dungeon').setScale(3.5);
+        player = this.physics.add.sprite(100, 750, 'main_character');
+        player.setCollideWorldBounds(true);
+        knife = this.physics.add.group();
+        bottom_of_game.create(100,900, 'bottom_of_game')
+        bottom_of_game.create(300,900, 'bottom_of_game')
+        bottom_of_game.create(500,900, 'bottom_of_game')
+        bottom_of_game.create(700,900, 'bottom_of_game')
+        bottom_of_game.create(900,900, 'bottom_of_game')
+        bottom_of_game.create(1100,900, 'bottom_of_game')
+        bottom_of_game.create(1300,900, 'bottom_of_game')
+        bottom_of_game.create(1500,900, 'bottom_of_game')
+        bottom_of_game.create(1700,900, 'bottom_of_game')
+        bottom_of_game.create(1900,900, 'bottom_of_game')
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(player, knife);
+        this.cameras.main.setBounds(0, 0, 2000, 900);
+        this.physics.world.setBounds(0, 0, 2000, 900);
+        this.cameras.main.startFollow(player);
+    }
+
+    update (){
+        if (gameOver == true)
+        {
+            this.physics.pause();
+            backgroundsound.pause();
+            player.anims.play('jump');
+            return;
+        }
+        backgroundsound.play()
+    if (cursors.up.isDown && player.body.touching.down) {
+            jumping = 1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+        }
+        if (jumping === 1) {
+            player.anims.play("jump", true);
+            player.setVelocityX(0);
+            if (player.body.touching.down) {
+                jumping = 0;
+                player.setVelocityX(0);
+                player.anims.play('turn');
+            }
+        }
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
+        }
+        else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        } 
+        else {
+            player.setVelocityX(0);
+            player.anims.play('turn');
+        }
+    }
+    
+}
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -493,7 +586,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Level1,Level2]
+    scene: [Level1,Level2,Level3]
 };
 var ovi;
 var cursors;
