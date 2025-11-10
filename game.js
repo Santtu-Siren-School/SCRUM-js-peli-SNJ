@@ -16,6 +16,8 @@ class Level1 extends Phaser.Scene {
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     }
     create (){
+this.lastThrowTime = 0; 
+this.throwCooldown = 1000; 
     document.addEventListener('keydown', (event)=> {
 		if (event.key === "ä") {
             nextlevelsound.play()
@@ -36,11 +38,18 @@ class Level1 extends Phaser.Scene {
 	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
     platforms.create(780, 480, 'platform').setScale(3).refreshBody();
     platforms.create(990, 320, 'platform').setScale(3).refreshBody();
-    platforms.create(1230, 230, 'platform').setScale(3).refreshBody();
+    platforms.create(1250, 230, 'platform').setScale(3).refreshBody();
     platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
     platforms.create(1350, 870, 'platform').setScale(4).refreshBody();
     platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
     bottom_of_game.create(100,900, 'bottom_of_game')
+    // --VIHOLLISEN LUONTI--
+    const rightPlatform = platforms.getChildren().at(-5);
+    this.enemy = this.physics.add.sprite(
+        rightPlatform.x -20,
+        rightPlatform.y - 200,
+        'enemy'
+    );
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
     this.physics.add.collider(player, knife);
@@ -49,14 +58,10 @@ class Level1 extends Phaser.Scene {
         weapon.body.allowGravity = false;
         weapon.body.immovable = true;
     });
-
-    // --VIHOLLISEN LUONTI--
-    const rightPlatform = platforms.getChildren().at(-5);
-    this.enemy = this.physics.add.sprite(
-        rightPlatform.x -20,
-        rightPlatform.y - 200,
-        'enemy'
-    );
+    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy.disableBody(true, true);
+    weapon.destroy(); 
+});
 
     this.enemy.body.setGravityY(300); // lisää painovoima
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
@@ -183,6 +188,9 @@ class Level1 extends Phaser.Scene {
         player.anims.play('turn');
     }
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
+        const now = this.time.now;
+    if (now - this.lastThrowTime > this.throwCooldown) {
+        this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
             let weapon = knife.create(spawnX, player.y, 'dagger');
@@ -239,6 +247,7 @@ class Level1 extends Phaser.Scene {
 
     
 }
+}
 //level2
 class Level2 extends Phaser.Scene {
     constructor() {
@@ -290,14 +299,6 @@ class Level2 extends Phaser.Scene {
     bottom_of_game.create(1500,900, 'bottom_of_game')
     bottom_of_game.create(1700,900, 'bottom_of_game')
     bottom_of_game.create(1900,900, 'bottom_of_game')
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(player, bottom_of_game);
-    this.physics.add.collider(player, knife);
-    this.physics.add.collider(knife, platforms, (weapon) => {
-    weapon.setVelocity(0, 0);
-     weapon.body.allowGravity = false;
-     weapon.body.immovable = true;
-    });
     this.physics.add.collider(knife, bottom_of_game);
     ovi=this.physics.add.staticGroup();
     ovi.create(100,250,'ovi').setScale(0.3).refreshBody();
@@ -338,7 +339,18 @@ class Level2 extends Phaser.Scene {
         rightPlatform.y - 100,
         'enemy'
     );
-
+     this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, bottom_of_game);
+    this.physics.add.collider(player, knife);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+        weapon.setVelocity(0, 0);
+        weapon.body.allowGravity = false;
+        weapon.body.immovable = true;
+    });
+    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy.disableBody(true, true);
+    weapon.destroy(); 
+});
     // fysiikka
     this.enemy.body.setGravityY(300);
     this.enemy.setCollideWorldBounds(true);
