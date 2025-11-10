@@ -222,9 +222,15 @@ class Level2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
-    cannon = this.physics.add.image(50, 700, 'cannon');
-    cannon.setImmovable(true);
-    cannon.body.allowGravity = false;
+    // tykkien luonti
+    let cannon1 = this.physics.add.image(50, 700, 'cannon');
+    cannon1.setImmovable(true);
+    cannon1.body.allowGravity = false;
+
+    let cannon2 = this.physics.add.image(200, 500, 'cannon');
+    cannon2.setImmovable(true);
+    cannon2.body.allowGravity = false;
+
     bullets = this.physics.add.group({
         defaultKey: 'bullet',
         maxSize: 10000000000
@@ -240,10 +246,10 @@ class Level2 extends Phaser.Scene {
 
     // vihollisen luonti
     // -- VIHOLLINEN --
-    const rightPlatform = platforms.getChildren().at(-1);
+    const rightPlatform = platforms.getChildren().at(-2);
     this.enemy = this.physics.add.sprite(
-        rightPlatform.x,
-        rightPlatform.y - 42,
+        rightPlatform.x -20,
+        rightPlatform.y - 100,
         'enemy'
     );
 
