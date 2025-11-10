@@ -335,10 +335,11 @@ function hitPlayer(player, bullet) {
     player.setTint(0xff0000); // tekee pelaajasta punaisen, visuaalinen efekti
     player.anims.play('turn'); // pysäyttää animaation
 
-    player.scene.add.text(540, 450, 'GAME OVER', {
+    player.scene.add.text(player.x, player.y, 'GAME OVER', {
         fontSize: '64px',
         fill: '#ff0000'
     }).setOrigin(0.5);
+
 
     player.scene.physics.pause();
 
