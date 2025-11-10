@@ -70,6 +70,8 @@ class Level1 extends Phaser.Scene {
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+
     cannon = this.physics.add.image(50, 830, 'cannon');
     cannon.setImmovable(true);
     cannon.body.allowGravity = false;
@@ -185,15 +187,15 @@ class Level2 extends Phaser.Scene {
     });
     this.physics.add.collider(player, platforms);
     platforms.create(300,800, 'platform').setScale(2).refreshBody();
-    platforms.create(500,700, 'platform').setScale(2).refreshBody();
-    platforms.create(800,700, 'platform').setScale(2).refreshBody();
-    platforms.create(1100,600, 'platform').setScale(2).refreshBody();
-    platforms.create(800,440, 'platform').setScale(2).refreshBody();
-    platforms.create(520,380, 'platform').setScale(2).refreshBody();
-    platforms.create(800,220, 'platform').setScale(2).refreshBody();
-    platforms.create(1100,220, 'platform').setScale(2).refreshBody();
-    platforms.create(1400,220, 'platform').setScale(2).refreshBody();
-    platforms.create(1800,700, 'platform').setScale(2).refreshBody();
+    platforms.create(550,800, 'platform').setScale(2).refreshBody();
+    platforms.create(870,800, 'platform').setScale(2).refreshBody();
+    platforms.create(1200,800, 'platform').setScale(2).refreshBody();
+    platforms.create(1450,740, 'platform').setScale(2).refreshBody();
+    platforms.create(1700,580, 'platform').setScale(2).refreshBody();
+    platforms.create(1300,480, 'platform').setScale(2).refreshBody();
+    platforms.create(900,480, 'platform').setScale(2).refreshBody();
+    platforms.create(500,480, 'platform').setScale(2).refreshBody();
+    platforms.create(100,350, 'platform').setScale(2).refreshBody();
     this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(300,900, 'bottom_of_game')
@@ -206,26 +208,11 @@ class Level2 extends Phaser.Scene {
     bottom_of_game.create(1700,900, 'bottom_of_game')
     bottom_of_game.create(1900,900, 'bottom_of_game')
     ovi=this.physics.add.staticGroup();
-    ovi.create(1800,595,'ovi').setScale(0.3).refreshBody();
+    ovi.create(100,250,'ovi').setScale(0.3).refreshBody();
     this.physics.add.overlap(player, ovi, level3Transition, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
-    cannon = this.physics.add.image(50, 600, 'cannon');
-    cannon = this.physics.add.image(50, 600, 'cannon');
-    cannon.setImmovable(true);
-    cannon.body.allowGravity = false;
-    bullets = this.physics.add.group({
-        defaultKey: 'bullet',
-        maxSize: 10
-    });
-    this.time.addEvent({
-        delay: 5000,     
-        callback: shootBullet, 
-        callbackScope: this,  
-        loop: true             
-    });
-    this.physics.add.collider(player, bullets, hitPlayer, null, this);
     }
 
     update (){
