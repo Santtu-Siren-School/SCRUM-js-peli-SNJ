@@ -213,6 +213,7 @@ class Level2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
+    shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update (){
@@ -252,7 +253,23 @@ class Level2 extends Phaser.Scene {
             player.setVelocityX(0);
             player.anims.play('turn');
         }
-        
+      if (Phaser.Input.Keyboard.JustDown(shoot)) {
+            let offset = -30;
+            let spawnX = player.x + (facingRight ? offset : -offset);
+            let weapon = knife.create(spawnX, player.y, 'dagger');
+            weapon.setScale(0.1);
+            weapon.setVelocityX(400); 
+            weapon.setGravityY(-200);
+             if (facingRight) {
+        weapon.setVelocityX(400);
+    } else {
+        weapon.setVelocityX(-400);
+        weapon.flipX = true; 
+    }
+            setTimeout(() => {
+                weapon.destroy();
+            }, 1000);
+        }
     }
     
 }
