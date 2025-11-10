@@ -12,6 +12,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('cannon', 'assets/textures/cannon.png');
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
     this.load.image('ovi','assets/textures/ovi.png')
+    this.load.image('dungeon','assets/textures/dungeon.png')
     }
     create (){
     cursors = this.input.keyboard.createCursorKeys();
