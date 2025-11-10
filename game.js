@@ -28,6 +28,7 @@ class Level1 extends Phaser.Scene {
 	player.setCollideWorldBounds(true);
     knife = this.physics.add.group();
     platforms = this.physics.add.staticGroup();
+    bottom_of_game = this.physics.add.staticGroup();
     this.physics.add.collider(player, platforms);
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
     platforms.create(80, 700, 'platform').setScale(2).refreshBody();
@@ -39,13 +40,15 @@ class Level1 extends Phaser.Scene {
     platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
     platforms.create(1350, 870, 'platform').setScale(4).refreshBody();
     platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
+    bottom_of_game.create(100,900, 'bottom_of_game')
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
-    this.physics.add.collider(knife, platforms);
-    this.physics.add.collider(knife, bottom_of_game);
     this.physics.add.collider(knife, platforms, (weapon) => {
-    weapon.destroy();
+        weapon.setVelocity(0, 0);
+        weapon.body.allowGravity = false;
+        weapon.body.immovable = true;
     });
+    this.physics.add.collider(knife, bottom_of_game);
 	this.anims.create({
 		key: 'left',
 		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
@@ -68,9 +71,6 @@ class Level1 extends Phaser.Scene {
         frames: [{key: 'main_character', frame: 9}],
         frameRate: 1
     });
-    bottom_of_game = this.physics.add.staticGroup();
-    this.physics.add.collider(player, bottom_of_game);
-    bottom_of_game.create(100,900, 'bottom_of_game')
     ovi=this.physics.add.staticGroup();
     ovi.create(920,520,'ovi').setScale(0.3).refreshBody();
     this.physics.add.overlap(player, ovi, level2Transition, null, this);
@@ -191,8 +191,10 @@ class Level2 extends Phaser.Scene {
     this.physics.add.collider(knife, platforms);
     this.physics.add.collider(knife, bottom_of_game);
     this.physics.add.collider(knife, platforms, (weapon) => {
-    weapon.destroy();
-    });
+    weapon.setVelocity(0, 0);   
+    weapon.body.allowGravity = false; 
+    weapon.body.immovable = true;     
+});
     this.physics.add.collider(player, platforms);
     platforms.create(300,800, 'platform').setScale(2).refreshBody();
     platforms.create(550,800, 'platform').setScale(2).refreshBody();
