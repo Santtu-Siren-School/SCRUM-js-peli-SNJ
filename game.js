@@ -16,30 +16,10 @@ class Level1 extends Phaser.Scene {
     }
     create (){
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "F12") {
-            if (debugmode==0) {
-            debugmode=1;
-            console.log("Debug mode active");
-            console.log(debugmode);
-            }
-            else {
-                debugmode=0;
-                console.log("Debug mode deactivated");
-                console.log(debugmode);  
-            }
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
 		if (event.key === "ä") {
-            console.log(debugmode);
-                if (debugmode==1) {
-                    nextlevelsound.play()
-                    this.scene.start('Level2');
-                    console.log('forced level change');
-                }
-                else {
-                    console.log("Please activate debugmode")
-                }
+            nextlevelsound.play()
+            this.scene.start('Level2');
+            console.log('forced level change');
 		}
 	});
     cursors = this.input.keyboard.createCursorKeys();
@@ -153,7 +133,11 @@ class Level1 extends Phaser.Scene {
         player.setVelocityX(160);
         player.anims.play('right', true);
         facingRight = true;
-    } 
+    }
+    else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        }  
     else {
         player.setVelocityX(0);
         player.anims.play('turn');
@@ -266,7 +250,7 @@ class Level2 extends Phaser.Scene {
         maxSize: 10000000000
     });
     this.time.addEvent({
-        delay: 1700,
+        delay: 3000,
         callback: () => {
             this.cannons.forEach(c => shootBullet(c, bullets));
         },
@@ -351,6 +335,10 @@ class Level2 extends Phaser.Scene {
             player.setVelocityX(160);
             player.anims.play('right', true);
             facingRight = true;
+        }
+        else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
         } 
         else {
             player.setVelocityX(0);
@@ -424,7 +412,6 @@ var config = {
     },
     scene: [Level1,Level2]
 };
-var debugmode =0;
 var ovi;
 var cursors;
 var game = new Phaser.Game(config);
