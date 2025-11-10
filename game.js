@@ -16,10 +16,30 @@ class Level1 extends Phaser.Scene {
     }
     create (){
     document.addEventListener('keydown', (event)=> {
+		if (event.key === "F12") {
+            if (debugmode==0) {
+            debugmode=1;
+            console.log("Debug mode active");
+            console.log(debugmode);
+            }
+            else {
+                debugmode=0;
+                console.log("Debug mode deactivated");
+                console.log(debugmode);  
+            }
+		}
+	});
+    document.addEventListener('keydown', (event)=> {
 		if (event.key === "ä") {
-				nextlevelsound.play()
-                this.scene.start('Level2')
-				console.log('forced level change')
+            console.log(debugmode);
+                if (debugmode==1) {
+                    nextlevelsound.play()
+                    this.scene.start('Level2');
+                    console.log('forced level change');
+                }
+                else {
+                    console.log("Please activate debugmode")
+                }
 		}
 	});
     cursors = this.input.keyboard.createCursorKeys();
@@ -401,6 +421,7 @@ var config = {
     },
     scene: [Level1,Level2]
 };
+var debugmode =0;
 var ovi;
 var cursors;
 var game = new Phaser.Game(config);
