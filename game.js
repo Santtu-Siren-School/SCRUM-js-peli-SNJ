@@ -49,7 +49,6 @@ class Level1 extends Phaser.Scene {
     knife = this.physics.add.group();
     platforms = this.physics.add.staticGroup();
     bottom_of_game = this.physics.add.staticGroup();
-    this.physics.add.collider(player, platforms);
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
     platforms.create(80, 700, 'platform').setScale(2).refreshBody();
 	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
@@ -63,6 +62,7 @@ class Level1 extends Phaser.Scene {
     bottom_of_game.create(100,900, 'bottom_of_game')
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
+    this.physics.add.collider(player, knife);
     this.physics.add.collider(knife, platforms, (weapon) => {
         weapon.setVelocity(0, 0);
         weapon.body.allowGravity = false;
@@ -163,17 +163,17 @@ class Level1 extends Phaser.Scene {
             let spawnX = player.x + (facingRight ? offset : -offset);
             let weapon = knife.create(spawnX, player.y, 'dagger');
             weapon.setScale(0.1);
-            weapon.setVelocityX(400); 
+            weapon.setVelocityX(300); 
             weapon.setGravityY(-200);
              if (facingRight) {
-        weapon.setVelocityX(400);
+        weapon.setVelocityX(300);
     } else {
-        weapon.setVelocityX(-400);
+        weapon.setVelocityX(-300);
         weapon.flipX = true; 
     }
             setTimeout(() => {
                 weapon.destroy();
-            }, 1000);
+            }, 3000);
         }
         bullets.children.each(b => {
             if (b.active && b.x > 1580) {
@@ -199,7 +199,15 @@ class Level2 extends Phaser.Scene {
     this.load.image('ovi','assets/textures/ovi.png');
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     }
+    
     create (){
+     document.addEventListener('keydown', (event)=> {
+		if (event.key === "q") {
+				nextlevelsound.play()
+                this.scene.start('Level1')
+				console.log('forced level change')
+		}
+	});
     platforms = this.physics.add.staticGroup();
     bottom_of_game = this.physics.add.staticGroup();
     cursors = this.input.keyboard.createCursorKeys();
@@ -207,16 +215,6 @@ class Level2 extends Phaser.Scene {
     player = this.physics.add.sprite(100, 750, 'main_character');
 	player.setCollideWorldBounds(true);
     knife = this.physics.add.group();
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(player, bottom_of_game);
-    this.physics.add.collider(knife, platforms);
-    this.physics.add.collider(knife, bottom_of_game);
-    this.physics.add.collider(knife, platforms, (weapon) => {
-    weapon.setVelocity(0, 0);   
-    weapon.body.allowGravity = false; 
-    weapon.body.immovable = true;     
-});
-    this.physics.add.collider(player, platforms);
     platforms.create(300,800, 'platform').setScale(2).refreshBody();
     platforms.create(550,800, 'platform').setScale(2).refreshBody();
     platforms.create(870,800, 'platform').setScale(2).refreshBody();
@@ -227,7 +225,6 @@ class Level2 extends Phaser.Scene {
     platforms.create(900,480, 'platform').setScale(2).refreshBody();
     platforms.create(500,480, 'platform').setScale(2).refreshBody();
     platforms.create(100,350, 'platform').setScale(2).refreshBody();
-    this.physics.add.collider(player, bottom_of_game);
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(300,900, 'bottom_of_game')
     bottom_of_game.create(500,900, 'bottom_of_game')
@@ -238,6 +235,15 @@ class Level2 extends Phaser.Scene {
     bottom_of_game.create(1500,900, 'bottom_of_game')
     bottom_of_game.create(1700,900, 'bottom_of_game')
     bottom_of_game.create(1900,900, 'bottom_of_game')
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, bottom_of_game);
+    this.physics.add.collider(player, knife);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+    weapon.setVelocity(0, 0);
+     weapon.body.allowGravity = false;
+     weapon.body.immovable = true;
+    });
+    this.physics.add.collider(knife, bottom_of_game);
     ovi=this.physics.add.staticGroup();
     ovi.create(100,250,'ovi').setScale(0.3).refreshBody();
     this.physics.add.overlap(player, ovi, level3Transition, null, this);
@@ -355,17 +361,17 @@ class Level2 extends Phaser.Scene {
             let spawnX = player.x + (facingRight ? offset : -offset);
             let weapon = knife.create(spawnX, player.y, 'dagger');
             weapon.setScale(0.1);
-            weapon.setVelocityX(400); 
+            weapon.setVelocityX(300); 
             weapon.setGravityY(-200);
              if (facingRight) {
-        weapon.setVelocityX(400);
+        weapon.setVelocityX(300);
     } else {
-        weapon.setVelocityX(-400);
+        weapon.setVelocityX(-300);
         weapon.flipX = true; 
     }
             setTimeout(() => {
                 weapon.destroy();
-            }, 1000);
+            }, 3000);
         }
 
         const e = this.enemy;
