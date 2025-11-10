@@ -13,6 +13,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
     this.load.image('ovi','assets/textures/ovi.png')
     this.load.image('dungeon','assets/textures/dungeon.png')
+    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     }
     create (){
     document.addEventListener('keydown', (event)=> {
@@ -47,6 +48,19 @@ class Level1 extends Phaser.Scene {
         weapon.body.allowGravity = false;
         weapon.body.immovable = true;
     });
+
+    // --VIHOLLISEN LUONTI--
+    const rightPlatform = platforms.getChildren().at(-5);
+    this.enemy = this.physics.add.sprite(
+        rightPlatform.x -20,
+        rightPlatform.y - 200,
+        'enemy'
+    );
+
+    this.enemy.body.setGravityY(300); // lisää painovoima
+    this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
+    this.enemy.setVelocityX(50); // alku nopeus
+
     this.physics.add.collider(knife, bottom_of_game);
 	this.anims.create({
 		key: 'left',
@@ -96,6 +110,32 @@ class Level1 extends Phaser.Scene {
 
 
     this.physics.add.collider(player, bullets, hitPlayer, null, this);
+
+    //vihollisen fysiikat
+    this.physics.add.collider(this.enemy, platforms);
+    this.physics.add.collider(player, this.enemy, hitByEnemy, null, this); 
+
+    //vihollisen animaatiot
+    this.anims.create({
+    key: 'walkLeftEnemy',
+    frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
+    frameRate: 8,
+    repeat: -1
+    });
+    this.anims.create({
+        key: 'idleEnemy',
+        frames: [{ key: 'enemy', frame: 4 }],
+        frameRate: 1
+    });
+    this.anims.create({
+        key: 'walkRightEnemy',
+        frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
+        frameRate: 8,
+        repeat: -1
+    });
+
+    this.enemy.play('walkRightEnemy');
+
 
     }
 
@@ -159,6 +199,37 @@ class Level1 extends Phaser.Scene {
                 b.disableBody(true, true); 
             }
         });
+
+        const e = this.enemy;
+        const dir = Math.sign(e.body.velocity.x) || 1;
+
+        const probeX = e.x + dir * (e.width / 2 + 2);
+        const probeY = e.y + e.height / 2 + 5;
+
+        const groundAhead = platforms.getChildren().some(p => {
+            return (
+                probeX >= p.x - p.displayWidth / 2 &&
+                probeX <= p.x + p.displayWidth / 2 &&
+                probeY >= p.y - p.displayHeight / 2 &&
+                probeY <= p.y + p.displayHeight / 2
+            );
+        });
+
+        if (!groundAhead && e.body.blocked.down) {
+            e.setVelocityX(-e.body.velocity.x);
+            if (dir > 0) e.anims.play('walkLeftEnemy', true);
+            else e.anims.play('walkRightEnemy', true);
+        }
+
+        if (e.body.blocked.left) {
+            e.setVelocityX(50);
+            e.anims.play('walkRightEnemy', true);
+        }
+        if (e.body.blocked.right) {
+            e.setVelocityX(-50);
+            e.anims.play('walkLeftEnemy', true);
+        }
+
     }
 
     
