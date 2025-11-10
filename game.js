@@ -16,31 +16,10 @@ class Level1 extends Phaser.Scene {
     }
     create (){
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "F12") {
-            if (debugmode==0) {
-            debugmode=1;
-            console.log("Debug mode active");
-            console.log(debugmode);
-            }
-            else {
-                debugmode=0;
-                console.log("Debug mode deactivated");
-                console.log(debugmode);  
-            }
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
 		if (event.key === "ä") {
-            console.log(debugmode);
-                if (debugmode==1) {
                     nextlevelsound.play()
                     this.scene.start('Level2');
-                    console.log('forced level change');
-                }
-                else {
-                    console.log("Please activate debugmode")
-                }
-		}
+                    console.log('forced level change');		        }
 	});
     cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
