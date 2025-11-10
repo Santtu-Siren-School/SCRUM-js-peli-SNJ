@@ -110,11 +110,11 @@ class Level1 extends Phaser.Scene {
     });
 
     this.time.addEvent({
-        delay: 5000,     
-        callback: shootBullet, 
-        callbackScope: this,  
-        loop: true             
+        delay: 5000,
+        callback: () => shootBullet(cannon, bullets),
+        loop: true
     });
+
 
     this.physics.add.collider(player, bullets, hitPlayer, null, this);
 
@@ -245,23 +245,26 @@ class Level2 extends Phaser.Scene {
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
     // tykkien luonti
-    let cannon1 = this.physics.add.image(50, 700, 'cannon');
-    cannon1.setImmovable(true);
-    cannon1.body.allowGravity = false;
+    this.cannons = [
+    this.physics.add.image(50, 700, 'cannon'),
+    this.physics.add.image(228, 350, 'cannon')
+    ];
 
-    let cannon2 = this.physics.add.image(200, 500, 'cannon');
-    cannon2.setImmovable(true);
-    cannon2.body.allowGravity = false;
+    this.cannons.forEach(c => {
+        c.setImmovable(true);
+        c.body.allowGravity = false;
+    });
 
     bullets = this.physics.add.group({
         defaultKey: 'bullet',
         maxSize: 10000000000
     });
     this.time.addEvent({
-        delay: 1700,     
-        callback: shootBullet, 
-        callbackScope: this,  
-        loop: true             
+        delay: 1700,
+        callback: () => {
+            this.cannons.forEach(c => shootBullet(c, bullets));
+        },
+        loop: true
     });
     this.physics.add.collider(player, bullets, hitPlayer, null, this);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -433,17 +436,16 @@ let cannon;
 let bullets;
 let facingRight = true;
 // funktiot tänne
-function shootBullet() {
-    const bullet = bullets.get();
-
+function shootBullet(cannonInstance, bulletsGroup) {
+    const c = cannonInstance;
+    const bullet = bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (bullet) {
-        bullet.enableBody(true, cannon.x + 40, cannon.y, true, true);
-
+        bullet.enableBody(true, c.x + 40, c.y, true, true);
         bullet.setVelocityX(400);
-
         bullet.body.allowGravity = false;
     }
 }
+
 
 function hitPlayer(player, bullet) {
     bullet.disableBody(true, true); // poistaa kuulan kentältä
