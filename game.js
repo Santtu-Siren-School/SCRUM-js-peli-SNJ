@@ -15,6 +15,13 @@ class Level1 extends Phaser.Scene {
     this.load.image('dungeon','assets/textures/dungeon.png')
     }
     create (){
+    document.addEventListener('keydown', (event)=> {
+		if (event.key === "ä") {
+				nextlevelsound.play()
+                this.scene.start('Level2')
+				console.log('forced level change')
+		}
+	});
     cursors = this.input.keyboard.createCursorKeys();
     this.add.image(500,400, 'background').setScale(6);
     player = this.physics.add.sprite(100, 750, 'main_character');
@@ -222,7 +229,7 @@ class Level2 extends Phaser.Scene {
         maxSize: 10000000000
     });
     this.time.addEvent({
-        delay: 2000,     
+        delay: 900,     
         callback: shootBullet, 
         callbackScope: this,  
         loop: true             
