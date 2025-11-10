@@ -78,7 +78,7 @@ class Level1 extends Phaser.Scene {
 
     bullets = this.physics.add.group({
         defaultKey: 'bullet',
-        maxSize: 10
+        maxSize: 10000000000
     });
 
     this.time.addEvent({
@@ -213,6 +213,20 @@ class Level2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
+    cannon = this.physics.add.image(50, 700, 'cannon');
+    cannon.setImmovable(true);
+    cannon.body.allowGravity = false;
+    bullets = this.physics.add.group({
+        defaultKey: 'bullet',
+        maxSize: 10000000000
+    });
+    this.time.addEvent({
+        delay: 2000,     
+        callback: shootBullet, 
+        callbackScope: this,  
+        loop: true             
+    });
+    this.physics.add.collider(player, bullets, hitPlayer, null, this);
     }
 
     update (){
