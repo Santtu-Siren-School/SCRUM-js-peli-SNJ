@@ -162,7 +162,7 @@ class Level1 extends Phaser.Scene {
     }
 
     update (){
-
+    //katsoo onko peli loppunut
     if (gameOver == true)
 	{
 		this.physics.pause();
@@ -171,6 +171,7 @@ class Level1 extends Phaser.Scene {
 		return;
 	}
     backgroundsound.play()
+    //märitelään pelaajaan liityvää liikumista ja animaation pelausta
     if (cursors.up.isDown && player.body.touching.down) {
         jumping = 1;
         player.setVelocityY(-300);
@@ -203,8 +204,11 @@ class Level1 extends Phaser.Scene {
         player.setVelocityX(0);
         player.anims.play('turn');
     }
+    //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
+    //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
+    //knifing heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
@@ -228,7 +232,7 @@ class Level1 extends Phaser.Scene {
                 b.disableBody(true, true); 
             }
         });
-
+        //jotakin viholisen lookumiseen liityen??
         const e = this.enemy;
         const dir = Math.sign(e.body.velocity.x) || 1;
 
@@ -271,16 +275,10 @@ class Level2 extends Phaser.Scene {
     preload (){
     this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
     this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
-    this.load.image('platform', 'assets/textures/Platformit.png');
-    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
-    this.load.image('dagger', 'assets/textures/tikari.png');
-    this.load.image('cannon', 'assets/textures/cannon.png');
-    this.load.image('bullet', 'assets/textures/cannon_ball.png');
-    this.load.image('ovi','assets/textures/ovi.png');
-    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     }
     
     create (){
+    //pakotetaan levelin vaihto level3
     document.addEventListener('keydown', (event)=> {
 		if (event.key === "ä") {
             nextlevelsound.play()
@@ -288,20 +286,29 @@ class Level2 extends Phaser.Scene {
             console.log('forced level change 2');
 		}
 	}); 
-     document.addEventListener('keydown', (event)=> {
+    //pakotetaan levelin vaihto level1
+    document.addEventListener('keydown', (event)=> {
 		if (event.key === "q") {
 				nextlevelsound.play()
                 this.scene.start('Level1')
 				console.log('forced level change')
 		}
 	});
-    platforms = this.physics.add.staticGroup();
-    bottom_of_game = this.physics.add.staticGroup();
-    cursors = this.input.keyboard.createCursorKeys();
-    this.add.image(500,400, 'castle_hallway').setScale(3);
-    player = this.physics.add.sprite(100, 750, 'main_character');
-	player.setCollideWorldBounds(true);
+    //määritelään knife
     knife = this.physics.add.group();
+    //määritelään platformit staatiseksi
+    platforms = this.physics.add.staticGroup();
+    //määritelään bottom_of_game staatiseksi
+    bottom_of_game = this.physics.add.staticGroup();
+    //määritelään cursors phaserin avulla
+    cursors = this.input.keyboard.createCursorKeys();
+    //lisätiin background kuva
+    this.add.image(500,400, 'castle_hallway').setScale(3);
+    //määritelään pelaajan spritesheet
+    player = this.physics.add.sprite(100, 750, 'main_character');
+    //määritelään pelaajan pysähtyminen mailman seiniin
+	player.setCollideWorldBounds(true);
+    //level2 platformien luonti
     platforms.create(300,800, 'platform').setScale(2).refreshBody();
     platforms.create(550,800, 'platform').setScale(2).refreshBody();
     platforms.create(870,800, 'platform').setScale(2).refreshBody();
@@ -312,6 +319,8 @@ class Level2 extends Phaser.Scene {
     platforms.create(900,480, 'platform').setScale(2).refreshBody();
     platforms.create(500,480, 'platform').setScale(2).refreshBody();
     platforms.create(100,350, 'platform').setScale(2).refreshBody();
+    //level2 platformien luonti päätyy
+    //level2 bottom_of_game tekeminen
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(300,900, 'bottom_of_game')
     bottom_of_game.create(500,900, 'bottom_of_game')
@@ -322,6 +331,7 @@ class Level2 extends Phaser.Scene {
     bottom_of_game.create(1500,900, 'bottom_of_game')
     bottom_of_game.create(1700,900, 'bottom_of_game')
     bottom_of_game.create(1900,900, 'bottom_of_game')
+    //level2 bottom_of_game tekeminen
     this.physics.add.collider(knife, bottom_of_game);
     ovi=this.physics.add.staticGroup();
     ovi.create(100,250,'ovi').setScale(0.3).refreshBody();
