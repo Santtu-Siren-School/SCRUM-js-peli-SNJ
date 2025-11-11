@@ -123,7 +123,9 @@ this.physics.add.collider(knife, this.enemy, (weapon, en) => {
   weapon.setActive(false);
   weapon.setVisible(false);
   if (weapon.destroy) weapon.destroy();
+  
 }
+return; 
   }
 
   // merkkaa osuman
@@ -457,6 +459,7 @@ class Level2 extends Phaser.Scene {
         rightPlatform.y - 100,
         'enemy'
     );
+    this.enemy.setScale(2);
      this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
     this.physics.add.collider(player, knife);
@@ -626,6 +629,8 @@ class Level3 extends Phaser.Scene {
     }
     
     create (){
+    this.lastThrowTime = 0; 
+    this.throwCooldown = 1000; 
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
         trampoline=this.physics.add.staticGroup();
@@ -667,6 +672,16 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
         this.physics.add.collider(player, knife);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+        weapon.setVelocity(0, 0);
+        weapon.body.allowGravity = false;
+        weapon.body.immovable = true;
+    });
+    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy.disableBody(true, true);
+    weapon.destroy(); 
+    });
+this.physics.add.collider(knife, bottom_of_game);
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
@@ -761,9 +776,30 @@ class Level3 extends Phaser.Scene {
             player.setVelocityX(0);
             player.anims.play('turn');
         }
+     if (Phaser.Input.Keyboard.JustDown(shoot)) {
+        const now = this.time.now;
+    //knifing heittoa
+    if (now - this.lastThrowTime > this.throwCooldown) {
+        this.lastThrowTime = now; 
+            let offset = -30;
+            let spawnX = player.x + (facingRight ? offset : -offset);
+            let weapon = knife.create(spawnX, player.y, 'dagger');
+            weapon.setScale(0.1);
+            weapon.setVelocityX(300); 
+            weapon.setGravityY(-200);
+             if (facingRight) {
+        weapon.setVelocityX(300);
+    } else {
+        weapon.setVelocityX(-300);
+        weapon.flipX = true; 
+    }
+           this.scene.time.delayedCall(3000, () => {
+    if (weapon && weapon.body) weapon.disableBody(true, true);
+});
+        }
+    }
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
     }
-    
 }
 var config = {
     type: Phaser.AUTO,
