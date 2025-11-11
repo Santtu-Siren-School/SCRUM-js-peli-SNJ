@@ -16,8 +16,10 @@ class Level1 extends Phaser.Scene {
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     }
     create (){
-this.lastThrowTime = 0; 
-this.throwCooldown = 1000; 
+    //knifin cooldownin laatiminen
+    this.lastThrowTime = 0; 
+    this.throwCooldown = 1000; 
+    //Pakkotaa levelin vaihdon level2
     document.addEventListener('keydown', (event)=> {
 		if (event.key === "ä") {
             nextlevelsound.play()
@@ -25,13 +27,21 @@ this.throwCooldown = 1000;
             console.log('forced level change');
 		}
 	});
+    //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
+    //asetaa taustakuvan
     this.add.image(500,400, 'background').setScale(6);
+    //lisää player hahmoon spire sheetin
     player = this.physics.add.sprite(100, 750, 'main_character');
+    //asetaa pelaajan collisoinin mailman seinien kanssa
 	player.setCollideWorldBounds(true);
+    //määritelään knife
     knife = this.physics.add.group();
+    //määritelee platforms staatiseksi
     platforms = this.physics.add.staticGroup();
+    //määritelee bottom_of_game staatiseksi
     bottom_of_game = this.physics.add.staticGroup();
+    //level1 platformien luonti
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
     platforms.create(80, 700, 'platform').setScale(2).refreshBody();
 	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
@@ -42,7 +52,13 @@ this.throwCooldown = 1000;
     platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
     platforms.create(1350, 870, 'platform').setScale(4).refreshBody();
     platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
+    //level1 platformien luonti loppuu
+    //level1 bottom_of_game luonti
     bottom_of_game.create(100,900, 'bottom_of_game')
+    //level1 bottom_of_game luonti lopuu
+    //oven luonti seuraavaan tasoon
+    ovi=this.physics.add.staticGroup();
+    ovi.create(920,520,'ovi').setScale(0.3).refreshBody();
     // --VIHOLLISEN LUONTI--
     const rightPlatform = platforms.getChildren().at(-5);
     this.enemy = this.physics.add.sprite(
@@ -68,6 +84,7 @@ this.throwCooldown = 1000;
     this.enemy.setVelocityX(50); // alku nopeus
 
     this.physics.add.collider(knife, bottom_of_game);
+    //määritelään Pelaajan liikumis animaatiot
 	this.anims.create({
 		key: 'left',
 		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
@@ -90,8 +107,7 @@ this.throwCooldown = 1000;
         frames: [{key: 'main_character', frame: 9}],
         frameRate: 1
     });
-    ovi=this.physics.add.staticGroup();
-    ovi.create(920,520,'ovi').setScale(0.3).refreshBody();
+    //Pelaajan liikumisen animaatio määritely pätyy
     this.physics.add.overlap(player, ovi, level2Transition, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
