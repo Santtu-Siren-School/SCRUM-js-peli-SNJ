@@ -66,6 +66,11 @@ class Level1 extends Phaser.Scene {
         rightPlatform.y - 100,
         'enemy'
     );
+    this.enemy.setScale(2);
+this.enemy.body.setSize(this.enemy.width, this.enemy.height);
+this.enemy.body.setOffset(0, 0);
+    this.enemy.setData('health', 3);
+    this.enemy.setData('isHit', false);
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
     this.physics.add.collider(player, knife);
@@ -73,11 +78,42 @@ class Level1 extends Phaser.Scene {
         weapon.setVelocity(0, 0);
         weapon.body.allowGravity = false;
         weapon.body.immovable = true;
+        this.enemy.setCollideWorldBounds(true);
+        this.enemy.body.setGravityY(300);
     });
 this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
-    enemy.disableBody(true, true);
-    weapon.destroy(); 
-});
+    // debug
+    console.log('[HIT] collider fired, hpBefore=', enemy.getData('health'));
+
+    // estetään moninkertainen käsittely lyhyeksi ajaksi
+    if (enemy.getData('isHit')) {
+        console.log('[HIT] ignored: already recently hit');
+        return;
+    }
+    enemy.setData('isHit', true);
+
+    // poista/disable puukko heti, ettei se osu uudestaan
+    if (weapon.disableBody) weapon.disableBody(true, true);
+    else if (weapon.destroy) weapon.destroy();
+
+    // vähennetään hp turvallisesti
+    const newHp = (enemy.getData('health') || 0) - 1;
+    enemy.setData('health', newHp);
+    console.log('[HIT] hpAfter=', newHp);
+
+    // visuaalinen palaute
+    enemy.setTint(0xff0000);
+    this.time.delayedCall(120, () => {
+        if (enemy && enemy.clearTint) enemy.clearTint();
+        enemy.setData('isHit', false);
+    });
+
+    // kuolema
+    if (newHp <= 0) {
+        console.log('[HIT] enemy died');
+        enemy.disableBody(true, true);
+    }
+}, null, this);
     this.enemy.body.setGravityY(300); // lisää painovoima
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
     this.enemy.setVelocityX(50); // alku nopeus
@@ -236,10 +272,9 @@ if (!e || !e.body || !e.active) {
     // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
 } else {
     // Reunantunnistus (probe)
-    const checkDistanceX = e.direction * (e.width / 2 + 5);
-    const probeX = e.x + checkDistanceX;
-    const probeY = e.y + e.height / 2 + 1;
-
+const checkDistanceX = e.direction * (e.body.width / 2 + 5);
+const probeX = e.x + checkDistanceX;
+const probeY = e.y + e.body.height / 2 + 1;
     // Onko maata suoraan edessä?
     let groundAhead = false;
     platforms.getChildren().forEach(p => {
@@ -252,12 +287,11 @@ if (!e || !e.body || !e.active) {
         }
     });
 
-    if (!groundAhead && e.body.blocked.down) {
-        e.direction *= -1;
-        e.setVelocityX(50 * e.direction);
-        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+   if (!groundAhead && e.body.blocked.down) {
+    e.direction *= -1;
+    e.setVelocityX(50 * e.direction);
+    e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
     }
-
     if (e.body.blocked.left) {
         e.direction = 1;
         e.setVelocityX(50);
