@@ -374,6 +374,7 @@ class Level2 extends Phaser.Scene {
         loop: true
     });
     this.physics.add.collider(player, bullets, hitPlayer, null, this);
+
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     // vihollisen luonti
@@ -395,7 +396,7 @@ class Level2 extends Phaser.Scene {
     this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
     enemy.disableBody(true, true);
     weapon.destroy(); 
-});
+    });
     // fysiikka
     this.enemy.body.setGravityY(300);
     this.enemy.setCollideWorldBounds(true);
@@ -545,9 +546,11 @@ class Level3 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level3' });}
     preload (){
+    this.load.image('cannon_up', 'assets/textures/cannon_up.png')
     this.load.image('dungeon', 'assets/textures/dungeon.png');
     this.load.image('trampoline', 'assets/textures/Trampoline.png')
     this.load.image('wall','assets/textures/wall.png')
+    this.load.image('cannon', 'assets/textures/cannon.png');
     }
     
     create (){
@@ -595,6 +598,52 @@ class Level3 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
+        //tykin luonti
+        this.cannons = [
+            this.physics.add.image(620, 400, 'cannon'),
+            this.physics.add.image(620, 650, 'cannon'),
+        ];
+
+        this.cannons.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
+        });
+        //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
+        bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+        this.time.addEvent({
+            delay: 3000,
+            callback: () => {
+                this.cannons.forEach(c => shootBullet(c, bullets));
+            },
+            loop: true
+        });
+        this.physics.add.collider(player, bullets, hitPlayer, null, this);
+        //cannon_up luonti
+        this.cannons_up = [
+            this.physics.add.image(1450, 840, 'cannon_up'),
+        ];
+
+        this.cannons_up.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
+        });
+        //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
+        cannon_up_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+        this.time.addEvent({
+            delay: 1000,
+            callback: () => {
+                this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
+            },
+            loop: true
+        });
+        this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
+        
     }
 
     update (){
@@ -655,6 +704,8 @@ var config = {
     },
     scene: [Level1,Level2,Level3]
 };
+var cannon_up;
+var cannon_up_bullets;
 var wall;
 var trampoline;
 var ovi;
@@ -681,6 +732,15 @@ function shootBullet(cannonInstance, bulletsGroup) {
         bullet.enableBody(true, c.x + 40, c.y, true, true);
         bullet.setVelocityX(400);
         bullet.body.allowGravity = false;
+    }
+}
+function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
+    const c = cannon_upInstance;
+    const cannon_up_bullets = cannon_up_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
+    if (cannon_up_bullets) {
+        cannon_up_bullets.enableBody(true, c.x, c.y-40, true, true);
+        cannon_up_bullets.setVelocityY(-400);
+        cannon_up_bullets.body.allowGravity = false;
     }
 }
 
