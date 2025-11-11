@@ -357,6 +357,7 @@ class Level2 extends Phaser.Scene {
     }
     
     create (){
+    gameOver=false;
     //pakotetaan levelin vaihto level3
     document.addEventListener('keydown', (event)=> {
 		if (event.key === "ä") {
