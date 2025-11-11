@@ -351,7 +351,7 @@ class Level2 extends Phaser.Scene {
         c.setImmovable(true);
         c.body.allowGravity = false;
     });
-
+    //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
     bullets = this.physics.add.group({
         defaultKey: 'bullet',
         maxSize: 10000000000
@@ -523,19 +523,13 @@ class Level3 extends Phaser.Scene {
         super({ key: 'Level3' });}
     preload (){
     this.load.image('dungeon', 'assets/textures/dungeon.png');
-    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
-    this.load.image('platform', 'assets/textures/Platformit.png');
-    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
-    this.load.image('dagger', 'assets/textures/tikari.png');
-    this.load.image('cannon', 'assets/textures/cannon.png');
-    this.load.image('bullet', 'assets/textures/cannon_ball.png');
-    this.load.image('ovi','assets/textures/ovi.png');
-    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
+    this.load.image('trampoline', 'assets/textures/Trampoline.png')
     }
     
     create (){
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
+        trampoline=this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
         this.add.image(1000,400, 'dungeon').setScale(3.5);
         player = this.physics.add.sprite(100, 750, 'main_character');
@@ -551,6 +545,7 @@ class Level3 extends Phaser.Scene {
         bottom_of_game.create(1500,900, 'bottom_of_game')
         bottom_of_game.create(1700,900, 'bottom_of_game')
         bottom_of_game.create(1900,900, 'bottom_of_game')
+        trampoline.create(300,860, 'trampoline').setScale(0.4).refreshBody();
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, knife);
@@ -600,6 +595,7 @@ class Level3 extends Phaser.Scene {
             player.setVelocityX(0);
             player.anims.play('turn');
         }
+        this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
     }
     
 }
@@ -616,6 +612,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3]
 };
+var trampoline;
 var ovi;
 var cursors;
 var game = new Phaser.Game(config);
@@ -681,4 +678,7 @@ function hitByEnemy(player, enemy) {
 
   player.scene.physics.pause();
   backgroundsound.pause();
+}
+function trampolinePlayer(player, trampoline) {
+    player.setVelocityY(-600);
 }
