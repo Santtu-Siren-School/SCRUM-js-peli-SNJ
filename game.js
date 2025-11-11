@@ -625,6 +625,7 @@ class Level3 extends Phaser.Scene {
         //cannon_up luonti
         this.cannons_up = [
             this.physics.add.image(1450, 840, 'cannon_up'),
+            this.physics.add.image(1100, 840, 'cannon_up'),
         ];
 
         this.cannons_up.forEach(c => {
