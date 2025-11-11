@@ -598,9 +598,10 @@ class Level3 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
+        this.physics.add.overlap(player, ovi, level4Transition, null, this);
         //tykin luonti
         this.cannons = [
-            this.physics.add.image(620, 400, 'cannon'),
+            this.physics.add.image(620, 420, 'cannon'),
             this.physics.add.image(620, 650, 'cannon'),
         ];
 
@@ -770,7 +771,10 @@ function level3Transition() {
     nextlevelsound.play()
     this.scene.start('Level3')
 }
-
+function level4Transition() {
+    nextlevelsound.play()
+    this.scene.start('Level4')
+}
 function hitByEnemy(player, enemy) {
   gameOver = true;
   player.setTint(0xff0000);
