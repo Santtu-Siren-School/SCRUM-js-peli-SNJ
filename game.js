@@ -547,12 +547,14 @@ class Level3 extends Phaser.Scene {
     preload (){
     this.load.image('dungeon', 'assets/textures/dungeon.png');
     this.load.image('trampoline', 'assets/textures/Trampoline.png')
+    this.load.image('wall','assets/textures/wall.png')
     }
     
     create (){
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
         trampoline=this.physics.add.staticGroup();
+        wall=this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
         this.add.image(1000,400, 'dungeon').setScale(3.5);
         player = this.physics.add.sprite(100, 750, 'main_character');
@@ -568,9 +570,27 @@ class Level3 extends Phaser.Scene {
         bottom_of_game.create(1500,900, 'bottom_of_game')
         bottom_of_game.create(1700,900, 'bottom_of_game')
         bottom_of_game.create(1900,900, 'bottom_of_game')
-        trampoline.create(300,860, 'trampoline').setScale(0.4).refreshBody();
+        wall.create(443,455,'wall')
+        wall.create(557,455,'wall')
+        wall.create(443,755,'wall')
+        wall.create(557,755,'wall')
+        wall.create(1245,100,'wall')
+        wall.create(1700,840,'wall')
+        trampoline.create(300,850, 'trampoline').setScale(0.4).refreshBody();
+        trampoline.create(650,850, 'trampoline').setScale(0.4).refreshBody();
+        trampoline.create(1800,850, 'trampoline').setScale(0.4).refreshBody();
+        platforms.create(500,230,'platform').setScale(2).refreshBody();
+        platforms.create(900,530,'platform').setScale(2).refreshBody();
+        platforms.create(1300,730,'platform').setScale(2).refreshBody();
+        platforms.create(1600,730,'platform').setScale(2).refreshBody();
+        platforms.create(1600,330,'platform').setScale(2).refreshBody();
+        platforms.create(1300,300,'platform').setScale(2).refreshBody();
+        ovi=this.physics.add.staticGroup();
+        //oven luonti
+        ovi.create(1300,195,'ovi').setScale(0.3).refreshBody();
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(player, wall);
         this.physics.add.collider(player, knife);
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
@@ -635,6 +655,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3]
 };
+var wall;
 var trampoline;
 var ovi;
 var cursors;
