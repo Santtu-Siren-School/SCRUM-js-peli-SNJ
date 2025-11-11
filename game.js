@@ -74,11 +74,10 @@ class Level1 extends Phaser.Scene {
         weapon.body.allowGravity = false;
         weapon.body.immovable = true;
     });
-    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
     enemy.disableBody(true, true);
     weapon.destroy(); 
 });
-
     this.enemy.body.setGravityY(300); // lisää painovoima
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
     this.enemy.setVelocityX(50); // alku nopeus
@@ -224,9 +223,7 @@ class Level1 extends Phaser.Scene {
         weapon.setVelocityX(-300);
         weapon.flipX = true; 
     }
-            setTimeout(() => {
-                weapon.destroy();
-            }, 3000);
+        setTimeout(() => { weapon.destroy(); }, 3000);
         }
     }
         bullets.children.each(b => {
@@ -234,47 +231,44 @@ class Level1 extends Phaser.Scene {
                 b.disableBody(true, true); 
             }
         });
+const e = this.enemy;
+if (!e || !e.body || !e.active) {
+    // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
+} else {
+    // Reunantunnistus (probe)
+    const checkDistanceX = e.direction * (e.width / 2 + 5);
+    const probeX = e.x + checkDistanceX;
+    const probeY = e.y + e.height / 2 + 1;
 
-        //jotakin viholisen lookumiseen liityen??
-        const e = this.enemy;
+    // Onko maata suoraan edessä?
+    let groundAhead = false;
+    platforms.getChildren().forEach(p => {
+        const left = p.x - p.displayWidth / 2;
+        const right = p.x + p.displayWidth / 2;
+        const top = p.y - p.displayHeight / 2;
 
-        // Reunantunnistus (probe)
-        const checkDistanceX = e.direction * (e.width / 2 + 5);
-        const probeX = e.x + checkDistanceX;
-        const probeY = e.y + e.height / 2 + 1;
-
-        // Onko maata suoraan edessä?
-        let groundAhead = false;
-        platforms.getChildren().forEach(p => {
-            const left = p.x - p.displayWidth / 2;
-            const right = p.x + p.displayWidth / 2;
-            const top = p.y - p.displayHeight / 2;
-
-            // jos probe-piste on platformin "päällä"
-            if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
-                groundAhead = true;
-            }
-        });
-
-        // jos ei maata edessä → käänny
-        if (!groundAhead && e.body.blocked.down) {
-            e.direction *= -1;
-            e.setVelocityX(50 * e.direction);
-            e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+        if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
+            groundAhead = true;
         }
+    });
 
-        // törmäys seinään → käänny
-        if (e.body.blocked.left) {
-            e.direction = 1;
-            e.setVelocityX(50);
-            e.play('walkRightEnemy', true);
-        }
-        if (e.body.blocked.right) {
-            e.direction = -1;
-            e.setVelocityX(-50);
-            e.play('walkLeftEnemy', true);
-        }
+    if (!groundAhead && e.body.blocked.down) {
+        e.direction *= -1;
+        e.setVelocityX(50 * e.direction);
+        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+    }
 
+    if (e.body.blocked.left) {
+        e.direction = 1;
+        e.setVelocityX(50);
+        e.play('walkRightEnemy', true);
+    }
+    if (e.body.blocked.right) {
+        e.direction = -1;
+        e.setVelocityX(-50);
+        e.play('walkLeftEnemy', true);
+    }
+}
 
 
     }
@@ -308,6 +302,8 @@ class Level2 extends Phaser.Scene {
 				console.log('forced level change')
 		}
 	});
+    this.lastThrowTime = 0; 
+    this.throwCooldown = 1000; 
     //määritelään knife
     knife = this.physics.add.group();
     //määritelään platformit staatiseksi
@@ -477,6 +473,10 @@ class Level2 extends Phaser.Scene {
             player.anims.play('turn');
         }
       if (Phaser.Input.Keyboard.JustDown(shoot)) {
+        const now = this.time.now;
+    //knifing heittoa
+    if (now - this.lastThrowTime > this.throwCooldown) {
+        this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
             let weapon = knife.create(spawnX, player.y, 'dagger');
@@ -489,46 +489,55 @@ class Level2 extends Phaser.Scene {
         weapon.setVelocityX(-300);
         weapon.flipX = true; 
     }
-            setTimeout(() => {
-                weapon.destroy();
-            }, 3000);
+           this.scene.time.delayedCall(3000, () => {
+    if (weapon && weapon.body) weapon.disableBody(true, true);
+});
         }
+    }
     
-    const e = this.enemy;
-    const dir = Math.sign(e.body.velocity.x) || 1;
+ const e = this.enemy;
+if (!e || !e.body || !e.active) {
+    // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
+} else {
+    // Reunantunnistus (probe)
+    const checkDistanceX = e.direction * (e.width / 2 + 5);
+    const probeX = e.x + checkDistanceX;
+    const probeY = e.y + e.height / 2 + 1;
 
-    // Pieni testipiste vihollisen etureunassa
-    const probeX = e.x + dir * (e.width / 2 + 2);
-    const probeY = e.y + e.height / 2 + 5;
+    // Onko maata suoraan edessä?
+    let groundAhead = false;
+    platforms.getChildren().forEach(p => {
+        const left = p.x - p.displayWidth / 2;
+        const right = p.x + p.displayWidth / 2;
+        const top = p.y - p.displayHeight / 2;
 
-    // Tarkista onko maata edessä
-    const groundAhead = platforms.getChildren().some(p => {
-    return (
-        probeX >= p.x - p.displayWidth / 2 &&
-        probeX <= p.x + p.displayWidth / 2 &&
-        probeY >= p.y - p.displayHeight / 2 &&
-        probeY <= p.y + p.displayHeight / 2
-    );
+        if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
+            groundAhead = true;
+        }
     });
 
-    // jos ei maata edessä → käänny
     if (!groundAhead && e.body.blocked.down) {
-        e.setVelocityX(-e.body.velocity.x);
-    if (dir > 0) e.anims.play('walkLeftEnemy', true);
-    else e.anims.play('walkRightEnemy', true);
+        e.direction *= -1;
+        e.setVelocityX(50 * e.direction);
+        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
     }
 
-    // jos osuu seinään → käänny
     if (e.body.blocked.left) {
-    e.setVelocityX(50);
-    e.anims.play('walkRightEnemy', true);
+        e.direction = 1;
+        e.setVelocityX(50);
+        e.play('walkRightEnemy', true);
     }
     if (e.body.blocked.right) {
+        e.direction = -1;
         e.setVelocityX(-50);
-        e.anims.play('walkLeftEnemy', true);
-        }
+        e.play('walkLeftEnemy', true);
+    }
+}
+
+
 
     }
+
     
 }
 //level3
