@@ -960,25 +960,25 @@ class Level4 extends Phaser.Scene {
 		}
 	});
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "a") {
+		if (event.key === "i") {
             player.setVelocityY(-600);
             console.log('changed players velocity (up,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "b") {
+		if (event.key === "k") {
             player.setVelocityY(600);
             console.log('changed players velocity (down,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "c") {
+		if (event.key === "l") {
             player.setVelocityX(2000);
             console.log('changed players velocity (right,2000)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "d") {
+		if (event.key === "j") {
             player.setVelocityX(-2000);
             console.log('changed players velocity (left,2000)');
 		}
@@ -986,6 +986,7 @@ class Level4 extends Phaser.Scene {
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
         trampoline=this.physics.add.staticGroup();
+        low_power_trampoline=this.physics.add.staticGroup();
         wall=this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
         this.add.image(0,0,'sky').setScale(10);
@@ -1024,13 +1025,21 @@ class Level4 extends Phaser.Scene {
         wall.create(0,1700,'wall')
         wall.create(0,1490,'wall')
         wall.create(440,1700,'wall')
-        wall.create(440,2000,'wall')
+        //wall.create(440,2000,'wall')
         //
         trampoline.create(300,1950, 'trampoline').setScale(0.5).refreshBody();
+        //
+        low_power_trampoline.create(1530,1250, 'trampoline').setScale(0.5).refreshBody();
         //
         platforms.create(500, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(800, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(1100, 1600, 'platform').setScale(2).refreshBody();
+        platforms.create(1530, 1870, 'platform').setScale(2).refreshBody();
+        platforms.create(1800, 1760, 'platform').setScale(2).refreshBody();
+        platforms.create(1530, 1600, 'platform').setScale(2).refreshBody();
+        platforms.create(1800, 1450, 'platform').setScale(2).refreshBody();
+        platforms.create(1530, 1300, 'platform').setScale(2).refreshBody();
+        platforms.create(1800, 920, 'platform').setScale(2).refreshBody();
         //
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
@@ -1039,9 +1048,11 @@ class Level4 extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 2000, 2000);
         this.cameras.main.startFollow(player);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
+        this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
         //tykin luonti
         this.cannons = [
             this.physics.add.image(20, 1350, 'cannon'),
+            this.physics.add.image(500, 1900, 'cannon'),
         ];
 
         this.cannons.forEach(c => {
@@ -1148,6 +1159,7 @@ var cannon_back;
 var cannon_back_bullets;
 var wall;
 var trampoline;
+var low_power_trampoline;
 var ovi;
 var cursors;
 var game = new Phaser.Game(config);
@@ -1244,7 +1256,9 @@ function hitByEnemy(player, enemy) {
 function trampolinePlayer(player, trampoline) {
     player.setVelocityY(-600);
 }
-
+function low_power_trampolinePlayer(player, low_power_trampoline) {
+    player.setVelocityY(-450);
+}
 function hitBySpike(player, spike) {
     if (gameOver) return; // estää tuplakutsun
     gameOver = true;
