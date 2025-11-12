@@ -118,13 +118,12 @@ this.physics.add.collider(knife, this.enemy, (weapon, en) => {
   if (en.getData('isHit')) {
     console.log('[DEBUG] hit ignored because isHit=true');
     // poista osunut puukko varmuudeksi
-  if (weapon) {
-  weapon.disableBody(true, true);
-  weapon.setActive(false);
-  weapon.setVisible(false);
-  if (weapon.destroy) weapon.destroy();
-  
-}
+    if (weapon) {
+        weapon.disableBody(true, true);
+        weapon.setActive(false);
+        weapon.setVisible(false);
+        if (weapon.destroy) weapon.destroy();
+    }
 return; 
   }
 
