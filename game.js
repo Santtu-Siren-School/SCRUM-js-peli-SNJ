@@ -863,7 +863,8 @@ class Level4 extends Phaser.Scene {
         super({ key: 'Level4' });}
     preload() {
         this.load.image('wind', 'assets/textures/Wind.png');
-        this.load.image('spiralstaircase', 'assets/textures/spiralstaircase');
+        this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
+        this.load.image('sky', 'assets/textures/sky.jpg');
     }
     create() {
         platforms = this.physics.add.staticGroup();
@@ -871,22 +872,69 @@ class Level4 extends Phaser.Scene {
         trampoline=this.physics.add.staticGroup();
         wall=this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
-        this.add.image(1000,400, 'dungeon').setScale(3.5);
-        player = this.physics.add.sprite(100, 750, 'main_character');
+        this.add.image(0,0,'sky').setScale(10);
+        this.add.image(100,1700, 'castle_hallway').setScale(2);
+        this.add.image(1700,1700,'spiralsaircase').setScale(3);
+        player = this.physics.add.sprite(100, 1950, 'main_character');
         player.setCollideWorldBounds(true);
-        bottom_of_game.create(100,900, 'bottom_of_game')
-        bottom_of_game.create(300,900, 'bottom_of_game')
-        bottom_of_game.create(500,900, 'bottom_of_game')
-        bottom_of_game.create(700,900, 'bottom_of_game')
-        bottom_of_game.create(900,900, 'bottom_of_game')
-        bottom_of_game.create(1100,900, 'bottom_of_game')
-        bottom_of_game.create(1300,900, 'bottom_of_game')
-        bottom_of_game.create(1500,900, 'bottom_of_game')
-        bottom_of_game.create(1700,900, 'bottom_of_game')
-        bottom_of_game.create(1900,900, 'bottom_of_game')
+        bottom_of_game.create(100,2000, 'bottom_of_game')
+        bottom_of_game.create(300,2000, 'bottom_of_game')
+        bottom_of_game.create(500,2000, 'bottom_of_game')
+        bottom_of_game.create(700,2000, 'bottom_of_game')
+        bottom_of_game.create(900,2000, 'bottom_of_game')
+        bottom_of_game.create(1100,2000, 'bottom_of_game')
+        bottom_of_game.create(1300,2000, 'bottom_of_game')
+        bottom_of_game.create(1500,2000, 'bottom_of_game')
+        bottom_of_game.create(1700,2000, 'bottom_of_game')
+        bottom_of_game.create(1900,2000, 'bottom_of_game')
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(player, wall);
+        this.cameras.main.setBounds(0, 0, 2000, 2000);
+        this.physics.world.setBounds(0, 0, 2000, 2000);
+        this.cameras.main.startFollow(player);
     }
     update(){
-
+        if (gameOver == true)
+        {
+            this.physics.pause();
+            backgroundsound.pause();
+            player.anims.play('jump');
+            return;
+        }
+        backgroundsound.play()
+        if (cursors.up.isDown && player.body.touching.down) {
+            jumping = 1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+        }
+        if (jumping === 1) {
+            player.anims.play("jump", true);
+            player.setVelocityX(0);
+            if (player.body.touching.down) {
+                jumping = 0;
+                player.setVelocityX(0);
+                player.anims.play('turn');
+            }
+        }
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
+        }
+        else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        } 
+        else {
+            player.setVelocityX(0);
+            player.anims.play('turn');
+        }
     }
 }
 var config = {
