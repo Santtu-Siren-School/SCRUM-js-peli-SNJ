@@ -35,6 +35,13 @@ class Level1 extends Phaser.Scene {
             console.log('forced level change3');
 		}
 	});
+    document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            nextlevelsound.play()
+            this.scene.start('Level4');
+            console.log('forced level change3');
+		}
+	});
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
@@ -396,7 +403,7 @@ class Level2 extends Phaser.Scene {
 		if (event.key === "3") {
             nextlevelsound.play()
             this.scene.start('Level3');
-            console.log('forced level change 2');
+            console.log('forced level change 3');
 		}
 	}); 
     //pakotetaan levelin vaihto level1
@@ -405,6 +412,13 @@ class Level2 extends Phaser.Scene {
 				nextlevelsound.play()
                 this.scene.start('Level1')
 				console.log('forced level change1')
+		}
+	});
+    document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            nextlevelsound.play()
+            this.scene.start('Level4');
+            console.log('forced level change4');
 		}
 	});
     this.lastThrowTime = 0; 
@@ -902,6 +916,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
     }
 }
+//level 4
 class Level4 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level4' });}
@@ -913,25 +928,46 @@ class Level4 extends Phaser.Scene {
     }
     create() {
         document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
+		}
+	});
+    document.addEventListener('keydown', (event)=> {
+		if (event.key === "2") {
+            nextlevelsound.play()
+            this.scene.start('Level2');
+            console.log('forced level change2');
+		}
+	});
+    document.addEventListener('keydown', (event)=> {
 		if (event.key === "1") {
+            nextlevelsound.play()
+            this.scene.start('Level1');
+            console.log('forced level change1');
+		}
+	});
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "a") {
             player.setVelocityY(-600);
             console.log('changed players velocity (up,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
+		if (event.key === "b") {
             player.setVelocityY(600);
             console.log('changed players velocity (down,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
+		if (event.key === "c") {
             player.setVelocityX(2000);
             console.log('changed players velocity (right,2000)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "4") {
+		if (event.key === "d") {
             player.setVelocityX(-2000);
             console.log('changed players velocity (left,2000)');
 		}
