@@ -609,9 +609,7 @@ class Level2 extends Phaser.Scene {
         weapon.setVelocityX(-300);
         weapon.flipX = true; 
     }
-           this.scene.time.delayedCall(3000, () => {
-    if (weapon && weapon.body) weapon.disableBody(true, true);
-});
+         setTimeout(() => { weapon.destroy(); }, 3000);
         }
     }
     
@@ -671,6 +669,7 @@ class Level3 extends Phaser.Scene {
     this.load.image('trampoline', 'assets/textures/Trampoline.png')
     this.load.image('wall','assets/textures/wall.png')
     this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('dagger', 'assets/textures/tikari.png'); 
     }
     
     create (){
@@ -693,6 +692,7 @@ class Level3 extends Phaser.Scene {
         player = this.physics.add.sprite(100, 750, 'main_character');
         player.setCollideWorldBounds(true);
         knife = this.physics.add.group();
+        shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         bottom_of_game.create(100,900, 'bottom_of_game')
         bottom_of_game.create(300,900, 'bottom_of_game')
         bottom_of_game.create(500,900, 'bottom_of_game')
@@ -845,10 +845,7 @@ this.physics.add.collider(knife, bottom_of_game);
     } else {
         weapon.setVelocityX(-300);
         weapon.flipX = true; 
-    }
-           this.scene.time.delayedCall(3000, () => {
-    if (weapon && weapon.body) weapon.disableBody(true, true);
-});
+    } setTimeout(() => { weapon.destroy(); }, 3000);
         }
     }
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
