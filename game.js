@@ -983,6 +983,7 @@ class Level4 extends Phaser.Scene {
             console.log('changed players velocity (left,2000)');
 		}
 	    });
+        wind=this.physics.add.staticGroup();
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
         trampoline=this.physics.add.staticGroup();
@@ -1040,6 +1041,9 @@ class Level4 extends Phaser.Scene {
         platforms.create(1800, 1450, 'platform').setScale(2).refreshBody();
         platforms.create(1530, 1300, 'platform').setScale(2).refreshBody();
         platforms.create(1800, 920, 'platform').setScale(2).refreshBody();
+        platforms.create(1530, 800, 'platform').setScale(2).refreshBody();
+        //
+        wind.create(1530,730, 'wind').setScale(0.4).refreshBody();
         //
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
@@ -1049,6 +1053,7 @@ class Level4 extends Phaser.Scene {
         this.cameras.main.startFollow(player);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
+        this.physics.add.overlap(player, wind, windPlayer, null, this);
         //tykin luonti
         this.cannons = [
             this.physics.add.image(20, 1350, 'cannon'),
@@ -1153,6 +1158,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4]
 };
+var wind;
 var cannon_up;
 var cannon_up_bullets;
 var cannon_back;
@@ -1271,4 +1277,8 @@ function hitBySpike(player, spike) {
 
     player.scene.physics.pause();
     backgroundsound.pause();
+}
+function windPlayer(player, wind) {
+    //console.log("player has activated wind at",wind);
+    player.setVelocityX(100);
 }
