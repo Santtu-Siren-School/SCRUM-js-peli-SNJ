@@ -22,10 +22,17 @@ class Level1 extends Phaser.Scene {
     this.throwCooldown = 1000; 
     //Pakkotaa levelin vaihdon level2
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "ä") {
+		if (event.key === "2") {
             nextlevelsound.play()
             this.scene.start('Level2');
-            console.log('forced level change');
+            console.log('forced level change2');
+		}
+	});
+    document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level2');
+            console.log('forced level change3');
 		}
 	});
     //määritelään cursors phaserin avulla
@@ -386,7 +393,7 @@ class Level2 extends Phaser.Scene {
     gameOver=false;
     //pakotetaan levelin vaihto level3
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "ä") {
+		if (event.key === "3") {
             nextlevelsound.play()
             this.scene.start('Level3');
             console.log('forced level change 2');
@@ -394,10 +401,10 @@ class Level2 extends Phaser.Scene {
 	}); 
     //pakotetaan levelin vaihto level1
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "q") {
+		if (event.key === "1") {
 				nextlevelsound.play()
                 this.scene.start('Level1')
-				console.log('forced level change')
+				console.log('forced level change1')
 		}
 	});
     this.lastThrowTime = 0; 
@@ -699,10 +706,24 @@ class Level3 extends Phaser.Scene {
     create (){
     //pakotetaan levelin vaihto level4
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "ä") {
+		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
             console.log('forced level change 3');
+		}
+	});
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "2") {
+				nextlevelsound.play()
+                this.scene.start('Level2')
+				console.log('forced level change2')
+		}
+	});
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "1") {
+				nextlevelsound.play()
+                this.scene.start('Level1')
+				console.log('forced level change1')
 		}
 	}); 
     this.lastThrowTime = 0; 
