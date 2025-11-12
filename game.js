@@ -234,6 +234,7 @@ return;
     this.enemy.play('walkRightEnemy');
 
 
+
     }
 
     update (){
@@ -392,6 +393,15 @@ class Level2 extends Phaser.Scene {
     player = this.physics.add.sprite(100, 750, 'main_character');
     //määritelään pelaajan pysähtyminen mailman seiniin
 	player.setCollideWorldBounds(true);
+
+    // Pieni alku-invulnerabiliteetti, jotta mahdolliset välittömät osumat ei aiheuta GAME OVERia
+    if (player && player.setData) {
+        player.setData('invulnerable', true);
+        this.time.delayedCall(500, () => {
+            if (player && player.setData) player.setData('invulnerable', false);
+        });
+    }
+
     //level2 platformien luonti
     platforms.create(300,800, 'platform').setScale(2).refreshBody();
     platforms.create(550,800, 'platform').setScale(2).refreshBody();
@@ -460,6 +470,12 @@ class Level2 extends Phaser.Scene {
         'enemy'
     );
     this.enemy.setScale(2);
+
+    // Asetetaan vihollisen hp ja muut tarvittavat arvot (kuten Level1:ssä)
+    this.enemy.setData('hp', 3);
+    this.enemy.setData('isHit', false);
+    this.enemy.direction = 1;
+
      this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
     this.physics.add.collider(player, knife);
@@ -468,10 +484,38 @@ class Level2 extends Phaser.Scene {
         weapon.body.allowGravity = false;
         weapon.body.immovable = true;
     });
-    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
-    enemy.disableBody(true, true);
-    weapon.destroy(); 
-    });
+
+    // Turvallinen osuman käsittely knife -> enemy (vähentää hp:tä, ei tuhoa yhdellä osumalla)
+    this.physics.add.collider(knife, this.enemy, (weapon, en) => {
+        if (!en || !en.active) return;
+        let curHp = en.getData('hp');
+        if (typeof curHp !== 'number') {
+            en.setData('hp', 3);
+            curHp = 3;
+        }
+        if (en.getData('isHit')) {
+            if (weapon && weapon.disableBody) weapon.disableBody(true, true);
+            else if (weapon && weapon.destroy) weapon.destroy();
+            return;
+        }
+        en.setData('isHit', true);
+        if (weapon && weapon.disableBody) weapon.disableBody(true, true);
+        else if (weapon && weapon.destroy) weapon.destroy();
+
+        curHp = curHp - 1;
+        en.setData('hp', curHp);
+
+        en.setTint(0xff0000);
+        this.time.delayedCall(180, () => {
+            if (en && en.clearTint) en.clearTint();
+            en.setData('isHit', false);
+        });
+
+        if (curHp <= 0) {
+            en.disableBody(true, true);
+        }
+    }, null, this);
+
     // fysiikka
     this.enemy.body.setGravityY(300);
     this.enemy.setCollideWorldBounds(true);
@@ -856,6 +900,12 @@ function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
 
 
 function hitPlayer(player, bullet) {
+    // Jos pelaajalla on invulnerabiliteetti (esim. juuri spawnattu taso), ohitetaan osuma
+    if (player && player.getData && player.getData('invulnerable')) {
+        if (bullet && bullet.disableBody) bullet.disableBody(true, true);
+        return;
+    }
+
     bullet.disableBody(true, true); // poistaa kuulan kentältä
     gameOver = true; // asettaa pelin loppuun
     player.setTint(0xff0000); // tekee pelaajasta punaisen, visuaalinen efekti
