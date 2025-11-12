@@ -118,54 +118,49 @@ this.physics.add.collider(knife, platforms, (weapon) => {
 
 // turvallinen osuman käsittely knife -> enemy
 this.physics.add.collider(knife, this.enemy, (weapon, en) => {
-  console.log('[DEBUG] knife hit callback — en.active=', !!en.active,
-              'en.hp=', en.getData('hp'), 'en.isHit=', en.getData('isHit'), 'weapon=', weapon);
-
-  // varmista, että hp on numero
-  let curHp = en.getData('hp');
-  if (typeof curHp !== 'number') {
-    console.warn('[WARN] en.hp was not a number, resetting to 3');
-    en.setData('hp', 3);
+  applyDamage(this, en, weapon, 1, 180);
+  function applyDamage(scene, enemy, weapon, amount = 1, invulnMs = 180) {
+  if (!enemy || !enemy.active) return;
+  // Varmista että hp on numero
+  let curHp = enemy.getData && enemy.getData('hp');
+  if (typeof curHp !== 'number' || Number.isNaN(curHp)) {
+    console.warn('[applyDamage] enemy hp invalid, resetting to 3');
+    if (enemy.setData) enemy.setData('hp', 3);
     curHp = 3;
   }
 
-  // debounce: jos juuri osuttu, ohitetaan
-  if (en.getData('isHit')) {
-    console.log('[DEBUG] hit ignored because isHit=true');
-    // poista osunut puukko varmuudeksi
-    if (weapon) {
-        weapon.disableBody(true, true);
-        weapon.setActive(false);
-        weapon.setVisible(false);
-        if (weapon.destroy) weapon.destroy();
-    }
-return; 
+  // Jos juuri osuttu -> ohitetaan
+  if (enemy.getData && enemy.getData('isHit')) {
+    // Poistetaan puukko varmuudeksi
+    if (weapon && weapon.disableBody) weapon.disableBody(true, true);
+    else if (weapon && weapon.destroy) weapon.destroy();
+    return;
   }
 
-  // merkkaa osuman
-  en.setData('isHit', true);
-
-  // poista/disable puukko heti
+  // Merkitse isku ja poista puukko heti
+  if (enemy.setData) enemy.setData('isHit', true);
   if (weapon && weapon.disableBody) weapon.disableBody(true, true);
   else if (weapon && weapon.destroy) weapon.destroy();
 
-  // laske hp
-  curHp = curHp - 1;
-  en.setData('hp', curHp);
-  console.log('[DEBUG] enemy hp after hit =', curHp);
+  // Vähennä hp
+  curHp -= amount;
+  if (enemy.setData) enemy.setData('hp', curHp);
+  console.log('[applyDamage] enemy hp now', curHp);
 
-  // visuaalinen palaute
-  en.setTint(0xff0000);
-  this.time.delayedCall(180, () => {
-    if (en && en.clearTint) en.clearTint();
-    en.setData('isHit', false);
-  });
+  // Visuaalinen palaute
+  if (enemy.setTint) enemy.setTint(0xff0000);
+  scene.time.delayedCall(invulnMs, () => {
+    if (enemy.clearTint) enemy.clearTint();
+    if (enemy.setData) enemy.setData('isHit', false);
+  }, null, scene);
 
-  // kuolema
+  // Kuolema
   if (curHp <= 0) {
-    console.log('[DEBUG] enemy died by hp<=0');
-    en.disableBody(true, true);
+    console.log('[applyDamage] enemy died');
+    if (enemy.disableBody) enemy.disableBody(true, true);
+    else if (enemy.destroy) enemy.destroy();
   }
+}
 }, null, this);
     this.enemy.body.setGravityY(300); // lisää painovoima
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
@@ -204,21 +199,27 @@ return;
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-cannon = this.physics.add.image(50, 830, 'cannon');
-cannon.setImmovable(true);
-cannon.body.allowGravity = false;
+ this.cannons = [
+    this.physics.add.image(50, 830, 'cannon'),
+    this.physics.add.image(50, 200, 'cannon')
+    ];
 
+    this.cannons.forEach(c => {
+        c.setImmovable(true);
+        c.body.allowGravity = false;
+    });
 bullets = this.physics.add.group({
     defaultKey: 'bullet',
     maxSize: 10000000000
 });
 
-this.time.addEvent({
-    delay: 5000,
-    callback: () => shootBullet(cannon, bullets),
-    loop: true
-});
-
+   this.time.addEvent({
+        delay: 3000,
+        callback: () => {
+            this.cannons.forEach(c => shootBullet(c, bullets));
+        },
+        loop: true
+    });
 cannon_back = this.physics.add.image(1700, 550, 'cannon_back');
 cannon_back.setImmovable(true);
 cannon_back.body.allowGravity = false;
@@ -233,6 +234,7 @@ this.time.addEvent({
     callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
     loop: true
 });
+
 
 // törmäykset luoteihin
 this.physics.add.collider(player, bullets, hitPlayer, null, this);
@@ -391,6 +393,7 @@ class Level2 extends Phaser.Scene {
     this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
     this.load.image('dagger', 'assets/textures/tikari.png');
     this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('cannon_up', 'assets/textures/cannon_up.png')
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
     this.load.image('ovi','assets/textures/ovi.png')
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
@@ -489,8 +492,7 @@ class Level2 extends Phaser.Scene {
         c.setImmovable(true);
         c.body.allowGravity = false;
     });
-    //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
-    bullets = this.physics.add.group({
+        bullets = this.physics.add.group({
         defaultKey: 'bullet',
         maxSize: 10000000000
     });
@@ -503,6 +505,22 @@ class Level2 extends Phaser.Scene {
     });
     this.physics.add.collider(player, bullets, hitPlayer, null, this);
 
+cannon_up = this.physics.add.image(700, 840, 'cannon_up');
+cannon_up.setImmovable(true);
+cannon_up.body.allowGravity = false;
+
+cannon_up_bullets = this.physics.add.group({
+    defaultKey: 'bullet',
+    maxSize: 10000000000
+});
+
+this.time.addEvent({
+    delay: 5000,
+    callback: () => shootBullet_cannon_up(cannon_up, cannon_up_bullets),
+    loop: true
+});
+ this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
+    //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     // vihollisen luonti
@@ -896,7 +914,7 @@ class Level3 extends Phaser.Scene {
         }
      if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
-    //knifing heittoa
+    //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
