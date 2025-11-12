@@ -913,25 +913,25 @@ class Level4 extends Phaser.Scene {
     }
     create() {
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "1") {
+		if (event.key === "w") {
             player.setVelocityY(-600);
             console.log('changed players velocity (up,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
+		if (event.key === "s") {
             player.setVelocityY(600);
             console.log('changed players velocity (down,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
+		if (event.key === "d") {
             player.setVelocityX(2000);
             console.log('changed players velocity (right,2000)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "4") {
+		if (event.key === "a") {
             player.setVelocityX(-2000);
             console.log('changed players velocity (left,2000)');
 		}
