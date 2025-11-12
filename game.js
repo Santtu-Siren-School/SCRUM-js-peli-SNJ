@@ -469,6 +469,8 @@ class Level2 extends Phaser.Scene {
         'enemy'
     );
     this.enemy.setScale(2);
+    this.enemy.body.setSize(this.enemy.width, this.enemy.height);
+    this.enemy.body.setOffset(0, 0);
 
     // Asetetaan vihollisen hp ja muut tarvittavat arvot (kuten Level1:ssä)
     this.enemy.setData('hp', 3);
