@@ -909,6 +909,7 @@ class Level4 extends Phaser.Scene {
         this.load.image('wind', 'assets/textures/Wind.png');
         this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
         this.load.image('sky', 'assets/textures/sky.jpg');
+        this.load.image('trampoline', 'assets/textures/Trampoline.png')
     }
     create() {
         document.addEventListener('keydown', (event)=> {
@@ -920,7 +921,7 @@ class Level4 extends Phaser.Scene {
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "2") {
             player.setVelocityY(600);
-            console.log('changed players velocity (down,300)');
+            console.log('changed players velocity (down,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
@@ -970,12 +971,26 @@ class Level4 extends Phaser.Scene {
         wall.create(1338,538, 'wall')
         wall.create(1338,238, 'wall')
         wall.create(1338,38, 'wall')
+        wall.create(0,1900,'wall')
+        wall.create(0,1700,'wall')
+        wall.create(0,1490,'wall')
+        wall.create(440,1700,'wall')
+        wall.create(440,2000,'wall')
+        //
+        trampoline.create(300,1950, 'trampoline').setScale(0.5).refreshBody();
+        //
+        platforms.create(500, 1500, 'platform').setScale(2).refreshBody();
+        platforms.create(800, 1500, 'platform').setScale(2).refreshBody();
+        platforms.create(1100, 1600, 'platform').setScale(2).refreshBody();
+        platforms.create(800, 1800, 'platform').setScale(2).refreshBody();
+        //
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
         this.cameras.main.setBounds(0, 0, 2000, 2000);
         this.physics.world.setBounds(0, 0, 2000, 2000);
         this.cameras.main.startFollow(player);
+        this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
     }
     update(){
         if (gameOver == true)
