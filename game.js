@@ -119,13 +119,12 @@ this.physics.add.collider(knife, this.enemy, (weapon, en) => {
   if (en.getData('isHit')) {
     console.log('[DEBUG] hit ignored because isHit=true');
     // poista osunut puukko varmuudeksi
-  if (weapon) {
-  weapon.disableBody(true, true);
-  weapon.setActive(false);
-  weapon.setVisible(false);
-  if (weapon.destroy) weapon.destroy();
-  
-}
+    if (weapon) {
+        weapon.disableBody(true, true);
+        weapon.setActive(false);
+        weapon.setVisible(false);
+        if (weapon.destroy) weapon.destroy();
+    }
 return; 
   }
 
@@ -883,13 +882,122 @@ class Level3 extends Phaser.Scene {
     }
 }
 class Level4 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Level4' });}
     preload() {
-
+        this.load.image('wind', 'assets/textures/Wind.png');
+        this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
+        this.load.image('sky', 'assets/textures/sky.jpg');
     }
     create() {
-
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "1") {
+            player.setVelocityY(-600);
+            console.log('changed players velocity (up,600)');
+		}
+	    });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "2") {
+            player.setVelocityY(600);
+            console.log('changed players velocity (down,300)');
+		}
+	    });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            player.setVelocityX(2000);
+            console.log('changed players velocity (right,2000)');
+		}
+	    });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            player.setVelocityX(-2000);
+            console.log('changed players velocity (left,2000)');
+		}
+	    });
+        platforms = this.physics.add.staticGroup();
+        bottom_of_game = this.physics.add.staticGroup();
+        trampoline=this.physics.add.staticGroup();
+        wall=this.physics.add.staticGroup();
+        cursors = this.input.keyboard.createCursorKeys();
+        this.add.image(0,0,'sky').setScale(10);
+        this.add.image(100,1700, 'castle_hallway').setScale(2);
+        this.add.image(1700,1700,'spiralsaircase').setScale(3);
+        player = this.physics.add.sprite(100, 1950, 'main_character');
+        player.setCollideWorldBounds(true);
+        bottom_of_game.create(100,2000, 'bottom_of_game')
+        bottom_of_game.create(300,2000, 'bottom_of_game')
+        bottom_of_game.create(500,2000, 'bottom_of_game')
+        bottom_of_game.create(700,2000, 'bottom_of_game')
+        bottom_of_game.create(900,2000, 'bottom_of_game')
+        bottom_of_game.create(1100,2000, 'bottom_of_game')
+        bottom_of_game.create(1300,2000, 'bottom_of_game')
+        bottom_of_game.create(1500,2000, 'bottom_of_game')
+        bottom_of_game.create(1700,2000, 'bottom_of_game')
+        bottom_of_game.create(1900,2000, 'bottom_of_game')
+        //
+        bottom_of_game.create(100,1300, 'bottom_of_game')
+        bottom_of_game.create(300,1300, 'bottom_of_game')
+        bottom_of_game.create(500,1300, 'bottom_of_game')
+        bottom_of_game.create(700,1300, 'bottom_of_game')
+        bottom_of_game.create(900,1300, 'bottom_of_game')
+        bottom_of_game.create(1100,1300, 'bottom_of_game')
+        bottom_of_game.create(1200,1300, 'bottom_of_game')
+        //
+        wall.create(1338,1438, 'wall')
+        wall.create(1338,1138, 'wall')
+        wall.create(1338,838, 'wall')
+        wall.create(1338,538, 'wall')
+        wall.create(1338,238, 'wall')
+        wall.create(1338,38, 'wall')
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(player, wall);
+        this.cameras.main.setBounds(0, 0, 2000, 2000);
+        this.physics.world.setBounds(0, 0, 2000, 2000);
+        this.cameras.main.startFollow(player);
     }
-    update(){}
+    update(){
+        if (gameOver == true)
+        {
+            this.physics.pause();
+            backgroundsound.pause();
+            player.anims.play('jump');
+            return;
+        }
+        backgroundsound.play()
+        if (cursors.up.isDown && player.body.touching.down) {
+            jumping = 1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+        }
+        if (jumping === 1) {
+            player.anims.play("jump", true);
+            player.setVelocityX(0);
+            if (player.body.touching.down) {
+                jumping = 0;
+                player.setVelocityX(0);
+                player.anims.play('turn');
+            }
+        }
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
+        }
+        else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        } 
+        else {
+            player.setVelocityX(0);
+            player.anims.play('turn');
+        }
+    }
 }
 var config = {
     type: Phaser.AUTO,
