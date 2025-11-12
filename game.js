@@ -730,11 +730,17 @@ class Level3 extends Phaser.Scene {
         weapon.body.allowGravity = false;
         weapon.body.immovable = true;
     });
+    this.physics.add.collider(knife, wall, (weapon) => {
+        weapon.setVelocity(0, 0);
+        weapon.body.allowGravity = false;
+        weapon.body.immovable = true;
+    });
     this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
     enemy.disableBody(true, true);
     weapon.destroy(); 
     });
-this.physics.add.collider(knife, bottom_of_game);
+        this.physics.add.collider(knife, bottom_of_game);
+        this.physics.add.collider(knife, wall);
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
