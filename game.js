@@ -394,6 +394,7 @@ class Level2 extends Phaser.Scene {
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
     this.load.image('ovi','assets/textures/ovi.png')
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
+    this.load.image('spike','assets/textures/spikes.png');
     }
     
     create (){
@@ -595,6 +596,13 @@ class Level2 extends Phaser.Scene {
 
     this.enemy.play('walkRightEnemy');
 
+    // piikkien luonti
+    this.spikes = this.physics.add.staticGroup();
+    this.spikes.create(720, 867, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(1025, 867, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(425, 867, 'spike').setScale(0.8).refreshBody();
+    this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
+
     }
 
     update (){
@@ -696,6 +704,9 @@ if (!e || !e.body || !e.active) {
         e.setVelocityX(-50);
         e.play('walkLeftEnemy', true);
     }
+
+    
+
 }
 
 
@@ -1232,4 +1243,18 @@ function hitByEnemy(player, enemy) {
 }
 function trampolinePlayer(player, trampoline) {
     player.setVelocityY(-600);
+}
+
+function hitBySpike(player, spike) {
+    if (gameOver) return; // estää tuplakutsun
+    gameOver = true;
+    player.setTint(0xff0000);
+    player.anims.play('turn');
+    player.scene.add.text(540, 450, 'GAME OVER', {
+        fontSize: '64px',
+        fill: '#ff0000'
+    }).setOrigin(0.5);
+
+    player.scene.physics.pause();
+    backgroundsound.pause();
 }
