@@ -476,7 +476,7 @@ class Level2 extends Phaser.Scene {
     this.enemy.setData('isHit', false);
     this.enemy.direction = 1;
 
-     this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
     this.physics.add.collider(player, knife);
     this.physics.add.collider(knife, platforms, (weapon) => {
@@ -665,6 +665,7 @@ class Level3 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level3' });}
     preload (){
+    this.load.image('dagger', 'assets/textures/tikari.png');
     this.load.image('cannon_up', 'assets/textures/cannon_up.png')
     this.load.image('dungeon', 'assets/textures/dungeon.png');
     this.load.image('trampoline', 'assets/textures/Trampoline.png')
@@ -673,6 +674,14 @@ class Level3 extends Phaser.Scene {
     }
     
     create (){
+    //pakotetaan levelin vaihto level4
+    document.addEventListener('keydown', (event)=> {
+		if (event.key === "ä") {
+            nextlevelsound.play()
+            this.scene.start('Level4');
+            console.log('forced level change 3');
+		}
+	}); 
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
         platforms = this.physics.add.staticGroup();
@@ -845,6 +854,15 @@ this.physics.add.collider(knife, bottom_of_game);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
     }
 }
+class Level4 extends Phaser.Scene {
+    preload() {
+
+    }
+    create() {
+
+    }
+    update(){}
+}
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -856,7 +874,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Level1,Level2,Level3]
+    scene: [Level1,Level2,Level3,Level4]
 };
 var cannon_up;
 var cannon_up_bullets;
