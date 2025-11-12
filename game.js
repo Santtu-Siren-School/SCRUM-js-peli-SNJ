@@ -867,6 +867,30 @@ class Level4 extends Phaser.Scene {
         this.load.image('sky', 'assets/textures/sky.jpg');
     }
     create() {
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "1") {
+            player.setVelocityY(-300);
+            console.log('changed players velocity (up,300)');
+		}
+	    });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "2") {
+            player.setVelocityY(300);
+            console.log('changed players velocity (down,300)');
+		}
+	    });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            player.setVelocityX(1000);
+            console.log('changed players velocity (right,1000)');
+		}
+	    });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            player.setVelocityX(-1000);
+            console.log('changed players velocity (left,1000)');
+		}
+	    });
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
         trampoline=this.physics.add.staticGroup();
