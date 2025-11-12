@@ -10,6 +10,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
     this.load.image('dagger', 'assets/textures/tikari.png');
     this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('cannon_back', 'assets/textures/cannon_back.png')
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
     this.load.image('ovi','assets/textures/ovi.png')
     this.load.image('dungeon','assets/textures/dungeon.png')
@@ -190,23 +191,39 @@ return;
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-    cannon = this.physics.add.image(50, 830, 'cannon');
-    cannon.setImmovable(true);
-    cannon.body.allowGravity = false;
+cannon = this.physics.add.image(50, 830, 'cannon');
+cannon.setImmovable(true);
+cannon.body.allowGravity = false;
 
-    bullets = this.physics.add.group({
-        defaultKey: 'bullet',
-        maxSize: 10000000000
-    });
+bullets = this.physics.add.group({
+    defaultKey: 'bullet',
+    maxSize: 10000000000
+});
 
-    this.time.addEvent({
-        delay: 5000,
-        callback: () => shootBullet(cannon, bullets),
-        loop: true
-    });
+this.time.addEvent({
+    delay: 5000,
+    callback: () => shootBullet(cannon, bullets),
+    loop: true
+});
 
+cannon_back = this.physics.add.image(1700, 550, 'cannon_back');
+cannon_back.setImmovable(true);
+cannon_back.body.allowGravity = false;
 
-    this.physics.add.collider(player, bullets, hitPlayer, null, this);
+cannon_back_bullets = this.physics.add.group({
+    defaultKey: 'bullet',
+    maxSize: 10000000000
+});
+
+this.time.addEvent({
+    delay: 5000,
+    callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
+    loop: true
+});
+
+// törmäykset luoteihin
+this.physics.add.collider(player, bullets, hitPlayer, null, this);
+this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
     //vihollisen fysiikat
     this.physics.add.collider(this.enemy, platforms);
@@ -357,6 +374,13 @@ class Level2 extends Phaser.Scene {
     preload (){
     this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
     this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
+    this.load.image('platform', 'assets/textures/Platformit.png');
+    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
+    this.load.image('dagger', 'assets/textures/tikari.png');
+    this.load.image('cannon', 'assets/textures/cannon.png');
+    this.load.image('bullet', 'assets/textures/cannon_ball.png');
+    this.load.image('ovi','assets/textures/ovi.png')
+    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     }
     
     create (){
@@ -665,7 +689,6 @@ class Level3 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level3' });}
     preload (){
-    this.load.image('dagger', 'assets/textures/tikari.png');
     this.load.image('cannon_up', 'assets/textures/cannon_up.png')
     this.load.image('dungeon', 'assets/textures/dungeon.png');
     this.load.image('trampoline', 'assets/textures/Trampoline.png')
@@ -883,6 +906,8 @@ var config = {
 };
 var cannon_up;
 var cannon_up_bullets;
+var cannon_back;
+var cannon_back_bullets;
 var wall;
 var trampoline;
 var ovi;
@@ -918,6 +943,15 @@ function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
         cannon_up_bullets.enableBody(true, c.x, c.y-40, true, true);
         cannon_up_bullets.setVelocityY(-400);
         cannon_up_bullets.body.allowGravity = false;
+    }
+}
+function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) {
+    const c = cannon_backInstance;
+    const cannon_back_bullets = cannon_back_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
+    if (cannon_back_bullets) {
+        cannon_back_bullets.enableBody(true, c.x, c.y-40, true, true);
+        cannon_back_bullets.setVelocityX(-400);
+        cannon_back_bullets.body.allowGravity = false;
     }
 }
 
