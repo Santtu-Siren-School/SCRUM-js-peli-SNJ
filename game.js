@@ -859,13 +859,35 @@ class Level3 extends Phaser.Scene {
     }
 }
 class Level4 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Level4' });}
     preload() {
-
+        this.load.image('wind', 'assets/textures/Wind.png');
+        this.load.image('spiralstaircase', 'assets/textures/spiralstaircase');
     }
     create() {
+        platforms = this.physics.add.staticGroup();
+        bottom_of_game = this.physics.add.staticGroup();
+        trampoline=this.physics.add.staticGroup();
+        wall=this.physics.add.staticGroup();
+        cursors = this.input.keyboard.createCursorKeys();
+        this.add.image(1000,400, 'dungeon').setScale(3.5);
+        player = this.physics.add.sprite(100, 750, 'main_character');
+        player.setCollideWorldBounds(true);
+        bottom_of_game.create(100,900, 'bottom_of_game')
+        bottom_of_game.create(300,900, 'bottom_of_game')
+        bottom_of_game.create(500,900, 'bottom_of_game')
+        bottom_of_game.create(700,900, 'bottom_of_game')
+        bottom_of_game.create(900,900, 'bottom_of_game')
+        bottom_of_game.create(1100,900, 'bottom_of_game')
+        bottom_of_game.create(1300,900, 'bottom_of_game')
+        bottom_of_game.create(1500,900, 'bottom_of_game')
+        bottom_of_game.create(1700,900, 'bottom_of_game')
+        bottom_of_game.create(1900,900, 'bottom_of_game')
+    }
+    update(){
 
     }
-    update(){}
 }
 var config = {
     type: Phaser.AUTO,
