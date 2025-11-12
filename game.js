@@ -869,26 +869,26 @@ class Level4 extends Phaser.Scene {
     create() {
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "1") {
-            player.setVelocityY(-300);
-            console.log('changed players velocity (up,300)');
+            player.setVelocityY(-600);
+            console.log('changed players velocity (up,600)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "2") {
-            player.setVelocityY(300);
+            player.setVelocityY(600);
             console.log('changed players velocity (down,300)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "3") {
-            player.setVelocityX(1000);
-            console.log('changed players velocity (right,1000)');
+            player.setVelocityX(2000);
+            console.log('changed players velocity (right,2000)');
 		}
 	    });
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "4") {
-            player.setVelocityX(-1000);
-            console.log('changed players velocity (left,1000)');
+            player.setVelocityX(-2000);
+            console.log('changed players velocity (left,2000)');
 		}
 	    });
         platforms = this.physics.add.staticGroup();
@@ -911,6 +911,21 @@ class Level4 extends Phaser.Scene {
         bottom_of_game.create(1500,2000, 'bottom_of_game')
         bottom_of_game.create(1700,2000, 'bottom_of_game')
         bottom_of_game.create(1900,2000, 'bottom_of_game')
+        //
+        bottom_of_game.create(100,1300, 'bottom_of_game')
+        bottom_of_game.create(300,1300, 'bottom_of_game')
+        bottom_of_game.create(500,1300, 'bottom_of_game')
+        bottom_of_game.create(700,1300, 'bottom_of_game')
+        bottom_of_game.create(900,1300, 'bottom_of_game')
+        bottom_of_game.create(1100,1300, 'bottom_of_game')
+        bottom_of_game.create(1200,1300, 'bottom_of_game')
+        //
+        wall.create(1338,1438, 'wall')
+        wall.create(1338,1138, 'wall')
+        wall.create(1338,838, 'wall')
+        wall.create(1338,538, 'wall')
+        wall.create(1338,238, 'wall')
+        wall.create(1338,38, 'wall')
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
