@@ -31,7 +31,7 @@ class Level1 extends Phaser.Scene {
     document.addEventListener('keydown', (event)=> {
 		if (event.key === "3") {
             nextlevelsound.play()
-            this.scene.start('Level2');
+            this.scene.start('Level3');
             console.log('forced level change3');
 		}
 	});
