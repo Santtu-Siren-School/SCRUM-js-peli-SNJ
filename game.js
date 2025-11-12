@@ -1043,7 +1043,7 @@ class Level4 extends Phaser.Scene {
         platforms.create(1800, 920, 'platform').setScale(2).refreshBody();
         platforms.create(1530, 800, 'platform').setScale(2).refreshBody();
         //
-        wind.create(1530,730, 'wind').setScale(0.4).refreshBody();
+        wind.create(1530,710, 'wind').setScale(0.4).refreshBody();
         //
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
@@ -1103,6 +1103,7 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
     }
     update(){
+        this.physics.add.overlap(player, wind, windPlayer, null, this);
         if (gameOver == true)
         {
             this.physics.pause();
