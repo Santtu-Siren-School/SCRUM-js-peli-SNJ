@@ -60,7 +60,6 @@ class Level1 extends Phaser.Scene {
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
     platforms.create(80, 700, 'platform').setScale(2).refreshBody();
 	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
-	platforms.create(430, 620, 'platform').setScale(1).refreshBody();
 	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
     platforms.create(780, 480, 'platform').setScale(3).refreshBody();
     platforms.create(990, 320, 'platform').setScale(3).refreshBody();
@@ -71,6 +70,7 @@ class Level1 extends Phaser.Scene {
     //level1 platformien luonti loppuu
     //level1 bottom_of_game luonti
     bottom_of_game.create(100,900, 'bottom_of_game')
+    bottom_of_game.create(430,626, 'bottom_of_game').setScale(0.45).refreshBody();
     //level1 bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
