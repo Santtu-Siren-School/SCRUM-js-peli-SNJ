@@ -689,27 +689,38 @@ this.time.addEvent({
 if (!e || !e.body || !e.active) {
     // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
 } else {
-    // Reunantunnistus (probe)
-    const checkDistanceX = e.direction * (e.width / 2 + 5);
-    const probeX = e.x + checkDistanceX;
-    const probeY = e.y + e.height / 2 + 1;
+    // Reunantunnistus
+    const probeX = e.x + e.direction * (e.width / 2 + 6);
+    const probeY = e.body.bottom + 2;
+    //const probeY = e.y + e.height / 2 + 2;
 
     // Onko maata suoraan edessä?
     let groundAhead = false;
-    platforms.getChildren().forEach(p => {
-        const left = p.x - p.displayWidth / 2;
-        const right = p.x + p.displayWidth / 2;
-        const top = p.y - p.displayHeight / 2;
 
-        if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
+    platforms.getChildren().forEach(p => {
+        const bounds = p.getBounds();
+        // Yksinkertaistettu ja anteeksiantavampi tarkistus
+        if (
+            probeX >= bounds.left - 5 &&
+            probeX <= bounds.right + 5 &&
+            probeY >= bounds.top - 10 &&
+            probeY <= bounds.top + 25
+        ) {
             groundAhead = true;
         }
     });
 
-    if (!groundAhead && e.body.blocked.down) {
-        e.direction *= -1;
-        e.setVelocityX(50 * e.direction);
-        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+
+    // vihollinen ei voi kääntyä jatkuvasti vaan siinä on pakollinen viive
+
+    if (!this.enemy.lastTurnTime) this.enemy.lastTurnTime = 0;
+    if (this.time.now - this.enemy.lastTurnTime > 500) {
+        if (!groundAhead && e.body.blocked.down) {
+            e.direction *= -1;
+            e.setVelocityX(50 * e.direction);
+            e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+            this.enemy.lastTurnTime = this.time.now;
+        }
     }
 
     if (e.body.blocked.left) {
