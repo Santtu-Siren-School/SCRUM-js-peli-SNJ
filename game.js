@@ -45,7 +45,7 @@ class Level1 extends Phaser.Scene {
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
-    this.add.image(500,400, 'background').setScale(6);
+    this.add.image(910,400, 'background').setScale(1.5);
     //lisää player hahmoon spire sheetin
     player = this.physics.add.sprite(100, 750, 'main_character');
     //asetaa pelaajan collisoinin mailman seinien kanssa
@@ -183,7 +183,7 @@ bullets = this.physics.add.group({
         },
         loop: true
     });
-cannon_back = this.physics.add.image(1700, 550, 'cannon_back');
+cannon_back = this.physics.add.image(2000, 550, 'cannon_back');
 cannon_back.setImmovable(true);
 cannon_back.body.allowGravity = false;
 
