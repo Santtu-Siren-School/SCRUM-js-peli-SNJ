@@ -1120,7 +1120,6 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
     }
     update(){
-        this.physics.add.overlap(player, wind, windPlayer, null, this);
         if (gameOver == true)
         {
             this.physics.pause();
@@ -1160,7 +1159,11 @@ class Level4 extends Phaser.Scene {
         }  
         else {
             if (player.windActive) {
-            player.setVelocityX(200)
+                const windAcceleration = 10;
+                const maxWindSpeed = 200;
+                if (player.body.velocity.x < maxWindSpeed) {
+                    player.setVelocityX(player.body.velocity.x + windAcceleration);
+                }
             }
             else {
             player.setVelocityX(0)
