@@ -64,7 +64,7 @@ class Level1 extends Phaser.Scene {
 	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
     platforms.create(780, 480, 'platform').setScale(3).refreshBody();
     platforms.create(990, 320, 'platform').setScale(3).refreshBody();
-    platforms.create(1250, 230, 'platform').setScale(3).refreshBody();
+    platforms.create(1240, 230, 'platform').setScale(3).refreshBody();
     platforms.create(1060, 870, 'platform').setScale(3).refreshBody();
     platforms.create(1350, 870, 'platform').setScale(4).refreshBody();
     platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
@@ -487,7 +487,7 @@ class Level2 extends Phaser.Scene {
     // tykkien luonti
     this.cannons = [
     this.physics.add.image(50, 700, 'cannon'),
-    this.physics.add.image(228, 350, 'cannon')
+    this.physics.add.image(228, 380, 'cannon')
     ];
 
     this.cannons.forEach(c => {
