@@ -87,10 +87,6 @@ this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
 
 // Käytä Phaserin dataa (stabiilimpi kuin plain property)
-this.enemy.setData('hp', 3);
-this.enemy.setData('isHit', false);
-console.log('ENEMY CREATED, hp=', this.enemy.getData('hp'));
-
 // Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
 {
   const originalDisable = this.enemy.disableBody?.bind(this.enemy);
@@ -108,61 +104,18 @@ console.log('ENEMY CREATED, hp=', this.enemy.getData('hp'));
 this.physics.add.collider(player, platforms);
 this.physics.add.collider(player, bottom_of_game);
 this.physics.add.collider(player, knife);
-
-// jos puukko osuu alustaan -> pysäytä puukko
-this.physics.add.collider(knife, platforms, (weapon) => {
-  if (!weapon) return;
-  weapon.setVelocity(0, 0);
-  weapon.body.allowGravity = false;
-  weapon.body.immovable = true;
+    this.physics.add.collider(knife, platforms, (weapon) => {
+    weapon.setVelocity(0, 0);   
+    weapon.body.allowGravity = false; 
+    weapon.body.immovable = true;     
+});
+  this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy.disableBody(true, true);
+    weapon.destroy(); 
 });
 
-// turvallinen osuman käsittely knife -> enemy
-this.physics.add.collider(knife, this.enemy, (weapon, en) => {
-  applyDamage(this, en, weapon, 1, 180);
-  function applyDamage(scene, enemy, weapon, amount = 1, invulnMs = 180) {
-  if (!enemy || !enemy.active) return;
-  // Varmista että hp on numero
-  let curHp = enemy.getData && enemy.getData('hp');
-  if (typeof curHp !== 'number' || Number.isNaN(curHp)) {
-    console.warn('[applyDamage] enemy hp invalid, resetting to 3');
-    if (enemy.setData) enemy.setData('hp', 3);
-    curHp = 3;
-  }
+// jos puukko osuu alustaan -> pysäytä puukko
 
-  // Jos juuri osuttu -> ohitetaan
-  if (enemy.getData && enemy.getData('isHit')) {
-    // Poistetaan puukko varmuudeksi
-    if (weapon && weapon.disableBody) weapon.disableBody(true, true);
-    else if (weapon && weapon.destroy) weapon.destroy();
-    return;
-  }
-
-  // Merkitse isku ja poista puukko heti
-  if (enemy.setData) enemy.setData('isHit', true);
-  if (weapon && weapon.disableBody) weapon.disableBody(true, true);
-  else if (weapon && weapon.destroy) weapon.destroy();
-
-  // Vähennä hp
-  curHp -= amount;
-  if (enemy.setData) enemy.setData('hp', curHp);
-  console.log('[applyDamage] enemy hp now', curHp);
-
-  // Visuaalinen palaute
-  if (enemy.setTint) enemy.setTint(0xff0000);
-  scene.time.delayedCall(invulnMs, () => {
-    if (enemy.clearTint) enemy.clearTint();
-    if (enemy.setData) enemy.setData('isHit', false);
-  }, null, scene);
-
-  // Kuolema
-  if (curHp <= 0) {
-    console.log('[applyDamage] enemy died');
-    if (enemy.disableBody) enemy.disableBody(true, true);
-    else if (enemy.destroy) enemy.destroy();
-  }
-}
-}, null, this);
     this.enemy.body.setGravityY(300); // lisää painovoima
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
     this.enemy.setVelocityX(50); // alku nopeus
@@ -240,6 +193,7 @@ this.time.addEvent({
 // törmäykset luoteihin
 this.physics.add.collider(player, bullets, hitPlayer, null, this);
 this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
+
 
     //vihollisen fysiikat
     this.physics.add.collider(this.enemy, platforms);
