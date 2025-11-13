@@ -85,6 +85,7 @@ this.enemy = this.physics.add.sprite(
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
+this.enemy.lives = 3;
 
 // Käytä Phaserin dataa (stabiilimpi kuin plain property)
 // Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
@@ -109,11 +110,19 @@ this.physics.add.collider(player, knife);
     weapon.body.allowGravity = false; 
     weapon.body.immovable = true;     
 });
-  this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
-    enemy.disableBody(true, true);
-    weapon.destroy(); 
-});
+this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy.lives -= 1; // Vähennetään vihollisen elämää
+    weapon.destroy();  // Poistetaan veitsi
 
+    if (enemy.lives <= 0) {
+        // Vihollinen kuolee
+        enemy.setTint(0xff0000); // Näyttää vihollisen punaisena hetken
+        setTimeout(() => {
+            enemy.setTint(0xffffff); // Palautetaan väri takaisin normaaliksi
+            enemy.destroy(); // Poistetaan vihollinen
+        }, 500); // Vihollinen on punainen 0.5 sekuntia ennen kuin se poistetaan
+    }
+});
 // jos puukko osuu alustaan -> pysäytä puukko
 
     this.enemy.body.setGravityY(300); // lisää painovoima
