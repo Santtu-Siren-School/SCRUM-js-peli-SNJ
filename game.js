@@ -60,6 +60,7 @@ class Level1 extends Phaser.Scene {
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
     platforms.create(80, 700, 'platform').setScale(2).refreshBody();
 	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
+	platforms.create(430, 620, 'platform').setScale(1).refreshBody();
 	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
     platforms.create(780, 480, 'platform').setScale(3).refreshBody();
     platforms.create(990, 320, 'platform').setScale(3).refreshBody();
@@ -77,7 +78,7 @@ class Level1 extends Phaser.Scene {
     // --VIHOLLISEN LUONTI--
 const rightPlatform = platforms.getChildren().at(2);
 this.enemy = this.physics.add.sprite(
-  rightPlatform.x - 20,
+  rightPlatform.x - 10,
   rightPlatform.y - 100,
   'enemy'
 );
