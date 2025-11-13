@@ -39,7 +39,7 @@ class Level1 extends Phaser.Scene {
 		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
-            console.log('forced level change3');
+            console.log('forced level change4');
 		}
 	});
     //määritelään cursors phaserin avulla
@@ -966,6 +966,9 @@ class Level4 extends Phaser.Scene {
         this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
         this.load.image('sky', 'assets/textures/sky.jpg');
         this.load.image('trampoline', 'assets/textures/Trampoline.png')
+        this.load.image('dagger', 'assets/textures/tikari.png');
+        this.load.image('cannon', 'assets/textures/cannon.png');
+        this.load.image('cannon_up', 'assets/textures/cannon_up.png')
     }
     create() {
         document.addEventListener('keydown', (event)=> {
@@ -1013,6 +1016,8 @@ class Level4 extends Phaser.Scene {
             console.log('changed players velocity (left,2000)');
 		}
 	    });
+        this.lastThrowTime = 0; 
+        this.throwCooldown = 1000; 
         wind=this.physics.add.staticGroup();
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
@@ -1020,6 +1025,8 @@ class Level4 extends Phaser.Scene {
         low_power_trampoline=this.physics.add.staticGroup();
         wall=this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
+        knife = this.physics.add.group();
+        shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.add.image(0,0,'sky').setScale(10);
         this.add.image(100,1700, 'castle_hallway').setScale(2);
         this.add.image(1700,1700,'spiralsaircase').setScale(3);
@@ -1084,6 +1091,23 @@ class Level4 extends Phaser.Scene {
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
         this.physics.add.overlap(player, wind, windPlayer, null, this);
+           this.physics.add.collider(player, knife);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+        weapon.setVelocity(0, 0);
+        weapon.body.allowGravity = false;
+        weapon.body.immovable = true;
+    });
+    this.physics.add.collider(knife, wall, (weapon) => {
+        weapon.setVelocity(0, 0);
+        weapon.body.allowGravity = false;
+        weapon.body.immovable = true;
+    });
+    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy.disableBody(true, true);
+    weapon.destroy(); 
+    });
+        this.physics.add.collider(knife, bottom_of_game);
+        this.physics.add.collider(knife, wall);
         //tykin luonti
         this.cannons = [
             this.physics.add.image(20, 1350, 'cannon'),
@@ -1174,7 +1198,29 @@ class Level4 extends Phaser.Scene {
             player.setVelocityX(0);
             player.anims.play('turn');
         }
+         if (Phaser.Input.Keyboard.JustDown(shoot)) {
+        const now = this.time.now;
+    //knifing heittoa
+    if (now - this.lastThrowTime > this.throwCooldown) {
+        this.lastThrowTime = now; 
+            let offset = -30;
+            let spawnX = player.x + (facingRight ? offset : -offset);
+            let weapon = knife.create(spawnX, player.y, 'dagger');
+            weapon.setScale(0.1);
+            weapon.setVelocityX(300); 
+            weapon.setGravityY(-200);
+             if (facingRight) {
+        weapon.setVelocityX(300);
+    } else {
+        weapon.setVelocityX(-300);
+        weapon.flipX = true; 
     }
+         setTimeout(() => { weapon.destroy(); }, 3000);
+        }
+        
+    }
+    
+}
 }
 var config = {
     type: Phaser.AUTO,
