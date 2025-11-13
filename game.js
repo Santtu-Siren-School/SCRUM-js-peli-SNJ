@@ -1134,6 +1134,7 @@ class Level4 extends Phaser.Scene {
             player.setVelocityY(-300);
             player.anims.play("jump");
         }
+
         if (jumping === 1) {
             player.anims.play("jump", true);
             player.setVelocityX(0);
@@ -1156,11 +1157,17 @@ class Level4 extends Phaser.Scene {
         else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        } 
+        }  
         else {
-            player.setVelocityX(0);
+            if (player.windActive) {
+            player.setVelocityX(200)
+            }
+            else {
+            player.setVelocityX(0)
             player.anims.play('turn');
+            }
         }
+
          if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
     //knifing heittoa
@@ -1320,5 +1327,6 @@ function hitBySpike(player, spike) {
 }
 function windPlayer(player, wind) {
     //console.log("player has activated wind at",wind);
-    player.setVelocityX(100);
+    player.windActive = true;
+    setTimeout(() => { player.windActive = false; }, 10);
 }
