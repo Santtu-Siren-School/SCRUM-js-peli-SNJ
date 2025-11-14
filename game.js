@@ -82,6 +82,7 @@ this.enemy = this.physics.add.sprite(
   rightPlatform.y - 100,
   'enemy'
 );
+//vihollisen koko ja elämäpisteet
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
@@ -161,6 +162,8 @@ this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    //luodaan tykit ja tehdään niin että se ei tipu vaan pysyy paikallaan
+    
 
  this.cannons = [
     this.physics.add.image(50, 830, 'cannon'),
@@ -176,6 +179,7 @@ bullets = this.physics.add.group({
     maxSize: 10000000000
 });
 
+    //tykin ampumis aika
    this.time.addEvent({
         delay: 3000,
         callback: () => {
@@ -183,6 +187,8 @@ bullets = this.physics.add.group({
         },
         loop: true
     });
+
+// tykki joka ampuu toiseen suuntaan
 cannon_back = this.physics.add.image(2000, 550, 'cannon_back');
 cannon_back.setImmovable(true);
 cannon_back.body.allowGravity = false;
@@ -303,6 +309,9 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
                 b.disableBody(true, true); 
             }
         });
+
+
+//vihollisen kääntymis ominaisuus että pysyy platformin päällä
 const e = this.enemy;
 if (!e || !e.body || !e.active) {
     // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
