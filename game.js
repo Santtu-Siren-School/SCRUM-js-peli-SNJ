@@ -758,6 +758,7 @@ class Level3 extends Phaser.Scene {
 	}); 
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
+        solid_snake_door=this.physics.add.staticGroup(); 
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
         trampoline=this.physics.add.staticGroup();
@@ -805,6 +806,8 @@ this.enemy = this.physics.add.sprite(
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
+        //invisible,invisible
+        solid_snake_door.create(1600,220).setScale(0.001).refreshBody();
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
@@ -834,6 +837,7 @@ this.enemy.body.setOffset(0, 0);
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
+        this.physics.add.overlap(player, solid_snake_door, level1trhow, null, this);
         //tykin luonti
         this.cannons = [
             this.physics.add.image(620, 420, 'cannon'),
@@ -1072,7 +1076,7 @@ class Level4 extends Phaser.Scene {
 		}
 	    });
         this.lastThrowTime = 0; 
-        this.throwCooldown = 1000; 
+        this.throwCooldown = 1000;
         wind=this.physics.add.staticGroup();
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
@@ -1118,11 +1122,12 @@ class Level4 extends Phaser.Scene {
         wall.create(0,1700,'wall')
         wall.create(0,1490,'wall')
         wall.create(440,1700,'wall')
-        //wall.create(440,2000,'wall')
+        wall.create(440,2000,'wall')
         //
         trampoline.create(300,1950, 'trampoline').setScale(0.5).refreshBody();
         //
         low_power_trampoline.create(1530,1250, 'trampoline').setScale(0.5).refreshBody();
+        low_power_trampoline.create(1530,420, 'trampoline').setScale(0.5).refreshBody();
         //
         platforms.create(500, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(800, 1500, 'platform').setScale(2).refreshBody();
@@ -1134,8 +1139,19 @@ class Level4 extends Phaser.Scene {
         platforms.create(1530, 1300, 'platform').setScale(2).refreshBody();
         platforms.create(1800, 920, 'platform').setScale(2).refreshBody();
         platforms.create(1530, 800, 'platform').setScale(2).refreshBody();
+        platforms.create(1800,650,'platform').setScale(2).refreshBody();
+        platforms.create(1530,500,'platform').setScale(2).refreshBody();
+        platforms.create(1800,200,'platform').setScale(2).refreshBody();
         //
         wind.create(1530,710, 'wind').setScale(0.4).refreshBody();
+        wind.create(1530,670, 'wind').setScale(0.4).refreshBody();
+        wind.create(1530,630, 'wind').setScale(0.4).refreshBody();
+        wind.create(1530,1520, 'wind').setScale(0.4).refreshBody();
+        wind.create(1800,1370, 'wind').setScale(0.4).refreshBody();
+        //
+        ovi=this.physics.add.staticGroup();
+        //oven luonti
+        ovi.create(1800,90,'ovi').setScale(0.3).refreshBody();
         //
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
@@ -1146,7 +1162,7 @@ class Level4 extends Phaser.Scene {
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
         this.physics.add.overlap(player, wind, windPlayer, null, this);
-           this.physics.add.collider(player, knife);
+        this.physics.add.collider(player, knife);
     this.physics.add.collider(knife, platforms, (weapon) => {
         weapon.setVelocity(0, 0);
         weapon.body.allowGravity = false;
@@ -1191,6 +1207,8 @@ class Level4 extends Phaser.Scene {
             this.physics.add.image(600, 1950, 'cannon_up'),
             this.physics.add.image(640, 1950, 'cannon_up'),
             this.physics.add.image(680, 1950, 'cannon_up'),
+            this.physics.add.image(1700, 1950, 'cannon_up'),
+            this.physics.add.image(1950, 1950, 'cannon_up'),
         ];
 
         this.cannons_up.forEach(c => {
@@ -1300,6 +1318,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4]
 };
+var solid_snake_door;
 var wind;
 var cannon_up;
 var cannon_up_bullets;
@@ -1360,21 +1379,7 @@ function hitPlayer(player, bullet) {
         if (bullet && bullet.disableBody) bullet.disableBody(true, true);
         return;
     }
-
-    bullet.disableBody(true, true); // poistaa kuulan kentältä
-    gameOver = true; // asettaa pelin loppuun
-    player.setTint(0xff0000); // tekee pelaajasta punaisen, visuaalinen efekti
-    player.anims.play('turn'); // pysäyttää animaation
-
-    player.scene.add.text(player.x, player.y, 'GAME OVER', {
-        fontSize: '64px',
-        fill: '#ff0000'
-    }).setOrigin(0.5);
-
-
-    player.scene.physics.pause();
-
-    backgroundsound.pause();
+    this.scene.start(this.scene.key)
 }
 
 function level2Transition() {
@@ -1390,16 +1395,7 @@ function level4Transition() {
     this.scene.start('Level4')
 }
 function hitByEnemy(player, enemy) {
-  gameOver = true;
-  player.setTint(0xff0000);
-  player.anims.play('turn');
-  player.scene.add.text(540, 450, 'GAME OVER', {
-    fontSize: '64px',
-    fill: '#ff0000'
-  }).setOrigin(0.5);
-
-  player.scene.physics.pause();
-  backgroundsound.pause();
+    this.scene.start(this.scene.key)
 }
 function trampolinePlayer(player, trampoline) {
     player.setVelocityY(-600);
@@ -1408,20 +1404,13 @@ function low_power_trampolinePlayer(player, low_power_trampoline) {
     player.setVelocityY(-450);
 }
 function hitBySpike(player, spike) {
-    if (gameOver) return; // estää tuplakutsun
-    gameOver = true;
-    player.setTint(0xff0000);
-    player.anims.play('turn');
-    player.scene.add.text(540, 450, 'GAME OVER', {
-        fontSize: '64px',
-        fill: '#ff0000'
-    }).setOrigin(0.5);
-
-    player.scene.physics.pause();
-    backgroundsound.pause();
+    this.scene.start(this.scene.key)
 }
 function windPlayer(player, wind) {
     //console.log("player has activated wind at",wind);
     player.windActive = true;
     setTimeout(() => { player.windActive = false; }, 10);
+}
+function level1trhow(player, solid_snake_door) {
+    this.scene.start('Level1')
 }
