@@ -289,7 +289,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
-    //knifing heittoa
+    //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
