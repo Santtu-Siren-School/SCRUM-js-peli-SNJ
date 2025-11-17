@@ -944,6 +944,7 @@ class Level4 extends Phaser.Scene {
         this.load.image('dagger', 'assets/textures/tikari.png');
         this.load.image('cannon', 'assets/textures/cannon.png');
         this.load.image('cannon_up', 'assets/textures/cannon_up.png')
+        this.load.image('wall','assets/textures/wall.png')
     }
     create() {
         document.addEventListener('keydown', (event)=> {
