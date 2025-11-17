@@ -24,6 +24,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('wind', 'assets/textures/Wind.png');
     this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
     this.load.image('sky', 'assets/textures/sky.jpg');
+    this.load.image('solid_snake', 'assets/textures/solid-snake.jpg');
     }
     create (){
     //knifin cooldownin laatiminen
@@ -1313,6 +1314,7 @@ var gameOver;
 var jumping = 0;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
+const invisible=new Audio('assets/sound/invisible.mp3');
 var player;
 var weapon;
 var knife;
@@ -1389,5 +1391,8 @@ function windPlayer(player, wind) {
     setTimeout(() => { player.windActive = false; }, 10);
 }
 function level1trhow(player, solid_snake_door) {
-    this.scene.start('Level1')
+    this.add.image(1400,400,'solid_snake').setScale(1);
+    invisible.play();
+    setTimeout(() => { image.destroy(true,true); }, 8000);
+    setTimeout(() => { this.scene.start('Level1') }, 8000);
 }
