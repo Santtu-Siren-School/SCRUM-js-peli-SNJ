@@ -202,7 +202,7 @@ cannon_back_bullets = this.physics.add.group({
 });
 
 this.time.addEvent({
-    delay: 3000,
+    delay: 5000,
     callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
     loop: true
 });
@@ -289,7 +289,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
-    //knife heittoa
+    //knifing heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
@@ -308,7 +308,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     }
         bullets.children.each(b => {
-            if (b.active && b.x > 2180) {
+            if (b.active && b.x > 1580) {
                 b.disableBody(true, true); 
             }
         });
@@ -789,6 +789,15 @@ class Level3 extends Phaser.Scene {
         ovi=this.physics.add.staticGroup();
         //oven luonti
         ovi.create(1300,195,'ovi').setScale(0.3).refreshBody();
+const rightPlatform = platforms.getChildren().at(2);
+this.enemy = this.physics.add.sprite(
+  rightPlatform.x - 10,
+  rightPlatform.y - 100,
+  'enemy'
+);
+this.enemy.setScale(2);
+this.enemy.body.setSize(this.enemy.width, this.enemy.height);
+this.enemy.body.setOffset(0, 0);
         //invisible,invisible
         solid_snake_door.create(1600,220).setScale(0.001).refreshBody();
         this.physics.add.collider(player, platforms);
@@ -809,6 +818,11 @@ class Level3 extends Phaser.Scene {
     enemy.disableBody(true, true);
     weapon.destroy(); 
     });
+    
+        this.enemy.body.setGravityY(300); // lisää painovoima
+        this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
+        this.enemy.setVelocityX(50); // alku nopeus
+        this.enemy.direction = 1;
         this.physics.add.collider(knife, bottom_of_game);
         this.physics.add.collider(knife, wall);
         this.cameras.main.setBounds(0, 0, 2000, 900);
@@ -862,7 +876,31 @@ class Level3 extends Phaser.Scene {
             loop: true
         });
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
-        
+         this.physics.add.collider(this.enemy, platforms);
+    this.physics.add.collider(player, this.enemy, hitByEnemy, null, this); 
+
+    //vihollisen animaatiot
+    this.anims.create({
+    key: 'walkLeftEnemy',
+    frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
+    frameRate: 8,
+    repeat: -1
+    });
+    this.anims.create({
+        key: 'idleEnemy',
+        frames: [{ key: 'enemy', frame: 4 }],
+        frameRate: 1
+    });
+    this.anims.create({
+        key: 'walkRightEnemy',
+        frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
+        frameRate: 8,
+        repeat: -1
+    });
+
+    this.enemy.play('walkRightEnemy');
+
+   
     }
 
     update (){
@@ -925,9 +963,51 @@ class Level3 extends Phaser.Scene {
     } setTimeout(() => { weapon.destroy(); }, 3000);
         }
     }
+    
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
+        const e = this.enemy;
+if (!e || !e.body || !e.active) {
+    // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
+} else {
+    // Reunantunnistus (probe)
+const checkDistanceX = e.direction * (e.body.width / 2 + 5);
+const probeX = e.x + checkDistanceX;
+const probeY = e.y + e.body.height / 2 + 1;
+    // Onko maata suoraan edessä?
+    let groundAhead = false;
+    platforms.getChildren().forEach(p => {
+        const left = p.x - p.displayWidth / 2;
+        const right = p.x + p.displayWidth / 2;
+        const top = p.y - p.displayHeight / 2;
+
+        if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
+            groundAhead = true;
+        }
+    });
+
+   if (!groundAhead && e.body.blocked.down) {
+    e.direction *= -1;
+    e.setVelocityX(50 * e.direction);
+    e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+    }
+    if (e.body.blocked.left) {
+        e.direction = 1;
+        e.setVelocityX(50);
+        e.play('walkRightEnemy', true);
+    }
+    if (e.body.blocked.right) {
+        e.direction = -1;
+        e.setVelocityX(-50);
+        e.play('walkLeftEnemy', true);
     }
 }
+
+
+    }
+
+    
+}
+
 //level 4
 class Level4 extends Phaser.Scene {
     constructor() {
@@ -940,7 +1020,6 @@ class Level4 extends Phaser.Scene {
         this.load.image('dagger', 'assets/textures/tikari.png');
         this.load.image('cannon', 'assets/textures/cannon.png');
         this.load.image('cannon_up', 'assets/textures/cannon_up.png')
-        this.load.image('wall','assets/textures/wall.png')
     }
     create() {
         document.addEventListener('keydown', (event)=> {
