@@ -202,7 +202,7 @@ cannon_back_bullets = this.physics.add.group({
 });
 
 this.time.addEvent({
-    delay: 5000,
+    delay: 3000,
     callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
     loop: true
 });
@@ -308,7 +308,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     }
         bullets.children.each(b => {
-            if (b.active && b.x > 1580) {
+            if (b.active && b.x > 2180) {
                 b.disableBody(true, true); 
             }
         });
