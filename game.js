@@ -709,16 +709,8 @@ if (!e || !e.body || !e.active) {
         e.setVelocityX(-50);
         e.play('walkLeftEnemy', true);
     }
-
-    
-
 }
-
-
-
     }
-
-    
 }
 //level3
 class Level3 extends Phaser.Scene {
