@@ -202,7 +202,7 @@ cannon_back_bullets = this.physics.add.group({
 });
 
 this.time.addEvent({
-    delay: 3000,
+    delay: 5000,
     callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
     loop: true
 });
@@ -289,7 +289,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
-    //knife heittoa
+    //knifing heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
@@ -308,7 +308,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     }
         bullets.children.each(b => {
-            if (b.active && b.x > 2180) {
+            if (b.active && b.x > 1580) {
                 b.disableBody(true, true); 
             }
         });
@@ -796,6 +796,11 @@ class Level3 extends Phaser.Scene {
         ovi=this.physics.add.staticGroup();
         //oven luonti
         ovi.create(1300,195,'ovi').setScale(0.3).refreshBody();
+        this.enemy = this.physics.add.sprite(
+  rightPlatform.x - 10,
+  rightPlatform.y - 100,
+  'enemy'
+);
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
@@ -944,7 +949,6 @@ class Level4 extends Phaser.Scene {
         this.load.image('dagger', 'assets/textures/tikari.png');
         this.load.image('cannon', 'assets/textures/cannon.png');
         this.load.image('cannon_up', 'assets/textures/cannon_up.png')
-        this.load.image('wall','assets/textures/wall.png')
     }
     create() {
         document.addEventListener('keydown', (event)=> {
