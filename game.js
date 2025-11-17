@@ -45,7 +45,7 @@ class Level1 extends Phaser.Scene {
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
-    this.add.image(500,400, 'background').setScale(6);
+    this.add.image(910,400, 'background').setScale(1.5);
     //lisää player hahmoon spire sheetin
     player = this.physics.add.sprite(100, 750, 'main_character');
     //asetaa pelaajan collisoinin mailman seinien kanssa
@@ -60,7 +60,6 @@ class Level1 extends Phaser.Scene {
     platforms.create(350, 870, 'platform').setScale(3).refreshBody();
     platforms.create(80, 700, 'platform').setScale(2).refreshBody();
 	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
-	platforms.create(430, 620, 'platform').setScale(1).refreshBody();
 	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
     platforms.create(780, 480, 'platform').setScale(3).refreshBody();
     platforms.create(990, 320, 'platform').setScale(3).refreshBody();
@@ -71,6 +70,7 @@ class Level1 extends Phaser.Scene {
     //level1 platformien luonti loppuu
     //level1 bottom_of_game luonti
     bottom_of_game.create(100,900, 'bottom_of_game')
+    bottom_of_game.create(430,626, 'bottom_of_game').setScale(0.45).refreshBody();
     //level1 bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
@@ -82,6 +82,7 @@ this.enemy = this.physics.add.sprite(
   rightPlatform.y - 100,
   'enemy'
 );
+//vihollisen koko ja elämäpisteet
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
@@ -164,6 +165,8 @@ this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    //luodaan tykit ja tehdään niin että se ei tipu vaan pysyy paikallaan
+    
 
  this.cannons = [
     this.physics.add.image(50, 830, 'cannon'),
@@ -179,6 +182,7 @@ bullets = this.physics.add.group({
     maxSize: 10000000000
 });
 
+    //tykin ampumis aika
    this.time.addEvent({
         delay: 3000,
         callback: () => {
@@ -186,7 +190,9 @@ bullets = this.physics.add.group({
         },
         loop: true
     });
-cannon_back = this.physics.add.image(1700, 550, 'cannon_back');
+
+// tykki joka ampuu toiseen suuntaan
+cannon_back = this.physics.add.image(2000, 550, 'cannon_back');
 cannon_back.setImmovable(true);
 cannon_back.body.allowGravity = false;
 
@@ -306,6 +312,9 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
                 b.disableBody(true, true); 
             }
         });
+
+
+//vihollisen kääntymis ominaisuus että pysyy platformin päällä
 const e = this.enemy;
 if (!e || !e.body || !e.active) {
     // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
@@ -1123,7 +1132,6 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
     }
     update(){
-        this.physics.add.overlap(player, wind, windPlayer, null, this);
         if (gameOver == true)
         {
             this.physics.pause();
@@ -1137,6 +1145,7 @@ class Level4 extends Phaser.Scene {
             player.setVelocityY(-300);
             player.anims.play("jump");
         }
+
         if (jumping === 1) {
             player.anims.play("jump", true);
             player.setVelocityX(0);
@@ -1159,11 +1168,21 @@ class Level4 extends Phaser.Scene {
         else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        } 
+        }  
         else {
-            player.setVelocityX(0);
+            if (player.windActive) {
+                const windAcceleration = 10;
+                const maxWindSpeed = 200;
+                if (player.body.velocity.x < maxWindSpeed) {
+                    player.setVelocityX(player.body.velocity.x + windAcceleration);
+                }
+            }
+            else {
+            player.setVelocityX(0)
             player.anims.play('turn');
+            }
         }
+
          if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
     //knifing heittoa
@@ -1323,5 +1342,6 @@ function hitBySpike(player, spike) {
 }
 function windPlayer(player, wind) {
     //console.log("player has activated wind at",wind);
-    player.setVelocityX(100);
+    player.windActive = true;
+    setTimeout(() => { player.windActive = false; }, 10);
 }
