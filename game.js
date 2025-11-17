@@ -111,6 +111,9 @@ this.physics.add.collider(player, knife);
     weapon.body.immovable = true;     
 });
 this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    if (!enemy.active) {
+        return; // Ei tehdä mitään, jos vihollinen on jo kuollut
+    }
     enemy.lives -= 1; // Vähennetään vihollisen elämää
     weapon.destroy();  // Poistetaan veitsi
 
@@ -122,7 +125,7 @@ this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
             enemy.destroy(); // Poistetaan vihollinen
         }, 500); // Vihollinen on punainen 0.5 sekuntia ennen kuin se poistetaan
     }
-});
+}, null, this);
 // jos puukko osuu alustaan -> pysäytä puukko
 
     this.enemy.body.setGravityY(300); // lisää painovoima
