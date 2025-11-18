@@ -4,6 +4,7 @@ class Level1 extends Phaser.Scene {
         super({ key: 'Level1' });
 }
     preload (){
+    //kaikki textuurien lataus tänne
     this.load.image('background', 'assets/textures/background.png');
     this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
     this.load.image('platform', 'assets/textures/Platformit.png');
@@ -12,18 +13,19 @@ class Level1 extends Phaser.Scene {
     this.load.image('cannon', 'assets/textures/cannon.png');
     this.load.image('cannon_back', 'assets/textures/cannon_back.png')
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
-    this.load.image('ovi','assets/textures/ovi.png')
-    this.load.image('dungeon','assets/textures/dungeon.png')
+    this.load.image('ovi','assets/textures/ovi.png');
+    this.load.image('dungeon','assets/textures/dungeon.png');
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
-    this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg')
-    this.load.image('cannon_up', 'assets/textures/cannon_up.png')
+    this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
+    this.load.image('cannon_up', 'assets/textures/cannon_up.png');
     this.load.image('spike','assets/textures/spikes.png');
     this.load.image('dungeon', 'assets/textures/dungeon.png');
     this.load.image('trampoline', 'assets/textures/Trampoline.png')
-    this.load.image('wall','assets/textures/wall.png')
+    this.load.image('wall','assets/textures/wall.png');
     this.load.image('wind', 'assets/textures/Wind.png');
     this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
     this.load.image('sky', 'assets/textures/sky.jpg');
+    this.load.image('top_of_tower', 'assets/textures/top_of_the_tower.png');
     }
     create (){
     //knifin cooldownin laatiminen
@@ -1158,6 +1160,7 @@ class Level4 extends Phaser.Scene {
         this.cameras.main.startFollow(player);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
+        this.physics.add.overlap(player, ovi, level5Transition, null, this);
         this.physics.add.overlap(player, wind, windPlayer, null, this);
         this.physics.add.collider(player, knife);
     this.physics.add.collider(knife, platforms, (weapon) => {
@@ -1366,6 +1369,16 @@ const probeY = e.y + e.body.height / 2 + 1;
 }   
 }
 }
+class Level5 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Level5' });}
+        create(){
+            top_of_tower = this.physics.add.staticGroup();
+            top_of_tower.create(1000,1900,'platform').setScale(2).refreshBody();
+        }
+        update(){
+        }
+    }
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -1377,8 +1390,9 @@ var config = {
             debug: false
         }
     },
-    scene: [Level1,Level2,Level3,Level4]
+    scene: [Level1,Level2,Level3,Level4,Level5]
 };
+var top_of_tower;
 var solid_snake_door;
 var wind;
 var cannon_up;
@@ -1454,6 +1468,10 @@ function level3Transition() {
 function level4Transition() {
     nextlevelsound.play()
     this.scene.start('Level4')
+}
+function level5Transition() {
+    nextlevelsound.play()
+    this.scene.start('Level5')
 }
 function hitByEnemy(player, enemy) {
     this.scene.start(this.scene.key)
