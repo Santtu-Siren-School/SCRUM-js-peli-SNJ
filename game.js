@@ -25,7 +25,10 @@ class Level1 extends Phaser.Scene {
     this.load.image('wind', 'assets/textures/Wind.png');
     this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
     this.load.image('sky', 'assets/textures/sky.jpg');
-    this.load.image('top_of_tower', 'assets/textures/top_of_the_tower.png');
+    this.load.image('tower_thingy1', 'assets/textures/tower_thingy1.png');
+    this.load.image('tower_thingy3', 'assets/textures/tower_thingy3.png');
+    this.load.image('tower_thingy2', 'assets/textures/tower_thingy2.png');
+    this.load.image('tower_thingy4', 'assets/textures/tower_thingy4.png');
     this.load.image('sky_level5', 'assets/textures/boosfight_background_sunset.png');
     }
     create (){
