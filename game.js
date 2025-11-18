@@ -28,7 +28,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('top_of_tower', 'assets/textures/top_of_the_tower.png');
     }
     create (){
-    //knifin cooldownin laatiminen
+    //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
     //Pakkotaa levelin vaihdon level2
