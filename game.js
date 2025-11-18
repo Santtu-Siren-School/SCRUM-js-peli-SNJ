@@ -26,6 +26,7 @@ class Level1 extends Phaser.Scene {
     this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
     this.load.image('sky', 'assets/textures/sky.jpg');
     this.load.image('top_of_tower', 'assets/textures/top_of_the_tower.png');
+    this.load.image('sky_level5', 'assets/textures/boosfight_background_sunset.png');
     }
     create (){
     //knife cooldownin laatiminen
@@ -33,26 +34,40 @@ class Level1 extends Phaser.Scene {
     this.throwCooldown = 1000; 
     //Pakkotaa levelin vaihdon level2
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
+		if (event.key === "5") {
             nextlevelsound.play()
-            this.scene.start('Level2');
-            console.log('forced level change2');
+            this.scene.start('Level5');
+            console.log('forced level change5');
 		}
-	});
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
-            nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change3');
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
+        });
+        document.addEventListener('keydown', (event)=> {
 		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
             console.log('forced level change4');
 		}
-	});
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
@@ -380,27 +395,40 @@ class Level2 extends Phaser.Scene {
     gameOver=false;
     //pakotetaan levelin vaihto level3
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
+		if (event.key === "5") {
             nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change 3');
+            this.scene.start('Level5');
+            console.log('forced level change5');
 		}
-	}); 
-    //pakotetaan levelin vaihto level1
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "1") {
-				nextlevelsound.play()
-                this.scene.start('Level1')
-				console.log('forced level change1')
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
+        });
+        document.addEventListener('keydown', (event)=> {
 		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
             console.log('forced level change4');
 		}
-	});
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
     //määritelään knife
@@ -730,26 +758,40 @@ class Level3 extends Phaser.Scene {
     create (){
     //pakotetaan levelin vaihto level4
     document.addEventListener('keydown', (event)=> {
+		if (event.key === "5") {
+            nextlevelsound.play()
+            this.scene.start('Level5');
+            console.log('forced level change5');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
 		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
-            console.log('forced level change 3');
+            console.log('forced level change4');
 		}
-	});
+        });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
-				nextlevelsound.play()
-                this.scene.start('Level2')
-				console.log('forced level change2')
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
 		}
-	});
+        });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "1") {
-				nextlevelsound.play()
-                this.scene.start('Level1')
-				console.log('forced level change1')
-		}
-	}); 
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
         solid_snake_door=this.physics.add.staticGroup(); 
@@ -1020,27 +1062,41 @@ class Level4 extends Phaser.Scene {
     preload() {
     }
     create() {
+document.addEventListener('keydown', (event)=> {
+		if (event.key === "5") {
+            nextlevelsound.play()
+            this.scene.start('Level5');
+            console.log('forced level change5');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            nextlevelsound.play()
+            this.scene.start('Level4');
+            console.log('forced level change4');
+		}
+        });
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "3") {
             nextlevelsound.play()
             this.scene.start('Level3');
             console.log('forced level change3');
 		}
-	});
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
-            nextlevelsound.play()
-            this.scene.start('Level2');
-            console.log('forced level change2');
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "1") {
-            nextlevelsound.play()
-            this.scene.start('Level1');
-            console.log('forced level change1');
-		}
-	});
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "i") {
             player.setVelocityY(-600);
@@ -1378,10 +1434,123 @@ class Level5 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level5' });}
         create(){
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "5") {
+            nextlevelsound.play()
+            this.scene.start('Level5');
+            console.log('forced level change5');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            nextlevelsound.play()
+            this.scene.start('Level4');
+            console.log('forced level change4');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
+            this.add.image(1000,1000, 'sky_level5').setScale(1);
+            wind=this.physics.add.staticGroup();
+            platforms = this.physics.add.staticGroup();
+            bottom_of_game = this.physics.add.staticGroup();
+            trampoline=this.physics.add.staticGroup();
+            low_power_trampoline=this.physics.add.staticGroup();
+            wall=this.physics.add.staticGroup();
+            cursors = this.input.keyboard.createCursorKeys();
             top_of_tower = this.physics.add.staticGroup();
-            top_of_tower.create(1000,1900,'platform').setScale(2).refreshBody();
+            top_of_tower.create(1000,1800,'top_of_tower').setScale(1
+                
+            ).refreshBody();
+            bottom_of_game.create(100,2000, 'bottom_of_game')
+            bottom_of_game.create(300,2000, 'bottom_of_game')
+            bottom_of_game.create(500,2000, 'bottom_of_game')
+            bottom_of_game.create(700,2000, 'bottom_of_game')
+            bottom_of_game.create(900,2000, 'bottom_of_game')
+            bottom_of_game.create(1100,2000, 'bottom_of_game')
+            bottom_of_game.create(1300,2000, 'bottom_of_game')
+            bottom_of_game.create(1500,2000, 'bottom_of_game')
+            bottom_of_game.create(1700,2000, 'bottom_of_game')
+            bottom_of_game.create(1900,2000, 'bottom_of_game')
+            player = this.physics.add.sprite(100, 150, 'main_character');
+            this.cameras.main.setBounds(0, 0, 2000, 2000);
+            this.physics.world.setBounds(0, 0, 2000, 2000);
+            this.cameras.main.startFollow(player);
+            player.setCollideWorldBounds(true);
+            this.physics.add.collider(player, platforms);
+            this.physics.add.collider(player, bottom_of_game);
+            this.physics.add.collider(player, wall);
         }
         update(){
+        if (gameOver == true)
+        {
+            this.physics.pause();
+            backgroundsound.pause();
+            player.anims.play('jump');
+            return;
+        }
+        backgroundsound.play()
+        if (cursors.up.isDown && player.body.touching.down) {
+            jumping = 1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+        }
+
+        if (jumping === 1) {
+            player.anims.play("jump", true);
+            player.setVelocityX(0);
+            if (player.body.touching.down) {
+                jumping = 0;
+                player.setVelocityX(0);
+                player.anims.play('turn');
+            }
+        }
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
+        }
+        else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        }  
+        else {
+            if (player.windActive) {
+                const windAcceleration = 10;
+                const maxWindSpeed = 200;
+                if (player.body.velocity.x < maxWindSpeed) {
+                    player.setVelocityX(player.body.velocity.x + windAcceleration);
+                }
+            }
+            else {
+            player.setVelocityX(0)
+            player.anims.play('turn');
+            }
+        }
         }
     }
 var config = {
