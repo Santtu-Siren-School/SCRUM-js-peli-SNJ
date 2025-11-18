@@ -801,6 +801,15 @@ this.enemy = this.physics.add.sprite(
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
+const leftPlatform = platforms.getChildren().at(2);
+this.enemy = this.physics.add.sprite(
+  leftPlatform.x - 10,
+  leftPlatform.y - 100,
+  'enemy'
+);
+this.enemy.setScale(2);
+this.enemy.body.setSize(this.enemy.width, this.enemy.height);
+this.enemy.body.setOffset(0, 0);
         //invisible,invisible
         solid_snake_door.create(100,220).setScale(0.001).refreshBody();
         this.physics.add.collider(player, platforms);
