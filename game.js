@@ -770,6 +770,7 @@ class Level3 extends Phaser.Scene {
         wall.create(557,755,'wall')
         wall.create(1245,100,'wall')
         wall.create(1700,840,'wall')
+        wall.create(1200,840,'wall')
         trampoline.create(300,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(650,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(1800,850, 'trampoline').setScale(0.4).refreshBody();
@@ -850,6 +851,8 @@ this.enemy.body.setOffset(0, 0);
         this.cannons_up = [
             this.physics.add.image(1450, 840, 'cannon_up'),
             this.physics.add.image(1100, 840, 'cannon_up'),
+            this.physics.add.image(1400, 840, 'cannon_up'),
+            this.physics.add.image(1500, 840, 'cannon_up'),
         ];
 
         this.cannons_up.forEach(c => {
@@ -862,7 +865,7 @@ this.enemy.body.setOffset(0, 0);
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 1000,
+            delay: 1500,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
