@@ -3,6 +3,12 @@ class Level1 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level1' });
 }
+
+    // asetan kellon muuttujan
+    init() {
+        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+    }
+
     preload (){
     this.load.image('background', 'assets/textures/background.png');
     this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
@@ -248,6 +254,29 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
     this.enemy.play('walkRightEnemy');
 
+    //kellon funktio
+    // hae aiempi aika
+    this.totalTime = this.registry.get('totalTime') || 0;
+
+    //luo tekstin
+    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        fontSize: '24px',
+        fill: '#fff'
+    }).setScrollFactor(0);
+
+    //texti pysyy vasemmassa 
+    this.timeEvent = this.time.addEvent({
+        delay: 1000,
+        loop: true,
+        callback: () => {
+            this.totalTime++;
+            this.registry.set('totalTime', this.totalTime);
+
+            this.timerText.setText("Aika: " + this.totalTime);
+        }
+    });
+
+    
 
 
     }
@@ -324,43 +353,43 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         });
 
 
-//vihollisen kääntymis ominaisuus että pysyy platformin päällä
-const e = this.enemy;
-if (!e || !e.body || !e.active) {
-    // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
-} else {
-    // Reunantunnistus (probe)
-const checkDistanceX = e.direction * (e.body.width / 2 + 5);
-const probeX = e.x + checkDistanceX;
-const probeY = e.y + e.body.height / 2 + 1;
-    // Onko maata suoraan edessä?
-    let groundAhead = false;
-    platforms.getChildren().forEach(p => {
-        const left = p.x - p.displayWidth / 2;
-        const right = p.x + p.displayWidth / 2;
-        const top = p.y - p.displayHeight / 2;
+    //vihollisen kääntymis ominaisuus että pysyy platformin päällä
+    const e = this.enemy;
+    if (!e || !e.body || !e.active) {
+        // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
+    } else {
+        // Reunantunnistus (probe)
+    const checkDistanceX = e.direction * (e.body.width / 2 + 5);
+    const probeX = e.x + checkDistanceX;
+    const probeY = e.y + e.body.height / 2 + 1;
+        // Onko maata suoraan edessä?
+        let groundAhead = false;
+        platforms.getChildren().forEach(p => {
+            const left = p.x - p.displayWidth / 2;
+            const right = p.x + p.displayWidth / 2;
+            const top = p.y - p.displayHeight / 2;
 
-        if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
-            groundAhead = true;
+            if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
+                groundAhead = true;
+            }
+        });
+
+    if (!groundAhead && e.body.blocked.down) {
+        e.direction *= -1;
+        e.setVelocityX(50 * e.direction);
+        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
         }
-    });
-
-   if (!groundAhead && e.body.blocked.down) {
-    e.direction *= -1;
-    e.setVelocityX(50 * e.direction);
-    e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+        if (e.body.blocked.left) {
+            e.direction = 1;
+            e.setVelocityX(50);
+            e.play('walkRightEnemy', true);
+        }
+        if (e.body.blocked.right) {
+            e.direction = -1;
+            e.setVelocityX(-50);
+            e.play('walkLeftEnemy', true);
+        }
     }
-    if (e.body.blocked.left) {
-        e.direction = 1;
-        e.setVelocityX(50);
-        e.play('walkRightEnemy', true);
-    }
-    if (e.body.blocked.right) {
-        e.direction = -1;
-        e.setVelocityX(-50);
-        e.play('walkLeftEnemy', true);
-    }
-}
 
 
     }
@@ -373,6 +402,12 @@ class Level2 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level2' });}
     preload (){
+    }
+
+
+    //kellon muuttuja
+    init() {
+        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
     }
     
     create (){
@@ -596,6 +631,29 @@ this.time.addEvent({
     this.spikes.create(425, 867, 'spike').setScale(0.8).refreshBody();
     this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
 
+
+
+    //kellon funktio
+    // hae aiempi aika
+    this.totalTime = this.registry.get('totalTime') || 0;
+
+    //luo tekstin
+    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        fontSize: '24px',
+        fill: '#fff'
+    }).setScrollFactor(0);
+
+    //texti pysyy vasemmassa 
+    this.timeEvent = this.time.addEvent({
+        delay: 1000,
+        loop: true,
+        callback: () => {
+            this.totalTime++;
+            this.registry.set('totalTime', this.totalTime);
+
+            this.timerText.setText("Aika: " + this.totalTime);
+        }
+    });
     }
 
     update (){
@@ -716,6 +774,10 @@ class Level3 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level3' });}
     preload (){
+    }
+
+    init() {
+        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
     }
     
     create (){
@@ -893,7 +955,28 @@ this.enemy.body.setOffset(0, 0);
 
     this.enemy.play('walkRightEnemy');
 
-   
+   //kellon funktio
+    // hae aiempi aika
+    this.totalTime = this.registry.get('totalTime') || 0;
+
+    //luo tekstin
+    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        fontSize: '24px',
+        fill: '#fff'
+    }).setScrollFactor(0);
+
+    //texti pysyy vasemmassa 
+    this.timeEvent = this.time.addEvent({
+        delay: 1000,
+        loop: true,
+        callback: () => {
+            this.totalTime++;
+            this.registry.set('totalTime', this.totalTime);
+
+            this.timerText.setText("Aika: " + this.totalTime);
+        }
+    });
+
     }
 
     update (){
@@ -1007,6 +1090,11 @@ class Level4 extends Phaser.Scene {
         super({ key: 'Level4' });}
     preload() {
     }
+
+    init() {
+        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+    }
+    
     create() {
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "3") {
@@ -1243,6 +1331,28 @@ class Level4 extends Phaser.Scene {
     });
 
     this.enemy.play('walkRightEnemy');
+
+    //kellon funktio
+    // hae aiempi aika
+    this.totalTime = this.registry.get('totalTime') || 0;
+
+    //luo tekstin
+    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        fontSize: '24px',
+        fill: '#fff'
+    }).setScrollFactor(0);
+
+    //texti pysyy vasemmassa 
+    this.timeEvent = this.time.addEvent({
+        delay: 1000,
+        loop: true,
+        callback: () => {
+            this.totalTime++;
+            this.registry.set('totalTime', this.totalTime);
+
+            this.timerText.setText("Aika: " + this.totalTime);
+        }
+    });
 
     }
     update(){
