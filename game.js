@@ -911,6 +911,15 @@ this.enemy = this.physics.add.sprite(
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
+const leftPlatform = platforms.getChildren().at(2);
+this.enemy = this.physics.add.sprite(
+  leftPlatform.x - 10,
+  leftPlatform.y - 100,
+  'enemy'
+);
+this.enemy.setScale(2);
+this.enemy.body.setSize(this.enemy.width, this.enemy.height);
+this.enemy.body.setOffset(0, 0);
         //invisible,invisible
         solid_snake_door.create(100,220).setScale(0.001).refreshBody();
         this.physics.add.collider(player, platforms);
@@ -1407,27 +1416,6 @@ document.addEventListener('keydown', (event)=> {
 
     this.enemy.play('walkRightEnemy');
 
-    //kellon funktio
-    // hae aiempi aika
-    this.totalTime = this.registry.get('totalTime') || 0;
-
-    //luo tekstin
-    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
-        fontSize: '24px',
-        fill: '#fff'
-    }).setScrollFactor(0);
-
-    //texti pysyy vasemmassa 
-    this.timeEvent = this.time.addEvent({
-        delay: 1000,
-        loop: true,
-        callback: () => {
-            this.totalTime++;
-            this.registry.set('totalTime', this.totalTime);
-
-            this.timerText.setText("Aika: " + this.totalTime);
-        }
-    });
 
     //kellon funktio
     // hae aiempi aika
@@ -1571,6 +1559,7 @@ const probeY = e.y + e.body.height / 2 + 1;
 class Level5 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level5' });}
+        init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );}
         create(){
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "5") {
@@ -1650,6 +1639,28 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(player, tower_thingys);
             this.physics.add.collider(player, bottom_of_game);
             this.physics.add.collider(player, wall);
+
+            //kellon funktio
+            // hae aiempi aika
+            this.totalTime = this.registry.get('totalTime') || 0;
+
+            //luo tekstin
+            this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+                fontSize: '24px',
+                fill: '#fff'
+            }).setScrollFactor(0);
+
+            //texti pysyy vasemmassa 
+            this.timeEvent = this.time.addEvent({
+                delay: 1000,
+                loop: true,
+                callback: () => {
+                    this.totalTime++;
+                    this.registry.set('totalTime', this.totalTime);
+
+                    this.timerText.setText("Aika: " + this.totalTime);
+                }
+            });
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
