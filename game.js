@@ -1478,9 +1478,7 @@ class Level5 extends Phaser.Scene {
             wall=this.physics.add.staticGroup();
             cursors = this.input.keyboard.createCursorKeys();
             top_of_tower = this.physics.add.staticGroup();
-            top_of_tower.create(1000,1800,'top_of_tower').setScale(1
-                
-            ).refreshBody();
+            top_of_tower.create(1000,1800,'top_of_tower').setScale(1).refreshBody();
             bottom_of_game.create(100,2000, 'bottom_of_game')
             bottom_of_game.create(300,2000, 'bottom_of_game')
             bottom_of_game.create(500,2000, 'bottom_of_game')
@@ -1497,6 +1495,7 @@ class Level5 extends Phaser.Scene {
             this.cameras.main.startFollow(player);
             player.setCollideWorldBounds(true);
             this.physics.add.collider(player, platforms);
+            this.physics.add.collider(player, top_of_tower);
             this.physics.add.collider(player, bottom_of_game);
             this.physics.add.collider(player, wall);
         }
