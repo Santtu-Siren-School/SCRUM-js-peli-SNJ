@@ -10,6 +10,7 @@ class Level1 extends Phaser.Scene {
     }
 
     preload (){
+    //kaikki textuurien lataus tänne
     this.load.image('background', 'assets/textures/background.png');
     this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
     this.load.image('platform', 'assets/textures/Platformit.png');
@@ -18,46 +19,61 @@ class Level1 extends Phaser.Scene {
     this.load.image('cannon', 'assets/textures/cannon.png');
     this.load.image('cannon_back', 'assets/textures/cannon_back.png')
     this.load.image('bullet', 'assets/textures/cannon_ball.png');
-    this.load.image('ovi','assets/textures/ovi.png')
-    this.load.image('dungeon','assets/textures/dungeon.png')
+    this.load.image('ovi','assets/textures/ovi.png');
+    this.load.image('dungeon','assets/textures/dungeon.png');
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
     this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
-    this.load.image('cannon_up', 'assets/textures/cannon_up.png')
+    this.load.image('cannon_up', 'assets/textures/cannon_up.png');
     this.load.image('spike','assets/textures/spikes.png');
     this.load.image('dungeon', 'assets/textures/dungeon.png');
     this.load.image('trampoline', 'assets/textures/Trampoline.png')
-    this.load.image('wall','assets/textures/wall.png')
+    this.load.image('wall','assets/textures/wall.png');
     this.load.image('wind', 'assets/textures/Wind.png');
     this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
     this.load.image('sky', 'assets/textures/sky.jpg');
-    this.load.image('solid_snake', 'assets/textures/solid-snake.jpg');
+    this.load.image('top_of_tower', 'assets/textures/top_of_the_tower.png');
+    this.load.image('sky_level5', 'assets/textures/boosfight_background_sunset.png');
     }
     create (){
-    //knifin cooldownin laatiminen
+    //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
     //Pakkotaa levelin vaihdon level2
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
+		if (event.key === "5") {
             nextlevelsound.play()
-            this.scene.start('Level2');
-            console.log('forced level change2');
+            this.scene.start('Level5');
+            console.log('forced level change5');
 		}
-	});
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
-            nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change3');
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
+        });
+        document.addEventListener('keydown', (event)=> {
 		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
             console.log('forced level change4');
 		}
-	});
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
@@ -328,7 +344,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
-    //knifing heittoa
+    //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
@@ -414,27 +430,40 @@ class Level2 extends Phaser.Scene {
     gameOver=false;
     //pakotetaan levelin vaihto level3
     document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
+		if (event.key === "5") {
             nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change 3');
+            this.scene.start('Level5');
+            console.log('forced level change5');
 		}
-	}); 
-    //pakotetaan levelin vaihto level1
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "1") {
-				nextlevelsound.play()
-                this.scene.start('Level1')
-				console.log('forced level change1')
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
+        });
+        document.addEventListener('keydown', (event)=> {
 		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
             console.log('forced level change4');
 		}
-	});
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
     //määritelään knife
@@ -699,7 +728,7 @@ this.time.addEvent({
         }
       if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
-    //knifing heittoa
+    //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
@@ -766,8 +795,16 @@ if (!e || !e.body || !e.active) {
         e.setVelocityX(-50);
         e.play('walkLeftEnemy', true);
     }
+
+    
+
 }
+
+
+
     }
+
+    
 }
 //level3
 class Level3 extends Phaser.Scene {
@@ -783,26 +820,40 @@ class Level3 extends Phaser.Scene {
     create (){
     //pakotetaan levelin vaihto level4
     document.addEventListener('keydown', (event)=> {
+		if (event.key === "5") {
+            nextlevelsound.play()
+            this.scene.start('Level5');
+            console.log('forced level change5');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
 		if (event.key === "4") {
             nextlevelsound.play()
             this.scene.start('Level4');
-            console.log('forced level change 3');
+            console.log('forced level change4');
 		}
-	});
+        });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
-				nextlevelsound.play()
-                this.scene.start('Level2')
-				console.log('forced level change2')
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
 		}
-	});
+        });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "1") {
-				nextlevelsound.play()
-                this.scene.start('Level1')
-				console.log('forced level change1')
-		}
-	}); 
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
         solid_snake_door=this.physics.add.staticGroup(); 
@@ -832,6 +883,7 @@ class Level3 extends Phaser.Scene {
         wall.create(557,755,'wall')
         wall.create(1245,100,'wall')
         wall.create(1700,840,'wall')
+        wall.create(1200,840,'wall')
         trampoline.create(300,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(650,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(1800,850, 'trampoline').setScale(0.4).refreshBody();
@@ -844,7 +896,7 @@ class Level3 extends Phaser.Scene {
         ovi=this.physics.add.staticGroup();
         //oven luonti
         ovi.create(1300,195,'ovi').setScale(0.3).refreshBody();
-const rightPlatform = platforms.getChildren().at(2);
+const rightPlatform = platforms.getChildren().at(0);
 this.enemy = this.physics.add.sprite(
   rightPlatform.x - 10,
   rightPlatform.y - 100,
@@ -854,7 +906,7 @@ this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
         //invisible,invisible
-        solid_snake_door.create(1600,220).setScale(0.001).refreshBody();
+        solid_snake_door.create(100,220).setScale(0.001).refreshBody();
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
@@ -912,6 +964,8 @@ this.enemy.body.setOffset(0, 0);
         this.cannons_up = [
             this.physics.add.image(1450, 840, 'cannon_up'),
             this.physics.add.image(1100, 840, 'cannon_up'),
+            this.physics.add.image(1400, 840, 'cannon_up'),
+            this.physics.add.image(1500, 840, 'cannon_up'),
         ];
 
         this.cannons_up.forEach(c => {
@@ -924,7 +978,7 @@ this.enemy.body.setOffset(0, 0);
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 1000,
+            delay: 1500,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
@@ -1096,27 +1150,41 @@ class Level4 extends Phaser.Scene {
     }
     
     create() {
+document.addEventListener('keydown', (event)=> {
+		if (event.key === "5") {
+            nextlevelsound.play()
+            this.scene.start('Level5');
+            console.log('forced level change5');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            nextlevelsound.play()
+            this.scene.start('Level4');
+            console.log('forced level change4');
+		}
+        });
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "3") {
             nextlevelsound.play()
             this.scene.start('Level3');
             console.log('forced level change3');
 		}
-	});
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "2") {
-            nextlevelsound.play()
-            this.scene.start('Level2');
-            console.log('forced level change2');
-		}
-	});
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "1") {
-            nextlevelsound.play()
-            this.scene.start('Level1');
-            console.log('forced level change1');
-		}
-	});
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "i") {
             player.setVelocityY(-600);
@@ -1219,7 +1287,7 @@ class Level4 extends Phaser.Scene {
         //oven luonti
         ovi.create(1800,90,'ovi').setScale(0.3).refreshBody();
         //
-        const rightPlatform = platforms.getChildren().at(2);
+        const rightPlatform = platforms.getChildren().at(0);
         this.enemy = this.physics.add.sprite(
         rightPlatform.x - 10,
         rightPlatform.y - 100,
@@ -1236,6 +1304,7 @@ class Level4 extends Phaser.Scene {
         this.cameras.main.startFollow(player);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
+        this.physics.add.overlap(player, ovi, level5Transition, null, this);
         this.physics.add.overlap(player, wind, windPlayer, null, this);
         this.physics.add.collider(player, knife);
     this.physics.add.collider(knife, platforms, (weapon) => {
@@ -1354,6 +1423,33 @@ class Level4 extends Phaser.Scene {
         }
     });
 
+    //kellon funktio
+    // hae aiempi aika
+    this.totalTime = this.registry.get('totalTime') || 0;
+
+    //luo tekstin
+    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        fontSize: '24px',
+        fill: '#fff'
+    }).setScrollFactor(0);
+
+    //texti pysyy vasemmassa 
+    this.timeEvent = this.time.addEvent({
+        delay: 1000,
+        loop: true,
+        callback: () => {
+            this.totalTime++;
+            this.registry.set('totalTime', this.totalTime);
+
+            this.timerText.setText("Aika: " + this.totalTime);
+        }
+    });
+
+    this.spikes = this.physics.add.staticGroup();
+    this.spikes.create(1140, 1970, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(1415, 1970, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(905, 1970, 'spike').setScale(0.8).refreshBody();
+    this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
     update(){
         if (gameOver == true)
@@ -1409,7 +1505,7 @@ class Level4 extends Phaser.Scene {
 
          if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
-    //knifing heittoa
+    //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
         this.lastThrowTime = now; 
             let offset = -30;
@@ -1466,6 +1562,128 @@ const probeY = e.y + e.body.height / 2 + 1;
 }   
 }
 }
+class Level5 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Level5' });}
+        create(){
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "5") {
+            nextlevelsound.play()
+            this.scene.start('Level5');
+            console.log('forced level change5');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "4") {
+            nextlevelsound.play()
+            this.scene.start('Level4');
+            console.log('forced level change4');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+		if (event.key === "3") {
+            nextlevelsound.play()
+            this.scene.start('Level3');
+            console.log('forced level change3');
+		}
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "2") {
+                nextlevelsound.play()
+                this.scene.start('Level2');
+                console.log('forced level change2');
+            }
+        });
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "1") {
+                nextlevelsound.play()
+                this.scene.start('Level1');
+                console.log('forced level change1');
+            }
+        });
+            this.add.image(1000,1000, 'sky_level5').setScale(1);
+            wind=this.physics.add.staticGroup();
+            platforms = this.physics.add.staticGroup();
+            bottom_of_game = this.physics.add.staticGroup();
+            trampoline=this.physics.add.staticGroup();
+            low_power_trampoline=this.physics.add.staticGroup();
+            wall=this.physics.add.staticGroup();
+            cursors = this.input.keyboard.createCursorKeys();
+            top_of_tower = this.physics.add.staticGroup();
+            top_of_tower.create(1000,1800,'top_of_tower').setScale(1).refreshBody();
+            bottom_of_game.create(100,2000, 'bottom_of_game')
+            bottom_of_game.create(300,2000, 'bottom_of_game')
+            bottom_of_game.create(500,2000, 'bottom_of_game')
+            bottom_of_game.create(700,2000, 'bottom_of_game')
+            bottom_of_game.create(900,2000, 'bottom_of_game')
+            bottom_of_game.create(1100,2000, 'bottom_of_game')
+            bottom_of_game.create(1300,2000, 'bottom_of_game')
+            bottom_of_game.create(1500,2000, 'bottom_of_game')
+            bottom_of_game.create(1700,2000, 'bottom_of_game')
+            bottom_of_game.create(1900,2000, 'bottom_of_game')
+            player = this.physics.add.sprite(100, 150, 'main_character');
+            this.cameras.main.setBounds(0, 0, 2000, 2000);
+            this.physics.world.setBounds(0, 0, 2000, 2000);
+            this.cameras.main.startFollow(player);
+            player.setCollideWorldBounds(true);
+            this.physics.add.collider(player, platforms);
+            this.physics.add.collider(player, top_of_tower);
+            this.physics.add.collider(player, bottom_of_game);
+            this.physics.add.collider(player, wall);
+        }
+        update(){
+        if (gameOver == true)
+        {
+            this.physics.pause();
+            backgroundsound.pause();
+            player.anims.play('jump');
+            return;
+        }
+        backgroundsound.play()
+        if (cursors.up.isDown && player.body.touching.down) {
+            jumping = 1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+        }
+
+        if (jumping === 1) {
+            player.anims.play("jump", true);
+            player.setVelocityX(0);
+            if (player.body.touching.down) {
+                jumping = 0;
+                player.setVelocityX(0);
+                player.anims.play('turn');
+            }
+        }
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
+        }
+        else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        }  
+        else {
+            if (player.windActive) {
+                const windAcceleration = 10;
+                const maxWindSpeed = 200;
+                if (player.body.velocity.x < maxWindSpeed) {
+                    player.setVelocityX(player.body.velocity.x + windAcceleration);
+                }
+            }
+            else {
+            player.setVelocityX(0)
+            player.anims.play('turn');
+            }
+        }
+        }
+    }
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -1477,8 +1695,9 @@ var config = {
             debug: false
         }
     },
-    scene: [Level1,Level2,Level3,Level4]
+    scene: [Level1,Level2,Level3,Level4,Level5]
 };
+var top_of_tower;
 var solid_snake_door;
 var wind;
 var cannon_up;
@@ -1497,7 +1716,6 @@ var gameOver;
 var jumping = 0;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
-const invisible=new Audio('assets/sound/invisible.mp3');
 var player;
 var weapon;
 var knife;
@@ -1556,6 +1774,10 @@ function level4Transition() {
     nextlevelsound.play()
     this.scene.start('Level4')
 }
+function level5Transition() {
+    nextlevelsound.play()
+    this.scene.start('Level5')
+}
 function hitByEnemy(player, enemy) {
     this.scene.start(this.scene.key)
 }
@@ -1574,8 +1796,5 @@ function windPlayer(player, wind) {
     setTimeout(() => { player.windActive = false; }, 10);
 }
 function level1trhow(player, solid_snake_door) {
-    this.add.image(1400,400,'solid_snake').setScale(1);
-    invisible.play();
-    setTimeout(() => { image.destroy(true,true); }, 8000);
-    setTimeout(() => { this.scene.start('Level1') }, 8000);
+    this.scene.start('Level1')
 }
