@@ -1854,6 +1854,6 @@ function level1trhow(player, solid_snake_door) {
 function bossPlayerContact(boss,player) {
     knockback=1;
     player.setVelocityX(800)
-    player.setVelocityY(-420)
+    player.setVelocityY(-410)
     setTimeout(() => {knockback=0;}, 1400);
 }
