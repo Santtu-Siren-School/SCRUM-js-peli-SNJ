@@ -1254,6 +1254,11 @@ class Level4 extends Phaser.Scene {
 
     this.enemy.play('walkRightEnemy');
 
+    this.spikes = this.physics.add.staticGroup();
+    this.spikes.create(1140, 1970, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(1415, 1970, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(905, 1970, 'spike').setScale(0.8).refreshBody();
+    this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
     update(){
         if (gameOver == true)
