@@ -36,6 +36,9 @@ class Level1 extends Phaser.Scene {
     this.load.image('tower_thingy2', 'assets/textures/tower_thingy_2.png');
     this.load.image('tower_thingy4', 'assets/textures/tower_thingy_4.png');
     this.load.image('sky_level5', 'assets/textures/boosfight_background_sunset.png');
+    this.load.image('level5_level1', 'assets/textures/level5_level1.png')
+    this.load.image('solid_snake','assets/textures/solid-snake.jpg')
+    this.load.image('boss_level5','assets/textures/boss-spirehseet.png')
     }
     create (){
     //knife cooldownin laatiminen
@@ -1605,6 +1608,8 @@ class Level5 extends Phaser.Scene {
             }
         });
             this.add.image(1000,1000, 'sky_level5').setScale(1);
+            this.add.image(1000,1500, 'boss_level5').setScale(5);
+            level5_level1=this.physics.add.staticGroup();
             wind=this.physics.add.staticGroup();
             platforms = this.physics.add.staticGroup();
             bottom_of_game = this.physics.add.staticGroup();
@@ -1613,6 +1618,11 @@ class Level5 extends Phaser.Scene {
             wall=this.physics.add.staticGroup();
             cursors = this.input.keyboard.createCursorKeys();
             tower_thingys=this.physics.add.staticGroup();
+            level5_level1.create(100,2000, 'level5_level1')
+            level5_level1.create(2000,2000, 'level5_level1')
+            level5_level1.create(1700,2000, 'level5_level1')
+            //
+            bottom_of_game.create(458,2000, 'bottom_of_game')
             bottom_of_game.create(500,2000, 'bottom_of_game')
             bottom_of_game.create(700,2000, 'bottom_of_game')
             bottom_of_game.create(900,2000, 'bottom_of_game')
@@ -1625,6 +1635,12 @@ class Level5 extends Phaser.Scene {
             //this.load.image('tower_thingy2', 'assets/textures/tower_thingy_2.png');
             //this.load.image('tower_thingy4', 'assets/textures/tower_thingy_4.png');
             tower_thingys.create(1580,1930, 'tower_thingy1').setScale(1).refreshBody();
+            tower_thingys.create(1380,1930, 'tower_thingy2').setScale(1).refreshBody();
+            tower_thingys.create(1180,1930, 'tower_thingy4').setScale(1).refreshBody();
+            tower_thingys.create(980,1930, 'tower_thingy3').setScale(1).refreshBody();
+            tower_thingys.create(780,1930, 'tower_thingy4').setScale(1).refreshBody();
+            tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
+            tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
             player = this.physics.add.sprite(100, 150, 'main_character');
             this.cameras.main.setBounds(0, 0, 2000, 2000);
             this.physics.world.setBounds(0, 0, 2000, 2000);
@@ -1634,6 +1650,7 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(player, tower_thingys);
             this.physics.add.collider(player, bottom_of_game);
             this.physics.add.collider(player, wall);
+            this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
         if (gameOver == true)
@@ -1701,6 +1718,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4,Level5]
 };
+var level5_level1;
 var tower_thingys;
 var solid_snake_door;
 var wind;
@@ -1720,6 +1738,7 @@ var gameOver;
 var jumping = 0;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
+const invisible=new Audio('assets/sound/invisible.mp3');
 var player;
 var weapon;
 var knife;
@@ -1766,6 +1785,10 @@ function hitPlayer(player, bullet) {
     this.scene.start(this.scene.key)
 }
 
+function level1Transition() {
+    nextlevelsound.play()
+    this.scene.start('Level1')
+}
 function level2Transition() {
     nextlevelsound.play()
     this.scene.start('Level2')
@@ -1800,5 +1823,7 @@ function windPlayer(player, wind) {
     setTimeout(() => { player.windActive = false; }, 10);
 }
 function level1trhow(player, solid_snake_door) {
-    this.scene.start('Level1')
+    this.add.image(500,400,'solid_snake');
+    invisible.play();
+    setTimeout(() => {this.scene.start('Level1')}, 9000);
 }
