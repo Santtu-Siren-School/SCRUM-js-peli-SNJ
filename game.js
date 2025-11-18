@@ -1413,27 +1413,6 @@ document.addEventListener('keydown', (event)=> {
 
     this.enemy.play('walkRightEnemy');
 
-    //kellon funktio
-    // hae aiempi aika
-    this.totalTime = this.registry.get('totalTime') || 0;
-
-    //luo tekstin
-    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
-        fontSize: '24px',
-        fill: '#fff'
-    }).setScrollFactor(0);
-
-    //texti pysyy vasemmassa 
-    this.timeEvent = this.time.addEvent({
-        delay: 1000,
-        loop: true,
-        callback: () => {
-            this.totalTime++;
-            this.registry.set('totalTime', this.totalTime);
-
-            this.timerText.setText("Aika: " + this.totalTime);
-        }
-    });
 
     //kellon funktio
     // hae aiempi aika
@@ -1577,6 +1556,7 @@ const probeY = e.y + e.body.height / 2 + 1;
 class Level5 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level5' });}
+        init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );}
         create(){
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "5") {
@@ -1643,6 +1623,28 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(player, tower_thingys);
             this.physics.add.collider(player, bottom_of_game);
             this.physics.add.collider(player, wall);
+
+            //kellon funktio
+            // hae aiempi aika
+            this.totalTime = this.registry.get('totalTime') || 0;
+
+            //luo tekstin
+            this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+                fontSize: '24px',
+                fill: '#fff'
+            }).setScrollFactor(0);
+
+            //texti pysyy vasemmassa 
+            this.timeEvent = this.time.addEvent({
+                delay: 1000,
+                loop: true,
+                callback: () => {
+                    this.totalTime++;
+                    this.registry.set('totalTime', this.totalTime);
+
+                    this.timerText.setText("Aika: " + this.totalTime);
+                }
+            });
         }
         update(){
         if (gameOver == true)
