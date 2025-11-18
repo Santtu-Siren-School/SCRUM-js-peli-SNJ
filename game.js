@@ -1556,6 +1556,7 @@ const probeY = e.y + e.body.height / 2 + 1;
 }   
 }
 }
+//level 5
 class Level5 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level5' });}
@@ -1596,6 +1597,8 @@ class Level5 extends Phaser.Scene {
                 console.log('forced level change1');
             }
         });
+            this.lastThrowTime = 0; 
+            this.throwCooldown = 1000;
             this.add.image(1000,1000, 'sky_level5').setScale(1);
             level5_level1=this.physics.add.staticGroup();
             wind=this.physics.add.staticGroup();
@@ -1644,6 +1647,21 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(boss, bottom_of_game);
             this.physics.add.collider(boss, wall);
             this.physics.add.overlap(boss, player, bossPlayerContact, null, this);
+            this.physics.add.collider(player, knife);
+            this.physics.add.collider(knife, platforms, (weapon) => {
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+            });
+            this.physics.add.collider(knife, wall, (weapon) => {
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+            });
+            this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+            enemy.disableBody(true, true);
+            weapon.destroy(); 
+            });
 
 
             //kellon funktio
@@ -1724,6 +1742,26 @@ class Level5 extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
+                 if (Phaser.Input.Keyboard.JustDown(shoot)) {
+        const now = this.time.now;
+    //knife heittoa
+    if (now - this.lastThrowTime > this.throwCooldown) {
+        this.lastThrowTime = now; 
+            let offset = -30;
+            let spawnX = player.x + (facingRight ? offset : -offset);
+            let weapon = knife.create(spawnX, player.y, 'dagger');
+            weapon.setScale(0.1);
+            weapon.setVelocityX(300); 
+            weapon.setGravityY(-200);
+             if (facingRight) {
+        weapon.setVelocityX(300);
+    } else {
+        weapon.setVelocityX(-300);
+        weapon.flipX = true; 
+    } setTimeout(() => { weapon.destroy(); }, 3000);
+        }
+    }
+    
         }
         }
     }
