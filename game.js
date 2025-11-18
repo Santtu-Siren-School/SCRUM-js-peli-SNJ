@@ -25,10 +25,10 @@ class Level1 extends Phaser.Scene {
     this.load.image('wind', 'assets/textures/Wind.png');
     this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
     this.load.image('sky', 'assets/textures/sky.jpg');
-    this.load.image('tower_thingy1', 'assets/textures/tower_thingy1.png');
-    this.load.image('tower_thingy3', 'assets/textures/tower_thingy3.png');
-    this.load.image('tower_thingy2', 'assets/textures/tower_thingy2.png');
-    this.load.image('tower_thingy4', 'assets/textures/tower_thingy4.png');
+    this.load.image('tower_thingy1', 'assets/textures/tower_thingy_1.png');
+    this.load.image('tower_thingy3', 'assets/textures/tower_thingy_3.png');
+    this.load.image('tower_thingy2', 'assets/textures/tower_thingy_2.png');
+    this.load.image('tower_thingy4', 'assets/textures/tower_thingy_4.png');
     this.load.image('sky_level5', 'assets/textures/boosfight_background_sunset.png');
     }
     create (){
@@ -1480,25 +1480,26 @@ class Level5 extends Phaser.Scene {
             low_power_trampoline=this.physics.add.staticGroup();
             wall=this.physics.add.staticGroup();
             cursors = this.input.keyboard.createCursorKeys();
-            top_of_tower = this.physics.add.staticGroup();
-            top_of_tower.create(1000,1800,'top_of_tower').setScale(1).refreshBody();
-            bottom_of_game.create(100,2000, 'bottom_of_game')
-            bottom_of_game.create(300,2000, 'bottom_of_game')
+            tower_thingys=this.physics.add.staticGroup();
             bottom_of_game.create(500,2000, 'bottom_of_game')
             bottom_of_game.create(700,2000, 'bottom_of_game')
             bottom_of_game.create(900,2000, 'bottom_of_game')
             bottom_of_game.create(1100,2000, 'bottom_of_game')
             bottom_of_game.create(1300,2000, 'bottom_of_game')
             bottom_of_game.create(1500,2000, 'bottom_of_game')
-            bottom_of_game.create(1700,2000, 'bottom_of_game')
-            bottom_of_game.create(1900,2000, 'bottom_of_game')
+            //
+            //this.load.image('tower_thingy1', 'assets/textures/tower_thingy_1.png');
+            //this.load.image('tower_thingy3', 'assets/textures/tower_thingy_3.png');
+            //this.load.image('tower_thingy2', 'assets/textures/tower_thingy_2.png');
+            //this.load.image('tower_thingy4', 'assets/textures/tower_thingy_4.png');
+            tower_thingys.create(1580,1930, 'tower_thingy1').setScale(1).refreshBody();
             player = this.physics.add.sprite(100, 150, 'main_character');
             this.cameras.main.setBounds(0, 0, 2000, 2000);
             this.physics.world.setBounds(0, 0, 2000, 2000);
             this.cameras.main.startFollow(player);
             player.setCollideWorldBounds(true);
             this.physics.add.collider(player, platforms);
-            this.physics.add.collider(player, top_of_tower);
+            this.physics.add.collider(player, tower_thingys);
             this.physics.add.collider(player, bottom_of_game);
             this.physics.add.collider(player, wall);
         }
@@ -1568,7 +1569,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4,Level5]
 };
-var top_of_tower;
+var tower_thingys;
 var solid_snake_door;
 var wind;
 var cannon_up;
