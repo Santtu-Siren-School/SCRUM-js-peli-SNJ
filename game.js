@@ -1633,7 +1633,7 @@ class Level5 extends Phaser.Scene {
             tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
             tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
             player = this.physics.add.sprite(100, 150, 'main_character');
-            boss = this.physics.add.sprite(1000, 1700, 'boss_level5').setScale(3).refreshBody();
+            boss = this.physics.add.sprite(1000, 1700, 'boss_level5').setScale(2.5).refreshBody();
             this.cameras.main.setBounds(0, 0, 2000, 2000);
             this.physics.world.setBounds(0, 0, 2000, 2000);
             this.cameras.main.startFollow(player);
@@ -1696,46 +1696,51 @@ class Level5 extends Phaser.Scene {
             return;
         }
         backgroundsound.play()
-        if (cursors.up.isDown && player.body.touching.down) {
-            jumping = 1;
-            player.setVelocityY(-300);
-            player.anims.play("jump");
+        if (knockback==1) {
+            return;
         }
-
-        if (jumping === 1) {
-            player.anims.play("jump", true);
-            player.setVelocityX(0);
-            if (player.body.touching.down) {
-                jumping = 0;
-                player.setVelocityX(0);
-                player.anims.play('turn');
-            }
-        }
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }  
         else {
-            if (player.windActive) {
-                const windAcceleration = 10;
-                const maxWindSpeed = 200;
-                if (player.body.velocity.x < maxWindSpeed) {
-                    player.setVelocityX(player.body.velocity.x + windAcceleration);
+            if (cursors.up.isDown && player.body.touching.down) {
+                jumping = 1;
+                player.setVelocityY(-300);
+                player.anims.play("jump");
+            }
+
+            if (jumping === 1) {
+                player.anims.play("jump", true);
+                player.setVelocityX(0);
+                if (player.body.touching.down) {
+                    jumping = 0;
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
                 }
             }
+            if (cursors.left.isDown) {
+                player.setVelocityX(-160);
+                player.anims.play('left', true);
+                facingRight = false;
+            } 
+            else if (cursors.right.isDown) {
+                player.setVelocityX(160);
+                player.anims.play('right', true);
+                facingRight = true;
+            }
+            else if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }  
             else {
-            player.setVelocityX(0)
-            player.anims.play('turn');
+                if (player.windActive) {
+                    const windAcceleration = 10;
+                    const maxWindSpeed = 200;
+                    if (player.body.velocity.x < maxWindSpeed) {
+                        player.setVelocityX(player.body.velocity.x + windAcceleration);
+                    }
+                }
+                else {
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
+                }
             }
                  if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
@@ -1773,6 +1778,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4,Level5]
 };
+var knockback=0;
 var boss;
 var level5_level1;
 var tower_thingys;
@@ -1884,6 +1890,8 @@ function level1trhow(player, solid_snake_door) {
     setTimeout(() => {this.scene.start('Level1')}, 9000);
 }
 function bossPlayerContact(boss,player) {
-    this.player.setVelocityY(15000)
-    setTimeout(() => { player.y = 0; }, 1);
+    knockback=1;
+    player.setVelocityX(800)
+    player.setVelocityY(-420)
+    setTimeout(() => {knockback=0;}, 1400);
 }
