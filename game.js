@@ -15,6 +15,15 @@ class Level1 extends Phaser.Scene {
     this.load.image('ovi','assets/textures/ovi.png')
     this.load.image('dungeon','assets/textures/dungeon.png')
     this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
+    this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg')
+    this.load.image('cannon_up', 'assets/textures/cannon_up.png')
+    this.load.image('spike','assets/textures/spikes.png');
+    this.load.image('dungeon', 'assets/textures/dungeon.png');
+    this.load.image('trampoline', 'assets/textures/Trampoline.png')
+    this.load.image('wall','assets/textures/wall.png')
+    this.load.image('wind', 'assets/textures/Wind.png');
+    this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
+    this.load.image('sky', 'assets/textures/sky.jpg');
     }
     create (){
     //knifin cooldownin laatiminen
@@ -363,17 +372,6 @@ class Level2 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level2' });}
     preload (){
-    this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
-    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
-    this.load.image('platform', 'assets/textures/Platformit.png');
-    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
-    this.load.image('dagger', 'assets/textures/tikari.png');
-    this.load.image('cannon', 'assets/textures/cannon.png');
-    this.load.image('cannon_up', 'assets/textures/cannon_up.png')
-    this.load.image('bullet', 'assets/textures/cannon_ball.png');
-    this.load.image('ovi','assets/textures/ovi.png')
-    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
-    this.load.image('spike','assets/textures/spikes.png');
     }
     
     create (){
@@ -725,12 +723,6 @@ class Level3 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level3' });}
     preload (){
-    this.load.image('cannon_up', 'assets/textures/cannon_up.png')
-    this.load.image('dungeon', 'assets/textures/dungeon.png');
-    this.load.image('trampoline', 'assets/textures/Trampoline.png')
-    this.load.image('wall','assets/textures/wall.png')
-    this.load.image('cannon', 'assets/textures/cannon.png');
-    this.load.image('dagger', 'assets/textures/tikari.png'); 
     }
     
     create (){
@@ -785,6 +777,7 @@ class Level3 extends Phaser.Scene {
         wall.create(557,755,'wall')
         wall.create(1245,100,'wall')
         wall.create(1700,840,'wall')
+        wall.create(1200,840,'wall')
         trampoline.create(300,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(650,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(1800,850, 'trampoline').setScale(0.4).refreshBody();
@@ -807,7 +800,7 @@ this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
         //invisible,invisible
-        solid_snake_door.create(1600,220).setScale(0.001).refreshBody();
+        solid_snake_door.create(100,220).setScale(0.001).refreshBody();
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
@@ -865,6 +858,8 @@ this.enemy.body.setOffset(0, 0);
         this.cannons_up = [
             this.physics.add.image(1450, 840, 'cannon_up'),
             this.physics.add.image(1100, 840, 'cannon_up'),
+            this.physics.add.image(1400, 840, 'cannon_up'),
+            this.physics.add.image(1500, 840, 'cannon_up'),
         ];
 
         this.cannons_up.forEach(c => {
@@ -877,7 +872,7 @@ this.enemy.body.setOffset(0, 0);
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 1000,
+            delay: 1500,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
@@ -1021,13 +1016,6 @@ class Level4 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level4' });}
     preload() {
-        this.load.image('wind', 'assets/textures/Wind.png');
-        this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
-        this.load.image('sky', 'assets/textures/sky.jpg');
-        this.load.image('trampoline', 'assets/textures/Trampoline.png')
-        this.load.image('dagger', 'assets/textures/tikari.png');
-        this.load.image('cannon', 'assets/textures/cannon.png');
-        this.load.image('cannon_up', 'assets/textures/cannon_up.png')
     }
     create() {
         document.addEventListener('keydown', (event)=> {
