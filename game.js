@@ -172,7 +172,7 @@ this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
 
     this.enemy.body.setGravityY(300); // lisää painovoima
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
-    this.enemy.setVelocityX(50); // alku nopeus
+    this.enemy.setVelocityX(80); // alku nopeus
     this.enemy.direction = 1;
 
     this.physics.add.collider(knife, bottom_of_game);
@@ -410,17 +410,17 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
     if (!groundAhead && e.body.blocked.down) {
         e.direction *= -1;
-        e.setVelocityX(50 * e.direction);
+        e.setVelocityX(80 * e.direction);
         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
         }
         if (e.body.blocked.left) {
             e.direction = 1;
-            e.setVelocityX(50);
+            e.setVelocityX(80);
             e.play('walkRightEnemy', true);
         }
         if (e.body.blocked.right) {
             e.direction = -1;
-            e.setVelocityX(-50);
+            e.setVelocityX(-80);
             e.play('walkLeftEnemy', true);
         }
     }
@@ -642,7 +642,7 @@ this.time.addEvent({
     // fysiikka
     this.enemy.body.setGravityY(300);
     this.enemy.setCollideWorldBounds(true);
-    this.enemy.setVelocityX(50);
+    this.enemy.setVelocityX(80);
 
     this.physics.add.collider(this.enemy, platforms);
 
@@ -806,7 +806,7 @@ if (!e || !e.body || !e.active) {
     if (this.time.now - this.enemy.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
             e.direction *= -1;
-            e.setVelocityX(50 * e.direction);
+            e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
             this.enemy.lastTurnTime = this.time.now;
         }
@@ -814,12 +814,12 @@ if (!e || !e.body || !e.active) {
 
     if (e.body.blocked.left) {
         e.direction = 1;
-        e.setVelocityX(50);
+        e.setVelocityX(80);
         e.play('walkRightEnemy', true);
     }
     if (e.body.blocked.right) {
         e.direction = -1;
-        e.setVelocityX(-50);
+        e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
 
@@ -944,10 +944,6 @@ class Level3 extends Phaser.Scene {
         // invisible door
         solid_snake_door.create(100,220).setScale(0.001).refreshBody();
 
-        // -------------------------
-        //  TWO ENEMIES (FIXED!)
-        // -------------------------
-
         this.enemies = this.physics.add.group();
 
         const platform1 = platforms.getChildren().at(0);
@@ -967,13 +963,11 @@ class Level3 extends Phaser.Scene {
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
-            e.setVelocityX(50);
+            e.setVelocityX(80);
             e.direction = 1;
         });
 
-        // -------------------------
-        // COLLIDERS
-        // -------------------------
+     
 
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
@@ -1000,9 +994,6 @@ class Level3 extends Phaser.Scene {
             weapon.destroy(); 
         });
 
-        // -------------------------
-        // CAMERA
-        // -------------------------
 
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
@@ -1011,9 +1002,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
         this.physics.add.overlap(player, solid_snake_door, level1trhow, null, this);
 
-        // -------------------------
-        // CANNONS
-        // -------------------------
+
 
         this.cannons = [
             this.physics.add.image(620, 420, 'cannon'),
@@ -1067,9 +1056,6 @@ class Level3 extends Phaser.Scene {
 
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
 
-        // -------------------------
-        // ENEMY ANIMATIONS
-        // -------------------------
 
         this.anims.create({
             key: 'walkLeftEnemy',
@@ -1164,7 +1150,7 @@ class Level3 extends Phaser.Scene {
             player.anims.play('turn');
         }
 
-        // KNIFE
+        // knife heitto
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
             if (now - this.lastThrowTime > this.throwCooldown) {
@@ -1173,10 +1159,8 @@ class Level3 extends Phaser.Scene {
                 let spawnX = player.x + (facingRight ? offset : -offset);
                 let weapon = knife.create(spawnX, player.y, 'dagger');
                 weapon.setScale(0.1);
-                weapon.setGravityY(0);
-                  weapon.setScale(0.1);
-            weapon.setVelocityX(300); 
-            weapon.setGravityY(-200);
+                weapon.setVelocityX(300); 
+                weapon.setGravityY(-200);
                 
                 if (facingRight) {
                     weapon.setVelocityX(300);
@@ -1191,45 +1175,48 @@ class Level3 extends Phaser.Scene {
 
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
 
-        // -------------------------
-        // ENEMY EDGE DETECTION FOR ALL ENEMIES
-        // -------------------------
+this.enemies.children.iterate(e => {
+    if (!e.active) return;
 
-        this.enemies.children.iterate(e => {
-            if (!e.active) return;
+    const probeX = e.x + e.direction * (e.width / 2 + 6);
+    const probeY = e.body.bottom + 2;
 
-            const checkDistanceX = e.direction * (e.body.width / 2 + 5);
-            const probeX = e.x + checkDistanceX;
-            const probeY = e.y + e.body.height / 2 + 1;
+    let groundAhead = false;
 
-            let groundAhead = false;
-            platforms.getChildren().forEach(p => {
-                const left = p.x - p.displayWidth / 2;
-                const right = p.x + p.displayWidth / 2;
-                const top = p.y - p.displayHeight / 2;
+    platforms.getChildren().forEach(p => {
+        const bounds = p.getBounds();
+        if (
+            probeX >= bounds.left - 5 &&
+            probeX <= bounds.right + 5 &&
+            probeY >= bounds.top - 10 &&
+            probeY <= bounds.top + 25
+        ) {
+            groundAhead = true;
+        }
+    });
 
-                if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
-                    groundAhead = true;
-                }
-            });
+    if (!e.lastTurnTime) e.lastTurnTime = 0;
+    if (this.time.now - e.lastTurnTime > 500) {
+        if (!groundAhead && e.body.blocked.down) {
+            e.direction *= -1;
+            e.setVelocityX(80 * e.direction);
+            e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+            e.lastTurnTime = this.time.now;
+        }
+    }
 
-            if (!groundAhead && e.body.blocked.down) {
-                e.direction *= -1;
-                e.setVelocityX(50 * e.direction);
-                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-            }
+    if (e.body.blocked.left) {
+        e.direction = 1;
+        e.setVelocityX(80);
+        e.play('walkRightEnemy', true);
+    }
+    if (e.body.blocked.right) {
+        e.direction = -1;
+        e.setVelocityX(-80);
+        e.play('walkLeftEnemy', true);
+    }
+});
 
-            if (e.body.blocked.left) {
-                e.direction = 1;
-                e.setVelocityX(50);
-                e.play('walkRightEnemy', true);
-            }
-            if (e.body.blocked.right) {
-                e.direction = -1;
-                e.setVelocityX(-50);
-                e.play('walkLeftEnemy', true);
-            }
-        });
     }
 }
 
@@ -1237,129 +1224,93 @@ class Level3 extends Phaser.Scene {
 //level 4
 class Level4 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Level4' });}
+        super({ key: 'Level4' });
+    }
+
     preload() {
     }
 
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
-        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
-    
+
     create() {
-document.addEventListener('keydown', (event)=> {
-		if (event.key === "5") {
-            nextlevelsound.play()
-            this.scene.start('Level5');
-            console.log('forced level change5');
-		}
+
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "5") { nextlevelsound.play(); this.scene.start('Level5'); console.log('forced level change5'); }
+            if (event.key === "4") { nextlevelsound.play(); this.scene.start('Level4'); console.log('forced level change4'); }
+            if (event.key === "3") { nextlevelsound.play(); this.scene.start('Level3'); console.log('forced level change3'); }
+            if (event.key === "2") { nextlevelsound.play(); this.scene.start('Level2'); console.log('forced level change2'); }
+            if (event.key === "1") { nextlevelsound.play(); this.scene.start('Level1'); console.log('forced level change1'); }
+            if (event.key === "i") { if (player) player.setVelocityY(-600); console.log('changed players velocity (up,600)'); }
+            if (event.key === "k") { if (player) player.setVelocityY(600); console.log('changed players velocity (down,600)'); }
+            if (event.key === "l") { if (player) player.setVelocityX(2000); console.log('changed players velocity (right,2000)'); }
+            if (event.key === "j") { if (player) player.setVelocityX(-2000); console.log('changed players velocity (left,2000)'); }
         });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "4") {
-            nextlevelsound.play()
-            this.scene.start('Level4');
-            console.log('forced level change4');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
-            nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change3');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "2") {
-                nextlevelsound.play()
-                this.scene.start('Level2');
-                console.log('forced level change2');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "1") {
-                nextlevelsound.play()
-                this.scene.start('Level1');
-                console.log('forced level change1');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "i") {
-            player.setVelocityY(-600);
-            console.log('changed players velocity (up,600)');
-		}
-	    });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "k") {
-            player.setVelocityY(600);
-            console.log('changed players velocity (down,600)');
-		}
-	    });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "l") {
-            player.setVelocityX(2000);
-            console.log('changed players velocity (right,2000)');
-		}
-	    });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "j") {
-            player.setVelocityX(-2000);
-            console.log('changed players velocity (left,2000)');
-		}
-	    });
-        this.lastThrowTime = 0; 
+
+  
+        this.lastThrowTime = 0;
         this.throwCooldown = 1000;
-        wind=this.physics.add.staticGroup();
+
+    
+        wind = this.physics.add.staticGroup();
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
-        trampoline=this.physics.add.staticGroup();
-        low_power_trampoline=this.physics.add.staticGroup();
-        wall=this.physics.add.staticGroup();
+        trampoline = this.physics.add.staticGroup();
+        low_power_trampoline = this.physics.add.staticGroup();
+        wall = this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
         knife = this.physics.add.group();
         shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+
         this.add.image(0,0,'sky').setScale(10);
         this.add.image(100,1700, 'castle_hallway').setScale(2);
         this.add.image(1700,1700,'spiralsaircase').setScale(3);
+
+   
         player = this.physics.add.sprite(100, 1950, 'main_character');
         player.setCollideWorldBounds(true);
-        bottom_of_game.create(100,2000, 'bottom_of_game')
-        bottom_of_game.create(300,2000, 'bottom_of_game')
-        bottom_of_game.create(500,2000, 'bottom_of_game')
-        bottom_of_game.create(700,2000, 'bottom_of_game')
-        bottom_of_game.create(900,2000, 'bottom_of_game')
-        bottom_of_game.create(1100,2000, 'bottom_of_game')
-        bottom_of_game.create(1300,2000, 'bottom_of_game')
-        bottom_of_game.create(1500,2000, 'bottom_of_game')
-        bottom_of_game.create(1700,2000, 'bottom_of_game')
-        bottom_of_game.create(1900,2000, 'bottom_of_game')
-        //
-        bottom_of_game.create(100,1300, 'bottom_of_game')
-        bottom_of_game.create(300,1300, 'bottom_of_game')
-        bottom_of_game.create(500,1300, 'bottom_of_game')
-        bottom_of_game.create(700,1300, 'bottom_of_game')
-        bottom_of_game.create(900,1300, 'bottom_of_game')
-        bottom_of_game.create(1100,1300, 'bottom_of_game')
-        bottom_of_game.create(1200,1300, 'bottom_of_game')
-        //
-        bottom_of_game.create(1230,1600, 'bottom_of_game')
-        //
-        wall.create(1338,1438, 'wall')
-        wall.create(1338,1138, 'wall')
-        wall.create(1338,838, 'wall')
-        wall.create(1338,538, 'wall')
-        wall.create(1338,238, 'wall')
-        wall.create(1338,38, 'wall')
-        wall.create(0,1900,'wall')
-        wall.create(0,1700,'wall')
-        wall.create(0,1490,'wall')
-        wall.create(440,1700,'wall')
-        wall.create(440,2000,'wall')
-        //
+
+   
+        bottom_of_game.create(100,2000, 'bottom_of_game');
+        bottom_of_game.create(300,2000, 'bottom_of_game');
+        bottom_of_game.create(500,2000, 'bottom_of_game');
+        bottom_of_game.create(700,2000, 'bottom_of_game');
+        bottom_of_game.create(900,2000, 'bottom_of_game');
+        bottom_of_game.create(1100,2000, 'bottom_of_game');
+        bottom_of_game.create(1300,2000, 'bottom_of_game');
+        bottom_of_game.create(1500,2000, 'bottom_of_game');
+        bottom_of_game.create(1700,2000, 'bottom_of_game');
+        bottom_of_game.create(1900,2000, 'bottom_of_game');
+
+        bottom_of_game.create(100,1300, 'bottom_of_game');
+        bottom_of_game.create(300,1300, 'bottom_of_game');
+        bottom_of_game.create(500,1300, 'bottom_of_game');
+        bottom_of_game.create(700,1300, 'bottom_of_game');
+        bottom_of_game.create(900,1300, 'bottom_of_game');
+        bottom_of_game.create(1100,1300, 'bottom_of_game');
+        bottom_of_game.create(1200,1300, 'bottom_of_game');
+
+        bottom_of_game.create(1230,1600, 'bottom_of_game');
+
+        wall.create(1338,1438, 'wall');
+        wall.create(1338,1138, 'wall');
+        wall.create(1338,838, 'wall');
+        wall.create(1338,538, 'wall');
+        wall.create(1338,238, 'wall');
+        wall.create(1338,38, 'wall');
+        wall.create(0,1900,'wall');
+        wall.create(0,1700,'wall');
+        wall.create(0,1490,'wall');
+        wall.create(440,1700,'wall');
+        wall.create(440,2000,'wall');
+
         trampoline.create(300,1950, 'trampoline').setScale(0.5).refreshBody();
-        //
         low_power_trampoline.create(1530,1250, 'trampoline').setScale(0.5).refreshBody();
         low_power_trampoline.create(1530,420, 'trampoline').setScale(0.5).refreshBody();
-        //
+
+  
         platforms.create(500, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(800, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(1100, 1600, 'platform').setScale(2).refreshBody();
@@ -1373,59 +1324,75 @@ document.addEventListener('keydown', (event)=> {
         platforms.create(1800,650,'platform').setScale(2).refreshBody();
         platforms.create(1530,500,'platform').setScale(2).refreshBody();
         platforms.create(1800,200,'platform').setScale(2).refreshBody();
-        //
+
         wind.create(1530,710, 'wind').setScale(0.4).refreshBody();
         wind.create(1530,670, 'wind').setScale(0.4).refreshBody();
         wind.create(1530,630, 'wind').setScale(0.4).refreshBody();
         wind.create(1530,1520, 'wind').setScale(0.4).refreshBody();
         wind.create(1800,1370, 'wind').setScale(0.4).refreshBody();
-        //
-        ovi=this.physics.add.staticGroup();
-        //oven luonti
+
+    
+        ovi = this.physics.add.staticGroup();
         ovi.create(1800,90,'ovi').setScale(0.3).refreshBody();
-        //
-        const rightPlatform = platforms.getChildren().at(0);
-        this.enemy = this.physics.add.sprite(
-        rightPlatform.x - 10,
-        rightPlatform.y - 100,
-        'enemy'
-        );
-    this.enemy.setScale(2);
-    this.enemy.body.setSize(this.enemy.width, this.enemy.height);
-    this.enemy.body.setOffset(0, 0);
-        this.physics.add.collider(player, platforms);
-        this.physics.add.collider(player, bottom_of_game);
-        this.physics.add.collider(player, wall);
+            this.enemies = this.physics.add.group();
+
+        const platform1 = platforms.getChildren().at(0);
+        const enemy1 = this.enemies.create(
+            platform1.x - 10,
+            platform1.y - 100,
+            'enemy'
+        ).setScale(2);
+
+        const platform2 = platforms.getChildren().at(12);
+        const enemy2 = this.enemies.create(
+            platform2.x - 10,
+            platform2.y - 100,
+            'enemy'
+        ).setScale(2);
+
+        this.enemies.children.iterate(e => {
+            e.body.setGravityY(300);
+            e.setCollideWorldBounds(true);
+            e.setVelocityX(80);
+            e.direction = 1;
+        });
+
         this.cameras.main.setBounds(0, 0, 2000, 2000);
         this.physics.world.setBounds(0, 0, 2000, 2000);
         this.cameras.main.startFollow(player);
+
+   
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(player, wall);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
         this.physics.add.overlap(player, ovi, level5Transition, null, this);
         this.physics.add.overlap(player, wind, windPlayer, null, this);
+
         this.physics.add.collider(player, knife);
-    this.physics.add.collider(knife, platforms, (weapon) => {
-        weapon.setVelocity(0, 0);
-        weapon.body.allowGravity = false;
-        weapon.body.immovable = true;
-    });
-    this.physics.add.collider(knife, wall, (weapon) => {
-        weapon.setVelocity(0, 0);
-        weapon.body.allowGravity = false;
-        weapon.body.immovable = true;
-    });
-    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
-    enemy.disableBody(true, true);
-    weapon.destroy(); 
-    });
-        
-        this.enemy.body.setGravityY(300); // lisää painovoima
-        this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
-        this.enemy.setVelocityX(50); // alku nopeus
-        this.enemy.direction = 1;
+        this.physics.add.collider(knife, platforms, (weapon) => {
+            if (!weapon) return;
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+        });
+        this.physics.add.collider(knife, wall, (weapon) => {
+            if (!weapon) return;
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+        });
         this.physics.add.collider(knife, bottom_of_game);
-        this.physics.add.collider(knife, wall);
-        //tykin luonti
+
+        this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+            if (weapon && weapon.disableBody) weapon.disableBody(true, true);
+            else if (weapon && weapon.destroy) weapon.destroy();
+            if (enemy && enemy.disableBody) enemy.disableBody(true, true);
+        });
+        this.physics.add.collider(this.enemies, platforms);
+        this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
+
         this.cannons = [
             this.physics.add.image(20, 1350, 'cannon'),
             this.physics.add.image(500, 1900, 'cannon'),
@@ -1435,11 +1402,12 @@ document.addEventListener('keydown', (event)=> {
             c.setImmovable(true);
             c.body.allowGravity = false;
         });
-        //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
+
         bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
+
         this.time.addEvent({
             delay: 2000,
             callback: () => {
@@ -1447,8 +1415,10 @@ document.addEventListener('keydown', (event)=> {
             },
             loop: true
         });
+
         this.physics.add.collider(player, bullets, hitPlayer, null, this);
-        //cannon_up luonti
+
+        // cannon_up
         this.cannons_up = [
             this.physics.add.image(600, 1950, 'cannon_up'),
             this.physics.add.image(640, 1950, 'cannon_up'),
@@ -1456,16 +1426,13 @@ document.addEventListener('keydown', (event)=> {
             this.physics.add.image(1700, 1950, 'cannon_up'),
             this.physics.add.image(1950, 1950, 'cannon_up'),
         ];
+        this.cannons_up.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
 
-        this.cannons_up.forEach(c => {
-            c.setImmovable(true);
-            c.body.allowGravity = false;
-        });
-        //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
         cannon_up_bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
+
         this.time.addEvent({
             delay: 1200,
             callback: () => {
@@ -1473,85 +1440,107 @@ document.addEventListener('keydown', (event)=> {
             },
             loop: true
         });
+
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
-              this.physics.add.collider(this.enemy, platforms);
-    this.physics.add.collider(player, this.enemy, hitByEnemy, null, this); 
 
-    //vihollisen animaatiot
-    this.anims.create({
-    key: 'walkLeftEnemy',
-    frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
-    frameRate: 8,
-    repeat: -1
-    });
-    this.anims.create({
-        key: 'idleEnemy',
-        frames: [{ key: 'enemy', frame: 4 }],
-        frameRate: 1
-    });
-    this.anims.create({
-        key: 'walkRightEnemy',
-        frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
-        frameRate: 8,
-        repeat: -1
-    });
+        // cannon_back
+        cannon_back = this.physics.add.image(1670, 1740, 'cannon_back');
+        cannon_back.setImmovable(true);
+        cannon_back.body.allowGravity = false;
 
-    this.enemy.play('walkRightEnemy');
+        cannon_back_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 1000,
+            callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
+            loop: true
+        });
+
+        this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
 
-    //kellon funktio
-    // hae aiempi aika
-    this.totalTime = this.registry.get('totalTime') || 0;
+        this.anims.create({
+            key: 'walkLeftEnemy',
+            frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'idleEnemy',
+            frames: [{ key: 'enemy', frame: 4 }],
+            frameRate: 1
+        });
+        this.anims.create({
+            key: 'walkRightEnemy',
+            frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
+            frameRate: 8,
+            repeat: -1
+        });
 
-    //luo tekstin
-    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
+
+        // -------------------------
+        // CLOCK / TIMER
+        // -------------------------
+        this.totalTime = this.registry.get('totalTime') || 0;
+        this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+            fontSize: '24px',
+            fill: '#fff'
+        }).setScrollFactor(0);
+
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                this.totalTime++;
+                this.registry.set('totalTime', this.totalTime);
+                this.timerText.setText("Aika: " + this.totalTime);
+            }
+        });
+         this.deaths = this.registry.get('deaths');
+
+        this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
         fontSize: '24px',
         fill: '#fff'
-    }).setScrollFactor(0);
+        }).setScrollFactor(0);
 
-    //texti pysyy vasemmassa 
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                this.totalTime++;
+                this.registry.set('totalTime', this.totalTime);
+                this.timerText.setText("Aika: " + this.totalTime);
+            }
+        });
+    
 
-    // kuolemalaskuri
-    this.deaths = this.registry.get('deaths');
 
-    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
-    fontSize: '24px',
-    fill: '#fff'
-    }).setScrollFactor(0);
-
-
-    this.timeEvent = this.time.addEvent({
-        delay: 1000,
-        loop: true,
-        callback: () => {
-            this.totalTime++;
-            this.registry.set('totalTime', this.totalTime);
-
-            this.timerText.setText("Aika: " + this.totalTime);
-        }
-    });
-
-    this.spikes = this.physics.add.staticGroup();
-    this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(955, 1970, 'spike').setScale(0.8).refreshBody();
-    this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
+        this.spikes = this.physics.add.staticGroup();
+        this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(955, 1970, 'spike').setScale(0.8).refreshBody();
+        this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
+
     update(){
-        if (gameOver == true)
-        {
+        if (gameOver == true) {
             this.physics.pause();
             backgroundsound.pause();
             player.anims.play('jump');
             return;
         }
-        backgroundsound.play()
+
+        backgroundsound.play();
+
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
         }
-
         if (jumping === 1) {
             player.anims.play("jump", true);
             player.setVelocityX(0);
@@ -1565,7 +1554,7 @@ document.addEventListener('keydown', (event)=> {
             player.setVelocityX(-160);
             player.anims.play('left', true);
             facingRight = false;
-        } 
+        }
         else if (cursors.right.isDown) {
             player.setVelocityX(160);
             player.anims.play('right', true);
@@ -1574,80 +1563,87 @@ document.addEventListener('keydown', (event)=> {
         else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        }  
+        }
         else {
             if (player.windActive) {
-                const windAcceleration = 60;
-                const maxWindSpeed = 800;
+                const windAcceleration = 10;
+                const maxWindSpeed = 200;
                 if (player.body.velocity.x < maxWindSpeed) {
                     player.setVelocityX(player.body.velocity.x + windAcceleration);
                 }
+            } else {
+                player.setVelocityX(0);
+                player.anims.play('turn');
             }
-            else {
-            player.setVelocityX(0)
-            player.anims.play('turn');
+        }
+
+        // Knife heitto
+          if (Phaser.Input.Keyboard.JustDown(shoot)) {
+            const now = this.time.now;
+            if (now - this.lastThrowTime > this.throwCooldown) {
+                this.lastThrowTime = now; 
+                let offset = -30;
+                let spawnX = player.x + (facingRight ? offset : -offset);
+                let weapon = knife.create(spawnX, player.y, 'dagger');
+                weapon.setScale(0.1);
+                weapon.setVelocityX(300); 
+                weapon.setGravityY(-200);
+                
+                if (facingRight) {
+                    weapon.setVelocityX(300);
+                } else {
+                    weapon.setVelocityX(-300);
+                    weapon.flipX = true; 
+                }
+
+                setTimeout(() => { weapon.destroy(); }, 3000);
             }
         }
 
-         if (Phaser.Input.Keyboard.JustDown(shoot)) {
-        const now = this.time.now;
-    //knife heittoa
-    if (now - this.lastThrowTime > this.throwCooldown) {
-        this.lastThrowTime = now; 
-            let offset = -30;
-            let spawnX = player.x + (facingRight ? offset : -offset);
-            let weapon = knife.create(spawnX, player.y, 'dagger');
-            weapon.setScale(0.1);
-            weapon.setVelocityX(300); 
-            weapon.setGravityY(-200);
-             if (facingRight) {
-        weapon.setVelocityX(300);
-    } else {
-        weapon.setVelocityX(-300);
-        weapon.flipX = true; 
-    }
-         setTimeout(() => { weapon.destroy(); }, 3000);
-        }
-        
-    }
-   const e = this.enemy;
-if (!e || !e.body || !e.active) {
-    // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
-} else {
-    // Reunantunnistus (probe)
-const checkDistanceX = e.direction * (e.body.width / 2 + 5);
-const probeX = e.x + checkDistanceX;
-const probeY = e.y + e.body.height / 2 + 1;
-    // Onko maata suoraan edessä?
-    let groundAhead = false;
-    platforms.getChildren().forEach(p => {
-        const left = p.x - p.displayWidth / 2;
-        const right = p.x + p.displayWidth / 2;
-        const top = p.y - p.displayHeight / 2;
+        this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
+        this.enemies.children.iterate(e => {
+            if (!e || !e.active) return;
 
-        if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
-            groundAhead = true;
-        }
-    });
+            const probeX = e.x + e.direction * (e.width / 2 + 6);
+            const probeY = e.body.bottom + 2;
 
-   if (!groundAhead && e.body.blocked.down) {
-    e.direction *= -1;
-    e.setVelocityX(50 * e.direction);
-    e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+            let groundAhead = false;
+            platforms.getChildren().forEach(p => {
+                const bounds = p.getBounds();
+                if (
+                    probeX >= bounds.left - 5 &&
+                    probeX <= bounds.right + 5 &&
+                    probeY >= bounds.top - 10 &&
+                    probeY <= bounds.top + 25
+                ) {
+                    groundAhead = true;
+                }
+            });
+
+            if (!e.lastTurnTime) e.lastTurnTime = 0;
+            if (this.time.now - e.lastTurnTime > 500) {
+                if (!groundAhead && e.body.blocked.down) {
+                    e.direction *= -1;
+                    e.setVelocityX(80 * e.direction);
+                    e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                    e.lastTurnTime = this.time.now;
+                }
+            }
+
+            if (e.body.blocked.left) {
+                e.direction = 1;
+                e.setVelocityX(80);
+                e.play('walkRightEnemy', true);
+            }
+            if (e.body.blocked.right) {
+                e.direction = -1;
+                e.setVelocityX(-80);
+                e.play('walkLeftEnemy', true);
+            }
+        });
     }
-    if (e.body.blocked.left) {
-        e.direction = 1;
-        e.setVelocityX(50);
-        e.play('walkRightEnemy', true);
-    }
-    if (e.body.blocked.right) {
-        e.direction = -1;
-        e.setVelocityX(-50);
-        e.play('walkLeftEnemy', true);
-    }
-}   
 }
-}
+
 //level 5
 class Level5 extends Phaser.Scene {
     constructor() {
@@ -1965,7 +1961,7 @@ function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) 
     const c = cannon_backInstance;
     const cannon_back_bullets = cannon_back_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_back_bullets) {
-        cannon_back_bullets.enableBody(true, c.x, c.y-40, true, true);
+        cannon_back_bullets.enableBody(true, c.x, c.y, true, true);
         cannon_back_bullets.setVelocityX(-400);
         cannon_back_bullets.body.allowGravity = false;
     }
