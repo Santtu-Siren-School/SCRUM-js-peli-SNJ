@@ -7,6 +7,7 @@ class Level1 extends Phaser.Scene {
     // asetan kellon muuttujan
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
 
     preload (){
@@ -285,8 +286,17 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         fontSize: '24px',
         fill: '#fff'
     }).setScrollFactor(0);
-
     //texti pysyy vasemmassa 
+
+    // kuolemalaskuri
+    this.deaths = this.registry.get('deaths');
+
+    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
+
     this.timeEvent = this.time.addEvent({
         delay: 1000,
         loop: true,
@@ -430,6 +440,7 @@ class Level2 extends Phaser.Scene {
     //kellon muuttuja
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
     
     create (){
@@ -689,6 +700,14 @@ this.time.addEvent({
             this.timerText.setText("Aika: " + this.totalTime);
         }
     });
+
+    // kuolemalaskuri
+    this.deaths = this.registry.get('deaths');
+
+    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
     }
 
     update (){
@@ -823,6 +842,7 @@ class Level3 extends Phaser.Scene {
 
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0);
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
 
     create (){
@@ -1080,6 +1100,14 @@ class Level3 extends Phaser.Scene {
             fill: '#fff'
         }).setScrollFactor(0);
 
+        // kuolemalaskuri
+        this.deaths = this.registry.get('deaths');
+
+        this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+        fontSize: '24px',
+        fill: '#fff'
+        }).setScrollFactor(0);
+
         this.timeEvent = this.time.addEvent({
             delay: 1000,
             loop: true,
@@ -1213,6 +1241,7 @@ class Level4 extends Phaser.Scene {
 
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
     
     create() {
@@ -1479,6 +1508,16 @@ document.addEventListener('keydown', (event)=> {
     }).setScrollFactor(0);
 
     //texti pysyy vasemmassa 
+
+    // kuolemalaskuri
+    this.deaths = this.registry.get('deaths');
+
+    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
+
     this.timeEvent = this.time.addEvent({
         delay: 1000,
         loop: true,
@@ -1611,7 +1650,7 @@ const probeY = e.y + e.body.height / 2 + 1;
 class Level5 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level5' });}
-        init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );}
+        init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
         create(){
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "5") {
@@ -1748,6 +1787,14 @@ class Level5 extends Phaser.Scene {
             this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
                 fontSize: '24px',
                 fill: '#fff'
+            }).setScrollFactor(0);
+
+            // kuolemalaskuri
+            this.deaths = this.registry.get('deaths');
+
+            this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+            fontSize: '24px',
+            fill: '#fff'
             }).setScrollFactor(0);
 
             //texti pysyy vasemmassa 
@@ -1921,6 +1968,13 @@ function hitPlayer(player, bullet) {
         if (bullet && bullet.disableBody) bullet.disableBody(true, true);
         return;
     }
+
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
+
     this.scene.start(this.scene.key)
 }
 
@@ -1945,6 +1999,11 @@ function level5Transition() {
     this.scene.start('Level5')
 }
 function hitByEnemy(player, enemy) {
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function trampolinePlayer(player, trampoline) {
@@ -1954,6 +2013,11 @@ function low_power_trampolinePlayer(player, low_power_trampoline) {
     player.setVelocityY(-450);
 }
 function hitBySpike(player, spike) {
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function windPlayer(player, wind) {
