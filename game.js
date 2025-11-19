@@ -1663,8 +1663,30 @@ class Level5 extends Phaser.Scene {
             enemy.disableBody(true, true);
             weapon.destroy(); 
             });
-
-
+            //boss animaatio
+            this.anims.create({
+                key: 'idlebossphase1',
+                frames: this.anims.generateFrameNumbers('boss_level5', { frame: 3}),
+                frameRate: 1
+            });
+            this.anims.create({
+                key: 'idlebossphase2',
+                frames: this.anims.generateFrameNumbers('boss_level5', { frame: 4}),
+                frameRate: 1
+            });
+            this.anims.create({
+                key: 'bossphase1attack',
+                frames: [{ key: 'boss_level5', start: 2, end: 0 }],
+                frameRate: 3,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'bossphase2attack',
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 5}),
+                frameRate: 2,
+                repeat: -1
+            });
+            boss.play('idlebossphase1');
             //kellon funktio
             // hae aiempi aika
             this.totalTime = this.registry.get('totalTime') || 0;
@@ -1894,6 +1916,6 @@ function level1trhow(player, solid_snake_door) {
 function bossPlayerContact(boss,player) {
     knockback=1;
     player.setVelocityX(800)
-    player.setVelocityY(-410)
-    setTimeout(() => {knockback=0;}, 1400);
+    player.setVelocityY(-450)
+    setTimeout(() => {knockback=0;}, 1300);
 }
