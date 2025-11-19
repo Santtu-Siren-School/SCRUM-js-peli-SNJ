@@ -1498,6 +1498,23 @@ class Level4 extends Phaser.Scene {
                 this.timerText.setText("Aika: " + this.totalTime);
             }
         });
+         this.deaths = this.registry.get('deaths');
+
+        this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+        fontSize: '24px',
+        fill: '#fff'
+        }).setScrollFactor(0);
+
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                this.totalTime++;
+                this.registry.set('totalTime', this.totalTime);
+                this.timerText.setText("Aika: " + this.totalTime);
+            }
+        });
+    
 
 
         this.spikes = this.physics.add.staticGroup();
