@@ -12,7 +12,7 @@ class Level1 extends Phaser.Scene {
     preload (){
     //kaikki textuurien lataus tänne
     this.load.image('background', 'assets/textures/background.png');
-    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 28, frameHeight: 42});
+    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 30, frameHeight: 42});
     this.load.image('platform', 'assets/textures/Platformit.png');
     this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
     this.load.image('dagger', 'assets/textures/tikari.png');
