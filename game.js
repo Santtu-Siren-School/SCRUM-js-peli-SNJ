@@ -1442,7 +1442,7 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
 
         // cannon_back
-        cannon_back = this.physics.add.image(1380, 1600, 'cannon_back');
+        cannon_back = this.physics.add.image(1670, 1760, 'cannon_back');
         cannon_back.setImmovable(true);
         cannon_back.body.allowGravity = false;
 
@@ -1452,7 +1452,7 @@ class Level4 extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 1200,
+            delay: 1000,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
