@@ -1597,6 +1597,7 @@ class Level5 extends Phaser.Scene {
                 console.log('forced level change1');
             }
         });
+            shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
             knife = this.physics.add.group();
             this.lastThrowTime = 0; 
             this.throwCooldown = 1000;
@@ -1654,7 +1655,7 @@ class Level5 extends Phaser.Scene {
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
             });
-            this.physics.add.collider(knife, wall, (weapon) => {
+            this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
@@ -1756,8 +1757,7 @@ class Level5 extends Phaser.Scene {
             weapon.setGravityY(-200);
             if (facingRight) {
                 weapon.setVelocityX(300);
-            }
-        } 
+            } 
         else {
             weapon.setVelocityX(-300);
             weapon.flipX = true; 
@@ -1765,6 +1765,7 @@ class Level5 extends Phaser.Scene {
         setTimeout(() => { weapon.destroy(); }, 3000);
         }
         }
+    }
     }
     }
 var config = {
