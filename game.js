@@ -1347,6 +1347,12 @@ class Level4 extends Phaser.Scene {
             platform2.y - 100,
             'enemy'
         ).setScale(2);
+            const platform3 = platforms.getChildren().at(6);
+            const enemy3 = this.enemies.create(
+            platform3.x - 10,
+            platform3.y - 100,
+            'enemy'
+            ).setScale(2);
 
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
