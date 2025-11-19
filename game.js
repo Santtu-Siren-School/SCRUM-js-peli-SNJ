@@ -240,7 +240,7 @@ cannon_back_bullets = this.physics.add.group({
 });
 
 this.time.addEvent({
-    delay: 5000,
+    delay: 2000,
     callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
     loop: true
 });
@@ -561,7 +561,7 @@ cannon_up_bullets = this.physics.add.group({
 });
 
 this.time.addEvent({
-    delay: 5000,
+    delay: 2000,
     callback: () => shootBullet_cannon_up(cannon_up, cannon_up_bullets),
     loop: true
 });
