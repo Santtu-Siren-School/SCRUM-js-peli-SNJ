@@ -1536,8 +1536,8 @@ document.addEventListener('keydown', (event)=> {
         }  
         else {
             if (player.windActive) {
-                const windAcceleration = 10;
-                const maxWindSpeed = 200;
+                const windAcceleration = 60;
+                const maxWindSpeed = 800;
                 if (player.body.velocity.x < maxWindSpeed) {
                     player.setVelocityX(player.body.velocity.x + windAcceleration);
                 }
@@ -1686,7 +1686,7 @@ class Level5 extends Phaser.Scene {
             tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
             tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
             player = this.physics.add.sprite(100, 150, 'main_character');
-            boss = this.physics.add.sprite(1000, 1700, 'boss_level5').setScale(2.5).refreshBody();
+            boss = this.physics.add.sprite(980, 1700, 'boss_level5').setScale(2.5).refreshBody();
             this.cameras.main.setBounds(0, 0, 2000, 2000);
             this.physics.world.setBounds(0, 0, 2000, 2000);
             this.cameras.main.startFollow(player);
@@ -1718,27 +1718,28 @@ class Level5 extends Phaser.Scene {
             //boss animaatio
             this.anims.create({
                 key: 'idlebossphase1',
-                frames: this.anims.generateFrameNumbers('boss_level5', { frame: 3}),
-                frameRate: 1
+                frames: [{ key: 'boss_level5', frame: 3 }],
             });
+
             this.anims.create({
                 key: 'idlebossphase2',
-                frames: this.anims.generateFrameNumbers('boss_level5', { frame: 4}),
-                frameRate: 1
+                frames: [{ key: 'boss_level5', frame: 4 }],
             });
+
             this.anims.create({
                 key: 'bossphase1attack',
-                frames: [{ key: 'boss_level5', start: 2, end: 0 }],
-                frameRate: 3,
-                repeat: -1
-            });
-            this.anims.create({
-                key: 'bossphase2attack',
-                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 5}),
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 0, end: 2 }),
                 frameRate: 2,
                 repeat: -1
             });
-            boss.play('idlebossphase1');
+
+            this.anims.create({
+                key: 'bossphase2attack',
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
+                frameRate: 2,
+                repeat: -1
+            });
+            boss.play('bossphase2attack');
             //kellon funktio
             // hae aiempi aika
             this.totalTime = this.registry.get('totalTime') || 0;
