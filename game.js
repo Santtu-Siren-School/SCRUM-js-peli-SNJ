@@ -7,6 +7,7 @@ class Level1 extends Phaser.Scene {
     // asetan kellon muuttujan
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
 
     preload (){
@@ -285,8 +286,17 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         fontSize: '24px',
         fill: '#fff'
     }).setScrollFactor(0);
-
     //texti pysyy vasemmassa 
+
+    // kuolemalaskuri
+    this.deaths = this.registry.get('deaths');
+
+    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
+
     this.timeEvent = this.time.addEvent({
         delay: 1000,
         loop: true,
@@ -430,6 +440,7 @@ class Level2 extends Phaser.Scene {
     //kellon muuttuja
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
     
     create (){
@@ -689,6 +700,14 @@ this.time.addEvent({
             this.timerText.setText("Aika: " + this.totalTime);
         }
     });
+
+    // kuolemalaskuri
+    this.deaths = this.registry.get('deaths');
+
+    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
     }
 
     update (){
@@ -823,6 +842,7 @@ class Level3 extends Phaser.Scene {
 
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0);
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
 
     create (){
@@ -921,10 +941,6 @@ class Level3 extends Phaser.Scene {
 
         // invisible door
         solid_snake_door.create(100,220).setScale(0.001).refreshBody();
-
-        // -------------------------
-        //  TWO ENEMIES (FIXED!)
-        // -------------------------
 
         this.enemies = this.physics.add.group();
 
@@ -1068,6 +1084,14 @@ class Level3 extends Phaser.Scene {
         this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
             fontSize: '24px',
             fill: '#fff'
+        }).setScrollFactor(0);
+
+        // kuolemalaskuri
+        this.deaths = this.registry.get('deaths');
+
+        this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+        fontSize: '24px',
+        fill: '#fff'
         }).setScrollFactor(0);
 
         this.timeEvent = this.time.addEvent({
@@ -1308,27 +1332,27 @@ class Level4 extends Phaser.Scene {
     
         ovi = this.physics.add.staticGroup();
         ovi.create(1800,90,'ovi').setScale(0.3).refreshBody();
+            this.enemies = this.physics.add.group();
 
-    
-        this.enemies = this.physics.add.group();
+        const platform1 = platforms.getChildren().at(0);
+        const enemy1 = this.enemies.create(
+            platform1.x - 10,
+            platform1.y - 100,
+            'enemy'
+        ).setScale(2);
 
-       
-        const spawn1 = { x: 500 - 10, y: 1500 - 100 }; 
-        const spawn2 = { x: 1100 - 10, y: 1600 - 100 }; 
-
-        const enemy1 = this.enemies.create(spawn1.x, spawn1.y, 'enemy').setScale(2);
-        const enemy2 = this.enemies.create(spawn2.x, spawn2.y, 'enemy').setScale(2);
+        const platform2 = platforms.getChildren().at(12);
+        const enemy2 = this.enemies.create(
+            platform2.x - 10,
+            platform2.y - 100,
+            'enemy'
+        ).setScale(2);
 
         this.enemies.children.iterate(e => {
-            if (!e) return;
-            e.body.setSize(e.width, e.height);
-            e.body.setOffset(0,0);
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
             e.setVelocityX(50);
             e.direction = 1;
-        
-            e.lastTurnTime = 0;
         });
 
         this.cameras.main.setBounds(0, 0, 2000, 2000);
@@ -1605,7 +1629,7 @@ class Level4 extends Phaser.Scene {
 class Level5 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level5' });}
-        init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );}
+        init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
         create(){
         document.addEventListener('keydown', (event)=> {
 		if (event.key === "5") {
@@ -1680,7 +1704,7 @@ class Level5 extends Phaser.Scene {
             tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
             tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
             player = this.physics.add.sprite(100, 150, 'main_character');
-            boss = this.physics.add.sprite(1000, 1700, 'boss_level5').setScale(2.5).refreshBody();
+            boss = this.physics.add.sprite(980, 1700, 'boss_level5').setScale(2.5).refreshBody();
             this.cameras.main.setBounds(0, 0, 2000, 2000);
             this.physics.world.setBounds(0, 0, 2000, 2000);
             this.cameras.main.startFollow(player);
@@ -1712,27 +1736,28 @@ class Level5 extends Phaser.Scene {
             //boss animaatio
             this.anims.create({
                 key: 'idlebossphase1',
-                frames: this.anims.generateFrameNumbers('boss_level5', { frame: 3}),
-                frameRate: 1
+                frames: [{ key: 'boss_level5', frame: 3 }],
             });
+
             this.anims.create({
                 key: 'idlebossphase2',
-                frames: this.anims.generateFrameNumbers('boss_level5', { frame: 4}),
-                frameRate: 1
+                frames: [{ key: 'boss_level5', frame: 4 }],
             });
+
             this.anims.create({
                 key: 'bossphase1attack',
-                frames: [{ key: 'boss_level5', start: 2, end: 0 }],
-                frameRate: 3,
-                repeat: -1
-            });
-            this.anims.create({
-                key: 'bossphase2attack',
-                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 5}),
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 0, end: 2 }),
                 frameRate: 2,
                 repeat: -1
             });
-            boss.play('idlebossphase1');
+
+            this.anims.create({
+                key: 'bossphase2attack',
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
+                frameRate: 2,
+                repeat: -1
+            });
+            boss.play('bossphase2attack');
             //kellon funktio
             // hae aiempi aika
             this.totalTime = this.registry.get('totalTime') || 0;
@@ -1741,6 +1766,14 @@ class Level5 extends Phaser.Scene {
             this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
                 fontSize: '24px',
                 fill: '#fff'
+            }).setScrollFactor(0);
+
+            // kuolemalaskuri
+            this.deaths = this.registry.get('deaths');
+
+            this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+            fontSize: '24px',
+            fill: '#fff'
             }).setScrollFactor(0);
 
             //texti pysyy vasemmassa 
@@ -1914,6 +1947,13 @@ function hitPlayer(player, bullet) {
         if (bullet && bullet.disableBody) bullet.disableBody(true, true);
         return;
     }
+
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
+
     this.scene.start(this.scene.key)
 }
 
@@ -1938,6 +1978,11 @@ function level5Transition() {
     this.scene.start('Level5')
 }
 function hitByEnemy(player, enemy) {
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function trampolinePlayer(player, trampoline) {
@@ -1947,6 +1992,11 @@ function low_power_trampolinePlayer(player, low_power_trampoline) {
     player.setVelocityY(-450);
 }
 function hitBySpike(player, spike) {
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function windPlayer(player, wind) {
