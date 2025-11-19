@@ -1738,6 +1738,7 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(boss, wall);
             this.physics.add.overlap(boss, player, bossPlayerContact, null, this);
             this.physics.add.collider(player, knife);
+            this.physics.add.overlap(boss, knife, knifehitboss,null,this);
             this.physics.add.collider(knife, platforms, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
@@ -1813,7 +1814,7 @@ class Level5 extends Phaser.Scene {
             dialogue1_boss=0
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
             setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
-            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();}, 6000);}, 3000);
+            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();}, 3000);}, 3000);
         }
         if (gameOver == true)
         {
@@ -2041,4 +2042,18 @@ function bossPlayerContact(boss,player) {
     player.setVelocityX(800)
     player.setVelocityY(-450)
     setTimeout(() => {knockback=0;}, 1300);
+}
+function knifehitboss(boss,knife) {
+    knife.destroy();
+    var bosshitchanchethingy=Phaser.Math.Between(0, 5);
+    console.log(bosshitchanchethingy)
+    if (bosshitchanchethingy===3) {
+            let weapon = knife.create(boss.x+40, player.y+40, 'dagger');
+            weapon.setScale(0.1);
+            weapon.setVelocityX(300); 
+            weapon.setGravityY(-200);
+    }
+    else {
+        return;
+    }
 }
