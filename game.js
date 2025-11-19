@@ -40,6 +40,8 @@ class Level1 extends Phaser.Scene {
     this.load.image('level5_level1', 'assets/textures/level5_level1.png')
     this.load.image('solid_snake','assets/textures/solid-snake.jpg')
     this.load.spritesheet('boss_level5','assets/textures/boss-spirehseet.png',{frameWidth: 37, frameHeight: 42})
+    this.load.image('dialogue1_boss','assets/textures/Boss_fight_dialogue1.png')
+    this.load.image('dialogue2_boss','assets/textures/Boss_fight_dialogue2.png')
     }
     create (){
     //knife cooldownin laatiminen
@@ -1726,7 +1728,7 @@ class Level5 extends Phaser.Scene {
             tower_thingys.create(780,1930, 'tower_thingy4').setScale(1).refreshBody();
             tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
             tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
-            player = this.physics.add.sprite(100, 150, 'main_character');
+            player = this.physics.add.sprite(400, 1800, 'main_character');
             boss = this.physics.add.sprite(980, 1700, 'boss_level5').setScale(2.5).refreshBody();
             this.cameras.main.setBounds(0, 0, 2000, 2000);
             this.physics.world.setBounds(0, 0, 2000, 2000);
@@ -1780,7 +1782,7 @@ class Level5 extends Phaser.Scene {
                 frameRate: 2,
                 repeat: -1
             });
-            boss.play('bossphase2attack');
+            boss.play('idlebossphase1');
             //kellon funktio
             // hae aiempi aika
             this.totalTime = this.registry.get('totalTime') || 0;
@@ -1813,6 +1815,12 @@ class Level5 extends Phaser.Scene {
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
+        if (dialogue1_boss===1) {
+            dialogue1_boss=0
+            let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
+            setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
+            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();}, 6000);}, 3000);
+        }
         if (gameOver == true)
         {
             this.physics.pause();
@@ -1904,6 +1912,8 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4,Level5]
 };
+var dialogue_boss_img;
+var dialogue1_boss=1;
 var knockback=0;
 var boss;
 var level5_level1;
