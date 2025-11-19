@@ -1440,9 +1440,9 @@ document.addEventListener('keydown', (event)=> {
     });
 
     this.spikes = this.physics.add.staticGroup();
-    this.spikes.create(1140, 1970, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(1415, 1970, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(905, 1970, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(935, 1970, 'spike').setScale(0.8).refreshBody();
     this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
     update(){
