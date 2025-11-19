@@ -815,36 +815,38 @@ if (!e || !e.body || !e.active) {
 //level3
 class Level3 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Level3' });}
+        super({ key: 'Level3' });
+    }
+
     preload (){
     }
 
     init() {
-        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0);
     }
-    
+
     create (){
-    //pakotetaan levelin vaihto level4
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "5") {
-            nextlevelsound.play()
-            this.scene.start('Level5');
-            console.log('forced level change5');
-		}
+        // pakotetut level vaihdot
+        document.addEventListener('keydown', (event)=> {
+            if (event.key === "5") {
+                nextlevelsound.play()
+                this.scene.start('Level5');
+                console.log('forced level change5');
+            }
         });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "4") {
-            nextlevelsound.play()
-            this.scene.start('Level4');
-            console.log('forced level change4');
-		}
+            if (event.key === "4") {
+                nextlevelsound.play()
+                this.scene.start('Level4');
+                console.log('forced level change4');
+            }
         });
         document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
-            nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change3');
-		}
+            if (event.key === "3") {
+                nextlevelsound.play()
+                this.scene.start('Level3');
+                console.log('forced level change3');
+            }
         });
         document.addEventListener('keydown', (event)=> {
             if (event.key === "2") {
@@ -860,19 +862,26 @@ class Level3 extends Phaser.Scene {
                 console.log('forced level change1');
             }
         });
-    this.lastThrowTime = 0; 
-    this.throwCooldown = 1000; 
-        solid_snake_door=this.physics.add.staticGroup(); 
+
+        this.lastThrowTime = 0; 
+        this.throwCooldown = 1000; 
+
+        solid_snake_door = this.physics.add.staticGroup(); 
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
-        trampoline=this.physics.add.staticGroup();
-        wall=this.physics.add.staticGroup();
+        trampoline = this.physics.add.staticGroup();
+        wall = this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
+
         this.add.image(1000,400, 'dungeon').setScale(3.5);
+
         player = this.physics.add.sprite(100, 750, 'main_character');
         player.setCollideWorldBounds(true);
+
         knife = this.physics.add.group();
         shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // bottom of game
         bottom_of_game.create(100,900, 'bottom_of_game')
         bottom_of_game.create(300,900, 'bottom_of_game')
         bottom_of_game.create(500,900, 'bottom_of_game')
@@ -883,6 +892,8 @@ class Level3 extends Phaser.Scene {
         bottom_of_game.create(1500,900, 'bottom_of_game')
         bottom_of_game.create(1700,900, 'bottom_of_game')
         bottom_of_game.create(1900,900, 'bottom_of_game')
+
+        // walls
         wall.create(443,455,'wall')
         wall.create(557,455,'wall')
         wall.create(443,755,'wall')
@@ -890,83 +901,113 @@ class Level3 extends Phaser.Scene {
         wall.create(1245,100,'wall')
         wall.create(1700,840,'wall')
         wall.create(1200,840,'wall')
+
+        // trampolines
         trampoline.create(300,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(650,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(1800,850, 'trampoline').setScale(0.4).refreshBody();
+
+        // platforms
         platforms.create(500,230,'platform').setScale(2).refreshBody();
         platforms.create(900,530,'platform').setScale(2).refreshBody();
         platforms.create(1300,730,'platform').setScale(2).refreshBody();
         platforms.create(1600,730,'platform').setScale(2).refreshBody();
         platforms.create(1600,330,'platform').setScale(2).refreshBody();
         platforms.create(1300,300,'platform').setScale(2).refreshBody();
-        ovi=this.physics.add.staticGroup();
-        //oven luonti
+
+        // door
+        ovi = this.physics.add.staticGroup();
         ovi.create(1300,195,'ovi').setScale(0.3).refreshBody();
-const rightPlatform = platforms.getChildren().at(0);
-this.enemy = this.physics.add.sprite(
-  rightPlatform.x - 10,
-  rightPlatform.y - 100,
-  'enemy'
-);
-this.enemy.setScale(2);
-this.enemy.body.setSize(this.enemy.width, this.enemy.height);
-this.enemy.body.setOffset(0, 0);
-const leftPlatform = platforms.getChildren().at(2);
-this.enemy = this.physics.add.sprite(
-  leftPlatform.x - 10,
-  leftPlatform.y - 100,
-  'enemy'
-);
-this.enemy.setScale(2);
-this.enemy.body.setSize(this.enemy.width, this.enemy.height);
-this.enemy.body.setOffset(0, 0);
-        //invisible,invisible
+
+        // invisible door
         solid_snake_door.create(100,220).setScale(0.001).refreshBody();
+
+        // -------------------------
+        //  TWO ENEMIES (FIXED!)
+        // -------------------------
+
+        this.enemies = this.physics.add.group();
+
+        const platform1 = platforms.getChildren().at(0);
+        const enemy1 = this.enemies.create(
+            platform1.x - 10,
+            platform1.y - 100,
+            'enemy'
+        ).setScale(2);
+
+        const platform2 = platforms.getChildren().at(2);
+        const enemy2 = this.enemies.create(
+            platform2.x - 10,
+            platform2.y - 100,
+            'enemy'
+        ).setScale(2);
+
+        this.enemies.children.iterate(e => {
+            e.body.setGravityY(300);
+            e.setCollideWorldBounds(true);
+            e.setVelocityX(50);
+            e.direction = 1;
+        });
+
+        // -------------------------
+        // COLLIDERS
+        // -------------------------
+
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
         this.physics.add.collider(player, knife);
-    this.physics.add.collider(knife, platforms, (weapon) => {
-        weapon.setVelocity(0, 0);
-        weapon.body.allowGravity = false;
-        weapon.body.immovable = true;
-    });
-    this.physics.add.collider(knife, wall, (weapon) => {
-        weapon.setVelocity(0, 0);
-        weapon.body.allowGravity = false;
-        weapon.body.immovable = true;
-    });
-    this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
-    enemy.disableBody(true, true);
-    weapon.destroy(); 
-    });
-    
-        this.enemy.body.setGravityY(300); // lisää painovoima
-        this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
-        this.enemy.setVelocityX(50); // alku nopeus
-        this.enemy.direction = 1;
+        this.physics.add.collider(this.enemies, platforms);
+        this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
+
+        // knife collisions
+        this.physics.add.collider(knife, platforms, (weapon) => {
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+        });
+        this.physics.add.collider(knife, wall, (weapon) => {
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+        });
         this.physics.add.collider(knife, bottom_of_game);
-        this.physics.add.collider(knife, wall);
+
+        this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+            enemy.disableBody(true, true);
+            weapon.destroy(); 
+        });
+
+        // -------------------------
+        // CAMERA
+        // -------------------------
+
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
+
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
         this.physics.add.overlap(player, solid_snake_door, level1trhow, null, this);
-        //tykin luonti
+
+        // -------------------------
+        // CANNONS
+        // -------------------------
+
         this.cannons = [
             this.physics.add.image(620, 420, 'cannon'),
-            this.physics.add.image(620, 650, 'cannon'),
+            this.physics.add.image(620, 650, 'cannon')
         ];
 
         this.cannons.forEach(c => {
             c.setImmovable(true);
             c.body.allowGravity = false;
         });
-        //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
+
         bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
+
         this.time.addEvent({
             delay: 3000,
             callback: () => {
@@ -974,8 +1015,9 @@ this.enemy.body.setOffset(0, 0);
             },
             loop: true
         });
+
         this.physics.add.collider(player, bullets, hitPlayer, null, this);
-        //cannon_up luonti
+
         this.cannons_up = [
             this.physics.add.image(1450, 840, 'cannon_up'),
             this.physics.add.image(1100, 840, 'cannon_up'),
@@ -987,11 +1029,12 @@ this.enemy.body.setOffset(0, 0);
             c.setImmovable(true);
             c.body.allowGravity = false;
         });
-        //note: maxsize kertoo kuinka monta luotia tykki pystyy ampumaan, tähän asti parasvaihto ehto on vain listä vain paljon 0 siihen että riitää
+
         cannon_up_bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
+
         this.time.addEvent({
             delay: 1500,
             callback: () => {
@@ -999,65 +1042,66 @@ this.enemy.body.setOffset(0, 0);
             },
             loop: true
         });
+
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
-         this.physics.add.collider(this.enemy, platforms);
-    this.physics.add.collider(player, this.enemy, hitByEnemy, null, this); 
 
-    //vihollisen animaatiot
-    this.anims.create({
-    key: 'walkLeftEnemy',
-    frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
-    frameRate: 8,
-    repeat: -1
-    });
-    this.anims.create({
-        key: 'idleEnemy',
-        frames: [{ key: 'enemy', frame: 4 }],
-        frameRate: 1
-    });
-    this.anims.create({
-        key: 'walkRightEnemy',
-        frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
-        frameRate: 8,
-        repeat: -1
-    });
+        // -------------------------
+        // ENEMY ANIMATIONS
+        // -------------------------
 
-    this.enemy.play('walkRightEnemy');
+        this.anims.create({
+            key: 'walkLeftEnemy',
+            frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'idleEnemy',
+            frames: [{ key: 'enemy', frame: 4 }],
+            frameRate: 1
+        });
+        this.anims.create({
+            key: 'walkRightEnemy',
+            frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
+            frameRate: 8,
+            repeat: -1
+        });
 
-   //kellon funktio
-    // hae aiempi aika
-    this.totalTime = this.registry.get('totalTime') || 0;
+        this.enemies.children.iterate(e => e.play('walkRightEnemy'));
 
-    //luo tekstin
-    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
-        fontSize: '24px',
-        fill: '#fff'
-    }).setScrollFactor(0);
+        // -------------------------
+        // CLOCK / TIMER
+        // -------------------------
 
-    //texti pysyy vasemmassa 
-    this.timeEvent = this.time.addEvent({
-        delay: 1000,
-        loop: true,
-        callback: () => {
-            this.totalTime++;
-            this.registry.set('totalTime', this.totalTime);
+        this.totalTime = this.registry.get('totalTime') || 0;
 
-            this.timerText.setText("Aika: " + this.totalTime);
-        }
-    });
+        this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+            fontSize: '24px',
+            fill: '#fff'
+        }).setScrollFactor(0);
 
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                this.totalTime++;
+                this.registry.set('totalTime', this.totalTime);
+                this.timerText.setText("Aika: " + this.totalTime);
+            }
+        });
     }
 
     update (){
-        if (gameOver == true)
-        {
+        if (gameOver == true) {
             this.physics.pause();
             backgroundsound.pause();
             player.anims.play('jump');
             return;
         }
-        backgroundsound.play()
-    if (cursors.up.isDown && player.body.touching.down) {
+
+        backgroundsound.play();
+
+        if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
@@ -1075,7 +1119,7 @@ this.enemy.body.setOffset(0, 0);
             player.setVelocityX(-160);
             player.anims.play('left', true);
             facingRight = false;
-        } 
+        }
         else if (cursors.right.isDown) {
             player.setVelocityX(160);
             player.anims.play('right', true);
@@ -1084,74 +1128,81 @@ this.enemy.body.setOffset(0, 0);
         else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        } 
+        }
         else {
             player.setVelocityX(0);
             player.anims.play('turn');
         }
-     if (Phaser.Input.Keyboard.JustDown(shoot)) {
-        const now = this.time.now;
-    //knife heittoa
-    if (now - this.lastThrowTime > this.throwCooldown) {
-        this.lastThrowTime = now; 
-            let offset = -30;
-            let spawnX = player.x + (facingRight ? offset : -offset);
-            let weapon = knife.create(spawnX, player.y, 'dagger');
-            weapon.setScale(0.1);
+
+        // KNIFE
+        if (Phaser.Input.Keyboard.JustDown(shoot)) {
+            const now = this.time.now;
+            if (now - this.lastThrowTime > this.throwCooldown) {
+                this.lastThrowTime = now; 
+                let offset = -30;
+                let spawnX = player.x + (facingRight ? offset : -offset);
+                let weapon = knife.create(spawnX, player.y, 'dagger');
+                weapon.setScale(0.1);
+                weapon.setGravityY(0);
+                  weapon.setScale(0.1);
             weapon.setVelocityX(300); 
             weapon.setGravityY(-200);
-             if (facingRight) {
-        weapon.setVelocityX(300);
-    } else {
-        weapon.setVelocityX(-300);
-        weapon.flipX = true; 
-    } setTimeout(() => { weapon.destroy(); }, 3000);
+                
+                if (facingRight) {
+                    weapon.setVelocityX(300);
+                } else {
+                    weapon.setVelocityX(-300);
+                    weapon.flipX = true; 
+                }
+
+                setTimeout(() => { weapon.destroy(); }, 3000);
+            }
         }
-    }
-    
+
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
-        const e = this.enemy;
-if (!e || !e.body || !e.active) {
-    // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
-} else {
-    // Reunantunnistus (probe)
-const checkDistanceX = e.direction * (e.body.width / 2 + 5);
-const probeX = e.x + checkDistanceX;
-const probeY = e.y + e.body.height / 2 + 1;
-    // Onko maata suoraan edessä?
-    let groundAhead = false;
-    platforms.getChildren().forEach(p => {
-        const left = p.x - p.displayWidth / 2;
-        const right = p.x + p.displayWidth / 2;
-        const top = p.y - p.displayHeight / 2;
 
-        if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
-            groundAhead = true;
-        }
-    });
+        // -------------------------
+        // ENEMY EDGE DETECTION FOR ALL ENEMIES
+        // -------------------------
 
-   if (!groundAhead && e.body.blocked.down) {
-    e.direction *= -1;
-    e.setVelocityX(50 * e.direction);
-    e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-    }
-    if (e.body.blocked.left) {
-        e.direction = 1;
-        e.setVelocityX(50);
-        e.play('walkRightEnemy', true);
-    }
-    if (e.body.blocked.right) {
-        e.direction = -1;
-        e.setVelocityX(-50);
-        e.play('walkLeftEnemy', true);
+        this.enemies.children.iterate(e => {
+            if (!e.active) return;
+
+            const checkDistanceX = e.direction * (e.body.width / 2 + 5);
+            const probeX = e.x + checkDistanceX;
+            const probeY = e.y + e.body.height / 2 + 1;
+
+            let groundAhead = false;
+            platforms.getChildren().forEach(p => {
+                const left = p.x - p.displayWidth / 2;
+                const right = p.x + p.displayWidth / 2;
+                const top = p.y - p.displayHeight / 2;
+
+                if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
+                    groundAhead = true;
+                }
+            });
+
+            if (!groundAhead && e.body.blocked.down) {
+                e.direction *= -1;
+                e.setVelocityX(50 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+            }
+
+            if (e.body.blocked.left) {
+                e.direction = 1;
+                e.setVelocityX(50);
+                e.play('walkRightEnemy', true);
+            }
+            if (e.body.blocked.right) {
+                e.direction = -1;
+                e.setVelocityX(-50);
+                e.play('walkLeftEnemy', true);
+            }
+        });
     }
 }
 
-
-    }
-
-    
-}
 
 //level 4
 class Level4 extends Phaser.Scene {
