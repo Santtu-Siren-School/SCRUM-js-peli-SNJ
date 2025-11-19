@@ -170,7 +170,7 @@ this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
 
     this.enemy.body.setGravityY(300); // lisää painovoima
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
-    this.enemy.setVelocityX(50); // alku nopeus
+    this.enemy.setVelocityX(80); // alku nopeus
     this.enemy.direction = 1;
 
     this.physics.add.collider(knife, bottom_of_game);
@@ -408,17 +408,17 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
     if (!groundAhead && e.body.blocked.down) {
         e.direction *= -1;
-        e.setVelocityX(50 * e.direction);
+        e.setVelocityX(80 * e.direction);
         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
         }
         if (e.body.blocked.left) {
             e.direction = 1;
-            e.setVelocityX(50);
+            e.setVelocityX(80);
             e.play('walkRightEnemy', true);
         }
         if (e.body.blocked.right) {
             e.direction = -1;
-            e.setVelocityX(-50);
+            e.setVelocityX(-80);
             e.play('walkLeftEnemy', true);
         }
     }
@@ -640,7 +640,7 @@ this.time.addEvent({
     // fysiikka
     this.enemy.body.setGravityY(300);
     this.enemy.setCollideWorldBounds(true);
-    this.enemy.setVelocityX(50);
+    this.enemy.setVelocityX(80);
 
     this.physics.add.collider(this.enemy, platforms);
 
@@ -804,7 +804,7 @@ if (!e || !e.body || !e.active) {
     if (this.time.now - this.enemy.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
             e.direction *= -1;
-            e.setVelocityX(50 * e.direction);
+            e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
             this.enemy.lastTurnTime = this.time.now;
         }
@@ -812,12 +812,12 @@ if (!e || !e.body || !e.active) {
 
     if (e.body.blocked.left) {
         e.direction = 1;
-        e.setVelocityX(50);
+        e.setVelocityX(80);
         e.play('walkRightEnemy', true);
     }
     if (e.body.blocked.right) {
         e.direction = -1;
-        e.setVelocityX(-50);
+        e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
 
@@ -961,7 +961,7 @@ class Level3 extends Phaser.Scene {
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
-            e.setVelocityX(50);
+            e.setVelocityX(80);
             e.direction = 1;
         });
 
@@ -1197,7 +1197,7 @@ this.enemies.children.iterate(e => {
     if (this.time.now - e.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
             e.direction *= -1;
-            e.setVelocityX(50 * e.direction);
+            e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
             e.lastTurnTime = this.time.now;
         }
@@ -1205,12 +1205,12 @@ this.enemies.children.iterate(e => {
 
     if (e.body.blocked.left) {
         e.direction = 1;
-        e.setVelocityX(50);
+        e.setVelocityX(80);
         e.play('walkRightEnemy', true);
     }
     if (e.body.blocked.right) {
         e.direction = -1;
-        e.setVelocityX(-50);
+        e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
 });
@@ -1351,7 +1351,7 @@ class Level4 extends Phaser.Scene {
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
-            e.setVelocityX(50);
+            e.setVelocityX(80);
             e.direction = 1;
         });
 
@@ -1622,7 +1622,7 @@ class Level4 extends Phaser.Scene {
             if (this.time.now - e.lastTurnTime > 500) {
                 if (!groundAhead && e.body.blocked.down) {
                     e.direction *= -1;
-                    e.setVelocityX(50 * e.direction);
+                    e.setVelocityX(80 * e.direction);
                     e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                     e.lastTurnTime = this.time.now;
                 }
@@ -1630,12 +1630,12 @@ class Level4 extends Phaser.Scene {
 
             if (e.body.blocked.left) {
                 e.direction = 1;
-                e.setVelocityX(50);
+                e.setVelocityX(80);
                 e.play('walkRightEnemy', true);
             }
             if (e.body.blocked.right) {
                 e.direction = -1;
-                e.setVelocityX(-50);
+                e.setVelocityX(-80);
                 e.play('walkLeftEnemy', true);
             }
         });
