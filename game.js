@@ -1817,10 +1817,11 @@ class Level5 extends Phaser.Scene {
         }
         update(){
         if (dialogue1_boss===1) {
+            dialogueActive = true;
             dialogue1_boss=0
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
             setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
-            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();}, 3000);}, 3000);
+            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();;dialogueActive = false;}, 3000)}, 3000);
         }
         if (gameOver == true)
         {
@@ -1832,6 +1833,12 @@ class Level5 extends Phaser.Scene {
         backgroundsound.play()
         if (knockback==1) {
             return;
+        }
+        else if (dialogueActive) {
+                player.setVelocityX(0);
+                player.setVelocityY(0);
+                player.anims.play('turn', true);
+                return;
         }
         else {
             if (cursors.up.isDown && player.body.touching.down) {
@@ -1913,6 +1920,7 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4,Level5]
 };
+let dialogueActive = false;
 var dialogue_boss_img;
 var dialogue1_boss=1;
 var knockback=0;
@@ -2049,15 +2057,15 @@ function bossPlayerContact(boss,player) {
     player.setVelocityY(-450)
     setTimeout(() => {knockback=0;}, 1300);
 }
-function knifehitboss(boss,knife) {
-    knife.destroy();
-    var bosshitchanchethingy=Phaser.Math.Between(0, 5);
+function knifehitboss(boss,knifeSprite) {
+    knifeSprite.destroy();
+    var bosshitchanchethingy=Phaser.Math.Between(0, 3);
     console.log(bosshitchanchethingy)
     if (bosshitchanchethingy===3) {
-            let weapon = knife.create(boss.x+40, player.y+40, 'dagger');
+            let weapon = knife.create(boss.x+100, boss.y-70, 'dagger');
             weapon.setScale(0.1);
-            weapon.setVelocityX(300); 
-            weapon.setGravityY(-200);
+            weapon.setVelocityX(800); 
+            weapon.setGravityY(-300);
     }
     else {
         return;
