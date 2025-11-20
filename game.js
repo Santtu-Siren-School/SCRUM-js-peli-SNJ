@@ -1,3 +1,138 @@
+//mainmenu
+class MainMenu extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MainMenu' });}
+        preload (){
+            //kaikki textuurien lataus tänne
+            this.load.image('background', 'assets/textures/background.png');
+            this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 30, frameHeight: 42});
+            this.load.image('platform', 'assets/textures/Platformit.png');
+            this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
+            this.load.image('dagger', 'assets/textures/tikari.png');
+            this.load.image('cannon', 'assets/textures/cannon.png');
+            this.load.image('cannon_back', 'assets/textures/cannon_back.png')
+            this.load.image('bullet', 'assets/textures/cannon_ball.png');
+            this.load.image('ovi','assets/textures/ovi.png');
+            this.load.image('dungeon','assets/textures/dungeon.png');
+            this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
+            this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
+            this.load.image('cannon_up', 'assets/textures/cannon_up.png');
+            this.load.image('spike','assets/textures/spikes.png');
+            this.load.image('dungeon', 'assets/textures/dungeon.png');
+            this.load.image('trampoline', 'assets/textures/Trampoline.png')
+            this.load.image('wall','assets/textures/wall.png');
+            this.load.image('wind', 'assets/textures/Wind.png');
+            this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
+            this.load.image('sky', 'assets/textures/sky.jpg');
+            this.load.image('tower_thingy1', 'assets/textures/tower_thingy_1.png');
+            this.load.image('tower_thingy3', 'assets/textures/tower_thingy_3.png');
+            this.load.image('tower_thingy2', 'assets/textures/tower_thingy_2.png');
+            this.load.image('tower_thingy4', 'assets/textures/tower_thingy_4.png');
+            this.load.image('sky_level5', 'assets/textures/boosfight_background_sunset.png');
+            this.load.image('level5_level1', 'assets/textures/level5_level1.png')
+            this.load.image('solid_snake','assets/textures/solid-snake.jpg')
+            this.load.spritesheet('boss_level5','assets/textures/boss-spirehseet.png',{frameWidth: 37, frameHeight: 42})
+            this.load.image('dialogue1_boss','assets/textures/Boss_fight_dialogue1.png')
+            this.load.image('dialogue2_boss','assets/textures/Boss_fight_dialogue2.png')
+            this.load.image('fireball','assets/textures/fireball.png')
+            this.load.image('level1','assets/textures/level1_button.png')
+            this.load.image('level2','assets/textures/level2_button.png')
+            this.load.image('level3','assets/textures/level3_button.png')
+            this.load.image('level4','assets/textures/level4_button.png')
+            this.load.image('level5','assets/textures/level5_button.png')
+        }
+        create(){
+            this.add.image(1000,1000, 'sky_level5').setScale(1);
+            const level1_button=this.add.image(100,100,'level1').setInteractive();
+            const level2_button=this.add.image(200,100,'level2').setInteractive();
+            const level3_button=this.add.image(300,100,'level3').setInteractive();
+            const level4_button=this.add.image(400,100,'level4').setInteractive();
+            const level5_button=this.add.image(500,100,'level5').setInteractive();
+            level1_button.on('pointerdown', () => {
+                this.scene.start('Level1'),
+                console.log("game start at level1");
+            });
+            level2_button.on('pointerdown', () => {
+                this.scene.start('Level2'),
+                console.log("game start at level2");
+            });
+            level3_button.on('pointerdown', () => {
+                this.scene.start('Level3'),
+                console.log("game start at level3");
+            });
+            level4_button.on('pointerdown', () => {
+                this.scene.start('Level4'),
+                console.log("game start at level4");
+            });
+            level5_button.on('pointerdown', () => {
+                this.scene.start('Level5'),
+                console.log("game start at level5");
+            });
+            //määritelään Pelaajan liikumis animaatiot
+            this.anims.create({
+                key: 'left',
+                frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'turn',
+                frames: [ { key: 'main_character', frame: 4 } ],
+                frameRate: 1
+            });
+            this.anims.create({
+                key: 'right',
+                frames: this.anims.generateFrameNumbers('main_character', { start: 5, end: 8 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'jump',
+                frames: [{key: 'main_character', frame: 9}],
+                frameRate: 1
+            });
+            //boss animaatiota
+            this.anims.create({
+                key: 'idlebossphase1',
+                frames: [{ key: 'boss_level5', frame: 3 }],
+            });
+            this.anims.create({
+                key: 'idlebossphase2',
+                frames: [{ key: 'boss_level5', frame: 4 }],
+            });
+            this.anims.create({
+                key: 'bossphase1attack',
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 0, end: 2 }),
+                frameRate: 2,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'bossphase2attack',
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
+                rameRate: 2,
+                repeat: -1
+            });
+            //vihollisen animaatiot
+            this.anims.create({
+            key: 'walkLeftEnemy',
+            frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: -1
+            });
+            this.anims.create({
+                key: 'idleEnemy',
+                frames: [{ key: 'enemy', frame: 4 }],
+                frameRate: 1
+            });
+            this.anims.create({
+                key: 'walkRightEnemy',
+                frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
+                frameRate: 8,
+                repeat: -1
+            });
+        }
+        update(){}
+}
 //level1
 class Level1 extends Phaser.Scene {
     constructor() {
@@ -11,79 +146,11 @@ class Level1 extends Phaser.Scene {
     }
 
     preload (){
-    //kaikki textuurien lataus tänne
-    this.load.image('background', 'assets/textures/background.png');
-    this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 30, frameHeight: 42});
-    this.load.image('platform', 'assets/textures/Platformit.png');
-    this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
-    this.load.image('dagger', 'assets/textures/tikari.png');
-    this.load.image('cannon', 'assets/textures/cannon.png');
-    this.load.image('cannon_back', 'assets/textures/cannon_back.png')
-    this.load.image('bullet', 'assets/textures/cannon_ball.png');
-    this.load.image('ovi','assets/textures/ovi.png');
-    this.load.image('dungeon','assets/textures/dungeon.png');
-    this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
-    this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
-    this.load.image('cannon_up', 'assets/textures/cannon_up.png');
-    this.load.image('spike','assets/textures/spikes.png');
-    this.load.image('dungeon', 'assets/textures/dungeon.png');
-    this.load.image('trampoline', 'assets/textures/Trampoline.png')
-    this.load.image('wall','assets/textures/wall.png');
-    this.load.image('wind', 'assets/textures/Wind.png');
-    this.load.image('spiralsaircase', 'assets/textures/spiralsaircase.png');
-    this.load.image('sky', 'assets/textures/sky.jpg');
-    this.load.image('tower_thingy1', 'assets/textures/tower_thingy_1.png');
-    this.load.image('tower_thingy3', 'assets/textures/tower_thingy_3.png');
-    this.load.image('tower_thingy2', 'assets/textures/tower_thingy_2.png');
-    this.load.image('tower_thingy4', 'assets/textures/tower_thingy_4.png');
-    this.load.image('sky_level5', 'assets/textures/boosfight_background_sunset.png');
-    this.load.image('level5_level1', 'assets/textures/level5_level1.png')
-    this.load.image('solid_snake','assets/textures/solid-snake.jpg')
-    this.load.spritesheet('boss_level5','assets/textures/boss-spirehseet.png',{frameWidth: 37, frameHeight: 42})
-    this.load.image('dialogue1_boss','assets/textures/Boss_fight_dialogue1.png')
-    this.load.image('dialogue2_boss','assets/textures/Boss_fight_dialogue2.png')
-    this.load.image('fireball','assets/textures/fireball.png')
     }
     create (){
     //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
-    //Pakkotaa levelin vaihdon level2
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "5") {
-            nextlevelsound.play()
-            this.scene.start('Level5');
-            console.log('forced level change5');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "4") {
-            nextlevelsound.play()
-            this.scene.start('Level4');
-            console.log('forced level change4');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
-            nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change3');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "2") {
-                nextlevelsound.play()
-                this.scene.start('Level2');
-                console.log('forced level change2');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "1") {
-                nextlevelsound.play()
-                this.scene.start('Level1');
-                console.log('forced level change1');
-            }
-        });
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
@@ -177,36 +244,12 @@ this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
     this.enemy.direction = 1;
 
     this.physics.add.collider(knife, bottom_of_game);
-    //määritelään Pelaajan liikumis animaatiot
-	this.anims.create({
-		key: 'left',
-		frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
-		frameRate: 10,
-		repeat: -1
-	});
-	this.anims.create({
-		key: 'turn',
-		frames: [ { key: 'main_character', frame: 4 } ],
-		frameRate: 1
-	});
-	this.anims.create({
-		key: 'right',
-		frames: this.anims.generateFrameNumbers('main_character', { start: 5, end: 8 }),
-		frameRate: 10,
-		repeat: -1
-	});
-    this.anims.create({
-        key: 'jump',
-        frames: [{key: 'main_character', frame: 9}],
-        frameRate: 1
-    });
     //Pelaajan liikumisen animaatio määritely pätyy
     this.physics.add.overlap(player, ovi, level2Transition, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
     //luodaan tykit ja tehdään niin että se ei tipu vaan pysyy paikallaan
     
 
@@ -258,25 +301,6 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     //vihollisen fysiikat
     this.physics.add.collider(this.enemy, platforms);
     this.physics.add.collider(player, this.enemy, hitByEnemy, null, this); 
-
-    //vihollisen animaatiot
-    this.anims.create({
-    key: 'walkLeftEnemy',
-    frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
-    frameRate: 8,
-    repeat: -1
-    });
-    this.anims.create({
-        key: 'idleEnemy',
-        frames: [{ key: 'enemy', frame: 4 }],
-        frameRate: 1
-    });
-    this.anims.create({
-        key: 'walkRightEnemy',
-        frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
-        frameRate: 8,
-        repeat: -1
-    });
 
     this.enemy.play('walkRightEnemy');
 
@@ -449,42 +473,6 @@ class Level2 extends Phaser.Scene {
     
     create (){
     gameOver=false;
-    //pakotetaan levelin vaihto level3
-    document.addEventListener('keydown', (event)=> {
-		if (event.key === "5") {
-            nextlevelsound.play()
-            this.scene.start('Level5');
-            console.log('forced level change5');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "4") {
-            nextlevelsound.play()
-            this.scene.start('Level4');
-            console.log('forced level change4');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
-            nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change3');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "2") {
-                nextlevelsound.play()
-                this.scene.start('Level2');
-                console.log('forced level change2');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "1") {
-                nextlevelsound.play()
-                this.scene.start('Level1');
-                console.log('forced level change1');
-            }
-        });
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000; 
     //määritelään knife
@@ -651,26 +639,6 @@ this.time.addEvent({
     this.physics.add.collider(player, this.enemy, hitByEnemy, null, this);
 
     // --ANIMAATIOT VIHOLLISILLE--
-    this.anims.create({
-        key: 'walkLeftEnemy',
-        frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
-        frameRate: 8,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'idleEnemy',
-        frames: [{ key: 'enemy', frame: 4 }],
-        frameRate: 1
-    });
-
-    this.anims.create({
-        key: 'walkRightEnemy',
-        frames: this.anims.generateFrameNumbers('enemy', {start: 5, end: 8}),
-        frameRate: 8,
-        repeat: -1
-    });
-
     this.enemy.play('walkRightEnemy');
 
     // piikkien luonti
@@ -850,43 +818,6 @@ class Level3 extends Phaser.Scene {
     }
 
     create (){
-        // pakotetut level vaihdot
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "5") {
-                nextlevelsound.play()
-                this.scene.start('Level5');
-                console.log('forced level change5');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "4") {
-                nextlevelsound.play()
-                this.scene.start('Level4');
-                console.log('forced level change4');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "3") {
-                nextlevelsound.play()
-                this.scene.start('Level3');
-                console.log('forced level change3');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "2") {
-                nextlevelsound.play()
-                this.scene.start('Level2');
-                console.log('forced level change2');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "1") {
-                nextlevelsound.play()
-                this.scene.start('Level1');
-                console.log('forced level change1');
-            }
-        });
-
         this.lastThrowTime = 0; 
         this.throwCooldown = 1000; 
 
@@ -1058,25 +989,6 @@ class Level3 extends Phaser.Scene {
 
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
 
-
-        this.anims.create({
-            key: 'walkLeftEnemy',
-            frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'idleEnemy',
-            frames: [{ key: 'enemy', frame: 4 }],
-            frameRate: 1
-        });
-        this.anims.create({
-            key: 'walkRightEnemy',
-            frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
-            frameRate: 8,
-            repeat: -1
-        });
-
         this.enemies.children.iterate(e => e.play('walkRightEnemy'));
 
         // -------------------------
@@ -1238,20 +1150,6 @@ class Level4 extends Phaser.Scene {
     }
 
     create() {
-
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "5") { nextlevelsound.play(); this.scene.start('Level5'); console.log('forced level change5'); }
-            if (event.key === "4") { nextlevelsound.play(); this.scene.start('Level4'); console.log('forced level change4'); }
-            if (event.key === "3") { nextlevelsound.play(); this.scene.start('Level3'); console.log('forced level change3'); }
-            if (event.key === "2") { nextlevelsound.play(); this.scene.start('Level2'); console.log('forced level change2'); }
-            if (event.key === "1") { nextlevelsound.play(); this.scene.start('Level1'); console.log('forced level change1'); }
-            if (event.key === "i") { if (player) player.setVelocityY(-600); console.log('changed players velocity (up,600)'); }
-            if (event.key === "k") { if (player) player.setVelocityY(600); console.log('changed players velocity (down,600)'); }
-            if (event.key === "l") { if (player) player.setVelocityX(2000); console.log('changed players velocity (right,2000)'); }
-            if (event.key === "j") { if (player) player.setVelocityX(-2000); console.log('changed players velocity (left,2000)'); }
-        });
-
-  
         this.lastThrowTime = 0;
         this.throwCooldown = 1000;
 
@@ -1443,7 +1341,7 @@ class Level4 extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 1200,
+            delay: 2500,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
@@ -1463,31 +1361,13 @@ class Level4 extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 1000,
+            delay: 2500,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
 
         this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
-
-        this.anims.create({
-            key: 'walkLeftEnemy',
-            frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
-            frameRate: 8,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'idleEnemy',
-            frames: [{ key: 'enemy', frame: 4 }],
-            frameRate: 1
-        });
-        this.anims.create({
-            key: 'walkRightEnemy',
-            frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
-            frameRate: 8,
-            repeat: -1
-        });
 
         this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
 
@@ -1532,6 +1412,10 @@ class Level4 extends Phaser.Scene {
         this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(955, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(555, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(655, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(755, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(855, 1970, 'spike').setScale(0.8).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
 
@@ -1756,7 +1640,11 @@ class Level5 extends Phaser.Scene {
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
             boss_animation_play = false;
+            bossattack = 0;
+            bossattackchanche = 0;
             dialogueActive = false;
+            dialogue1_boss = 1;
+            knockback = 0;
 
             });
             this.physics.add.collider(knife, tower_thingys, (weapon) => {
@@ -1769,29 +1657,6 @@ class Level5 extends Phaser.Scene {
             weapon.destroy(); 
             });
             //boss animaatio
-            this.anims.create({
-                key: 'idlebossphase1',
-                frames: [{ key: 'boss_level5', frame: 3 }],
-            });
-
-            this.anims.create({
-                key: 'idlebossphase2',
-                frames: [{ key: 'boss_level5', frame: 4 }],
-            });
-
-            this.anims.create({
-                key: 'bossphase1attack',
-                frames: this.anims.generateFrameNumbers('boss_level5', { start: 0, end: 2 }),
-                frameRate: 2,
-                repeat: -1
-            });
-
-            this.anims.create({
-                key: 'bossphase2attack',
-                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
-                frameRate: 2,
-                repeat: -1
-            });
             boss.play('idlebossphase1');
             //kellon funktio
             // hae aiempi aika
@@ -1844,8 +1709,7 @@ class Level5 extends Phaser.Scene {
                         if (bossattackchanche===6) {
                             boss_animation_play=true
                             boss.play('bossphase1attack');
-                            setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;}, 1500);
-                            bossattack=Phaser.Math.Between(0, 2);
+                            setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 2);}, 1500);
                             if (bossattack===0) {
                                 
                             }
@@ -1963,7 +1827,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Level1,Level2,Level3,Level4,Level5]
+    scene: [MainMenu,Level1,Level2,Level3,Level4,Level5]
 };
 var fireball;
 var boss_animation_play=false;
