@@ -366,6 +366,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         const now = this.time.now;
     //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
+        knife_throw.play()
         this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
@@ -759,6 +760,7 @@ this.time.addEvent({
         const now = this.time.now;
     //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
+         knife_throw.play()
         this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
@@ -1157,6 +1159,7 @@ class Level3 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
             if (now - this.lastThrowTime > this.throwCooldown) {
+                   knife_throw.play()
                 this.lastThrowTime = now; 
                 let offset = -30;
                 let spawnX = player.x + (facingRight ? offset : -offset);
@@ -1591,6 +1594,7 @@ class Level4 extends Phaser.Scene {
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
             if (now - this.lastThrowTime > this.throwCooldown) {
+                   knife_throw.play()
                 this.lastThrowTime = now; 
                 let offset = -30;
                 let spawnX = player.x + (facingRight ? offset : -offset);
@@ -1932,6 +1936,7 @@ class Level5 extends Phaser.Scene {
             const now = this.time.now;
         //knife heittoa
         if (now - this.lastThrowTime > this.throwCooldown) {
+             knife_throw.play()
             this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
@@ -2001,6 +2006,7 @@ jump.volume = 0.2;
 const player_death=new Audio('assets/sound/death.m4a');
 player_death.volume = 0.9;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
+const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 var player;
 var weapon;
 var knife;
