@@ -1552,41 +1552,6 @@ class Level5 extends Phaser.Scene {
         super({ key: 'Level5' });}
         init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
         create(){
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "5") {
-            nextlevelsound.play()
-            this.scene.start('Level5');
-            console.log('forced level change5');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "4") {
-            nextlevelsound.play()
-            this.scene.start('Level4');
-            console.log('forced level change4');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-		if (event.key === "3") {
-            nextlevelsound.play()
-            this.scene.start('Level3');
-            console.log('forced level change3');
-		}
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "2") {
-                nextlevelsound.play()
-                this.scene.start('Level2');
-                console.log('forced level change2');
-            }
-        });
-        document.addEventListener('keydown', (event)=> {
-            if (event.key === "1") {
-                nextlevelsound.play()
-                this.scene.start('Level1');
-                console.log('forced level change1');
-            }
-        });
             shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
             knife = this.physics.add.group();
             fireball = this.physics.add.group();
