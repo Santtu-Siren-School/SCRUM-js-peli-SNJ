@@ -1952,6 +1952,9 @@ const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
+jump.volume = 0.2;
+const player_death=new Audio('assets/sound/death.mp3');
+player_death.volume = 0.9;
 var player;
 var weapon;
 var knife;
@@ -1990,6 +1993,7 @@ function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) 
 
 
 function hitPlayer(player, bullet) {
+           player_death.play()
     // Jos pelaajalla on invulnerabiliteetti (esim. juuri spawnattu taso), ohitetaan osuma
     if (player && player.getData && player.getData('invulnerable')) {
         if (bullet && bullet.disableBody) bullet.disableBody(true, true);
@@ -2028,6 +2032,7 @@ function level5Transition() {
 function hitByEnemy(player, enemy) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
+    player_death.play()
 
     // Päivitä näkyvä teksti
     this.deathText.setText("Kuolemat: " + currentDeaths);
@@ -2042,6 +2047,7 @@ function low_power_trampolinePlayer(player, low_power_trampoline) {
 function hitBySpike(player, spike) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
+    player_death.play()
 
     // Päivitä näkyvä teksti
     this.deathText.setText("Kuolemat: " + currentDeaths);
