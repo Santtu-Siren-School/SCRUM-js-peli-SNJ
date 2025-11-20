@@ -1455,18 +1455,31 @@ class Level4 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-        else {
-            if (player.windActive) {
-                const windAcceleration = 10;
-                const maxWindSpeed = 200;
-                if (player.body.velocity.x < maxWindSpeed) {
-                    player.setVelocityX(player.body.velocity.x + windAcceleration);
-                }
-            } else {
-                player.setVelocityX(0);
-                player.anims.play('turn');
-            }
+       else {
+    if (player.windActive) {
+        const windAcceleration = 10;
+        const maxWindSpeed = 200;
+        if (player.body.velocity.x < maxWindSpeed) {
+            player.setVelocityX(player.body.velocity.x + windAcceleration);
         }
+    }
+}
+if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) footsteps.play();
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();
+        footsteps.currentTime = 0;
+    }
+}
+
         // Knife heitto
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
@@ -1720,34 +1733,28 @@ class Level5 extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             } 
-            else {
-                if (player.windActive) {
-                    const windAcceleration = 10;
-                    const maxWindSpeed = 200;
-                    if (player.body.velocity.x < maxWindSpeed) {
-                        player.setVelocityX(player.body.velocity.x + windAcceleration);
-                    }
-                }
-                else {
-                    player.setVelocityX(0)
-                    player.anims.play('turn');
-                }
-            }
-             if (cursors.left.isDown || cursors.right.isDown) {
+                   else {
+    if (player.windActive) {
+        const windAcceleration = 10;
+        const maxWindSpeed = 200;
+        if (player.body.velocity.x < maxWindSpeed) {
+            player.setVelocityX(player.body.velocity.x + windAcceleration);
+        }
+    }
+}
+if (cursors.left.isDown || cursors.right.isDown) {
     player.setVelocityX(cursors.left.isDown ? -160 : 160);
     player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
     facingRight = cursors.right.isDown;
 
-    if (footsteps.paused) {
-        footsteps.play(); 
-    }
+    if (footsteps.paused) footsteps.play();
 } else {
     player.setVelocityX(0);
     player.anims.play('turn');
 
     if (!footsteps.paused) {
-        footsteps.pause();  
-        footsteps.currentTime = 0; 
+        footsteps.pause();
+        footsteps.currentTime = 0;
     }
 }
 
