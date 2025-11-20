@@ -1852,6 +1852,7 @@ footsteps.loop = true;
 const enemy=new Audio('assets/sound/enemy.mp3');
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
+const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
 var player;
 var weapon;
 var knife;
@@ -1939,9 +1940,11 @@ function hitByEnemy(player, enemy) {
     this.scene.start(this.scene.key)
 }
 function trampolinePlayer(player, trampoline) {
+     trampoline_sound.play()
     player.setVelocityY(-600);
 }
 function low_power_trampolinePlayer(player, low_power_trampoline) {
+     trampoline_sound.play()
     player.setVelocityY(-450);
 }
 function hitBySpike(player, spike) {
