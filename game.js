@@ -1873,6 +1873,7 @@ const enemy=new Audio('assets/sound/enemy.mp3');
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
+const wind_sound=new Audio('assets/sound/wind.mp3');
 var player;
 var weapon;
 var knife;
@@ -1977,7 +1978,8 @@ function hitBySpike(player, spike) {
     this.scene.start(this.scene.key)
 }
 function windPlayer(player, wind) {
-    //console.log("player has activated wind at",wind);
+    //console.log("player has activated wind at",wind)
+     wind_sound.play();
     player.windActive = true;
     setTimeout(() => { player.windActive = false; }, 10);
 }
