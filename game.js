@@ -331,6 +331,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         jumping = 1;
         player.setVelocityY(-300);
         player.anims.play("jump");
+        jump.play();
     }
     if (jumping === 1) {
         player.anims.play("jump", true);
@@ -725,6 +726,7 @@ this.time.addEvent({
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
+            jump.play();
         }
         if (jumping === 1) {
             player.anims.play("jump", true);
@@ -1121,6 +1123,7 @@ class Level3 extends Phaser.Scene {
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
+            jump.play();
         }
         if (jumping === 1) {
             player.anims.play("jump", true);
@@ -1546,6 +1549,7 @@ class Level4 extends Phaser.Scene {
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
+            jump.play();
         }
         if (jumping === 1) {
             player.anims.play("jump", true);
@@ -1885,6 +1889,7 @@ class Level5 extends Phaser.Scene {
                 jumping = 1;
                 player.setVelocityY(-300);
                 player.anims.play("jump");
+                jump.play();
             }
 
             if (jumping === 1) {
@@ -1991,6 +1996,7 @@ var jumping = 0;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
+const jump=new Audio('assets/sound/jump.ogg');
 var player;
 var weapon;
 var knife;
