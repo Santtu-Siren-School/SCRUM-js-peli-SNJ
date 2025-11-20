@@ -369,9 +369,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
             player.anims.play('turn');
         }
     }
-
-
-if (cursors.left.isDown || cursors.right.isDown) {
+        if (cursors.left.isDown || cursors.right.isDown) {
     player.setVelocityX(cursors.left.isDown ? -160 : 160);
     player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
     facingRight = cursors.right.isDown;
@@ -392,7 +390,7 @@ if (cursors.left.isDown || cursors.right.isDown) {
  if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        }  
+        } 
     //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
     //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -445,6 +443,7 @@ if (cursors.left.isDown || cursors.right.isDown) {
         });
 
     if (!groundAhead && e.body.blocked.down) {
+        enemy.play()
         e.direction *= -1;
         e.setVelocityX(80 * e.direction);
         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -716,24 +715,28 @@ this.time.addEvent({
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
+   if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) {
+        footsteps.play(); 
+    }
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();  
+        footsteps.currentTime = 0; 
+    }
+}
+
+ if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        } 
-        else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-        }
+        }  
       if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
     //knife heittoa
@@ -787,6 +790,7 @@ if (!e || !e.body || !e.active) {
     if (!this.enemy.lastTurnTime) this.enemy.lastTurnTime = 0;
     if (this.time.now - this.enemy.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
+            enemy.play()
             e.direction *= -1;
             e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -1059,24 +1063,28 @@ class Level3 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        }
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
+ if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) {
+        footsteps.play(); 
+    }
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();  
+        footsteps.currentTime = 0; 
+    }
+}
+
+ if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        }
-        else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-        }
+        }  
 
         // knife heitto
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -1127,6 +1135,7 @@ this.enemies.children.iterate(e => {
     if (!e.lastTurnTime) e.lastTurnTime = 0;
     if (this.time.now - e.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
+               enemy.play()
             e.direction *= -1;
             e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -1435,15 +1444,7 @@ class Level4 extends Phaser.Scene {
     }
 
     update(){
-        if (gameOver == true) {
-            this.physics.pause();
-            backgroundsound.pause();
-            player.anims.play('jump');
-            return;
-        }
-
         backgroundsound.play();
-
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
@@ -1459,32 +1460,34 @@ class Level4 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
+        if (cursors.down.isDown) {
+    player.setVelocityY(300);
+    player.anims.play('jump');
+}
+       else {
+    if (player.windActive) {
+        const windAcceleration = 10;
+        const maxWindSpeed = 200;
+        if (player.body.velocity.x < maxWindSpeed) {
+            player.setVelocityX(player.body.velocity.x + windAcceleration);
         }
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }
-        else {
-            if (player.windActive) {
-                const windAcceleration = 10;
-                const maxWindSpeed = 200;
-                if (player.body.velocity.x < maxWindSpeed) {
-                    player.setVelocityX(player.body.velocity.x + windAcceleration);
-                }
-            } else {
-                player.setVelocityX(0);
-                player.anims.play('turn');
-            }
-        }
+    }
+}
+if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) footsteps.play();
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();
+        footsteps.currentTime = 0;
+    }
+}
 
         // Knife heitto
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -1533,6 +1536,7 @@ class Level4 extends Phaser.Scene {
             if (!e.lastTurnTime) e.lastTurnTime = 0;
             if (this.time.now - e.lastTurnTime > 500) {
                 if (!groundAhead && e.body.blocked.down) {
+                       enemy.play()
                     e.direction *= -1;
                     e.setVelocityX(80 * e.direction);
                     e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -1728,13 +1732,6 @@ class Level5 extends Phaser.Scene {
 
             }
         }
-        if (gameOver == true)
-        {
-            this.physics.pause();
-            backgroundsound.pause();
-            player.anims.play('jump');
-            return;
-        }
         backgroundsound.play()
         if (knockback==1) {
             return;
@@ -1761,34 +1758,37 @@ class Level5 extends Phaser.Scene {
                     player.setVelocityX(0);
                     player.anims.play('turn');
                 }
-            }
-            if (cursors.left.isDown) {
-                player.setVelocityX(-160);
-                player.anims.play('left', true);
-                facingRight = false;
             } 
-            else if (cursors.right.isDown) {
-                player.setVelocityX(160);
-                player.anims.play('right', true);
-                facingRight = true;
-            }
-            else if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }  
-            else {
-                if (player.windActive) {
-                    const windAcceleration = 10;
-                    const maxWindSpeed = 200;
-                    if (player.body.velocity.x < maxWindSpeed) {
-                        player.setVelocityX(player.body.velocity.x + windAcceleration);
-                    }
-                }
-                else {
-                    player.setVelocityX(0)
-                    player.anims.play('turn');
-                }
-            }
+                   else {
+    if (player.windActive) {
+        const windAcceleration = 10;
+        const maxWindSpeed = 200;
+        if (player.body.velocity.x < maxWindSpeed) {
+            player.setVelocityX(player.body.velocity.x + windAcceleration);
+        }
+    }
+}
+if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) footsteps.play();
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();
+        footsteps.currentTime = 0;
+    }
+}
+
+ if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        } 
+
             if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
         //knife heittoa
@@ -1862,13 +1862,15 @@ const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
 jump.volume = 0.2;
-const player_death=new Audio('assets/sound/death.m4a');
-player_death.volume = 0.9;
+const player_death=new Audio('assets/sound/death.mp3');
+player_death.volume = 1.0;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
 footsteps.loop = true;
+const enemy=new Audio('assets/sound/enemy.mp3');
+const spike_death=new Audio('assets/sound/spike_death.mp3');
 var player;
 var weapon;
 var knife;
@@ -1964,7 +1966,7 @@ function low_power_trampolinePlayer(player, low_power_trampoline) {
 function hitBySpike(player, spike) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
-    player_death.play()
+    spike_death.play()
 
     // Päivitä näkyvä teksti
     this.deathText.setText("Kuolemat: " + currentDeaths);
