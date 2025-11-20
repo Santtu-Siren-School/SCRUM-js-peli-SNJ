@@ -1998,8 +1998,9 @@ const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
 jump.volume = 0.2;
-const player_death=new Audio('assets/sound/death.mp3');
+const player_death=new Audio('assets/sound/death.m4a');
 player_death.volume = 0.9;
+const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 var player;
 var weapon;
 var knife;
@@ -2009,6 +2010,7 @@ let bullets;
 let facingRight = true;
 // funktiot tänne
 function shootBullet(cannonInstance, bulletsGroup) {
+     cannon_fire.play()
     const c = cannonInstance;
     const bullet = bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (bullet) {
@@ -2018,6 +2020,7 @@ function shootBullet(cannonInstance, bulletsGroup) {
     }
 }
 function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
+     cannon_fire.play()
     const c = cannon_upInstance;
     const cannon_up_bullets = cannon_up_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_up_bullets) {
@@ -2027,6 +2030,7 @@ function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
     }
 }
 function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) {
+     cannon_fire.play()
     const c = cannon_backInstance;
     const cannon_back_bullets = cannon_back_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_back_bullets) {
