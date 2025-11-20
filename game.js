@@ -154,6 +154,7 @@ this.physics.add.collider(player, knife);
     weapon.body.immovable = true;     
 });
 this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy_death.play()
     if (!enemy.active) {
         return; // Ei tehdä mitään, jos vihollinen on jo kuollut
     }
@@ -612,6 +613,7 @@ this.time.addEvent({
 
     // Turvallinen osuman käsittely knife -> enemy (vähentää hp:tä, ei tuhoa yhdellä osumalla)
     this.physics.add.collider(knife, this.enemy, (weapon, en) => {
+        enemy_death.play()
         if (!en || !en.active) return;
         let curHp = en.getData('hp');
         if (typeof curHp !== 'number') {
@@ -994,6 +996,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+               enemy_death.play()
             enemy.disableBody(true, true);
             weapon.destroy(); 
         });
@@ -1398,6 +1401,7 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+               enemy_death.play()
             if (weapon && weapon.disableBody) weapon.disableBody(true, true);
             else if (weapon && weapon.destroy) weapon.destroy();
             if (enemy && enemy.disableBody) enemy.disableBody(true, true);
@@ -2007,6 +2011,7 @@ const player_death=new Audio('assets/sound/death.m4a');
 player_death.volume = 0.9;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
+const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 var player;
 var weapon;
 var knife;
