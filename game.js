@@ -1851,6 +1851,7 @@ const footsteps=new Audio('assets/sound/footsteps.mp3');
 footsteps.loop = true;
 const enemy=new Audio('assets/sound/enemy.mp3');
 const spike_death=new Audio('assets/sound/spike_death.mp3');
+const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 var player;
 var weapon;
 var knife;
@@ -1892,7 +1893,7 @@ function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) 
 
 
 function hitPlayer(player, bullet) {
-           player_death.play()
+           cannon_death.play()
     // Jos pelaajalla on invulnerabiliteetti (esim. juuri spawnattu taso), ohitetaan osuma
     if (player && player.getData && player.getData('invulnerable')) {
         if (bullet && bullet.disableBody) bullet.disableBody(true, true);
