@@ -367,9 +367,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
             player.anims.play('turn');
         }
     }
-
-
-if (cursors.left.isDown || cursors.right.isDown) {
+        if (cursors.left.isDown || cursors.right.isDown) {
     player.setVelocityX(cursors.left.isDown ? -160 : 160);
     player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
     facingRight = cursors.right.isDown;
@@ -390,7 +388,7 @@ if (cursors.left.isDown || cursors.right.isDown) {
  if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        }  
+        } 
     //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
     //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -714,24 +712,28 @@ this.time.addEvent({
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
+   if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) {
+        footsteps.play(); 
+    }
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();  
+        footsteps.currentTime = 0; 
+    }
+}
+
+ if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        } 
-        else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-        }
+        }  
       if (Phaser.Input.Keyboard.JustDown(shoot)) {
         const now = this.time.now;
     //knife heittoa
@@ -1057,24 +1059,28 @@ class Level3 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        }
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
+ if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) {
+        footsteps.play(); 
+    }
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();  
+        footsteps.currentTime = 0; 
+    }
+}
+
+ if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        }
-        else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-        }
+        }  
 
         // knife heitto
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -1433,15 +1439,7 @@ class Level4 extends Phaser.Scene {
     }
 
     update(){
-        if (gameOver == true) {
-            this.physics.pause();
-            backgroundsound.pause();
-            player.anims.play('jump');
-            return;
-        }
-
         backgroundsound.play();
-
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
@@ -1457,20 +1455,6 @@ class Level4 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        }
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }
         else {
             if (player.windActive) {
                 const windAcceleration = 10;
@@ -1483,7 +1467,6 @@ class Level4 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-
         // Knife heitto
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
@@ -1710,13 +1693,6 @@ class Level5 extends Phaser.Scene {
 
             }
         }
-        if (gameOver == true)
-        {
-            this.physics.pause();
-            backgroundsound.pause();
-            player.anims.play('jump');
-            return;
-        }
         backgroundsound.play()
         if (knockback==1) {
             return;
@@ -1743,21 +1719,7 @@ class Level5 extends Phaser.Scene {
                     player.setVelocityX(0);
                     player.anims.play('turn');
                 }
-            }
-            if (cursors.left.isDown) {
-                player.setVelocityX(-160);
-                player.anims.play('left', true);
-                facingRight = false;
             } 
-            else if (cursors.right.isDown) {
-                player.setVelocityX(160);
-                player.anims.play('right', true);
-                facingRight = true;
-            }
-            else if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }  
             else {
                 if (player.windActive) {
                     const windAcceleration = 10;
@@ -1771,6 +1733,29 @@ class Level5 extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
+             if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) {
+        footsteps.play(); 
+    }
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();  
+        footsteps.currentTime = 0; 
+    }
+}
+
+ if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        } 
+
             if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
         //knife heittoa
