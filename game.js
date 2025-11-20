@@ -1850,6 +1850,7 @@ const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
 footsteps.loop = true;
 const enemy=new Audio('assets/sound/enemy.mp3');
+const spike_death=new Audio('assets/sound/spike_death.mp3');
 var player;
 var weapon;
 var knife;
@@ -1945,7 +1946,7 @@ function low_power_trampolinePlayer(player, low_power_trampoline) {
 function hitBySpike(player, spike) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
-    player_death.play()
+    spike_death.play()
 
     // Päivitä näkyvä teksti
     this.deathText.setText("Kuolemat: " + currentDeaths);
