@@ -40,6 +40,8 @@ class MainMenu extends Phaser.Scene {
             this.load.image('level3','assets/textures/level3_button.png')
             this.load.image('level4','assets/textures/level4_button.png')
             this.load.image('level5','assets/textures/level5_button.png')
+            this.load.image('boss_wall', 'assets/textures/boss_wall.png')
+            this.load.image('boss_spike', 'assets/textures/spikes_boss.png')
         }
         create(){
             this.add.image(1000,1000, 'sky_level5').setScale(1);
@@ -1558,6 +1560,8 @@ class Level5 extends Phaser.Scene {
         super({ key: 'Level5' });}
         init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
         create(){
+            boss_spike=this.physics.add.group();
+            bosswall=this.physics.add.group();
             shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
             knife = this.physics.add.group();
             fireball = this.physics.add.group();
@@ -1614,6 +1618,9 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(player, knife);
             this.physics.add.overlap(boss, knife, knifehitboss,null,this);
             this.physics.add.overlap(player, fireball, fireballplayer, null, this);
+            this.physics.add.overlap(player, bosswall, boss_wall_player, null, this);
+            this.physics.add.overlap(player, boss_spike, boss_spike_player, null, this);
+            this.physics.add.overlap(boss_spike, tower_thingys, boss_spike_tower_thingys, null, this);
             this.physics.add.collider(knife, platforms, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
@@ -1688,13 +1695,19 @@ class Level5 extends Phaser.Scene {
                         if (bossattackchanche===6) {
                             boss_animation_play=true
                             boss.play('bossphase1attack');
-                            setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 2);}, 1500);
+                            setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 2);console.log("boss attack",bossattack)}, 1500);
                             if (bossattack===0) {
-                                
+                                let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
+                                boss_wall_object.setScale(1).refreshBody();
+                                const speed = 100;
+                                const direction = Math.sign(player.x - boss.x);
+                                boss_wall_object.setVelocityX(speed * direction);
+                                boss_wall_object.body.allowGravity = false;
+                                setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 10000);
                             }
                             else if (bossattack===1) {
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
-                                fireballobject.setScale(2);
+                                fireballobject.setScale(2).refreshBody();
                                 const speed = 300;
                                 const direction = Math.sign(player.x - boss.x);
                                 fireballobject.setVelocityX(speed * direction);
@@ -1702,7 +1715,12 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
                             }
                             else {
-
+                                let spikebossobject = boss_spike.create(player.x, 10, 'boss_spike');
+                                spikebossobject.setScale(2).refreshBody();
+                                const speed = 100;
+                                spikebossobject.setVelocityY(speed);
+                                spikebossobject.body.allowGravity = false;
+                                setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
                             }
                         }
                     }
@@ -1809,6 +1827,8 @@ var config = {
     },
     scene: [MainMenu,Level1,Level2,Level3,Level4,Level5]
 };
+var boss_spike;
+var bosswall;
 var fireball;
 var boss_animation_play=false;
 var phase=1;
@@ -1985,5 +2005,22 @@ function fireballplayer(player,fireball) {
     this.registry.set('deaths', currentDeaths);
     // Päivitä näkyvä teksti
     this.deathText.setText("Kuolemat: " + currentDeaths);
-    this.scene.start('Level1')
+    this.scene.start('Level5')
+}
+function boss_wall_player(player,bosswall) {
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.scene.start('Level5')
+}
+function boss_spike_player(player,boss_spike){
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.scene.start('Level5')
+}
+function boss_spike_tower_thingys(boss_spikes, tower_thingys) {
+    boss_spikes.destroy();
 }
