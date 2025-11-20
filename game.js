@@ -42,6 +42,7 @@ class Level1 extends Phaser.Scene {
     this.load.spritesheet('boss_level5','assets/textures/boss-spirehseet.png',{frameWidth: 37, frameHeight: 42})
     this.load.image('dialogue1_boss','assets/textures/Boss_fight_dialogue1.png')
     this.load.image('dialogue2_boss','assets/textures/Boss_fight_dialogue2.png')
+    this.load.image('fireball','assets/textures/fireball.png')
     }
     create (){
     //knife cooldownin laatiminen
@@ -556,7 +557,7 @@ class Level2 extends Phaser.Scene {
         maxSize: 10000000000
     });
     this.time.addEvent({
-        delay: 3000,
+        delay: 3500,
         callback: () => {
             this.cannons.forEach(c => shootBullet(c, bullets));
         },
@@ -572,7 +573,6 @@ cannon_up_bullets = this.physics.add.group({
     defaultKey: 'bullet',
     maxSize: 10000000000
 });
-
 this.time.addEvent({
     delay: 2000,
     callback: () => shootBullet_cannon_up(cannon_up, cannon_up_bullets),
@@ -1693,6 +1693,7 @@ class Level5 extends Phaser.Scene {
         });
             shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
             knife = this.physics.add.group();
+            fireball = this.physics.add.group();
             this.lastThrowTime = 0; 
             this.throwCooldown = 1000;
             this.add.image(1000,1000, 'sky_level5').setScale(1);
@@ -1745,10 +1746,14 @@ class Level5 extends Phaser.Scene {
             this.physics.add.overlap(boss, player, bossPlayerContact, null, this);
             this.physics.add.collider(player, knife);
             this.physics.add.overlap(boss, knife, knifehitboss,null,this);
+            this.physics.add.overlap(player, fireball, fireballplayer, null, this);
             this.physics.add.collider(knife, platforms, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
+            boss_animation_play = false;
+            dialogueActive = false;
+
             });
             this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
@@ -1818,10 +1823,45 @@ class Level5 extends Phaser.Scene {
         update(){
         if (dialogue1_boss===1) {
             dialogueActive = true;
-            dialogue1_boss=0
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
             setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
             setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();;dialogueActive = false;}, 3000)}, 3000);
+            dialogue1_boss=0
+        }
+        if (dialogueActive) {
+            return;
+        }
+        else {
+            if(dialogue1_boss===0) {
+                if (boss_animation_play===false) {
+                    if(phase===1){
+                        bossattackchanche=Phaser.Math.Between(0, 200);
+                        console.log("boss attack chanche",bossattackchanche)
+                        if (bossattackchanche===6) {
+                            boss_animation_play=true
+                            boss.play('bossphase1attack');
+                            setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;}, 1500);
+                            bossattack=Phaser.Math.Between(0, 2);
+                            if (bossattack===0) {
+                                
+                            }
+                            else if (bossattack===1) {
+                                let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
+                                fireballobject.setScale(2);
+                                const speed = 300;
+                                const direction = Math.sign(player.x - boss.x);
+                                fireballobject.setVelocityX(speed * direction);
+                                fireballobject.body.allowGravity = false;
+                                setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
+                            }
+                            else {
+
+                            }
+                        }
+                    }
+                }
+
+            }
         }
         if (gameOver == true)
         {
@@ -1920,6 +1960,11 @@ var config = {
     },
     scene: [Level1,Level2,Level3,Level4,Level5]
 };
+var fireball;
+var boss_animation_play=false;
+var phase=1;
+var bossattack;
+var bossattackchanche;
 let dialogueActive = false;
 var dialogue_boss_img;
 var dialogue1_boss=1;
@@ -2070,4 +2115,11 @@ function knifehitboss(boss,knifeSprite) {
     else {
         return;
     }
+}
+function fireballplayer(player,fireball) {
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.scene.start('Level1')
 }
