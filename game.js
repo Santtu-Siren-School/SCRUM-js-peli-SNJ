@@ -1458,6 +1458,10 @@ class Level4 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
+        if (cursors.down.isDown) {
+    player.setVelocityY(300);
+    player.anims.play('jump');
+}
        else {
     if (player.windActive) {
         const windAcceleration = 10;
