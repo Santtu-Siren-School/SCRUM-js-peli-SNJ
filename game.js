@@ -221,6 +221,7 @@ this.physics.add.collider(player, knife);
     weapon.body.immovable = true;     
 });
 this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+    enemy_death.play()
     if (!enemy.active) {
         return; // Ei tehdä mitään, jos vihollinen on jo kuollut
     }
@@ -390,6 +391,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         const now = this.time.now;
     //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
+        knife_throw.play()
         this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
@@ -599,6 +601,7 @@ this.time.addEvent({
 
     // Turvallinen osuman käsittely knife -> enemy (vähentää hp:tä, ei tuhoa yhdellä osumalla)
     this.physics.add.collider(knife, this.enemy, (weapon, en) => {
+        enemy_death.play()
         if (!en || !en.active) return;
         let curHp = en.getData('hp');
         if (typeof curHp !== 'number') {
@@ -727,6 +730,7 @@ this.time.addEvent({
         const now = this.time.now;
     //knife heittoa
     if (now - this.lastThrowTime > this.throwCooldown) {
+         knife_throw.play()
         this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
@@ -923,6 +927,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+               enemy_death.play()
             enemy.disableBody(true, true);
             weapon.destroy(); 
         });
@@ -1069,6 +1074,7 @@ class Level3 extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
             if (now - this.lastThrowTime > this.throwCooldown) {
+                   knife_throw.play()
                 this.lastThrowTime = now; 
                 let offset = -30;
                 let spawnX = player.x + (facingRight ? offset : -offset);
@@ -1293,6 +1299,7 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+               enemy_death.play()
             if (weapon && weapon.disableBody) weapon.disableBody(true, true);
             else if (weapon && weapon.destroy) weapon.destroy();
             if (enemy && enemy.disableBody) enemy.disableBody(true, true);
@@ -1475,6 +1482,7 @@ class Level4 extends Phaser.Scene {
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
             if (now - this.lastThrowTime > this.throwCooldown) {
+                   knife_throw.play()
                 this.lastThrowTime = now; 
                 let offset = -30;
                 let spawnX = player.x + (facingRight ? offset : -offset);
@@ -1796,6 +1804,7 @@ class Level5 extends Phaser.Scene {
             const now = this.time.now;
         //knife heittoa
         if (now - this.lastThrowTime > this.throwCooldown) {
+             knife_throw.play()
             this.lastThrowTime = now; 
             let offset = -30;
             let spawnX = player.x + (facingRight ? offset : -offset);
@@ -1862,8 +1871,11 @@ const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
 jump.volume = 0.2;
-const player_death=new Audio('assets/sound/death.mp3');
+const player_death=new Audio('assets/sound/death.m4a');
 player_death.volume = 0.9;
+const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
+const knife_throw=new Audio('assets/sound/knife_throw.m4a');
+const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 var player;
 var weapon;
 var knife;
@@ -1873,6 +1885,7 @@ let bullets;
 let facingRight = true;
 // funktiot tänne
 function shootBullet(cannonInstance, bulletsGroup) {
+     cannon_fire.play()
     const c = cannonInstance;
     const bullet = bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (bullet) {
@@ -1882,6 +1895,7 @@ function shootBullet(cannonInstance, bulletsGroup) {
     }
 }
 function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
+     cannon_fire.play()
     const c = cannon_upInstance;
     const cannon_up_bullets = cannon_up_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_up_bullets) {
@@ -1891,6 +1905,7 @@ function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
     }
 }
 function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) {
+     cannon_fire.play()
     const c = cannon_backInstance;
     const cannon_back_bullets = cannon_back_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_back_bullets) {
