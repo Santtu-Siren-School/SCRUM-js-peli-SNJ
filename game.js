@@ -441,6 +441,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         });
 
     if (!groundAhead && e.body.blocked.down) {
+        enemy.play()
         e.direction *= -1;
         e.setVelocityX(80 * e.direction);
         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -787,6 +788,7 @@ if (!e || !e.body || !e.active) {
     if (!this.enemy.lastTurnTime) this.enemy.lastTurnTime = 0;
     if (this.time.now - this.enemy.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
+            enemy.play()
             e.direction *= -1;
             e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -1131,6 +1133,7 @@ this.enemies.children.iterate(e => {
     if (!e.lastTurnTime) e.lastTurnTime = 0;
     if (this.time.now - e.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
+               enemy.play()
             e.direction *= -1;
             e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -1527,6 +1530,7 @@ if (cursors.left.isDown || cursors.right.isDown) {
             if (!e.lastTurnTime) e.lastTurnTime = 0;
             if (this.time.now - e.lastTurnTime > 500) {
                 if (!groundAhead && e.body.blocked.down) {
+                       enemy.play()
                     e.direction *= -1;
                     e.setVelocityX(80 * e.direction);
                     e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
@@ -1841,6 +1845,7 @@ const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
 footsteps.loop = true;
+const enemy=new Audio('assets/sound/enemy.mp3');
 var player;
 var weapon;
 var knife;
