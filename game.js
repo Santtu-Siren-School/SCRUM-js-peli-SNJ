@@ -47,7 +47,9 @@ class Level1 extends Phaser.Scene {
     create (){
     //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
-    this.throwCooldown = 1000; 
+    this.throwCooldown = 1000;
+    this.footstepsdelay = 0; 
+    this.footstepscooldown = 1000; 
     //Pakkotaa levelin vaihdon level2
     document.addEventListener('keydown', (event)=> {
 		if (event.key === "5") {
@@ -343,24 +345,30 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
             player.anims.play('turn');
         }
     }
-    if (cursors.left.isDown) {
-        player.setVelocityX(-160);
-        player.anims.play('left', true);
-        facingRight = false;
-    } 
-    else if (cursors.right.isDown) {
-        player.setVelocityX(160);
-        player.anims.play('right', true);
-        facingRight = true;
+
+
+if (cursors.left.isDown || cursors.right.isDown) {
+    player.setVelocityX(cursors.left.isDown ? -160 : 160);
+    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+    facingRight = cursors.right.isDown;
+
+    if (footsteps.paused) {
+        footsteps.play(); 
     }
-    else if (cursors.down.isDown) {
+} else {
+    player.setVelocityX(0);
+    player.anims.play('turn');
+
+    if (!footsteps.paused) {
+        footsteps.pause();  
+        footsteps.currentTime = 0; 
+    }
+}
+
+ if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
         }  
-    else {
-        player.setVelocityX(0);
-        player.anims.play('turn');
-    }
     //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
     //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -2012,6 +2020,8 @@ player_death.volume = 0.9;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
+const footsteps=new Audio('assets/sound/footsteps.mp3');
+footsteps.loop = true;
 var player;
 var weapon;
 var knife;
