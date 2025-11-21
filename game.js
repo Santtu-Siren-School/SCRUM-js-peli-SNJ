@@ -1756,6 +1756,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if(bossattack===1) {
+                                 fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 500;
@@ -1796,6 +1797,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if(bossattack===1) {
+                                 fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 500;
