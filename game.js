@@ -47,6 +47,7 @@ class MainMenu extends Phaser.Scene {
             this.load.image('level5','assets/textures/level5_button.png')
             this.load.image('boss_wall', 'assets/textures/boss_wall.png')
             this.load.image('boss_spike', 'assets/textures/spikes_boss.png')
+            this.load.image('lightbeam', 'assets/textures/lightbeam.png')
         }
         create(){
             this.add.image(1000,1000, 'sky_level5').setScale(1);
@@ -1673,7 +1674,6 @@ class Level5 extends Phaser.Scene {
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
-        console.log(dialogueActive)
         if (dialogue1_boss===1) {
             dialogueActive = true;
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
@@ -1779,7 +1779,7 @@ class Level5 extends Phaser.Scene {
                         }
                     }
                     else if (phase===3){
-                        bossattackchanche=Phaser.Math.Between(0, 50);
+                        bossattackchanche=Phaser.Math.Between(0, 20);
                         //console.log("boss attack chanche",bossattackchanche)
                         if (bossattackchanche===6) {
                             boss_animation_play=true
@@ -1788,7 +1788,7 @@ class Level5 extends Phaser.Scene {
                             if (bossattack===0) {
                                 let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
                                 boss_wall_object.setScale(1).refreshBody();
-                                const speed = 200;
+                                const speed = 300;
                                 const direction = Math.sign(player.x - boss.x);
                                 boss_wall_object.setVelocityX(speed * direction);
                                 boss_wall_object.body.allowGravity = false;
@@ -1806,18 +1806,18 @@ class Level5 extends Phaser.Scene {
                             else if (bossattack===2) {
                                 let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
                                 spikebossobject.setScale(2).refreshBody();
-                                const speed = 200;
+                                const speed = 400;
                                 spikebossobject.setVelocityY(speed);
                                 spikebossobject.body.allowGravity = false;
                                 setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
                             }
                             else if (bossattack===3) {
-                                
+
                             }
                             else {
                                 knockback=1;
-                                player.setVelocityY(-500);
-                                setTimeout(() => {player.setVelocityX(500);player.setVelocityY(-100);setTimeout(() => {knockback=0;},1000 )}, 2000);
+                                player.setVelocityY(-700);
+                                setTimeout(() => {player.setVelocityX(700);player.setVelocityY(-300);setTimeout(() => {knockback=0;},1000 )}, 2000);
                             }
                         }
                     }
@@ -1951,7 +1951,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=1;
+var phase=3;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
