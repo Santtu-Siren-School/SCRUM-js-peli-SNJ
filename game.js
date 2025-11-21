@@ -1444,6 +1444,7 @@ class Level4 extends Phaser.Scene {
     }
 
     update(){
+        footsteps.pause();  
         backgroundsound.play();
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
@@ -1467,11 +1468,13 @@ class Level4 extends Phaser.Scene {
             }
         }
         if (cursors.left.isDown) {
+            footsteps.play(); 
             player.setVelocityX(-160);
             player.anims.play('left', true);
             facingRight = false;
         } 
         else if (cursors.right.isDown) {
+            footsteps.play(); 
             player.setVelocityX(160);
             player.anims.play('right', true);
             facingRight = true;
