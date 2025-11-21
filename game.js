@@ -778,8 +778,8 @@ this.time.addEvent({
         e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
-}
-    } 
+})
+    }
 }
 //level3
 class Level3 extends Phaser.Scene {
