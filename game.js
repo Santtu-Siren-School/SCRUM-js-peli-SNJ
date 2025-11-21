@@ -1877,7 +1877,6 @@ const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
-footsteps.loop = true;
 const enemy=new Audio('assets/sound/enemy.mp3');
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
