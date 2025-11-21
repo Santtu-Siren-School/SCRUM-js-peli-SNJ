@@ -584,74 +584,48 @@ this.time.addEvent({
 
     // vihollisen luonti
     // -- VIHOLLINEN --
-    const rightPlatform = platforms.getChildren().at(-2);
-    this.enemy = this.physics.add.sprite(
-        rightPlatform.x -20,
-        rightPlatform.y - 100,
-        'enemy'
-    );
-    this.enemy.setScale(2);
-    this.enemy.body.setSize(this.enemy.width, this.enemy.height);
-    this.enemy.body.setOffset(0, 0);
+       this.enemies = this.physics.add.group();
 
+        const platform1 = platforms.getChildren().at(-2);
+        const enemy1 = this.enemies.create(
+            platform1.x - 10,
+            platform1.y - 100,
+            'enemy'
+        ).setScale(2);
+
+        const platform2 = platforms.getChildren().at(0);
+        const enemy2 = this.enemies.create(
+            platform2.x - 10,
+            platform2.y - 100,
+            'enemy'
+        ).setScale(2);
+
+        this.enemies.children.iterate(e => {
+            e.body.setGravityY(300);
+            e.setCollideWorldBounds(true);
+            e.setVelocityX(80);
+            e.direction = 1;
+        });
+
+     
     // Asetetaan vihollisen hp ja muut tarvittavat arvot (kuten Level1:ssä)
-    this.enemy.setData('hp', 3);
-    this.enemy.setData('isHit', false);
-    this.enemy.direction = 1;
-
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bottom_of_game);
     this.physics.add.collider(player, knife);
+    this.physics.add.collider(this.enemies, platforms);
+    this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
     this.physics.add.collider(knife, platforms, (weapon) => {
         weapon.setVelocity(0, 0);
         weapon.body.allowGravity = false;
         weapon.body.immovable = true;
     });
-
     // Turvallinen osuman käsittely knife -> enemy (vähentää hp:tä, ei tuhoa yhdellä osumalla)
-    this.physics.add.collider(knife, this.enemy, (weapon, en) => {
-        enemy_death.play()
-        if (!en || !en.active) return;
-        let curHp = en.getData('hp');
-        if (typeof curHp !== 'number') {
-            en.setData('hp', 3);
-            curHp = 3;
-        }
-        if (en.getData('isHit')) {
-            if (weapon && weapon.disableBody) weapon.disableBody(true, true);
-            else if (weapon && weapon.destroy) weapon.destroy();
-            return;
-        }
-        en.setData('isHit', true);
-        if (weapon && weapon.disableBody) weapon.disableBody(true, true);
-        else if (weapon && weapon.destroy) weapon.destroy();
-
-        curHp = curHp - 1;
-        en.setData('hp', curHp);
-
-        en.setTint(0xff0000);
-        this.time.delayedCall(180, () => {
-            if (en && en.clearTint) en.clearTint();
-            en.setData('isHit', false);
+     this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+               enemy_death.play()
+            enemy.disableBody(true, true);
+            weapon.destroy(); 
         });
-
-        if (curHp <= 0) {
-            en.disableBody(true, true);
-        }
-    }, null, this);
-
-    // fysiikka
-    this.enemy.body.setGravityY(300);
-    this.enemy.setCollideWorldBounds(true);
-    this.enemy.setVelocityX(80);
-
-    this.physics.add.collider(this.enemy, platforms);
-
-    // vihollisen kosketus tappaa
-    this.physics.add.collider(player, this.enemy, hitByEnemy, null, this);
-
     // --ANIMAATIOT VIHOLLISILLE--
-    this.enemy.play('walkRightEnemy');
 
     // piikkien luonti
     this.spikes = this.physics.add.staticGroup();
@@ -760,22 +734,17 @@ this.time.addEvent({
          setTimeout(() => { weapon.destroy(); }, 3000);
         }
     }
-    
- const e = this.enemy;
-if (!e || !e.body || !e.active) {
-    // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
-} else {
-    // Reunantunnistus
+    this.enemies.children.iterate(e => e.play('walkRightEnemy'));
+    this.enemies.children.iterate(e => {
+    if (!e.active) return;
+
     const probeX = e.x + e.direction * (e.width / 2 + 6);
     const probeY = e.body.bottom + 2;
-    //const probeY = e.y + e.height / 2 + 2;
 
-    // Onko maata suoraan edessä?
     let groundAhead = false;
 
     platforms.getChildren().forEach(p => {
         const bounds = p.getBounds();
-        // Yksinkertaistettu ja anteeksiantavampi tarkistus
         if (
             probeX >= bounds.left - 5 &&
             probeX <= bounds.right + 5 &&
@@ -786,17 +755,14 @@ if (!e || !e.body || !e.active) {
         }
     });
 
-
-    // vihollinen ei voi kääntyä jatkuvasti vaan siinä on pakollinen viive
-
-    if (!this.enemy.lastTurnTime) this.enemy.lastTurnTime = 0;
-    if (this.time.now - this.enemy.lastTurnTime > 500) {
+    if (!e.lastTurnTime) e.lastTurnTime = 0;
+    if (this.time.now - e.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
-            enemy.play()
+               enemy.play()
             e.direction *= -1;
             e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-            this.enemy.lastTurnTime = this.time.now;
+            e.lastTurnTime = this.time.now;
         }
     }
 
@@ -810,10 +776,7 @@ if (!e || !e.body || !e.active) {
         e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
-
-    
-
-}
+});
 
 
 
@@ -908,6 +871,12 @@ class Level3 extends Phaser.Scene {
         const enemy2 = this.enemies.create(
             platform2.x - 10,
             platform2.y - 100,
+            'enemy'
+        ).setScale(2);
+         const platform3 = platforms.getChildren().at(4);
+        const enemy3 = this.enemies.create(
+            platform3.x - 10,
+            platform3.y - 100,
             'enemy'
         ).setScale(2);
 
@@ -1172,6 +1141,7 @@ class Level4 extends Phaser.Scene {
 
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
 
     create() {
@@ -1281,6 +1251,13 @@ class Level4 extends Phaser.Scene {
             platform3.y - 100,
             'enemy'
             ).setScale(2);
+            const platform4 = platforms.getChildren().at(9);
+            const enemy4 = this.enemies.create(
+            platform4.x - 10,
+            platform4.y - 100,
+            'enemy'
+            ).setScale(2);
+
 
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
@@ -1367,7 +1344,7 @@ class Level4 extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 2500,
+            delay: 1200,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
@@ -1387,7 +1364,7 @@ class Level4 extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 2500,
+            delay: 1000,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
