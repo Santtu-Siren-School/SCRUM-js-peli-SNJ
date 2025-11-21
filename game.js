@@ -1451,6 +1451,12 @@ class Level4 extends Phaser.Scene {
             player.anims.play("jump");
             jump.play();
         }
+        if (cursors.up.isDown && player.body.touching.down) {
+            jumping = 1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+        }
+
         if (jumping === 1) {
             player.anims.play("jump", true);
             player.setVelocityX(0);
@@ -1460,34 +1466,33 @@ class Level4 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-        if (cursors.down.isDown) {
-    player.setVelocityY(300);
-    player.anims.play('jump');
-}
-       else {
-    if (player.windActive) {
-        const windAcceleration = 10;
-        const maxWindSpeed = 200;
-        if (player.body.velocity.x < maxWindSpeed) {
-            player.setVelocityX(player.body.velocity.x + windAcceleration);
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
         }
-    }
-}
-if (cursors.left.isDown || cursors.right.isDown) {
-    player.setVelocityX(cursors.left.isDown ? -160 : 160);
-    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
-    facingRight = cursors.right.isDown;
-
-    if (footsteps.paused) footsteps.play();
-} else {
-    player.setVelocityX(0);
-    player.anims.play('turn');
-
-    if (!footsteps.paused) {
-        footsteps.pause();
-        footsteps.currentTime = 0;
-    }
-}
+        else if (cursors.down.isDown) {
+            player.setVelocityY(300);
+            player.anims.play('jump');
+        }  
+        else {
+            if (player.windActive) {
+                const windAcceleration = 10;
+                const maxWindSpeed = 200;
+                if (player.body.velocity.x < maxWindSpeed) {
+                    player.setVelocityX(player.body.velocity.x + windAcceleration);
+                }
+            }
+            else {
+            player.setVelocityX(0)
+            player.anims.play('turn');
+            }
+        }
 
         // Knife heitto
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
