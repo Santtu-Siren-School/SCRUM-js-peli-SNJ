@@ -35,6 +35,8 @@ class MainMenu extends Phaser.Scene {
             this.load.spritesheet('boss_level5','assets/textures/boss-spirehseet.png',{frameWidth: 37, frameHeight: 42})
             this.load.image('dialogue1_boss','assets/textures/Boss_fight_dialogue1.png')
             this.load.image('dialogue2_boss','assets/textures/Boss_fight_dialogue2.png')
+            this.load.image('dialogue3_boss','assets/textures/Boss_fight_dialogue3.png')
+            this.load.image('dialogue4_boss','assets/textures/Boss_fight_dialogue4.png')
             this.load.image('fireball','assets/textures/fireball.png')
             this.load.image('level1','assets/textures/level1_button.png')
             this.load.image('level2','assets/textures/level2_button.png')
@@ -810,16 +812,8 @@ if (!e || !e.body || !e.active) {
         e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
-
-    
-
 }
-
-
-
-    }
-
-    
+    } 
 }
 //level3
 class Level3 extends Phaser.Scene {
@@ -1701,8 +1695,16 @@ class Level5 extends Phaser.Scene {
             dialogueActive = true;
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
             setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
-            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();;dialogueActive = false;}, 3000)}, 3000);
+            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();dialogueActive = false;}, 3000)}, 3000);
             dialogue1_boss=0
+        }
+        if (dialogue2_boss===1) {
+            dialogueActive = true;
+            player.setPosition(400, 1800);
+            let boss_dialogue_img3=this.add.image(500,1610,'dialogue3_boss').setScale(5)
+            setTimeout(() => {boss_dialogue_img3.destroy();}, 3000);
+            setTimeout(() => {let boss_dialogue_img4=this.add.image(500,1610,'dialogue4_boss').setScale(5);setTimeout(() => {boss_dialogue_img4.destroy();dialogueActive = false;}, 3000)}, 3000);
+            dialogue2_boss=2
         }
         if (dialogueActive) {
             return;
@@ -1908,6 +1910,7 @@ var config = {
     },
     scene: [MainMenu,Level1,Level2,Level3,Level4,Level5]
 };
+var dialogue2_boss=0;
 var boss_lives=50;
 var boss_spike;
 var bosswall;
@@ -2103,7 +2106,13 @@ function knifehitboss(boss,knifeSprite) {
     boss.lives -= 1; // Vähennetään vihollisen elämää
     boss_lives-=1;
     if (boss.lives <= 30) {
+        if (dialogue2_boss===0) {
+        dialogue2_boss=1;
         phase = 2
+    }
+    else {
+        phase = 2
+    }
     }
     }
 }
