@@ -1720,6 +1720,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if (bossattack===1) {
+                                  fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 300;
@@ -1755,6 +1756,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if(bossattack===1) {
+                                 fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 500;
@@ -1795,6 +1797,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if(bossattack===1) {
+                                 fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 500;
@@ -1994,6 +1997,7 @@ const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
 const wind_sound=new Audio('assets/sound/wind.mp3');
 const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_music.mp3');
+const fireball_sound=new Audio('assets/sound/fireball.mp3');
 var player;
 var weapon;
 var weapon2;
@@ -2121,21 +2125,35 @@ function level1trhow(player, solid_snake_door) {
 }
 function bossPlayerContact(boss,player) {
     knockback=1;
-    player.setVelocityX(800)
-    player.setVelocityY(-450)
     setTimeout(() => {knockback=0;}, 1300);
+      if (player.x < boss.x) { 
+        player.setVelocityX(-800); 
+         player.setVelocityY(-450)
+    } else { 
+        player.setVelocityX(800)
+    player.setVelocityY(-450)
+    }
 }
 function knifehitboss(boss,knifeSprite) {
     knifeSprite.destroy();
     
-    var bosshitchanchethingy=Phaser.Math.Between(0, 3);
-    console.log(bosshitchanchethingy)
-    if (bosshitchanchethingy===3) {
-            let weapon2 = knife2.create(boss.x+100, boss.y-70, 'dagger2');
-            weapon2.setScale(0.1);
-            weapon2.setVelocityX(800); 
-            weapon2.setGravityY(-300);
+   var bosshitchanchethingy = Phaser.Math.Between(0, 3);
+console.log(bosshitchanchethingy)
+if (bosshitchanchethingy === 3) {
+    let weapon2 = knife2.create(boss.x + 100, boss.y - 70, 'dagger2');
+    weapon2.setScale(0.1);
+
+    // Tarkistetaan pelaajan sijainti suhteessa bossiin ja määritetään heittosuunta
+    if (player.x < boss.x) { // Pelaaja on bossin vasemmalla puolella
+        weapon2.setVelocityX(-800); // Heitä vasemmalle
+         weapon2.flipX = true; 
+    } else { // Pelaaja on bossin oikealla puolella
+        weapon2.setVelocityX(800); // Heitä oikealle
     }
+
+    weapon2.setGravityY(-300);
+}
+
     else {
     console.log(boss.lives)
     boss.lives -= 1; // Vähennetään vihollisen elämää
