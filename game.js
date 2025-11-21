@@ -111,8 +111,8 @@ class MainMenu extends Phaser.Scene {
             this.anims.create({
                 key: 'bossphase2attack',
                 frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
-                rameRate: 2,
-                repeat: -1
+                frameRates: 0,
+                repeat: 1
             });
             //vihollisen animaatiot
             this.anims.create({
@@ -1728,7 +1728,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
                             }
                             else {
-                                let spikebossobject = boss_spike.create(player.x, 10, 'boss_spike');
+                                let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
                                 spikebossobject.setScale(2).refreshBody();
                                 const speed = 100;
                                 spikebossobject.setVelocityY(speed);
@@ -1737,10 +1737,30 @@ class Level5 extends Phaser.Scene {
                             }
                         }
                     }
-                }
+                    else if (phase===2){
+                        bossattackchanche=Phaser.Math.Between(0, 120);
+                        console.log("boss attack chanche",bossattackchanche)
+                        if (bossattackchanche===6) {
+                            boss_animation_play=true
+                            boss.play('bossphase2attack');
+                            setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 3);console.log("boss attack",bossattack)}, 2000);
+                            if (bossattack===0) {
+
+                            }
+                            else if(bossattack===1) {
+
+                            }
+                            else if (bossattack===2) {
+
+                            }
+                            else {
+
+                            }
+                        }
+                    }
 
             }
-        }
+        }}
         backgroundsound.play()
         if (knockback==1) {
             return;
@@ -1840,7 +1860,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=1;
+var phase=2;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
