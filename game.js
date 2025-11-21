@@ -1747,8 +1747,8 @@ class Level5 extends Phaser.Scene {
                         //console.log("boss attack chanche",bossattackchanche)
                         if (bossattackchanche===6) {
                             boss_animation_play=true
-                            boss.play('bossphase2attack');
-                            setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 3);console.log("boss attack",bossattack)}, 1500);
+                            boss.play('bossphase1attack');
+                            setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 3);console.log("boss attack",bossattack)}, 1500);
                             if (bossattack===0) {
                                 let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
                                 boss_wall_object.setScale(1).refreshBody();
@@ -1910,7 +1910,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=2;
+var phase=1;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
