@@ -9,6 +9,7 @@ class MainMenu extends Phaser.Scene {
             this.load.image('platform', 'assets/textures/Platformit.png');
             this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
             this.load.image('dagger', 'assets/textures/tikari.png');
+            this.load.image('dagger2', 'assets/textures/tikari2.png');
             this.load.image('cannon', 'assets/textures/cannon.png');
             this.load.image('cannon_back', 'assets/textures/cannon_back.png')
             this.load.image('bullet', 'assets/textures/cannon_ball.png');
@@ -153,7 +154,7 @@ class Level1 extends Phaser.Scene {
     boss_fight_background_music.pause();
     //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
-    this.throwCooldown = 1000; 
+    this.throwCooldown = 1000;
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
@@ -1581,6 +1582,7 @@ class Level5 extends Phaser.Scene {
             bosswall=this.physics.add.group();
             shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
             knife = this.physics.add.group();
+            knife2 = this.physics.add.group();
             fireball = this.physics.add.group();
             this.lastThrowTime = 0; 
             this.throwCooldown = 1000;
@@ -1633,6 +1635,7 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(boss, wall);
             this.physics.add.overlap(boss, player, bossPlayerContact, null, this);
             this.physics.add.collider(player, knife);
+            this.physics.add.collider(player, knife2, knifehit, null, this);
             this.physics.add.overlap(boss, knife, knifehitboss,null,this);
             boss.lives = boss_lives;
             this.physics.add.overlap(player, fireball, fireballplayer, null, this);
@@ -1955,7 +1958,9 @@ const wind_sound=new Audio('assets/sound/wind.mp3');
 const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_music.mp3');
 var player;
 var weapon;
+var weapon2;
 var knife;
+var knife2;
 var shoot;
 let cannon;
 let bullets;
@@ -2056,6 +2061,15 @@ function hitBySpike(player, spike) {
     this.deathText.setText("Kuolemat: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
+function knifehit(player, knife2) {
+    const currentDeaths = this.registry.get('deaths') + 1;
+    this.registry.set('deaths', currentDeaths);
+    spike_death.play()
+
+    // Päivitä näkyvä teksti
+    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.scene.start(this.scene.key)
+}
 function windPlayer(player, wind) {
     //console.log("player has activated wind at",wind)
      wind_sound.play();
@@ -2079,10 +2093,10 @@ function knifehitboss(boss,knifeSprite) {
     var bosshitchanchethingy=Phaser.Math.Between(0, 3);
     console.log(bosshitchanchethingy)
     if (bosshitchanchethingy===3) {
-            let weapon = knife.create(boss.x+100, boss.y-70, 'dagger');
-            weapon.setScale(0.1);
-            weapon.setVelocityX(800); 
-            weapon.setGravityY(-300);
+            let weapon2 = knife2.create(boss.x+100, boss.y-70, 'dagger2');
+            weapon2.setScale(0.1);
+            weapon2.setVelocityX(800); 
+            weapon2.setGravityY(-300);
     }
     else {
     console.log(boss.lives)
