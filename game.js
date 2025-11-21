@@ -37,6 +37,8 @@ class MainMenu extends Phaser.Scene {
             this.load.image('dialogue2_boss','assets/textures/Boss_fight_dialogue2.png')
             this.load.image('dialogue3_boss','assets/textures/Boss_fight_dialogue3.png')
             this.load.image('dialogue4_boss','assets/textures/Boss_fight_dialogue4.png')
+            this.load.image('dialogue5_boss','assets/textures/Boss_fight_dialogue5.png')
+            this.load.image('dialogue6_boss','assets/textures/Boss_fight_dialogue6.png')
             this.load.image('fireball','assets/textures/fireball.png')
             this.load.image('level1','assets/textures/level1_button.png')
             this.load.image('level2','assets/textures/level2_button.png')
@@ -1671,6 +1673,7 @@ class Level5 extends Phaser.Scene {
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
+        console.log(dialogueActive)
         if (dialogue1_boss===1) {
             dialogueActive = true;
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
@@ -1682,9 +1685,17 @@ class Level5 extends Phaser.Scene {
             dialogueActive = true;
             player.setPosition(400, 1800);
             let boss_dialogue_img3=this.add.image(500,1610,'dialogue3_boss').setScale(5)
-            setTimeout(() => {boss_dialogue_img3.destroy();}, 3000);
-            setTimeout(() => {let boss_dialogue_img4=this.add.image(500,1610,'dialogue4_boss').setScale(5);setTimeout(() => {boss_dialogue_img4.destroy();dialogueActive = false;}, 3000)}, 3000);
+            setTimeout(() => {boss_dialogue_img3.destroy();player.setPosition(400, 1800);}, 3000);
+            setTimeout(() => {let boss_dialogue_img4=this.add.image(500,1610,'dialogue4_boss').setScale(5);setTimeout(() => {boss_dialogue_img4.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
             dialogue2_boss=2
+        }
+        if (dialogue3_boss===1) {
+            dialogueActive = true;
+            player.setPosition(400, 1800);
+            let boss_dialogue_img5=this.add.image(500,1610,'dialogue5_boss').setScale(5)
+            setTimeout(() => {boss_dialogue_img5.destroy();player.setPosition(400, 1800);}, 3000);
+            setTimeout(() => {let boss_dialogue_img6=this.add.image(500,1610,'dialogue6_boss').setScale(5);setTimeout(() => {boss_dialogue_img6.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
+            dialogue3_boss=2
         }
         if (dialogueActive) {
             return;
@@ -1760,6 +1771,49 @@ class Level5 extends Phaser.Scene {
                                 spikebossobject.setVelocityY(speed);
                                 spikebossobject.body.allowGravity = false;
                                 setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
+                            }
+                            else {
+                                knockback=1;
+                                player.setVelocityY(-500);
+                                setTimeout(() => {player.setVelocityX(500);player.setVelocityY(-100);setTimeout(() => {knockback=0;},1000 )}, 2000);
+                            }
+                        }
+                    }
+                    else if (phase===3){
+                        bossattackchanche=Phaser.Math.Between(0, 50);
+                        //console.log("boss attack chanche",bossattackchanche)
+                        if (bossattackchanche===6) {
+                            boss_animation_play=true
+                            boss.play('bossphase2attack');
+                            setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 4);console.log("boss attack",bossattack)}, 1500);
+                            if (bossattack===0) {
+                                let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
+                                boss_wall_object.setScale(1).refreshBody();
+                                const speed = 200;
+                                const direction = Math.sign(player.x - boss.x);
+                                boss_wall_object.setVelocityX(speed * direction);
+                                boss_wall_object.body.allowGravity = false;
+                                setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
+                            }
+                            else if(bossattack===1) {
+                                let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
+                                fireballobject.setScale(2).refreshBody();
+                                const speed = 500;
+                                const direction = Math.sign(player.x - boss.x);
+                                fireballobject.setVelocityX(speed * direction);
+                                fireballobject.body.allowGravity = false;
+                                setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
+                            }
+                            else if (bossattack===2) {
+                                let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
+                                spikebossobject.setScale(2).refreshBody();
+                                const speed = 200;
+                                spikebossobject.setVelocityY(speed);
+                                spikebossobject.body.allowGravity = false;
+                                setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
+                            }
+                            else if (bossattack===3) {
+                                
                             }
                             else {
                                 knockback=1;
@@ -1891,6 +1945,7 @@ var config = {
     },
     scene: [MainMenu,Level1,Level2,Level3,Level4,Level5]
 };
+var dialogue3_boss=0;
 var dialogue2_boss=0;
 var boss_lives=50;
 var boss_spike;
@@ -2108,6 +2163,15 @@ if (bosshitchanchethingy === 3) {
     }
     else {
         phase = 2
+    }
+    }
+    if (boss.lives <= 20) {
+        if (dialogue3_boss===0) {
+        dialogue3_boss=1;
+        phase = 3
+    }
+    else {
+        phase = 3
     }
     }
     }
