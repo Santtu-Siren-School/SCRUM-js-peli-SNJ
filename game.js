@@ -1629,6 +1629,7 @@ class Level5 extends Phaser.Scene {
             this.physics.add.overlap(boss, player, bossPlayerContact, null, this);
             this.physics.add.collider(player, knife);
             this.physics.add.overlap(boss, knife, knifehitboss,null,this);
+            boss.lives = 50;
             this.physics.add.overlap(player, fireball, fireballplayer, null, this);
             this.physics.add.overlap(player, bosswall, boss_wall_player, null, this);
             this.physics.add.overlap(player, boss_spike, boss_spike_player, null, this);
@@ -2004,6 +2005,7 @@ function bossPlayerContact(boss,player) {
 }
 function knifehitboss(boss,knifeSprite) {
     knifeSprite.destroy();
+    
     var bosshitchanchethingy=Phaser.Math.Between(0, 3);
     console.log(bosshitchanchethingy)
     if (bosshitchanchethingy===3) {
@@ -2013,7 +2015,10 @@ function knifehitboss(boss,knifeSprite) {
             weapon.setGravityY(-300);
     }
     else {
-        return;
+    boss.lives -= 1; // Vähennetään vihollisen elämää
+    if (boss.lives <= 25) {
+        phase = 2
+    }
     }
 }
 function fireballplayer(player,fireball) {
