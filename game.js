@@ -1786,7 +1786,7 @@ class Level5 extends Phaser.Scene {
                         if (bossattackchanche===6) {
                             boss_animation_play=true
                             boss.play('bossphase2attack');
-                            setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 4);console.log("boss attack",bossattack)}, 1500);
+                            setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;bossattack=Phaser.Math.Between(3, 3);console.log("boss attack",bossattack)}, 1500);
                             if (bossattack===0) {
                                 let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
                                 boss_wall_object.setScale(1).refreshBody();
@@ -1815,9 +1815,13 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
                             }
                             else if (bossattack===3) {
-
+                                let beam = this.physics.add.image(boss.x, boss.y-400, 'lightbeam');
+                                beam.body.allowGravity = false;
+                                beam.setScale(1);
+                                beam.setAlpha(0.4);
+                                setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});setTimeout(() => {if (beam) beam.destroy();}, 1000);}, 1000);
                             }
-                            else {
+                            else if (bossattack===4) {
                                 knockback=1;
                                 player.setVelocityY(-700);
                                 setTimeout(() => {player.setVelocityX(700);player.setVelocityY(-300);setTimeout(() => {knockback=0;},1000 )}, 2000);
