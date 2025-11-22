@@ -117,7 +117,7 @@ class MainMenu extends Phaser.Scene {
             this.anims.create({
                 key: 'bossphase2attack',
                 frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
-                frameRates: 0,
+                frameRate: 2,
                 repeat: 1
             });
             //vihollisen animaatiot
@@ -2058,8 +2058,13 @@ function hitPlayer(player, bullet) {
 }
 
 function level1Transition() {
+    if (dialogueActive) {
+        player.setPosition(400, 1800);
+    }
+    else {
     nextlevelsound.play()
     this.scene.start('Level1')
+    }
 }
 function level2Transition() {
     nextlevelsound.play()
@@ -2167,7 +2172,7 @@ if (bosshitchanchethingy === 3) {
         phase = 2
     }
     }
-    if (boss.lives <= 20) {
+    if (boss.lives <= 25) {
         if (dialogue3_boss===0) {
         dialogue3_boss=1;
         phase = 3
