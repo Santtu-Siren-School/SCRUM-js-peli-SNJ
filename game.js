@@ -1849,6 +1849,12 @@ class Level5 extends Phaser.Scene {
                                 beam.setScale(1);
                                 beam.setAlpha(0.4);
                                 setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});setTimeout(() => {if (beam) beam.destroy();}, 1000);}, 1000);
+                                    this.physics.add.overlap(player, beam, () => {
+                                        const currentDeaths = this.registry.get('deaths') + 1;
+                                        this.registry.set('deaths', currentDeaths);
+                                        this.deathText.setText("Kuolemat: " + currentDeaths);
+                                        this.scene.start('Level5');
+                                    });
                             }
                             else if (bossattack===4) {
                                 knockback=1;
