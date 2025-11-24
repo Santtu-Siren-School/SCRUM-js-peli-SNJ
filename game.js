@@ -39,6 +39,11 @@ class MainMenu extends Phaser.Scene {
             this.load.image('dialogue4_boss','assets/textures/Boss_fight_dialogue4.png')
             this.load.image('dialogue5_boss','assets/textures/Boss_fight_dialogue5.png')
             this.load.image('dialogue6_boss','assets/textures/Boss_fight_dialogue6.png')
+            this.load.image('dialogue7_boss','assets/textures/Boss_fight_dialogue7.png')
+            this.load.image('dialogue8_boss','assets/textures/Boss_fight_dialogue8.png')
+            this.load.image('dialogue9_boss','assets/textures/Boss_fight_dialogue9.png')
+            this.load.image('dialogue10_boss','assets/textures/Boss_fight_dialogue10.png')
+            this.load.image('dialogue11_boss','assets/textures/Boss_fight_dialogue11.png')
             this.load.image('fireball','assets/textures/fireball.png')
             this.load.image('level1','assets/textures/level1_button.png')
             this.load.image('level2','assets/textures/level2_button.png')
@@ -72,6 +77,12 @@ class MainMenu extends Phaser.Scene {
             this.load.image('cutscene_knife22', 'assets/textures/cutscene_knife22.png')
             this.load.image('cutscene_knife23', 'assets/textures/cutscene_knife23.png')
             this.load.image('cutscene_knife24', 'assets/textures/cutscene_knife24.png')
+            this.load.image('end1_0', 'assets/textures/cutscene_end1_0.png')
+            this.load.image('end1_1', 'assets/textures/cutscene_end1_1.png')
+            this.load.image('end1_2', 'assets/textures/cutscene_end1_2.png')
+            this.load.image('end1_3', 'assets/textures/cutscene_end1_3.png')
+            this.load.image('end1_4', 'assets/textures/cutscene_end1_4.png')
+            this.load.image('end1_5', 'assets/textures/cutscene_end1_5.png')
         }
         create(){
             this.add.image(1000,1000, 'sky_level5').setScale(1);
@@ -81,6 +92,7 @@ class MainMenu extends Phaser.Scene {
             const level4_button=this.add.image(400,100,'level4').setInteractive();
             const level5_button=this.add.image(500,100,'level5').setInteractive();
             const cutscene_knife_button=this.add.image(100,200,'level1').setInteractive();
+            const end1_button=this.add.image(200,200,'level2').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -104,6 +116,10 @@ class MainMenu extends Phaser.Scene {
             cutscene_knife_button.on('pointerdown', () => {
                 this.scene.start('Cutscene_knife'),
                 console.log("Cutscene_knife_play");
+            });
+            end1_button.on('pointerdown', () => {
+                this.scene.start('end1'),
+                console.log("end1_play");
             });
             //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
@@ -2171,7 +2187,52 @@ class Cutscene_knife extends Phaser.Scene {
 class end1 extends Phaser.Scene {
     constructor() {
         super({ key: 'end1' });}
-        create(){}
+        create(){
+            let dialogue7_boss=this.add.image(500,450,'dialogue7_boss').setScale(4);
+setTimeout(() => {
+    setTimeout(() => {
+        dialogue7_boss.destroy();
+        let dialogue8_boss = this.add.image(500,450,'dialogue8_boss').setScale(4);
+        setTimeout(() => {
+            dialogue8_boss.destroy();
+            let dialogue9_boss = this.add.image(500,450,'dialogue9_boss').setScale(4);
+            setTimeout(() => {
+                dialogue9_boss.destroy();
+                let dialogue10_boss = this.add.image(500,450,'dialogue10_boss').setScale(4);
+                setTimeout(() => {
+                    dialogue10_boss.destroy();
+                    let dialogue11_boss = this.add.image(500,450,'dialogue11_boss').setScale(4);
+                    setTimeout(() => {
+                        dialogue11_boss.destroy();
+                        let end1img0 = this.add.image(500,450,'end1_0');
+                        setTimeout(() => {
+                            end1img0.destroy();
+                            let end1img1 = this.add.image(500,450,'end1_1');
+                            setTimeout(() => {
+                                end1img1.destroy();
+                                let end1img2 = this.add.image(500,450,'end1_2');
+                                setTimeout(() => {
+                                    end1img2.destroy();
+                                    let end1img3 = this.add.image(500,450,'end1_3');
+                                    setTimeout(() => {
+                                        end1img3.destroy();
+                                        let end1img4 = this.add.image(500,450,'end1_4');
+                                        setTimeout(() => {
+                                            end1img4.destroy();
+                                            let end1img5 = this.add.image(500,450,'end1_5');
+                                        }, 3000);
+                                    }, 3000);
+                                }, 3000);
+                            }, 3000);
+                        }, 3000);
+                    }, 3000);
+                }, 3000);
+            }, 3000);
+        }, 3000);
+    }, 3000);
+}, 1);
+
+        }
 }
 var config = {
     type: Phaser.AUTO,
