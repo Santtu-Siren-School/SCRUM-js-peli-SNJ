@@ -618,7 +618,7 @@ cannon_up_bullets = this.physics.add.group({
     maxSize: 10000000000
 });
 this.time.addEvent({
-    delay: 2000,
+    delay: 1500,
     callback: () => shootBullet_cannon_up(cannon_up, cannon_up_bullets),
     loop: true
 });
