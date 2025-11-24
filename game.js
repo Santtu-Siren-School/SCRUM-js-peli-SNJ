@@ -1740,6 +1740,7 @@ class Level5 extends Phaser.Scene {
                             boss.play('bossphase1attack');
                             setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 2);console.log("boss attack",bossattack)}, 1500);
                             if (bossattack===0) {
+                                 wall_sound.play()
                                 let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
                                 boss_wall_object.setScale(1).refreshBody();
                                 const speed = 100;
@@ -1758,7 +1759,8 @@ class Level5 extends Phaser.Scene {
                                 fireballobject.body.allowGravity = false;
                                 setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
                             }
-                            else if (bossattack===2){
+                            else {
+                                 spikes_sound.play()
                                 let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
                                 spikebossobject.setScale(2).refreshBody();
                                 const speed = 100;
@@ -1776,6 +1778,7 @@ class Level5 extends Phaser.Scene {
                             boss.play('bossphase1attack');
                             setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 3);console.log("boss attack",bossattack)}, 1500);
                             if (bossattack===0) {
+                                wall_sound.play()
                                 let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
                                 boss_wall_object.setScale(1).refreshBody();
                                 const speed = 200;
@@ -1795,6 +1798,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
                             }
                             else if (bossattack===2) {
+                                spikes_sound.play()
                                 let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
                                 spikebossobject.setScale(2).refreshBody();
                                 const speed = 200;
@@ -1817,6 +1821,7 @@ class Level5 extends Phaser.Scene {
                             boss.play('bossphase2attack');
                             setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 4);console.log("boss attack",bossattack)}, 1500);
                             if (bossattack===0) {
+                                wall_sound.play()
                                 let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
                                 boss_wall_object.setScale(1).refreshBody();
                                 const speed = 300;
@@ -1836,6 +1841,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
                             }
                             else if (bossattack===2) {
+                                spikes_sound.play()
                                 let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
                                 spikebossobject.setScale(2).refreshBody();
                                 const speed = 400;
@@ -2138,6 +2144,8 @@ const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
 const wind_sound=new Audio('assets/sound/wind.mp3');
 const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_music.mp3');
 const fireball_sound=new Audio('assets/sound/fireball.mp3');
+const wall_sound = new Audio('assets/sound/wall.mp3')
+const spikes_sound = new Audio('assets/sound/spikes.mp3')
 var player;
 var weapon;
 var weapon2;
