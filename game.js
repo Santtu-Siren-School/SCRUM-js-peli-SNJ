@@ -223,12 +223,9 @@ class Level1 extends Phaser.Scene {
     ovi=this.physics.add.staticGroup();
     ovi.create(920,520,'ovi').setScale(0.3).refreshBody();
     // --VIHOLLISEN LUONTI--
+    this.enemies = this.physics.add.group();
 const rightPlatform = platforms.getChildren().at(2);
-this.enemy = this.physics.add.sprite(
-  rightPlatform.x - 10,
-  rightPlatform.y - 100,
-  'enemy'
-);
+this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 100, 'enemy');
 //vihollisen koko ja elämäpisteet
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
@@ -260,7 +257,8 @@ this.physics.add.collider(player, knife);
     weapon.body.allowGravity = false; 
     weapon.body.immovable = true;     
 });
-this.physics.add.overlap(knife, this.enemy, (weapon, enemy) => {
+this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+
 
     if (!enemy.active) return;
 
