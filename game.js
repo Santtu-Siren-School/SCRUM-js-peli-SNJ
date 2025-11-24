@@ -289,6 +289,7 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
     this.enemy.setVelocityX(80); // alku nopeus
     this.enemy.direction = 1;
+    this.enemy.body.mass = 10;
 
     this.physics.add.collider(knife, bottom_of_game);
     //Pelaajan liikumisen animaatio määritely pätyy
@@ -449,6 +450,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
             weapon.setScale(0.1);
             weapon.setVelocityX(300); 
             weapon.setGravityY(-200);
+            weapon.body.isSensor = true;
              if (facingRight) {
         weapon.setVelocityX(300);
     } else {
