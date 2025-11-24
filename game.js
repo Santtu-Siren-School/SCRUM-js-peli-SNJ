@@ -233,7 +233,9 @@ this.enemy = this.physics.add.sprite(
 this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
-this.enemy.lives = 3;
+this.enemy.refreshBody();
+this.enemy.maxHp = 100;
+this.enemy.hp = 100;
 
 // Käytä Phaserin dataa (stabiilimpi kuin plain property)
 // Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
@@ -258,23 +260,30 @@ this.physics.add.collider(player, knife);
     weapon.body.allowGravity = false; 
     weapon.body.immovable = true;     
 });
-this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
-    enemy_death.play()
-    if (!enemy.active) {
-        return; // Ei tehdä mitään, jos vihollinen on jo kuollut
-    }
-    enemy.lives -= 1; // Vähennetään vihollisen elämää
-    weapon.destroy();  // Poistetaan veitsi
+this.physics.add.overlap(knife, this.enemy, (weapon, enemy) => {
 
-    if (enemy.lives <= 0) {
-        // Vihollinen kuolee
-        enemy.setTint(0xff0000); // Näyttää vihollisen punaisena hetken
-        setTimeout(() => {
-            enemy.setTint(0xffffff); // Palautetaan väri takaisin normaaliksi
-            enemy.destroy(); // Poistetaan vihollinen
-        }, 500); // Vihollinen on punainen 0.5 sekuntia ennen kuin se poistetaan
+    if (!enemy.active) return;
+
+    // tuplahittisuojan EI pidä käyttää delayta
+    if (enemy.wasHit) return;
+    enemy.wasHit = true;
+
+    // hit effect
+    enemy.hp -= 50;
+    enemy.setTint(0x550000);
+    this.time.delayedCall(150, () => enemy.clearTint());
+
+    if (enemy.hp <= 0) {
+        enemy.disableBody(true, true);
+        return;
     }
-}, null, this);
+
+    // tuhoa veitsi välittömästi
+    weapon.disableBody(true, true);
+
+    // vapauta hit-lukko seuraavalle _uudelle_ veitselle
+    this.time.delayedCall(1, () => enemy.wasHit = false);
+});
 // jos puukko osuu alustaan -> pysäytä puukko
 
     this.enemy.body.setGravityY(300); // lisää painovoima
@@ -639,6 +648,11 @@ this.time.addEvent({
             e.setCollideWorldBounds(true);
             e.setVelocityX(80);
             e.direction = 1;
+
+            e.maxHp = 100;
+            e.hp = 100;
+
+            e.setPushable(false);
         });
 
      
@@ -654,11 +668,27 @@ this.time.addEvent({
         weapon.body.immovable = true;
     });
     // Turvallinen osuman käsittely knife -> enemy (vähentää hp:tä, ei tuhoa yhdellä osumalla)
-     this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
-               enemy_death.play()
+    this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+
+        // Tuhoaa veitsen
+        if (weapon && weapon.disableBody) weapon.disableBody(true, true);
+        else if (weapon && weapon.destroy) weapon.destroy();
+
+        // --- Vihollinen ottaa Damagea ---
+        if (!enemy || !enemy.active) return;
+
+        enemy.hp -= 50;   // damagen määrä
+
+        // Osumaefekti
+        enemy.setTint(0x550000);
+
+        this.time.delayedCall(150, () => enemy.clearTint());
+        if (enemy.hp <= 0) {
+            enemy_death.play();
+            
             enemy.disableBody(true, true);
-            weapon.destroy(); 
-        });
+        }
+    });
     // --ANIMAATIOT VIHOLLISILLE--
 
     // piikkien luonti
@@ -769,8 +799,8 @@ this.time.addEvent({
          setTimeout(() => { weapon.destroy(); }, 3000);
         }
     }
-    
- this.enemies.children.iterate(e => {
+    //this.enemies.children.iterate(e => e.play('walkRightEnemy'));
+    this.enemies.children.iterate(e => {
     if (!e.active) return;
 
     const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -917,6 +947,12 @@ class Level3 extends Phaser.Scene {
             e.setCollideWorldBounds(true);
             e.setVelocityX(80);
             e.direction = 1;
+
+            //vihollisen hp
+            e.mahHp = 100;
+            e.hp = 100;
+
+            e.setPushable(false);
         });
 
      
@@ -942,9 +978,26 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
-               enemy_death.play()
-            enemy.disableBody(true, true);
-            weapon.destroy(); 
+
+            // Tuhoaa veitsen
+            if (weapon && weapon.disableBody) weapon.disableBody(true, true);
+            else if (weapon && weapon.destroy) weapon.destroy();
+
+            // --- Vihollinen ottaa Damagea ---
+            if (!enemy || !enemy.active) return;
+
+            enemy.hp -= 50;   // damagen määrä
+
+            // Osumaefekti
+            enemy.setTint(0x550000);
+            this.time.delayedCall(150, () => enemy.clearTint());
+
+            if (enemy.hp <= 0) {
+                enemy_death.play();
+
+                
+                enemy.disableBody(true, true);
+            }
         });
 
 
@@ -1296,6 +1349,12 @@ class Level4 extends Phaser.Scene {
             e.setCollideWorldBounds(true);
             e.setVelocityX(80);
             e.direction = 1;
+
+            //vihollisen hp
+            e.mahHp = 100;
+            e.hp = 100;
+
+            e.setPushable(false);
         });
 
         this.cameras.main.setBounds(0, 0, 2000, 2000);
@@ -1327,11 +1386,28 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
-               enemy_death.play()
+
+            // Tuhoaa veitsen
             if (weapon && weapon.disableBody) weapon.disableBody(true, true);
             else if (weapon && weapon.destroy) weapon.destroy();
-            if (enemy && enemy.disableBody) enemy.disableBody(true, true);
+
+            // --- Vihollinen ottaa Damagea ---
+            if (!enemy || !enemy.active) return;
+
+            enemy.hp -= 50;   // damagen määrä
+
+            // Osumaefekti
+            enemy.setTint(0x550000);
+            this.time.delayedCall(150, () => enemy.clearTint());
+
+            if (enemy.hp <= 0) {
+                enemy_death.play();
+
+                
+                enemy.disableBody(true, true);
+            }
         });
+
         this.physics.add.collider(this.enemies, platforms);
         this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
 
@@ -1858,6 +1934,12 @@ class Level5 extends Phaser.Scene {
                                 beam.setScale(1);
                                 beam.setAlpha(0.4);
                                 setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});setTimeout(() => {if (beam) beam.destroy();}, 1000);}, 1000);
+                                    this.physics.add.overlap(player, beam, () => {
+                                        const currentDeaths = this.registry.get('deaths') + 1;
+                                        this.registry.set('deaths', currentDeaths);
+                                        this.deathText.setText("Kuolemat: " + currentDeaths);
+                                        this.scene.start('Level5');
+                                    });
                             }
                             else if (bossattack===4) {
                                 knockback=1;
