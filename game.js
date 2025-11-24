@@ -2169,6 +2169,11 @@ class Cutscene_knife extends Phaser.Scene {
              }, 3000);
         }
 }
+class end1 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'end1' });}
+        create(){}
+}
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -2180,7 +2185,7 @@ var config = {
             debug: false
         }
     },
-    scene: [MainMenu,Level1,Level2,Level3,Level4,Level5,Cutscene_knife]
+    scene: [MainMenu,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1]
 };
 var knife_deflect_first_Time=true;
 var dialogue3_boss=0;
@@ -2379,7 +2384,7 @@ function bossPlayerContact(boss,player) {
 }
 function knifehitboss(boss,knifeSprite) {
     knifeSprite.destroy();
-    
+    const currentDeaths = this.registry.get('deaths') + 1;
    var bosshitchanchethingy = Phaser.Math.Between(0, 3);
     console.log(bosshitchanchethingy)
     if (knife_deflect_first_Time) {
@@ -2418,8 +2423,19 @@ function knifehitboss(boss,knifeSprite) {
         dialogue3_boss=1;
         phase = 3
     }
-    else {
+    else{
         phase = 3
+    }
+    if (boss.lives <=0) {
+        if (currentDeaths<=0) {
+
+        }
+        else if (currentDeaths===5000) {
+
+        }
+        else {
+            
+        }
     }
     }
     }
