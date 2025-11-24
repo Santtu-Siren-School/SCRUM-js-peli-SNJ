@@ -2140,10 +2140,9 @@ class Cutscene_knife extends Phaser.Scene {
                                                                                                     setTimeout(() => {
                                                                                                         cutscene_knife_img23.destroy();
                                                                                                         let cutscene_knife_img24 = this.add.image(500,500,'cutscene_knife24').setScale(4);
-                                                                                                          setTimeout(() => {
-                                                                                                         cutscene_knife_img24.destroy();
-                                                                                                        let cutscene_knife_img25 = this.add.image(500,500,'cutscene_knife25');
-                                                                                                        setTimeout(()=>{this.scene.start('Level5')},3000);
+                                                                                                        setTimeout(() => {
+                                                                                                            cutscene_knife_img24.destroy();
+                                                                                                            setTimeout(()=>{this.scene.start('Level5')},3000);
                                                                                                     }, 3000);
                                                                                                 }, 3000);
                                                                                             }, 1000);
