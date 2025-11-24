@@ -703,6 +703,7 @@ this.time.addEvent({
     this.spikes.create(1025, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(425, 867, 'spike').setScale(0.8).refreshBody();
     this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
+    this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
 
 
 
@@ -846,7 +847,9 @@ this.time.addEvent({
         e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
-})
+});
+
+
     }
 }
 //level3
