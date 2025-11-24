@@ -48,6 +48,30 @@ class MainMenu extends Phaser.Scene {
             this.load.image('boss_wall', 'assets/textures/boss_wall.png')
             this.load.image('boss_spike', 'assets/textures/spikes_boss.png')
             this.load.image('lightbeam', 'assets/textures/lightbeam.png')
+            this.load.image('cutscene_knife1', 'assets/textures/cutscene_knife.png')
+            this.load.image('cutscene_knife2', 'assets/textures/cutscene_knife2.png')
+            this.load.image('cutscene_knife3', 'assets/textures/cutscene_knife3.png')
+            this.load.image('cutscene_knife4', 'assets/textures/cutscene_knife4.png')
+            this.load.image('cutscene_knife5', 'assets/textures/cutscene_knife5.png')
+            this.load.image('cutscene_knife6', 'assets/textures/cutscene_knife6.png')
+            this.load.image('cutscene_knife7', 'assets/textures/cutscene_knife7.png')
+            this.load.image('cutscene_knife8', 'assets/textures/cutscene_knife8.png')
+            this.load.image('cutscene_knife9', 'assets/textures/cutscene_knife9.png')
+            this.load.image('cutscene_knife10', 'assets/textures/cutscene_knife10.png')
+            this.load.image('cutscene_knife11', 'assets/textures/cutscene_knife11.png')
+            this.load.image('cutscene_knife12', 'assets/textures/cutscene_knife12.png')
+            this.load.image('cutscene_knife13', 'assets/textures/cutscene_knife13.png')
+            this.load.image('cutscene_knife14', 'assets/textures/cutscene_knife14.png')
+            this.load.image('cutscene_knife15', 'assets/textures/cutscene_knife15.png')
+            this.load.image('cutscene_knife16', 'assets/textures/cutscene_knife16.png')
+            this.load.image('cutscene_knife17', 'assets/textures/cutscene_knife17.png')
+            this.load.image('cutscene_knife18', 'assets/textures/cutscene_knife18.png')
+            this.load.image('cutscene_knife19', 'assets/textures/cutscene_knife19.png')
+            this.load.image('cutscene_knife20', 'assets/textures/cutscene_knife20.png')
+            this.load.image('cutscene_knife21', 'assets/textures/cutscene_knife21.png')
+            this.load.image('cutscene_knife22', 'assets/textures/cutscene_knife22.png')
+            this.load.image('cutscene_knife23', 'assets/textures/cutscene_knife23.png')
+            this.load.image('cutscene_knife24', 'assets/textures/cutscene_knife24.png')
         }
         create(){
             this.add.image(1000,1000, 'sky_level5').setScale(1);
@@ -56,6 +80,7 @@ class MainMenu extends Phaser.Scene {
             const level3_button=this.add.image(300,100,'level3').setInteractive();
             const level4_button=this.add.image(400,100,'level4').setInteractive();
             const level5_button=this.add.image(500,100,'level5').setInteractive();
+            const cutscene_knife_button=this.add.image(100,200,'level1').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -75,6 +100,10 @@ class MainMenu extends Phaser.Scene {
             level5_button.on('pointerdown', () => {
                 this.scene.start('Level5'),
                 console.log("game start at level5");
+            });
+            cutscene_knife_button.on('pointerdown', () => {
+                this.scene.start('Cutscene_knife'),
+                console.log("Cutscene_knife_play");
             });
             //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
@@ -1777,7 +1806,7 @@ class Level5 extends Phaser.Scene {
                                 spikebossobject.body.allowGravity = false;
                                 setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
                             }
-                            else {
+                            else if (bossattack===3){
                                 knockback=1;
                                 player.setVelocityY(-500);
                                 setTimeout(() => {player.setVelocityX(500);player.setVelocityY(-100);setTimeout(() => {knockback=0;},1000 )}, 2000);
@@ -1944,6 +1973,106 @@ class Level5 extends Phaser.Scene {
     }
     }
     }
+class Cutscene_knife extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Cutscene_knife' });}
+        create(){
+            let cutscene_knife_img = this.add.image(500,500,'cutscene_knife1').setScale(5)
+            setTimeout(() => {
+                cutscene_knife_img.destroy();
+                let cutscene_knife_img2 = this.add.image(500,500,'cutscene_knife2').setScale(4);
+                setTimeout(() => {
+                    cutscene_knife_img2.destroy();
+                    let cutscene_knife_img3 = this.add.image(500,500,'cutscene_knife3').setScale(4);
+                    setTimeout(() => {
+                        cutscene_knife_img3.destroy();
+                        let cutscene_knife_img4 = this.add.image(500,500,'cutscene_knife4');
+                        setTimeout(() => {
+                            cutscene_knife_img4.destroy();
+                            let cutscene_knife_img5 = this.add.image(500,500,'cutscene_knife5');
+                            setTimeout(() => {
+                                cutscene_knife_img5.destroy();
+                                let cutscene_knife_img6 = this.add.image(500,500,'cutscene_knife6');
+                                setTimeout(() => {
+                                    cutscene_knife_img6.destroy();
+                                    let cutscene_knife_img7 = this.add.image(500,500,'cutscene_knife7');
+                                    setTimeout(() => {
+                                        cutscene_knife_img7.destroy();
+                                        let cutscene_knife_img8 = this.add.image(500,500,'cutscene_knife8');
+                                        setTimeout(() => {
+                                            cutscene_knife_img8.destroy();
+                                            let cutscene_knife_img9 = this.add.image(500,500,'cutscene_knife9');
+                                            setTimeout(() => {
+                                                cutscene_knife_img9.destroy();
+                                                let cutscene_knife_img10 = this.add.image(500,500,'cutscene_knife10');
+                                                setTimeout(() => {
+                                                    cutscene_knife_img10.destroy();
+                                                    let cutscene_knife_img11 = this.add.image(500,500,'cutscene_knife11');
+                                                    setTimeout(() => {
+                                                        cutscene_knife_img11.destroy();
+                                                        let cutscene_knife_img12 = this.add.image(500,500,'cutscene_knife12');
+                                                        setTimeout(() => {
+                                                            cutscene_knife_img12.destroy();
+                                                            let cutscene_knife_img13 = this.add.image(500,500,'cutscene_knife13');
+                                                            setTimeout(() => {
+                                                                cutscene_knife_img13.destroy();
+                                                                let cutscene_knife_img14 = this.add.image(500,500,'cutscene_knife14');
+                                                                setTimeout(() => {
+                                                                    cutscene_knife_img14.destroy();
+                                                                    let cutscene_knife_img15 = this.add.image(500,500,'cutscene_knife15');
+                                                                    setTimeout(() => {
+                                                                        cutscene_knife_img15.destroy();
+                                                                        let cutscene_knife_img16 = this.add.image(500,500,'cutscene_knife16');
+                                                                        setTimeout(() => {
+                                                                            cutscene_knife_img16.destroy();
+                                                                            let cutscene_knife_img17 = this.add.image(500,500,'cutscene_knife17');
+                                                                            setTimeout(() => {
+                                                                                cutscene_knife_img17.destroy();
+                                                                                let cutscene_knife_img18 = this.add.image(500,500,'cutscene_knife18');
+                                                                                setTimeout(() => {
+                                                                                    cutscene_knife_img18.destroy();
+                                                                                    let cutscene_knife_img19 = this.add.image(500,500,'cutscene_knife19');
+                                                                                    setTimeout(() => {
+                                                                                        cutscene_knife_img19.destroy();
+                                                                                        let cutscene_knife_img20 = this.add.image(500,500,'cutscene_knife20');
+                                                                                        setTimeout(() => {
+                                                                                            cutscene_knife_img20.destroy();
+                                                                                            let cutscene_knife_img21 = this.add.image(500,500,'cutscene_knife21');
+                                                                                            setTimeout(() => {
+                                                                                                cutscene_knife_img21.destroy();
+                                                                                                let cutscene_knife_img22 = this.add.image(500,500,'cutscene_knife22');
+                                                                                                setTimeout(() => {
+                                                                                                    cutscene_knife_img22.destroy();
+                                                                                                    let cutscene_knife_img23 = this.add.image(500,500,'cutscene_knife23').setScale(4);
+                                                                                                    setTimeout(() => {
+                                                                                                        cutscene_knife_img23.destroy();
+                                                                                                        let cutscene_knife_img24 = this.add.image(500,500,'cutscene_knife24').setScale(4);
+                                                                                                        setTimeout(()=>{this.scene.start('Level5')},3000);
+                                                                                                    }, 3000);
+                                                                                                }, 3000);
+                                                                                            }, 1000);
+                                                                                        }, 1000);
+                                                                                    }, 1000);
+                                                                                }, 1000);
+                                                                            }, 1000);
+                                                                        }, 1000);
+                                                                    }, 1000);
+                                                                }, 1000);
+                                                            }, 1000);
+                                                        }, 1000);
+                                                    }, 1000);
+                                                }, 1000);
+                                            }, 1000);
+                                        }, 1000);
+                                    }, 1000);
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    }, 3000);
+                }, 3000);
+            }, 2000);
+        }
+}
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -1955,8 +2084,9 @@ var config = {
             debug: false
         }
     },
-    scene: [MainMenu,Level1,Level2,Level3,Level4,Level5]
+    scene: [MainMenu,Level1,Level2,Level3,Level4,Level5,Cutscene_knife]
 };
+var knife_deflect_first_Time=true;
 var dialogue3_boss=0;
 var dialogue2_boss=0;
 var boss_lives=50;
@@ -2155,21 +2285,24 @@ function knifehitboss(boss,knifeSprite) {
     knifeSprite.destroy();
     
    var bosshitchanchethingy = Phaser.Math.Between(0, 3);
-console.log(bosshitchanchethingy)
-if (bosshitchanchethingy === 3) {
-    let weapon2 = knife2.create(boss.x + 100, boss.y - 70, 'dagger2');
-    weapon2.setScale(0.1);
-
-    // Tarkistetaan pelaajan sijainti suhteessa bossiin ja määritetään heittosuunta
-    if (player.x < boss.x) { // Pelaaja on bossin vasemmalla puolella
-        weapon2.setVelocityX(-800); // Heitä vasemmalle
-         weapon2.flipX = true; 
-    } else { // Pelaaja on bossin oikealla puolella
-        weapon2.setVelocityX(800); // Heitä oikealle
+    console.log(bosshitchanchethingy)
+    if (knife_deflect_first_Time) {
+         this.scene.start('Cutscene_knife');
+        knife_deflect_first_Time=false;
     }
-
-    weapon2.setGravityY(-300);
-}
+    else {
+    if (bosshitchanchethingy === 3) {
+            let weapon2 = knife2.create(boss.x + 100, boss.y - 70, 'dagger2');
+            weapon2.setScale(0.1);
+            // Tarkistetaan pelaajan sijainti suhteessa bossiin ja määritetään heittosuunta
+            if (player.x < boss.x) { // Pelaaja on bossin vasemmalla puolella
+                weapon2.setVelocityX(-800); // Heitä vasemmalle
+                weapon2.flipX = true; 
+            } else { // Pelaaja on bossin oikealla puolella
+                weapon2.setVelocityX(800); // Heitä oikealle
+            weapon2.setGravityY(-300);
+        }
+    }
 
     else {
     console.log(boss.lives)
@@ -2191,6 +2324,7 @@ if (bosshitchanchethingy === 3) {
     }
     else {
         phase = 3
+    }
     }
     }
     }
