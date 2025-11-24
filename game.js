@@ -72,6 +72,7 @@ class MainMenu extends Phaser.Scene {
             this.load.image('cutscene_knife22', 'assets/textures/cutscene_knife22.png')
             this.load.image('cutscene_knife23', 'assets/textures/cutscene_knife23.png')
             this.load.image('cutscene_knife24', 'assets/textures/cutscene_knife24.png')
+            this.load.image('cutscene_knife25', 'assets/textures/cutscene_knife25.png')
         }
         create(){
             this.add.image(1000,1000, 'sky_level5').setScale(1);
@@ -2139,6 +2140,9 @@ class Cutscene_knife extends Phaser.Scene {
                                                                                                     setTimeout(() => {
                                                                                                         cutscene_knife_img23.destroy();
                                                                                                         let cutscene_knife_img24 = this.add.image(500,500,'cutscene_knife24').setScale(4);
+                                                                                                          setTimeout(() => {
+                                                                                                         cutscene_knife_img24.destroy();
+                                                                                                        let cutscene_knife_img25 = this.add.image(500,500,'cutscene_knife25');
                                                                                                         setTimeout(()=>{this.scene.start('Level5')},3000);
                                                                                                     }, 3000);
                                                                                                 }, 3000);
@@ -2163,6 +2167,7 @@ class Cutscene_knife extends Phaser.Scene {
                     }, 3000);
                 }, 3000);
             }, 2000);
+             }, 3000);
         }
 }
 var config = {
