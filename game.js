@@ -234,8 +234,8 @@ this.enemy.setScale(2);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
 this.enemy.refreshBody();
-this.enemy.maxHp = 100;
-this.enemy.hp = 100;
+this.enemy.maxHp = 150;
+this.enemy.hp = 150;
 
 // Käytä Phaserin dataa (stabiilimpi kuin plain property)
 // Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
@@ -274,6 +274,7 @@ this.physics.add.overlap(knife, this.enemy, (weapon, enemy) => {
     this.time.delayedCall(150, () => enemy.clearTint());
 
     if (enemy.hp <= 0) {
+          enemy_death.play();
         enemy.disableBody(true, true);
         return;
     }
@@ -649,8 +650,8 @@ this.time.addEvent({
             e.setVelocityX(80);
             e.direction = 1;
 
-            e.maxHp = 100;
-            e.hp = 100;
+            e.maxHp = 150;
+            e.hp = 150;
 
             e.setPushable(false);
         });
@@ -949,8 +950,8 @@ class Level3 extends Phaser.Scene {
             e.direction = 1;
 
             //vihollisen hp
-            e.mahHp = 100;
-            e.hp = 100;
+            e.mahHp = 150;
+            e.hp = 150;
 
             e.setPushable(false);
         });
@@ -1351,8 +1352,8 @@ class Level4 extends Phaser.Scene {
             e.direction = 1;
 
             //vihollisen hp
-            e.mahHp = 100;
-            e.hp = 100;
+            e.mahHp = 150;
+            e.hp = 150;
 
             e.setPushable(false);
         });
