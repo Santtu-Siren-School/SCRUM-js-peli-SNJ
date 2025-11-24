@@ -636,6 +636,9 @@ this.time.addEvent({
             platform1.y - 100,
             'enemy'
         ).setScale(2);
+        enemy1.direction = -1;
+        enemy1.setVelocityX(80 * enemy1.direction);
+        enemy1.play('walkRightEnemy', true);
 
         const platform2 = platforms.getChildren().at(0);
         const enemy2 = this.enemies.create(
@@ -643,6 +646,9 @@ this.time.addEvent({
             platform2.y - 100,
             'enemy'
         ).setScale(2);
+        enemy2.direction = -1;
+        enemy2.setVelocityX(80 * enemy1.direction);
+        enemy2.play('walkRightEnemy', true);
 
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
@@ -800,7 +806,7 @@ this.time.addEvent({
          setTimeout(() => { weapon.destroy(); }, 3000);
         }
     }
-    //this.enemies.children.iterate(e => e.play('walkRightEnemy'));
+    
     this.enemies.children.iterate(e => {
     if (!e.active) return;
 
@@ -824,7 +830,7 @@ this.time.addEvent({
     if (!e.lastTurnTime) e.lastTurnTime = 0;
     if (this.time.now - e.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
-               enemy.play()
+            enemy.play()
             e.direction *= -1;
             e.setVelocityX(80 * e.direction);
             e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
