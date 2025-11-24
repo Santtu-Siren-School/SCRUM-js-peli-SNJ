@@ -1893,6 +1893,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
                             }
                             else if (bossattack===3){
+                                throw_sound.play()
                                 knockback=1;
                                 player.setVelocityY(-500);
                                 setTimeout(() => {player.setVelocityX(500);player.setVelocityY(-100);setTimeout(() => {knockback=0;},1000 )}, 2000);
@@ -1936,6 +1937,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
                             }
                             else if (bossattack===3) {
+                                lightbeam_sound.play()
                                 let beam = this.physics.add.image(boss.x, boss.y-400, 'lightbeam');
                                 beam.body.allowGravity = false;
                                 beam.setScale(1);
@@ -1949,6 +1951,7 @@ class Level5 extends Phaser.Scene {
                                     });
                             }
                             else if (bossattack===4) {
+                                throw_sound.play()
                                 knockback=1;
                                 player.setVelocityY(-700);
                                 setTimeout(() => {player.setVelocityX(700);player.setVelocityY(-300);setTimeout(() => {knockback=0;},1000 )}, 2000);
@@ -2232,6 +2235,8 @@ const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_
 const fireball_sound=new Audio('assets/sound/fireball.mp3');
 const wall_sound = new Audio('assets/sound/wall.mp3')
 const spikes_sound = new Audio('assets/sound/spikes.mp3')
+const lightbeam_sound = new Audio('assets/sound/lightbeam_sound.mp3')
+const throw_sound = new Audio('assets/sound/throw_sound.mp3')
 var player;
 var weapon;
 var weapon2;
