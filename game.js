@@ -83,6 +83,8 @@ class MainMenu extends Phaser.Scene {
             this.load.image('end1_3', 'assets/textures/cutscene_end1_3.png')
             this.load.image('end1_4', 'assets/textures/cutscene_end1_4.png')
             this.load.image('end1_5', 'assets/textures/cutscene_end1_5.png')
+            this.load.image('end1_6', 'assets/textures/cutscene_end1_6.png')
+            this.load.image('end1_7', 'assets/textures/cutscene_end1_7.png')
         }
         create(){
             this.add.image(1000,1000, 'sky_level5').setScale(1);
@@ -1805,6 +1807,7 @@ class Level5 extends Phaser.Scene {
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
+        footsteps.pause();
         if (dialogue1_boss===1) {
             dialogueActive = true;
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
@@ -2204,22 +2207,30 @@ setTimeout(() => {
                     let dialogue11_boss = this.add.image(500,450,'dialogue11_boss').setScale(4);
                     setTimeout(() => {
                         dialogue11_boss.destroy();
-                        let end1img0 = this.add.image(500,450,'end1_0');
+                        let end1img0A = this.add.image(500,450,'end1_7');
                         setTimeout(() => {
-                            end1img0.destroy();
-                            let end1img1 = this.add.image(500,450,'end1_1');
+                            end1img0A.destroy();
+                            let end1img0 = this.add.image(500,450,'end1_0');
                             setTimeout(() => {
-                                end1img1.destroy();
-                                let end1img2 = this.add.image(500,450,'end1_2');
+                                end1img0.destroy();
+                                let end1img1 = this.add.image(500,450,'end1_1');
                                 setTimeout(() => {
-                                    end1img2.destroy();
-                                    let end1img3 = this.add.image(500,450,'end1_3');
+                                    end1img1.destroy();
+                                    let end1img2 = this.add.image(500,450,'end1_2');
                                     setTimeout(() => {
-                                        end1img3.destroy();
-                                        let end1img4 = this.add.image(500,450,'end1_4');
+                                        end1img2.destroy();
+                                        let end1img3 = this.add.image(500,450,'end1_3');
                                         setTimeout(() => {
-                                            end1img4.destroy();
-                                            let end1img5 = this.add.image(500,450,'end1_5');
+                                            end1img3.destroy();
+                                            let end1img4 = this.add.image(500,450,'end1_4');
+                                            setTimeout(() => {
+                                                end1img4.destroy();
+                                                let end1img5 = this.add.image(500,450,'end1_5');
+                                                setTimeout(() => {
+                                                    end1img5.destroy();
+                                                    let end1img6 = this.add.image(550,480,'end1_6');
+                                                }, 3000);
+                                            }, 3000);
                                         }, 3000);
                                     }, 3000);
                                 }, 3000);
@@ -2492,11 +2503,11 @@ function knifehitboss(boss,knifeSprite) {
         if (currentDeaths<=0) {
 
         }
-        else if (currentDeaths===5000) {
-
+        else if (currentDeaths>=5000) {
+            
         }
         else {
-            
+            this.scene.start('end1')
         }
     }
     }
