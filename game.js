@@ -1917,7 +1917,7 @@ class Level5 extends Phaser.Scene {
                         }
                     }
                     else if (phase===3){
-                        bossattackchanche=Phaser.Math.Between(0, 20);
+                        bossattackchanche=Phaser.Math.Between(0, 50);
                         //console.log("boss attack chanche",bossattackchanche)
                         if (bossattackchanche===6) {
                             boss_animation_play=true
@@ -1958,7 +1958,9 @@ class Level5 extends Phaser.Scene {
                                 beam.body.allowGravity = false;
                                 beam.setScale(1);
                                 beam.setAlpha(0.4);
-                                setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});setTimeout(() => {if (beam) beam.destroy();}, 1000);}, 1000);
+                                setTimeout(() => {if (beam) beam.destroy();  player.setVelocityY(-700); knockback=1;}, 1000)
+                                setTimeout(() => {if (beam) beam.destroy();  player.setVelocityX(1000); setTimeout(() => {knockback=0; }, 2000); }, 1000)
+                                setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
                                     this.physics.add.overlap(player, beam, () => {
                                         const currentDeaths = this.registry.get('deaths') + 1;
                                         this.registry.set('deaths', currentDeaths);
