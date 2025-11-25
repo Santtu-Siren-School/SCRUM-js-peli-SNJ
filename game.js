@@ -2508,41 +2508,40 @@ function knifehitboss(boss,knifeSprite) {
             weapon2.setGravityY(-700);
             }
         }
-        }
-    }
-
-      {
-    console.log(boss.lives)
-    boss.lives -= 1; // Vähennetään vihollisen elämää
-    boss_lives-=1;
-    if (boss.lives <= 35) {
-        if (dialogue2_boss===0) {
-        dialogue2_boss=1;
-        phase = 2
-    }
-    else {
-        phase = 2
-    }
-    }
-    if (boss.lives <= 20) {
-        if (dialogue3_boss===0) {
-        dialogue3_boss=1;
-        phase = 3
-    }
+    }   
     else{
-        phase = 3
-    }
-    if (boss.lives <=0) {
-        if (currentDeaths<=0) {
-
-        }
-        else if (currentDeaths>=5000) {
-            
+        console.log(boss.lives)
+        boss.lives -= 1; // Vähennetään vihollisen elämää
+        boss_lives-=1;
+        if (boss.lives <= 35) {
+            if (dialogue2_boss===0) {
+            dialogue2_boss=1;
+            phase = 2
         }
         else {
-            this.scene.start('end1')
+            phase = 2
         }
-    }
+        }
+        if (boss.lives <= 20) {
+            if (dialogue3_boss===0) {
+            dialogue3_boss=1;
+            phase = 3
+        }
+        else{
+            phase = 3
+        }
+        if (boss.lives <=0) {
+            if (currentDeaths<=0) {
+
+            }
+            else if (currentDeaths>=5000) {
+                
+            }
+            else {
+                this.scene.start('end1')
+            }
+        }
+        }
     }
     }
     }
