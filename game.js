@@ -1773,6 +1773,9 @@ class Level5 extends Phaser.Scene {
             enemy.disableBody(true, true);
             weapon.destroy(); 
             });
+            this.physics.add.collider(knife2, tower_thingys, (weapon2) => {
+                  weapon2.destroy(); 
+            });
             //boss animaatio
             boss.play('idlebossphase1');
             //kellon funktio
@@ -2468,6 +2471,32 @@ function knifehitboss(boss,knifeSprite) {
     }
     else {
     if (bosshitchanchethingy === 3) {
+            if (phase===1){
+            let weapon2 = knife2.create(boss.x + 100, boss.y - 70, 'dagger2');
+            weapon2.setScale(0.1);
+            // Tarkistetaan pelaajan sijainti suhteessa bossiin ja määritetään heittosuunta
+            if (player.x < boss.x) { // Pelaaja on bossin vasemmalla puolella
+                weapon2.setVelocityX(-400); // Heitä vasemmalle
+                weapon2.flipX = true; 
+            } else { // Pelaaja on bossin oikealla puolella
+                weapon2.setVelocityX(400); // Heitä oikealle
+            weapon2.setGravityY(-300);
+            }
+        }
+        
+            else if (phase===2){
+            let weapon2 = knife2.create(boss.x + 100, boss.y - 70, 'dagger2');
+            weapon2.setScale(0.1);
+            // Tarkistetaan pelaajan sijainti suhteessa bossiin ja määritetään heittosuunta
+            if (player.x < boss.x) { // Pelaaja on bossin vasemmalla puolella
+                weapon2.setVelocityX(-600); // Heitä vasemmalle
+                weapon2.flipX = true; 
+            } else { // Pelaaja on bossin oikealla puolella
+                weapon2.setVelocityX(600); // Heitä oikealle
+            weapon2.setGravityY(-500);
+            }
+        }
+            else if (phase===3){
             let weapon2 = knife2.create(boss.x + 100, boss.y - 70, 'dagger2');
             weapon2.setScale(0.1);
             // Tarkistetaan pelaajan sijainti suhteessa bossiin ja määritetään heittosuunta
@@ -2476,15 +2505,17 @@ function knifehitboss(boss,knifeSprite) {
                 weapon2.flipX = true; 
             } else { // Pelaaja on bossin oikealla puolella
                 weapon2.setVelocityX(800); // Heitä oikealle
-            weapon2.setGravityY(-300);
+            weapon2.setGravityY(-700);
+            }
+        }
         }
     }
 
-    else {
+      {
     console.log(boss.lives)
     boss.lives -= 1; // Vähennetään vihollisen elämää
     boss_lives-=1;
-    if (boss.lives <= 30) {
+    if (boss.lives <= 35) {
         if (dialogue2_boss===0) {
         dialogue2_boss=1;
         phase = 2
@@ -2493,7 +2524,7 @@ function knifehitboss(boss,knifeSprite) {
         phase = 2
     }
     }
-    if (boss.lives <= 25) {
+    if (boss.lives <= 20) {
         if (dialogue3_boss===0) {
         dialogue3_boss=1;
         phase = 3
@@ -2515,7 +2546,8 @@ function knifehitboss(boss,knifeSprite) {
     }
     }
     }
-}
+    
+
 function fireballplayer(player,fireball) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
