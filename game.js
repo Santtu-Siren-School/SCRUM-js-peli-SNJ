@@ -88,6 +88,7 @@ class Intro extends Phaser.Scene {
             this.load.image('intro_1','assets/textures/intro_cutscene_1.png')
             this.load.image('intro_2','assets/textures/intro_cutscene_2.png')
             this.load.image('intro_3','assets/textures/intro_cutscene_3.png')
+            this.load.image('tutorial', 'assets/textures/tutorial_button.png')
         }
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
