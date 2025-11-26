@@ -549,9 +549,9 @@ class Level1 extends Phaser.Scene {
     // --VIHOLLISEN LUONTI--
     this.enemies = this.physics.add.group();
 const rightPlatform = platforms.getChildren().at(2);
-this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 100, 'enemy');
+this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 300, 'enemy');
 //vihollisen koko ja elämäpisteet
-this.enemy.setScale(2);
+this.enemy.setScale(4);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
 this.enemy.refreshBody();
