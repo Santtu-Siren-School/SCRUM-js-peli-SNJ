@@ -267,7 +267,7 @@ class Tutorial extends Phaser.Scene {
     bottom_of_game.create(6700,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7200,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7700,900, 'bottom_of_game').setScale(3).refreshBody();
-    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young kid \n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete five levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
+    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young teen\n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete five levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
         fontSize: '30px',
         fill: '#000000ff'
     })
@@ -549,7 +549,7 @@ class Level1 extends Phaser.Scene {
     // --VIHOLLISEN LUONTI--
     this.enemies = this.physics.add.group();
 const rightPlatform = platforms.getChildren().at(2);
-this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 300, 'enemy');
+this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 200, 'enemy');
 //vihollisen koko ja elämäpisteet
 this.enemy.setScale(4);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
@@ -957,9 +957,9 @@ this.time.addEvent({
         const platform1 = platforms.getChildren().at(-2);
         const enemy1 = this.enemies.create(
             platform1.x - 10,
-            platform1.y - 100,
+            platform1.y - 200,
             'enemy'
-        ).setScale(2);
+        ).setScale(4);
         enemy1.direction = -1;
         enemy1.setVelocityX(80 * enemy1.direction);
         enemy1.play('walkRightEnemy', true);
@@ -967,9 +967,9 @@ this.time.addEvent({
         const platform2 = platforms.getChildren().at(0);
         const enemy2 = this.enemies.create(
             platform2.x - 10,
-            platform2.y - 100,
+            platform2.y - 200,
             'enemy'
-        ).setScale(2);
+        ).setScale(4);
         enemy2.direction = -1;
         enemy2.setVelocityX(80 * enemy1.direction);
         enemy2.play('walkRightEnemy', true);
@@ -1256,22 +1256,22 @@ class Level3 extends Phaser.Scene {
         const platform1 = platforms.getChildren().at(0);
         const enemy1 = this.enemies.create(
             platform1.x - 10,
-            platform1.y - 100,
+            platform1.y - 200,
             'enemy'
-        ).setScale(2);
+        ).setScale(4);
 
         const platform2 = platforms.getChildren().at(2);
         const enemy2 = this.enemies.create(
             platform2.x - 10,
-            platform2.y - 100,
+            platform2.y - 200,
             'enemy'
-        ).setScale(2);
+        ).setScale(4);
          const platform3 = platforms.getChildren().at(4);
         const enemy3 = this.enemies.create(
             platform3.x - 10,
-            platform3.y - 100,
+            platform3.y - 200,
             'enemy'
-        ).setScale(2);
+        ).setScale(4);
 
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
@@ -1634,7 +1634,7 @@ class Level4 extends Phaser.Scene {
         platforms.create(1530, 800, 'platform').setScale(2).refreshBody();
         platforms.create(1800,650,'platform').setScale(2).refreshBody();
         platforms.create(1530,500,'platform').setScale(2).refreshBody();
-        platforms.create(1800,200,'platform').setScale(2).refreshBody();
+        platforms.create(1800,300,'platform').setScale(2).refreshBody();
 
         wind.create(1530,710, 'wind').setScale(0.4).refreshBody();
         wind.create(1530,670, 'wind').setScale(0.4).refreshBody();
@@ -1644,34 +1644,34 @@ class Level4 extends Phaser.Scene {
 
     
         ovi = this.physics.add.staticGroup();
-        ovi.create(1800,90,'ovi').setScale(0.3).refreshBody();
+        ovi.create(1800,200,'ovi').setScale(0.3).refreshBody();
             this.enemies = this.physics.add.group();
 
         const platform1 = platforms.getChildren().at(0);
         const enemy1 = this.enemies.create(
             platform1.x - 10,
-            platform1.y - 100,
+            platform1.y - 200,
             'enemy'
-        ).setScale(2);
+        ).setScale(4);
 
         const platform2 = platforms.getChildren().at(12);
         const enemy2 = this.enemies.create(
             platform2.x - 10,
-            platform2.y - 100,
+            platform2.y - 200,
             'enemy'
-        ).setScale(2);
+        ).setScale(4);
             const platform3 = platforms.getChildren().at(6);
             const enemy3 = this.enemies.create(
             platform3.x - 10,
-            platform3.y - 100,
+            platform3.y - 200,
             'enemy'
-            ).setScale(2);
+            ).setScale(4);
             const platform4 = platforms.getChildren().at(9);
             const enemy4 = this.enemies.create(
             platform4.x - 10,
-            platform4.y - 100,
+            platform4.y - 200,
             'enemy'
-            ).setScale(2);
+            ).setScale(4);
 
 
         this.enemies.children.iterate(e => {
@@ -1895,7 +1895,7 @@ class Level4 extends Phaser.Scene {
         else {
             if (player.windActive) {
                 const windAcceleration = 10;
-                const maxWindSpeed = 200;
+                const maxWindSpeed = 300;
                 if (player.body.velocity.x < maxWindSpeed) {
                     player.setVelocityX(player.body.velocity.x + windAcceleration);
                 }
