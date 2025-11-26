@@ -1532,18 +1532,6 @@ class Level4 extends Phaser.Scene {
         fill: '#fff'
         }).setScrollFactor(0);
 
-        this.timeEvent = this.time.addEvent({
-            delay: 1000,
-            loop: true,
-            callback: () => {
-                this.totalTime++;
-                this.registry.set('totalTime', this.totalTime);
-                this.timerText.setText("Aika: " + this.totalTime);
-            }
-        });
-    
-
-
         this.spikes = this.physics.add.staticGroup();
         this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
