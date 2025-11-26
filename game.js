@@ -1,11 +1,10 @@
-//mainmenu
-class MainMenu extends Phaser.Scene {
+//intro
+class Intro extends Phaser.Scene {
     constructor() {
-        super({ key: 'MainMenu' });}
-        preload (){
+        super({ key: 'Intro' });}
+                preload (){
             //kaikki textuurien lataus tänne
             this.load.image('background', 'assets/textures/background.png');
-            this.load.image('tutorial_background', 'assets/textures/tutorial_background.webp');
             this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 30, frameHeight: 42});
             this.load.image('platform', 'assets/textures/Platformit.png');
             this.load.image('bottom_of_game', 'assets/textures/bottom_of_game.png');
@@ -51,7 +50,6 @@ class MainMenu extends Phaser.Scene {
             this.load.image('level3','assets/textures/level3_button.png')
             this.load.image('level4','assets/textures/level4_button.png')
             this.load.image('level5','assets/textures/level5_button.png')
-            this.load.image('tutorial','assets/textures/tutorial_button.png')
             this.load.image('boss_wall', 'assets/textures/boss_wall.png')
             this.load.image('boss_spike', 'assets/textures/spikes_boss.png')
             this.load.image('lightbeam', 'assets/textures/lightbeam.png')
@@ -87,7 +85,19 @@ class MainMenu extends Phaser.Scene {
             this.load.image('end1_5', 'assets/textures/cutscene_end1_5.png')
             this.load.image('end1_6', 'assets/textures/cutscene_end1_6.png')
             this.load.image('end1_7', 'assets/textures/cutscene_end1_7.png')
+            this.load.image('intro_1','assets/textures/intro_cutscene_1.png')
+            this.load.image('intro_2','assets/textures/intro_cutscene_2.png')
+            this.load.image('intro_3','assets/textures/intro_cutscene_3.png')
         }
+        create() {
+            let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
+            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);setTimeout(() => {intro3img.destroy();this.scene.start('MainMenu')}, 3000); }, 3000); }, 3000); 
+        }
+}
+//mainmenu
+class MainMenu extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MainMenu' });}
         create(){
             this.add.image(1000,1000, 'sky_level5').setScale(1);
             const level1_button=this.add.image(100,100,'level1').setInteractive();
@@ -2540,7 +2550,7 @@ var config = {
             debug: false
         }
     },
-    scene: [MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1]
+    scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1]
 };
 var knife_deflect_first_Time=true;
 var dialogue3_boss=0;
