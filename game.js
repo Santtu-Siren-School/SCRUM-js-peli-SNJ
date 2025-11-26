@@ -2594,7 +2594,7 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
-            "Devlopers",
+            "Developers",
             "",
             "Niilo Mustonen",
             "",
