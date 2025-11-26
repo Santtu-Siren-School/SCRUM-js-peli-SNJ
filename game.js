@@ -97,7 +97,7 @@ class MainMenu extends Phaser.Scene {
             const level5_button=this.add.image(500,100,'level5').setInteractive();
             const cutscene_knife_button=this.add.image(100,200,'level1').setInteractive();
             const end1_button=this.add.image(200,200,'level2').setInteractive();
-            const tutorial_button=this.add.image(200,200,'tutorial').setInteractive();
+            const tutorial_button=this.add.image(300,200,'tutorial').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
