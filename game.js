@@ -249,7 +249,7 @@ class Tutorial extends Phaser.Scene {
     bottom_of_game.create(6700,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7200,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7700,900, 'bottom_of_game').setScale(3).refreshBody();
-    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young kid \n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete five levels to get to him.\n But before you get to level 1, let us first show you\n how to play thew game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
+    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young kid \n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete five levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
         fontSize: '30px',
         fill: '#000000ff'
     })
