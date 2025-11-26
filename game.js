@@ -512,7 +512,7 @@ class Level1 extends Phaser.Scene {
     boss_fight_background_music.pause();
     //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
-    this.throwCooldown = 500;
+    this.throwCooldown = 1000;
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
@@ -853,7 +853,7 @@ class Level2 extends Phaser.Scene {
     create (){
     gameOver=false;
     this.lastThrowTime = 0; 
-    this.throwCooldown = 500; 
+    this.throwCooldown = 1000; 
     //määritelään knife
     knife = this.physics.add.group();
     //määritelään platformit staatiseksi
@@ -1193,7 +1193,7 @@ class Level3 extends Phaser.Scene {
 
     create (){
         this.lastThrowTime = 0; 
-        this.throwCooldown = 500; 
+        this.throwCooldown = 1000; 
 
         solid_snake_door = this.physics.add.staticGroup(); 
         platforms = this.physics.add.staticGroup();
@@ -1561,7 +1561,7 @@ class Level4 extends Phaser.Scene {
 
     create() {
         this.lastThrowTime = 0;
-        this.throwCooldown = 500;
+        this.throwCooldown = 1000;
 
     
         wind = this.physics.add.staticGroup();
@@ -1987,7 +1987,7 @@ class Level5 extends Phaser.Scene {
             knife2 = this.physics.add.group();
             fireball = this.physics.add.group();
             this.lastThrowTime = 0; 
-            this.throwCooldown = 500;
+            this.throwCooldown = 1000;
             this.add.image(1000,1000, 'sky_level5').setScale(1);
             level5_level1=this.physics.add.staticGroup();
             wind=this.physics.add.staticGroup();
@@ -2257,11 +2257,28 @@ class Level5 extends Phaser.Scene {
                                 beam.setScale(1);
                                 beam.setAlpha(0.4);
                                 setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
-                                setTimeout(() => {
-                                    if (beam) beam.destroy();
-                                }, 2000);
-                                knockback=1;
-                                setTimeout(() => {player.setVelocityX(200);player.setVelocityY(-400);setTimeout(() => {knockback=0;},1000 )}, 0);
+                              // beamin katoaminen
+setTimeout(() => {
+    if (beam) beam.destroy();
+
+    // knockback alkaa vasta nyt
+    knockback = 1;
+
+    // Suunnan laskeminen
+    let direction = Math.sign(player.x - boss.x); 
+    if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
+
+    // Heitto sivulle + ylös
+    player.setVelocityX(1500 * direction);
+    player.setVelocityY(-700);
+
+    // knockback loppuu
+    setTimeout(() => {
+        knockback = 0;
+    }, 800);
+
+}, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
+
                                 this.physics.add.overlap(player, beam, () => {
                                         const currentDeaths = this.registry.get('deaths') + 1;
                                         this.registry.set('deaths', currentDeaths);
