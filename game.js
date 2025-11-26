@@ -1636,7 +1636,6 @@ class Level4 extends Phaser.Scene {
             }
         }
 
-        this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.enemies.children.iterate(e => {
             if (!e || !e.active) return;
 
