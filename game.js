@@ -89,6 +89,8 @@ class Intro extends Phaser.Scene {
             this.load.image('intro_2','assets/textures/intro_cutscene_2.png')
             this.load.image('intro_3','assets/textures/intro_cutscene_3.png')
             this.load.image('tutorial', 'assets/textures/tutorial_button.png')
+            this.load.image('tutorial_background', 'assets/textures/tutorial_background.webp')
+            this.load.image('credit_screen', 'assets/textures/credit_Screen.png')
         }
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
@@ -109,6 +111,7 @@ class MainMenu extends Phaser.Scene {
             const cutscene_knife_button=this.add.image(100,200,'level1').setInteractive();
             const end1_button=this.add.image(200,200,'level2').setInteractive();
             const tutorial_button=this.add.image(300,200,'tutorial').setInteractive();
+            const credit_button=this.add.image(400,200,'level3').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -140,6 +143,10 @@ class MainMenu extends Phaser.Scene {
             tutorial_button.on('pointerdown', () => {
                 this.scene.start('Tutorial'),
                 console.log("Tutorial_start");
+            });
+            credit_button.on('pointerdown', () => {
+                this.scene.start('credit_scene'),
+                console.log("credit_scene");
             });
             //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
@@ -2540,6 +2547,81 @@ setTimeout(() => {
 
         }
 }
+//credit_scene
+class credit_scene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'credit_scene' });
+    }
+
+    create() {
+        this.textItems = [];
+        const currentDeaths = this.registry.get('deaths');
+        const messages = [
+            "Thank you for playing!",
+            "",
+            "",
+            "",
+            "",
+            "You died", 
+            currentDeaths,
+            "Times",
+            "",
+            "Your score was",
+            "PLACEHOLDER",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "SNJ",
+            "",
+            "",
+            "",
+            "",
+            "Devlopers",
+            "",
+            "Niilo Mustonen",
+            "",
+            "Justus Nyholm",
+            "",
+            "Santtu Sirén",
+            "",
+            "",
+            "",
+            "",
+        ];
+
+        const startY = config.height + 20;
+        let offset = 0;
+
+        messages.forEach(msg => {
+            const t = this.add.text(
+                config.width / 2,
+                startY + offset,
+                msg,
+                {
+                    fontSize: "28px",
+                    color: "#ffffff",
+                    align: "center",
+                    wordWrap: { width: 700 }
+                }
+            ).setOrigin(0.5, 0);
+
+            this.textItems.push(t);
+            offset += 60;
+        });
+    }
+
+    update(time, delta) {
+        const speed = 50;
+
+        this.textItems.forEach(t => {
+            t.y -= speed * (delta / 1000);
+        });
+    }
+}
+
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -2551,7 +2633,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1]
+    scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,credit_scene]
 };
 var knife_deflect_first_Time=true;
 var dialogue3_boss=0;
