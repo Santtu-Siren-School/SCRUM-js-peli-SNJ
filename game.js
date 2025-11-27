@@ -91,6 +91,20 @@ class Intro extends Phaser.Scene {
             this.load.image('tutorial', 'assets/textures/tutorial_button.png')
             this.load.image('tutorial_background', 'assets/textures/tutorial_background.png')
             this.load.image('credit_screen', 'assets/textures/credit_Screen.png')
+            this.load.image('end1_1', 'assets/textures/cutscene_end2_1.png')
+            this.load.image('end1_2', 'assets/textures/cutscene_end2_2.png')
+            this.load.image('end1_3', 'assets/textures/cutscene_end2_3.png')
+            this.load.image('end1_4', 'assets/textures/cutscene_end2_4.png')
+            this.load.image('end1_5', 'assets/textures/cutscene_end2_5.png')
+            this.load.image('end1_6', 'assets/textures/cutscene_end2_6.png')
+            this.load.image('end1_7', 'assets/textures/cutscene_end2_7.png')
+            this.load.image('end1_8', 'assets/textures/cutscene_end2_8.png')
+            this.load.image('end1_9', 'assets/textures/cutscene_end2_9.png')
+            this.load.image('end1_10', 'assets/textures/cutscene_end2_10.png')
+            this.load.image('end1_11', 'assets/textures/cutscene_end2_11.png')
+            this.load.image('end1_12', 'assets/textures/cutscene_end2_12.png')
+            this.load.image('end1_13', 'assets/textures/cutscene_end2_13.png')
+            this.load.image('end1_14', 'assets/textures/cutscene_end2_14.png')
         }
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
@@ -1107,16 +1121,6 @@ this.time.addEvent({
     this.time.delayedCall(150, () => enemy.clearTint());
     }
     if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
-
-        // Osumaefekti
-        enemy.setTint(0x550000);
-
-        this.time.delayedCall(150, () => enemy.clearTint());
-        if (enemy.hp <= 0) {
 
         // POISTA HP PALKKI heti
         if (enemy.hpBar) enemy.hpBar.destroy();
@@ -1127,6 +1131,12 @@ this.time.addEvent({
 
         enemy.disableBody(true, true);
         }
+
+        // Osumaefekti
+        enemy.setTint(0x550000);
+
+        this.time.delayedCall(150, () => enemy.clearTint());
+        
     });
     // --ANIMAATIOT VIHOLLISILLE--
 
@@ -1467,21 +1477,11 @@ class Level3 extends Phaser.Scene {
             if (!enemy || !enemy.active) return;
 
             if (enemy.hp > 0) {
-    enemy_hit.play();
-    enemy.hp -= 50;
-    enemy.setTint(0x550000);
-    this.time.delayedCall(150, () => enemy.clearTint());
-    }
-    if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
-
-            // Osumaefekti
+            enemy_hit.play();
+            enemy.hp -= 50;
             enemy.setTint(0x550000);
             this.time.delayedCall(150, () => enemy.clearTint());
-
+            }
             if (enemy.hp <= 0) {
 
             // POISTA HP PALKKI heti
@@ -1493,6 +1493,11 @@ class Level3 extends Phaser.Scene {
 
             enemy.disableBody(true, true);
             }
+
+            // Osumaefekti
+            enemy.setTint(0x550000);
+            this.time.delayedCall(150, () => enemy.clearTint());
+
         });
 
 
@@ -1927,11 +1932,7 @@ class Level4 extends Phaser.Scene {
     enemy.setTint(0x550000);
     this.time.delayedCall(150, () => enemy.clearTint());
     }
-    if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
+    
 
             // Osumaefekti
             enemy.setTint(0x550000);
@@ -1939,9 +1940,10 @@ class Level4 extends Phaser.Scene {
 
             // POISTA HP PALKKI heti
             if (enemy.hp <= 0) {
-                if (enemy.hpBar) enemy.hpBar.destroy();
-                if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+            if (enemy.hpBar) enemy.hpBar.destroy();
+            if (enemy.hpBarBG) enemy.hpBarBG.destroy();
 
+            enemy_death.play();
             enemy.hpBar = null;
             enemy.hpBarBG = null;
 
