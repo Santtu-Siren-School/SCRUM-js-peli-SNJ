@@ -2899,6 +2899,12 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
+            "Very Spesical Thanks",
+            "",
+            "",
+            "",
+            "",
+            "Erkki Sinkko",
         ];
 
         const startY = config.height + 20;
