@@ -2802,7 +2802,8 @@ setTimeout(() => {
                                                 let end1img5 = this.add.image(500,450,'end1_5');
                                                 setTimeout(() => {
                                                     end1img5.destroy();
-                                                    let end1img6 = this.add.image(550,480,'end1_6');
+                                                    let end1img6 = this.add.image(550,480,'end1_6'); 
+                                                    setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 3000);
                                                 }, 3000);
                                             }, 3000);
                                         }, 3000);
@@ -2838,7 +2839,9 @@ class end2 extends Phaser.Scene {
                                                     setTimeout(() => {end2_10.destroy();let end2_11=this.add.image(500,450, 'end2_11');
                                                         setTimeout(() => {end2_11.destroy();let end2_12=this.add.image(500,450, 'end2_12');
                                                             setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);
-                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2); }, 3000);
+                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2);
+                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 3000);
+                                                                 }, 3000);
                                                              }, 3000);
                                                          }, 3000);
                                                      }, 3000);
