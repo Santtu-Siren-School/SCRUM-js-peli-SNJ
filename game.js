@@ -89,7 +89,7 @@ class Intro extends Phaser.Scene {
             this.load.image('intro_2','assets/textures/intro_cutscene_2.png')
             this.load.image('intro_3','assets/textures/intro_cutscene_3.png')
             this.load.image('tutorial', 'assets/textures/tutorial_button.png')
-            this.load.image('tutorial_background', 'assets/textures/tutorial_background.webp')
+            this.load.image('tutorial_background', 'assets/textures/tutorial_background.png')
             this.load.image('credit_screen', 'assets/textures/credit_Screen.png')
         }
         create() {
@@ -226,7 +226,7 @@ class Tutorial extends Phaser.Scene {
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
-    this.add.image(3840,-400, 'tutorial_background').setScale(4.5);
+    this.add.image(3540,100, 'tutorial_background').setScale(2);
     //lisää player hahmoon spire sheetin
     player = this.physics.add.sprite(100, 750, 'main_character');
     //asetaa pelaajan collisoinin mailman seinien kanssa
@@ -237,7 +237,7 @@ class Tutorial extends Phaser.Scene {
     platforms = this.physics.add.staticGroup();
     //määritelee bottom_of_game staatiseksi
     bottom_of_game = this.physics.add.staticGroup();
-    //level1 platformien luonti
+    //tutorial platformien luonti
     platforms.create(2550, 770, 'platform').setScale(3).refreshBody();
     platforms.create(4200, 770, 'platform').setScale(3).refreshBody();
     platforms.create(6000, 670, 'platform').setScale(6).refreshBody();
@@ -249,8 +249,8 @@ class Tutorial extends Phaser.Scene {
     platforms.create(5650, 770, 'platform').setScale(3).refreshBody();
     platforms.create(5350, 610, 'platform').setScale(3).refreshBody();
     platforms.create(5650, 450, 'platform').setScale(3).refreshBody();
-    //level1 platformien luonti loppuu
-    //level1 bottom_of_game luonti
+    //tutorial platformien luonti loppuu
+    //tutorial bottom_of_game luonti
     bottom_of_game.create(300,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(800,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(1300,900, 'bottom_of_game').setScale(3).refreshBody();
@@ -291,7 +291,7 @@ class Tutorial extends Phaser.Scene {
         fontSize: '40px',
         fill: '#000000ff'
     })
-    //level1 bottom_of_game luonti lopuu
+    //tutorial bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
     ovi.create(7950,790,'ovi').setScale(0.3).refreshBody();
@@ -1989,6 +1989,7 @@ class Level5 extends Phaser.Scene {
         super({ key: 'Level5' });}
         init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
         create(){
+            backgroundsound.pause();
             boss_spike=this.physics.add.group();
             bosswall=this.physics.add.group();
             shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -2058,13 +2059,13 @@ class Level5 extends Phaser.Scene {
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
             boss_animation_play = false;
+            });
+            //boss asoiten reset
             bossattack = 0;
             bossattackchanche = 0;
             dialogueActive = false;
-            dialogue1_boss = 1;
             knockback = 0;
-
-            });
+            //
             this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
