@@ -1527,7 +1527,7 @@ class Level3 extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 1500,
+            delay: 1700,
             callback: () => {
                 this.cannons.forEach(c => shootBullet(c, bullets));
             },
