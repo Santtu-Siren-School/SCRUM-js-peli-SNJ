@@ -596,10 +596,15 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     this.time.delayedCall(150, () => enemy.clearTint());
 
     if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
+    enemy_death.play();
+    if (enemy.hpBar) enemy.hpBar.destroy();
+    if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+    enemy.hpBar = null;
+    enemy.hpBarBG = null;
+    enemy.disableBody(true, true);
+    return;
+}
+
 
     // tuhoa veitsi välittömästi
     weapon.disableBody(true, true);
@@ -707,7 +712,17 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     });
 
-    
+    // HP-palkin offset
+    this.enemyHpOffset = 80;
+
+    // luodaan HP-palkki taustineen
+    this.enemy.hpBarBG = this.add.rectangle(this.enemy.x, this.enemy.y - this.enemyHpOffset, 40, 6, 0x000000);
+    this.enemy.hpBar = this.add.rectangle(this.enemy.x, this.enemy.y - this.enemyHpOffset, 40, 6, 0xff0000);
+
+    // scroll factor, jotta palkki liikkuu kameran mukana
+    this.enemy.hpBar.setScrollFactor(1);
+    this.enemy.hpBarBG.setScrollFactor(1);
+
 
 
     }
@@ -829,6 +844,17 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
             e.play('walkLeftEnemy', true);
         }
     }
+
+    // Päivitä HP-palkki vihollisen sijainnin ja HP:n mukaan
+    if (this.enemy.hpBar && this.enemy.hpBarBG && this.enemy.active) {
+        this.enemy.hpBarBG.x = this.enemy.x;
+        this.enemy.hpBarBG.y = this.enemy.y - this.enemyHpOffset;
+
+        this.enemy.hpBar.width = 40 * (this.enemy.hp / this.enemy.maxHp);
+        this.enemy.hpBar.x = this.enemy.x - (40 * (1 - this.enemy.hp / this.enemy.maxHp)) / 2;
+        this.enemy.hpBar.y = this.enemy.y - this.enemyHpOffset;
+    }
+
 
 
     }
@@ -974,6 +1000,8 @@ this.time.addEvent({
         enemy2.setVelocityX(80 * enemy1.direction);
         enemy2.play('walkRightEnemy', true);
 
+        this.enemyHpOffset = 80;
+
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
@@ -984,7 +1012,29 @@ this.time.addEvent({
             e.hp = 150;
 
             e.setPushable(false);
+            
+            // enemy hp
+            e.hpBarBG = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0x000000);
+            e.hpBar = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0xff0000);
+
+            e.hpBarBG.setScrollFactor(1);
+            e.hpBar.setScrollFactor(1);
+
+            if (!e.active) return; // jos ei aktiivinen, hyppää yli
+
+            if (!e.hpBar || !e.hpBarBG) return; // jos palkki on jo poistettu, ei tehdä mitään
+
+            const hpOffset = this.enemyHpOffset || 50;
+
+            e.hpBarBG.x = e.x;
+            e.hpBarBG.y = e.y - hpOffset;
+
+            const percent = e.hp / e.maxHp;
+            e.hpBar.width = 40 * percent;
+            e.hpBar.x = e.x - 20;
+            e.hpBar.y = e.y - hpOffset;
         });
+            
 
      
     // Asetetaan vihollisen hp ja muut tarvittavat arvot (kuten Level1:ssä)
@@ -1015,9 +1065,15 @@ this.time.addEvent({
 
         this.time.delayedCall(150, () => enemy.clearTint());
         if (enemy.hp <= 0) {
-            enemy_death.play();
-            
-            enemy.disableBody(true, true);
+
+        // POISTA HP PALKKI heti
+        if (enemy.hpBar) enemy.hpBar.destroy();
+        if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+
+        enemy.hpBar = null;
+        enemy.hpBarBG = null;
+
+        enemy.disableBody(true, true);
         }
     });
     // --ANIMAATIOT VIHOLLISILLE--
@@ -1172,6 +1228,20 @@ this.time.addEvent({
         e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
+
+
+
+    // Päivitä HP palkki vihollisen mukana
+    if (e.hpBar && e.hpBarBG) {
+
+        e.hpBarBG.x = e.x;
+        e.hpBarBG.y = e.y - this.enemyHpOffset;
+
+        e.hpBar.width = 40 * (e.hp / e.maxHp);
+        e.hpBar.x = e.x - (40 * (1 - e.hp / e.maxHp)) / 2;
+        e.hpBar.y = e.y - this.enemyHpOffset;
+    }
+
 });
 
 
@@ -1273,6 +1343,9 @@ class Level3 extends Phaser.Scene {
             'enemy'
         ).setScale(4);
 
+
+        this.enemyHpOffset = 80;
+        
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
@@ -1280,11 +1353,34 @@ class Level3 extends Phaser.Scene {
             e.direction = 1;
 
             //vihollisen hp
-            e.mahHp = 150;
+            e.maxHp = 150;
             e.hp = 150;
 
             e.setPushable(false);
+
+            // enemy hp
+            e.hpBarBG = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0x000000);
+            e.hpBar = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0xff0000);
+
+            e.hpBarBG.setScrollFactor(1);
+            e.hpBar.setScrollFactor(1);
+
+            if (!e.active) return; // jos ei aktiivinen, hyppää yli
+
+            if (!e.hpBar || !e.hpBarBG) return; // jos palkki on jo poistettu, ei tehdä mitään
+
+            const hpOffset = this.enemyHpOffset || 50;
+
+            e.hpBarBG.x = e.x;
+            e.hpBarBG.y = e.y - hpOffset;
+
+            const percent = e.hp / e.maxHp;
+            e.hpBar.width = 40 * percent;
+            e.hpBar.x = e.x - 20;
+            e.hpBar.y = e.y - hpOffset;
         });
+
+        
 
      
 
@@ -1325,10 +1421,15 @@ class Level3 extends Phaser.Scene {
             this.time.delayedCall(150, () => enemy.clearTint());
 
             if (enemy.hp <= 0) {
-                enemy_death.play();
 
-                
-                enemy.disableBody(true, true);
+            // POISTA HP PALKKI heti
+            if (enemy.hpBar) enemy.hpBar.destroy();
+            if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+
+            enemy.hpBar = null;
+            enemy.hpBarBG = null;
+
+            enemy.disableBody(true, true);
             }
         });
 
@@ -1539,13 +1640,25 @@ this.enemies.children.iterate(e => {
         e.setVelocityX(-80);
         e.play('walkLeftEnemy', true);
     }
+
+    // Päivitä HP palkki vihollisen mukana
+    if (e.hpBar && e.hpBarBG) {
+
+        e.hpBarBG.x = e.x;
+        e.hpBarBG.y = e.y - this.enemyHpOffset;
+
+        e.hpBar.width = 40 * (e.hp / e.maxHp);
+        e.hpBar.x = e.x - (40 * (1 - e.hp / e.maxHp)) / 2;
+        e.hpBar.y = e.y - this.enemyHpOffset;
+    }
 });
+    
 
     }
 }
 
 
-//level 4
+//level 4 
 class Level4 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level4' });
@@ -1674,6 +1787,7 @@ class Level4 extends Phaser.Scene {
             ).setScale(4);
 
 
+            this.enemyHpOffset = 80;
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
@@ -1681,10 +1795,31 @@ class Level4 extends Phaser.Scene {
             e.direction = 1;
 
             //vihollisen hp
-            e.mahHp = 150;
+            e.maxHp = 150;
             e.hp = 150;
 
             e.setPushable(false);
+
+            // enemy hp
+            e.hpBarBG = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0x000000);
+            e.hpBar = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0xff0000);
+
+            e.hpBarBG.setScrollFactor(1);
+            e.hpBar.setScrollFactor(1);
+
+            if (!e.active) return; // jos ei aktiivinen, hyppää yli
+
+            if (!e.hpBar || !e.hpBarBG) return; // jos palkki on jo poistettu, ei tehdä mitään
+
+            const hpOffset = this.enemyHpOffset || 50;
+
+            e.hpBarBG.x = e.x;
+            e.hpBarBG.y = e.y - hpOffset;
+
+            const percent = e.hp / e.maxHp;
+            e.hpBar.width = 40 * percent;
+            e.hpBar.x = e.x - 20;
+            e.hpBar.y = e.y - hpOffset;
         });
 
         this.cameras.main.setBounds(0, 0, 2000, 2000);
@@ -1730,11 +1865,15 @@ class Level4 extends Phaser.Scene {
             enemy.setTint(0x550000);
             this.time.delayedCall(150, () => enemy.clearTint());
 
+            // POISTA HP PALKKI heti
             if (enemy.hp <= 0) {
-                enemy_death.play();
+                if (enemy.hpBar) enemy.hpBar.destroy();
+                if (enemy.hpBarBG) enemy.hpBarBG.destroy();
 
-                
-                enemy.disableBody(true, true);
+            enemy.hpBar = null;
+            enemy.hpBarBG = null;
+
+            enemy.disableBody(true, true);
             }
         });
 
@@ -1969,6 +2108,16 @@ class Level4 extends Phaser.Scene {
                 e.direction = -1;
                 e.setVelocityX(-80);
                 e.play('walkLeftEnemy', true);
+            }
+            // Päivitä HP palkki vihollisen mukana
+            if (e.hpBar && e.hpBarBG) {
+
+            e.hpBarBG.x = e.x;
+            e.hpBarBG.y = e.y - this.enemyHpOffset;
+
+            e.hpBar.width = 40 * (e.hp / e.maxHp);
+            e.hpBar.x = e.x - (40 * (1 - e.hp / e.maxHp)) / 2;
+            e.hpBar.y = e.y - this.enemyHpOffset;
             }
         });
     }
