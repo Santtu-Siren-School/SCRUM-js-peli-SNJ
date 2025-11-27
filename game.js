@@ -764,6 +764,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     });
 
+
     // HP-palkin offset
     this.enemyHpOffset = 80;
 
@@ -882,11 +883,19 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     if (!e.lastTurnTime) e.lastTurnTime = 0;
     if (this.time.now - e.lastTurnTime > 500) {
         if (!groundAhead && e.body.blocked.down) {
-            enemy.play()
-            e.direction *= -1;
-            e.setVelocityX(80 * e.direction);
-            e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-            e.lastTurnTime = this.time.now;
+            if(enemy_footstep) {
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
+            else {
+                enemy_footstep=true;
+                enemy.play();
+                setTimeout(() => {enemy_footstep=false;}, 3000);
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
         }
     }
 
@@ -2900,6 +2909,7 @@ var config = {
     },
     scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,credit_scene]
 };
+var enemy_footstep=false;
 var knife_deflect_first_Time=true;
 var dialogue3_boss=0;
 var dialogue2_boss=0;
