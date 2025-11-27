@@ -89,7 +89,7 @@ class Intro extends Phaser.Scene {
             this.load.image('intro_2','assets/textures/intro_cutscene_2.png')
             this.load.image('intro_3','assets/textures/intro_cutscene_3.png')
             this.load.image('tutorial', 'assets/textures/tutorial_button.png')
-            this.load.image('tutorial_background', 'assets/textures/tutorial_background.webp')
+            this.load.image('tutorial_background', 'assets/textures/tutorial_background.png')
             this.load.image('credit_screen', 'assets/textures/credit_Screen.png')
         }
         create() {
@@ -237,7 +237,7 @@ class Tutorial extends Phaser.Scene {
     platforms = this.physics.add.staticGroup();
     //määritelee bottom_of_game staatiseksi
     bottom_of_game = this.physics.add.staticGroup();
-    //level1 platformien luonti
+    //tutorial platformien luonti
     platforms.create(2550, 770, 'platform').setScale(3).refreshBody();
     platforms.create(4200, 770, 'platform').setScale(3).refreshBody();
     platforms.create(6000, 670, 'platform').setScale(6).refreshBody();
@@ -255,8 +255,8 @@ class Tutorial extends Phaser.Scene {
     platforms.create(8300, 470, 'platform').setScale(6).refreshBody();
     platforms.create(8600, 670, 'platform').setScale(6).refreshBody();
     platforms.create(8600, 470, 'platform').setScale(6).refreshBody();
-    //level1 platformien luonti loppuu
-    //level1 bottom_of_game luonti
+    //tutorial platformien luonti loppuu
+    //tutorial bottom_of_game luonti
     bottom_of_game.create(300,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(800,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(1300,900, 'bottom_of_game').setScale(3).refreshBody();
@@ -305,7 +305,7 @@ class Tutorial extends Phaser.Scene {
         fontSize: '30px',
         fill: '#000000ff'
     })
-    //level1 bottom_of_game luonti lopuu
+    //tutorial bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
     ovi.create(9950,790,'ovi').setScale(0.3).refreshBody();
@@ -1994,6 +1994,7 @@ class Level5 extends Phaser.Scene {
         super({ key: 'Level5' });}
         init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
         create(){
+            backgroundsound.pause();
             boss_spike=this.physics.add.group();
             bosswall=this.physics.add.group();
             shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -2063,13 +2064,38 @@ class Level5 extends Phaser.Scene {
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
             boss_animation_play = false;
+            });
+            //boss asoiten reset
             bossattack = 0;
             bossattackchanche = 0;
             dialogueActive = false;
-            dialogue1_boss = 1;
+            console.log('dialogue active',dialogueActive)
             knockback = 0;
-
-            });
+            if (dialogue1_boss===1) {
+                dialogue1_boss=1
+                console.log('Dialogue 1 boss:',dialogue1_boss)
+            }
+            else {
+              dialogue1_boss=0  
+              console.log('Dialogue 1 boss:',dialogue1_boss)
+            }
+            if (dialogue2_boss===2) {
+                dialogue2_boss=2
+                console.log('Dialogue 2 boss:',dialogue2_boss)
+            }
+            else {
+              dialogue2_boss=0  
+              console.log('Dialogue 2 boss:',dialogue2_boss)
+            }
+            if (dialogue3_boss===2) {
+                dialogue3_boss=2
+                console.log('Dialogue 3 boss:',dialogue3_boss)
+            }
+            else {
+              dialogue3_boss=0
+              console.log('Dialogue 3 boss:',dialogue3_boss)
+            }
+            //
             this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
@@ -2164,7 +2190,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if (bossattack===1) {
-                                  fireball_sound.play()
+                                fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 300;
@@ -2672,7 +2698,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=3;
+var phase=1;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
