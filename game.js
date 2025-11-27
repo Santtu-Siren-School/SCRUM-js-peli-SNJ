@@ -2064,10 +2064,32 @@ class Level5 extends Phaser.Scene {
             bossattack = 0;
             bossattackchanche = 0;
             dialogueActive = false;
+            console.log('dialogue active',dialogueActive)
             knockback = 0;
-            dialogue1_boss=0;
-            dialogue2_boss=0;
-            dialogue3_boss=0;
+            if (dialogue1_boss===1) {
+                dialogue1_boss=1
+                console.log('Dialogue 1 boss:',dialogue1_boss)
+            }
+            else {
+              dialogue1_boss=0  
+              console.log('Dialogue 1 boss:',dialogue1_boss)
+            }
+            if (dialogue2_boss===2) {
+                dialogue2_boss=2
+                console.log('Dialogue 2 boss:',dialogue2_boss)
+            }
+            else {
+              dialogue2_boss=0  
+              console.log('Dialogue 2 boss:',dialogue2_boss)
+            }
+            if (dialogue3_boss===2) {
+                dialogue3_boss=2
+                console.log('Dialogue 3 boss:',dialogue3_boss)
+            }
+            else {
+              dialogue3_boss=0
+              console.log('Dialogue 3 boss:',dialogue3_boss)
+            }
             //
             this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
@@ -2163,7 +2185,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if (bossattack===1) {
-                                  fireball_sound.play()
+                                fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 300;
@@ -2669,7 +2691,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=3;
+var phase=1;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
