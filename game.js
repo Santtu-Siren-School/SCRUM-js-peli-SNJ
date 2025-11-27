@@ -352,19 +352,21 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     if (enemy.wasHit) return;
     enemy.wasHit = true;
 
-    // hit effect
-    if (enemy.hp > 0) {
+     if (enemy.hp > 0) {
     enemy_hit.play();
     enemy.hp -= 50;
     enemy.setTint(0x550000);
     this.time.delayedCall(150, () => enemy.clearTint());
     }
     if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
-
+    enemy_death.play();
+    if (enemy.hpBar) enemy.hpBar.destroy();
+    if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+    enemy.hpBar = null;
+    enemy.hpBarBG = null;
+    enemy.disableBody(true, true);
+    return;
+}
     // tuhoa veitsi välittömästi
     weapon.disableBody(true, true);
 
@@ -392,6 +394,15 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     //vihollisen fysiikat
     this.physics.add.collider(this.enemy, platforms);
     this.physics.add.collider(player, this.enemy, tutorialDeath, null, this); 
+        this.enemyHpOffset = 80;
+
+    // luodaan HP-palkki taustineen
+    this.enemy.hpBarBG = this.add.rectangle(this.enemy.x, this.enemy.y - this.enemyHpOffset, 40, 6, 0x000000);
+    this.enemy.hpBar = this.add.rectangle(this.enemy.x, this.enemy.y - this.enemyHpOffset, 40, 6, 0xff0000);
+
+    // scroll factor, jotta palkki liikkuu kameran mukana
+    this.enemy.hpBar.setScrollFactor(1);
+    this.enemy.hpBarBG.setScrollFactor(1);
 
     this.enemy.play('walkRightEnemy');
     }
@@ -505,6 +516,14 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
             e.setVelocityX(-80);
             e.play('walkLeftEnemy', true);
         }
+    }
+        if (this.enemy.hpBar && this.enemy.hpBarBG && this.enemy.active) {
+        this.enemy.hpBarBG.x = this.enemy.x;
+        this.enemy.hpBarBG.y = this.enemy.y - this.enemyHpOffset;
+
+        this.enemy.hpBar.width = 40 * (this.enemy.hp / this.enemy.maxHp);
+        this.enemy.hpBar.x = this.enemy.x - (40 * (1 - this.enemy.hp / this.enemy.maxHp)) / 2;
+        this.enemy.hpBar.y = this.enemy.y - this.enemyHpOffset;
     }
 
     }
@@ -857,7 +876,6 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     }
 
-<<<<<<< HEAD
     if (e.body.blocked.left) {
         e.direction = 1;
         e.setVelocityX(80);
@@ -869,7 +887,6 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         e.play('walkLeftEnemy', true);
     }
 });
-=======
     // Päivitä HP-palkki vihollisen sijainnin ja HP:n mukaan
     if (this.enemy.hpBar && this.enemy.hpBarBG && this.enemy.active) {
         this.enemy.hpBarBG.x = this.enemy.x;
@@ -880,7 +897,6 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         this.enemy.hpBar.y = this.enemy.y - this.enemyHpOffset;
     }
 
->>>>>>> 166f0081bd1b7c9bd0a870fe76885921127f8869
 
 
     }
@@ -1096,8 +1112,6 @@ this.time.addEvent({
         return;
     }
 
-<<<<<<< HEAD
-=======
         // Osumaefekti
         enemy.setTint(0x550000);
 
@@ -1113,7 +1127,6 @@ this.time.addEvent({
 
         enemy.disableBody(true, true);
         }
->>>>>>> 166f0081bd1b7c9bd0a870fe76885921127f8869
     });
     // --ANIMAATIOT VIHOLLISILLE--
 
@@ -1465,8 +1478,6 @@ class Level3 extends Phaser.Scene {
         return;
     }
 
-<<<<<<< HEAD
-=======
             // Osumaefekti
             enemy.setTint(0x550000);
             this.time.delayedCall(150, () => enemy.clearTint());
@@ -1482,7 +1493,6 @@ class Level3 extends Phaser.Scene {
 
             enemy.disableBody(true, true);
             }
->>>>>>> 166f0081bd1b7c9bd0a870fe76885921127f8869
         });
 
 
@@ -1923,8 +1933,6 @@ class Level4 extends Phaser.Scene {
         return;
     }
 
-<<<<<<< HEAD
-=======
             // Osumaefekti
             enemy.setTint(0x550000);
             this.time.delayedCall(150, () => enemy.clearTint());
@@ -1939,7 +1947,6 @@ class Level4 extends Phaser.Scene {
 
             enemy.disableBody(true, true);
             }
->>>>>>> 166f0081bd1b7c9bd0a870fe76885921127f8869
         });
 
         this.physics.add.collider(this.enemies, platforms);
