@@ -89,7 +89,7 @@ class Intro extends Phaser.Scene {
             this.load.image('intro_2','assets/textures/intro_cutscene_2.png')
             this.load.image('intro_3','assets/textures/intro_cutscene_3.png')
             this.load.image('tutorial', 'assets/textures/tutorial_button.png')
-            this.load.image('tutorial_background', 'assets/textures/tutorial_background.webp')
+            this.load.image('tutorial_background', 'assets/textures/tutorial_background.png')
             this.load.image('credit_screen', 'assets/textures/credit_Screen.png')
         }
         create() {
@@ -226,7 +226,7 @@ class Tutorial extends Phaser.Scene {
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
-    this.add.image(3840,-400, 'tutorial_background').setScale(4.5);
+    this.add.image(4740,-700, 'tutorial_background').setScale(5.5);
     //lisää player hahmoon spire sheetin
     player = this.physics.add.sprite(100, 750, 'main_character');
     //asetaa pelaajan collisoinin mailman seinien kanssa
@@ -237,7 +237,7 @@ class Tutorial extends Phaser.Scene {
     platforms = this.physics.add.staticGroup();
     //määritelee bottom_of_game staatiseksi
     bottom_of_game = this.physics.add.staticGroup();
-    //level1 platformien luonti
+    //tutorial platformien luonti
     platforms.create(2550, 770, 'platform').setScale(3).refreshBody();
     platforms.create(4200, 770, 'platform').setScale(3).refreshBody();
     platforms.create(6000, 670, 'platform').setScale(6).refreshBody();
@@ -249,8 +249,14 @@ class Tutorial extends Phaser.Scene {
     platforms.create(5650, 770, 'platform').setScale(3).refreshBody();
     platforms.create(5350, 610, 'platform').setScale(3).refreshBody();
     platforms.create(5650, 450, 'platform').setScale(3).refreshBody();
-    //level1 platformien luonti loppuu
-    //level1 bottom_of_game luonti
+    platforms.create(8100, 670, 'platform').setScale(6).refreshBody();
+    platforms.create(8100, 470, 'platform').setScale(6).refreshBody();
+    platforms.create(8300, 670, 'platform').setScale(6).refreshBody();
+    platforms.create(8300, 470, 'platform').setScale(6).refreshBody();
+    platforms.create(8600, 670, 'platform').setScale(6).refreshBody();
+    platforms.create(8600, 470, 'platform').setScale(6).refreshBody();
+    //tutorial platformien luonti loppuu
+    //tutorial bottom_of_game luonti
     bottom_of_game.create(300,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(800,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(1300,900, 'bottom_of_game').setScale(3).refreshBody();
@@ -267,7 +273,11 @@ class Tutorial extends Phaser.Scene {
     bottom_of_game.create(6700,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7200,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7700,900, 'bottom_of_game').setScale(3).refreshBody();
-    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young teen\n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete five levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
+    bottom_of_game.create(8200,900, 'bottom_of_game').setScale(3).refreshBody();
+    bottom_of_game.create(8700,900, 'bottom_of_game').setScale(3).refreshBody();
+    bottom_of_game.create(9200,900, 'bottom_of_game').setScale(3).refreshBody();
+    bottom_of_game.create(9700,900, 'bottom_of_game').setScale(3).refreshBody();
+    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young teen\n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete four levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
         fontSize: '30px',
         fill: '#000000ff'
     })
@@ -280,21 +290,25 @@ class Tutorial extends Phaser.Scene {
         fill: '#000000ff'
     })
         this.guide3Text = this.add.text(5300, 10, "That definitely is a wall!\nBut don't worry,\nyou can get up using\n these other platforms.", {
-        fontSize: '40px',
+        fontSize: '30px',
         fill: '#000000ff'
     })
-      this.guide3Text = this.add.text(6500, 10, "Press down to\n fall faster.", {
-        fontSize: '40px',
+      this.guide4Text = this.add.text(6500, 10, "Press down to\n fall faster.", {
+        fontSize: '30px',
         fill: '#000000ff'
     })
-       this.guide3Text = this.add.text(7300, 10, "You beat the tutorial!\n Go through that door to\n get to the first level.\n May your adventure begin!", {
-        fontSize: '40px',
+       this.guide5Text = this.add.text(9400, 10, "You beat the tutorial!\n Go through that door to\n get to the first level.\n May your adventure begin!", {
+        fontSize: '30px',
         fill: '#000000ff'
     })
-    //level1 bottom_of_game luonti lopuu
+        this.guide6Text = this.add.text(7700, 10, "What about now if\n you can't get up?\n Use your trusty knife\n to climb the wall.\n Shoot a knife at\n the wall, it lingers\n there for 3 seconds.\n In those 3 seconds,\n you can stand on it\n and jump higher than you\n you normally would.", {
+        fontSize: '30px',
+        fill: '#000000ff'
+    })
+    //tutorial bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
-    ovi.create(7950,790,'ovi').setScale(0.3).refreshBody();
+    ovi.create(9950,790,'ovi').setScale(0.3).refreshBody();
     // --VIHOLLISEN LUONTI--
     this.enemies = this.physics.add.group();
 const rightPlatform = platforms.getChildren().at(1);
@@ -367,8 +381,8 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     this.physics.add.collider(knife, bottom_of_game);
     //Pelaajan liikumisen animaatio määritely pätyy
     this.physics.add.overlap(player, ovi, level1Transition, null, this);
-    this.cameras.main.setBounds(0, 0, 8000, 900);
-	this.physics.world.setBounds(0, 0, 8000, 900);
+    this.cameras.main.setBounds(0, 0, 10000, 900);
+	this.physics.world.setBounds(0, 0, 10000, 900);
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     //luodaan tykit ja tehdään niin että se ei tipu vaan pysyy paikallaan
@@ -800,7 +814,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     }
         bullets.children.each(b => {
-            if (b.active && b.x > 1580) {
+            if (b.active && b.x > 1880) {
                 b.disableBody(true, true); 
             }
         });
@@ -2129,6 +2143,7 @@ class Level5 extends Phaser.Scene {
         super({ key: 'Level5' });}
         init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
         create(){
+            backgroundsound.pause();
             boss_spike=this.physics.add.group();
             bosswall=this.physics.add.group();
             shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -2198,13 +2213,38 @@ class Level5 extends Phaser.Scene {
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
             boss_animation_play = false;
+            });
+            //boss asoiten reset
             bossattack = 0;
             bossattackchanche = 0;
             dialogueActive = false;
-            dialogue1_boss = 1;
+            console.log('dialogue active',dialogueActive)
             knockback = 0;
-
-            });
+            if (dialogue1_boss===1) {
+                dialogue1_boss=1
+                console.log('Dialogue 1 boss:',dialogue1_boss)
+            }
+            else {
+              dialogue1_boss=0  
+              console.log('Dialogue 1 boss:',dialogue1_boss)
+            }
+            if (dialogue2_boss===2) {
+                dialogue2_boss=2
+                console.log('Dialogue 2 boss:',dialogue2_boss)
+            }
+            else {
+              dialogue2_boss=0  
+              console.log('Dialogue 2 boss:',dialogue2_boss)
+            }
+            if (dialogue3_boss===2) {
+                dialogue3_boss=2
+                console.log('Dialogue 3 boss:',dialogue3_boss)
+            }
+            else {
+              dialogue3_boss=0
+              console.log('Dialogue 3 boss:',dialogue3_boss)
+            }
+            //
             this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
@@ -2299,7 +2339,7 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
                             }
                             else if (bossattack===1) {
-                                  fireball_sound.play()
+                                fireball_sound.play()
                                 let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
                                 fireballobject.setScale(2).refreshBody();
                                 const speed = 300;
@@ -2807,7 +2847,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=3;
+var phase=1;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
@@ -2837,7 +2877,7 @@ const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
-jump.volume = 0.2;
+jump.volume = 0.3;
 const player_death=new Audio('assets/sound/death.mp3');
 player_death.volume = 1.0;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
@@ -2845,6 +2885,7 @@ const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
 const enemy=new Audio('assets/sound/enemy.mp3');
+enemy.volume = 0.4;
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
