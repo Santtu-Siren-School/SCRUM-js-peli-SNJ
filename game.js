@@ -226,7 +226,7 @@ class Tutorial extends Phaser.Scene {
     //määritelään cursors phaserin avulla
     cursors = this.input.keyboard.createCursorKeys();
     //asetaa taustakuvan
-    this.add.image(3840,-400, 'tutorial_background').setScale(4.5);
+    this.add.image(4740,-700, 'tutorial_background').setScale(5.5);
     //lisää player hahmoon spire sheetin
     player = this.physics.add.sprite(100, 750, 'main_character');
     //asetaa pelaajan collisoinin mailman seinien kanssa
@@ -249,6 +249,12 @@ class Tutorial extends Phaser.Scene {
     platforms.create(5650, 770, 'platform').setScale(3).refreshBody();
     platforms.create(5350, 610, 'platform').setScale(3).refreshBody();
     platforms.create(5650, 450, 'platform').setScale(3).refreshBody();
+    platforms.create(8100, 670, 'platform').setScale(6).refreshBody();
+    platforms.create(8100, 470, 'platform').setScale(6).refreshBody();
+    platforms.create(8300, 670, 'platform').setScale(6).refreshBody();
+    platforms.create(8300, 470, 'platform').setScale(6).refreshBody();
+    platforms.create(8600, 670, 'platform').setScale(6).refreshBody();
+    platforms.create(8600, 470, 'platform').setScale(6).refreshBody();
     //level1 platformien luonti loppuu
     //level1 bottom_of_game luonti
     bottom_of_game.create(300,900, 'bottom_of_game').setScale(3).refreshBody();
@@ -267,7 +273,11 @@ class Tutorial extends Phaser.Scene {
     bottom_of_game.create(6700,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7200,900, 'bottom_of_game').setScale(3).refreshBody();
     bottom_of_game.create(7700,900, 'bottom_of_game').setScale(3).refreshBody();
-    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young teen\n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete five levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
+    bottom_of_game.create(8200,900, 'bottom_of_game').setScale(3).refreshBody();
+    bottom_of_game.create(8700,900, 'bottom_of_game').setScale(3).refreshBody();
+    bottom_of_game.create(9200,900, 'bottom_of_game').setScale(3).refreshBody();
+    bottom_of_game.create(9700,900, 'bottom_of_game').setScale(3).refreshBody();
+    this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young teen\n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete four levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
         fontSize: '30px',
         fill: '#000000ff'
     })
@@ -280,21 +290,25 @@ class Tutorial extends Phaser.Scene {
         fill: '#000000ff'
     })
         this.guide3Text = this.add.text(5300, 10, "That definitely is a wall!\nBut don't worry,\nyou can get up using\n these other platforms.", {
-        fontSize: '40px',
+        fontSize: '30px',
         fill: '#000000ff'
     })
-      this.guide3Text = this.add.text(6500, 10, "Press down to\n fall faster.", {
-        fontSize: '40px',
+      this.guide4Text = this.add.text(6500, 10, "Press down to\n fall faster.", {
+        fontSize: '30px',
         fill: '#000000ff'
     })
-       this.guide3Text = this.add.text(7300, 10, "You beat the tutorial!\n Go through that door to\n get to the first level.\n May your adventure begin!", {
-        fontSize: '40px',
+       this.guide5Text = this.add.text(9400, 10, "You beat the tutorial!\n Go through that door to\n get to the first level.\n May your adventure begin!", {
+        fontSize: '30px',
+        fill: '#000000ff'
+    })
+        this.guide6Text = this.add.text(7700, 10, "What about now if\n you can't get up?\n Use your trusty knife\n to climb the wall.\n Shoot a knife at\n the wall, it lingers\n there for 3 seconds.\n In those 3 seconds,\n you can stand on it\n and jump higher than you\n you normally would.", {
+        fontSize: '30px',
         fill: '#000000ff'
     })
     //level1 bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
-    ovi.create(7950,790,'ovi').setScale(0.3).refreshBody();
+    ovi.create(9950,790,'ovi').setScale(0.3).refreshBody();
     // --VIHOLLISEN LUONTI--
     this.enemies = this.physics.add.group();
 const rightPlatform = platforms.getChildren().at(1);
@@ -367,8 +381,8 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     this.physics.add.collider(knife, bottom_of_game);
     //Pelaajan liikumisen animaatio määritely pätyy
     this.physics.add.overlap(player, ovi, level1Transition, null, this);
-    this.cameras.main.setBounds(0, 0, 8000, 900);
-	this.physics.world.setBounds(0, 0, 8000, 900);
+    this.cameras.main.setBounds(0, 0, 10000, 900);
+	this.physics.world.setBounds(0, 0, 10000, 900);
 	this.cameras.main.startFollow(player);
     shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     //luodaan tykit ja tehdään niin että se ei tipu vaan pysyy paikallaan
@@ -542,15 +556,6 @@ class Level1 extends Phaser.Scene {
     //level1 bottom_of_game luonti
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(430,626, 'bottom_of_game').setScale(0.45).refreshBody();
-    bottom_of_game.create(300,900, 'bottom_of_game')
-    bottom_of_game.create(500,900, 'bottom_of_game')
-    bottom_of_game.create(700,900, 'bottom_of_game')
-    bottom_of_game.create(900,900, 'bottom_of_game')
-    bottom_of_game.create(1100,900, 'bottom_of_game')
-    bottom_of_game.create(1300,900, 'bottom_of_game')
-    bottom_of_game.create(1500,900, 'bottom_of_game')
-    bottom_of_game.create(1700,900, 'bottom_of_game')
-    bottom_of_game.create(1900,900, 'bottom_of_game')
     //level1 bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
@@ -560,7 +565,7 @@ class Level1 extends Phaser.Scene {
 const rightPlatform = platforms.getChildren().at(2);
 this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 200, 'enemy');
 //vihollisen koko ja elämäpisteet
-this.enemy.setScale(3);
+this.enemy.setScale(4);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
 this.enemy.refreshBody();
@@ -2266,27 +2271,27 @@ class Level5 extends Phaser.Scene {
                                 beam.setScale(1);
                                 beam.setAlpha(0.4);
                                 setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
-                                // beamin katoaminen
-                                setTimeout(() => {
-                                    if (beam) beam.destroy();
+                              // beamin katoaminen
+setTimeout(() => {
+    if (beam) beam.destroy();
 
-                                    // knockback alkaa vasta nyt
-                                    knockback = 1;
+    // knockback alkaa vasta nyt
+    knockback = 1;
 
-                                    // Suunnan laskeminen
-                                    let direction = Math.sign(player.x - boss.x); 
-                                    if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
+    // Suunnan laskeminen
+    let direction = Math.sign(player.x - boss.x); 
+    if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
 
-                                    // Heitto sivulle + ylös
-                                    player.setVelocityX(1500 * direction);
-                                    player.setVelocityY(-700);
+    // Heitto sivulle + ylös
+    player.setVelocityX(1500 * direction);
+    player.setVelocityY(-700);
 
-                                    // knockback loppuu
-                                    setTimeout(() => {
-                                        knockback = 0;
-                                    }, 800);
+    // knockback loppuu
+    setTimeout(() => {
+        knockback = 0;
+    }, 800);
 
-                                }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
+}, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
 
                                 this.physics.add.overlap(player, beam, () => {
                                         const currentDeaths = this.registry.get('deaths') + 1;
@@ -2586,7 +2591,9 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
-            `You died ${currentDeaths} Times`,
+            "You died", 
+            currentDeaths,
+            "Times",
             "",
             "Your score was",
             "PLACEHOLDER",
