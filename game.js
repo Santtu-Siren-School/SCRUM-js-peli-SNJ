@@ -219,7 +219,6 @@ class Tutorial extends Phaser.Scene {
     preload (){
     }
     create (){
-    boss_fight_background_music.pause();
     //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
     this.throwCooldown = 1000;
@@ -354,10 +353,12 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     enemy.wasHit = true;
 
     // hit effect
+    if (enemy.hp > 0) {
+    enemy_hit.play();
     enemy.hp -= 50;
     enemy.setTint(0x550000);
     this.time.delayedCall(150, () => enemy.clearTint());
-
+    }
     if (enemy.hp <= 0) {
           enemy_death.play();
         enemy.disableBody(true, true);
@@ -396,6 +397,7 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     }
 
     update (){
+         tutorial_music.play();
     //katsoo onko peli loppunut
     if (gameOver == true)
 	{
@@ -404,7 +406,6 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
 		player.anims.play('jump');
 		return;
 	}
-    backgroundsound.play()
     //märitelään pelaajaan liityvää liikumista ja animaation pelausta
     if (cursors.up.isDown && player.body.touching.down) {
         jumping = 1;
@@ -523,6 +524,7 @@ class Level1 extends Phaser.Scene {
     preload (){
     }
     create (){
+    tutorial_music.pause();
     boss_fight_background_music.pause();
     //knife cooldownin laatiminen
     this.lastThrowTime = 0; 
@@ -605,15 +607,18 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     enemy.wasHit = true;
 
     // hit effect
+     if (enemy.hp > 0) {
+    enemy_hit.play();
     enemy.hp -= 50;
     enemy.setTint(0x550000);
     this.time.delayedCall(150, () => enemy.clearTint());
-
+    }
     if (enemy.hp <= 0) {
           enemy_death.play();
         enemy.disableBody(true, true);
         return;
     }
+
 
     // tuhoa veitsi välittömästi
     weapon.disableBody(true, true);
@@ -806,43 +811,48 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
 
     //vihollisen kääntymis ominaisuus että pysyy platformin päällä
-    const e = this.enemy;
-    if (!e || !e.body || !e.active) {
-        // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
-    } else {
-        // Reunantunnistus (probe)
-    const checkDistanceX = e.direction * (e.body.width / 2 + 5);
-    const probeX = e.x + checkDistanceX;
-    const probeY = e.y + e.body.height / 2 + 1;
-        // Onko maata suoraan edessä?
-        let groundAhead = false;
-        platforms.getChildren().forEach(p => {
-            const left = p.x - p.displayWidth / 2;
-            const right = p.x + p.displayWidth / 2;
-            const top = p.y - p.displayHeight / 2;
+  this.enemies.children.iterate(e => {
+    if (!e.active) return;
 
-            if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
-                groundAhead = true;
-            }
-        });
+    const probeX = e.x + e.direction * (e.width / 2 + 6);
+    const probeY = e.body.bottom + 2;
 
-    if (!groundAhead && e.body.blocked.down) {
-        enemy.play()
-        e.direction *= -1;
-        e.setVelocityX(80 * e.direction);
-        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+    let groundAhead = false;
+
+    platforms.getChildren().forEach(p => {
+        const bounds = p.getBounds();
+        if (
+            probeX >= bounds.left - 5 &&
+            probeX <= bounds.right + 5 &&
+            probeY >= bounds.top - 10 &&
+            probeY <= bounds.top + 25
+        ) {
+            groundAhead = true;
         }
-        if (e.body.blocked.left) {
-            e.direction = 1;
-            e.setVelocityX(80);
-            e.play('walkRightEnemy', true);
-        }
-        if (e.body.blocked.right) {
-            e.direction = -1;
-            e.setVelocityX(-80);
-            e.play('walkLeftEnemy', true);
+    });
+
+    if (!e.lastTurnTime) e.lastTurnTime = 0;
+    if (this.time.now - e.lastTurnTime > 500) {
+        if (!groundAhead && e.body.blocked.down) {
+            enemy.play()
+            e.direction *= -1;
+            e.setVelocityX(80 * e.direction);
+            e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+            e.lastTurnTime = this.time.now;
         }
     }
+
+    if (e.body.blocked.left) {
+        e.direction = 1;
+        e.setVelocityX(80);
+        e.play('walkRightEnemy', true);
+    }
+    if (e.body.blocked.right) {
+        e.direction = -1;
+        e.setVelocityX(-80);
+        e.play('walkLeftEnemy', true);
+    }
+});
 
 
     }
@@ -1022,17 +1032,18 @@ this.time.addEvent({
         // --- Vihollinen ottaa Damagea ---
         if (!enemy || !enemy.active) return;
 
-        enemy.hp -= 50;   // damagen määrä
+        if (enemy.hp > 0) {
+    enemy_hit.play();
+    enemy.hp -= 50;
+    enemy.setTint(0x550000);
+    this.time.delayedCall(150, () => enemy.clearTint());
+    }
+    if (enemy.hp <= 0) {
+          enemy_death.play();
+        enemy.disableBody(true, true);
+        return;
+    }
 
-        // Osumaefekti
-        enemy.setTint(0x550000);
-
-        this.time.delayedCall(150, () => enemy.clearTint());
-        if (enemy.hp <= 0) {
-            enemy_death.play();
-            
-            enemy.disableBody(true, true);
-        }
     });
     // --ANIMAATIOT VIHOLLISILLE--
 
@@ -1332,18 +1343,18 @@ class Level3 extends Phaser.Scene {
             // --- Vihollinen ottaa Damagea ---
             if (!enemy || !enemy.active) return;
 
-            enemy.hp -= 50;   // damagen määrä
+            if (enemy.hp > 0) {
+    enemy_hit.play();
+    enemy.hp -= 50;
+    enemy.setTint(0x550000);
+    this.time.delayedCall(150, () => enemy.clearTint());
+    }
+    if (enemy.hp <= 0) {
+          enemy_death.play();
+        enemy.disableBody(true, true);
+        return;
+    }
 
-            // Osumaefekti
-            enemy.setTint(0x550000);
-            this.time.delayedCall(150, () => enemy.clearTint());
-
-            if (enemy.hp <= 0) {
-                enemy_death.play();
-
-                
-                enemy.disableBody(true, true);
-            }
         });
 
 
@@ -1738,18 +1749,18 @@ class Level4 extends Phaser.Scene {
             // --- Vihollinen ottaa Damagea ---
             if (!enemy || !enemy.active) return;
 
-            enemy.hp -= 50;   // damagen määrä
+         if (enemy.hp > 0) {
+    enemy_hit.play();
+    enemy.hp -= 50;
+    enemy.setTint(0x550000);
+    this.time.delayedCall(150, () => enemy.clearTint());
+    }
+    if (enemy.hp <= 0) {
+          enemy_death.play();
+        enemy.disableBody(true, true);
+        return;
+    }
 
-            // Osumaefekti
-            enemy.setTint(0x550000);
-            this.time.delayedCall(150, () => enemy.clearTint());
-
-            if (enemy.hp <= 0) {
-                enemy_death.play();
-
-                
-                enemy.disableBody(true, true);
-            }
         });
 
         this.physics.add.collider(this.enemies, platforms);
@@ -2735,8 +2746,9 @@ const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
+footsteps.volume = 0.5
 const enemy=new Audio('assets/sound/enemy.mp3');
-enemy.volume = 0.4;
+enemy.volume = 0.3;
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
@@ -2747,6 +2759,8 @@ const wall_sound = new Audio('assets/sound/wall.mp3')
 const spikes_sound = new Audio('assets/sound/spikes.mp3')
 const lightbeam_sound = new Audio('assets/sound/lightbeam_sound.mp3')
 const throw_sound = new Audio('assets/sound/throw_sound.mp3')
+const enemy_hit = new Audio('assets/sound/enemy_hit.mp3')
+const tutorial_music = new Audio('assets/sound/tutorial_music.mp3')
 var player;
 var weapon;
 var weapon2;
