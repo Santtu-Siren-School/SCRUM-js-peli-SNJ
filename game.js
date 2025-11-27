@@ -91,20 +91,22 @@ class Intro extends Phaser.Scene {
             this.load.image('tutorial', 'assets/textures/tutorial_button.png')
             this.load.image('tutorial_background', 'assets/textures/tutorial_background.png')
             this.load.image('credit_screen', 'assets/textures/credit_Screen.png')
-            this.load.image('end1_1', 'assets/textures/cutscene_end2_1.png')
-            this.load.image('end1_2', 'assets/textures/cutscene_end2_2.png')
-            this.load.image('end1_3', 'assets/textures/cutscene_end2_3.png')
-            this.load.image('end1_4', 'assets/textures/cutscene_end2_4.png')
-            this.load.image('end1_5', 'assets/textures/cutscene_end2_5.png')
-            this.load.image('end1_6', 'assets/textures/cutscene_end2_6.png')
-            this.load.image('end1_7', 'assets/textures/cutscene_end2_7.png')
-            this.load.image('end1_8', 'assets/textures/cutscene_end2_8.png')
-            this.load.image('end1_9', 'assets/textures/cutscene_end2_9.png')
-            this.load.image('end1_10', 'assets/textures/cutscene_end2_10.png')
-            this.load.image('end1_11', 'assets/textures/cutscene_end2_11.png')
-            this.load.image('end1_12', 'assets/textures/cutscene_end2_12.png')
-            this.load.image('end1_13', 'assets/textures/cutscene_end2_13.png')
-            this.load.image('end1_14', 'assets/textures/cutscene_end2_14.png')
+            this.load.image('end2_1', 'assets/textures/cutscene_end2_1.png')
+            this.load.image('end2_2', 'assets/textures/cutscene_end2_2.png')
+            this.load.image('end2_3', 'assets/textures/cutscene_end2_3.png')
+            this.load.image('end2_4', 'assets/textures/cutscene_end2_4.png')
+            this.load.image('end2_5', 'assets/textures/cutscene_end2_5.png')
+            this.load.image('end2_6', 'assets/textures/cutscene_end2_6.png')
+            this.load.image('end2_7', 'assets/textures/cutscene_end2_7.png')
+            this.load.image('end2_8', 'assets/textures/cutscene_end2_8.png')
+            this.load.image('end2_9', 'assets/textures/cutscene_end2_9.png')
+            this.load.image('end2_10', 'assets/textures/cutscene_end2_10.png')
+            this.load.image('end2_11', 'assets/textures/cutscene_end2_11.png')
+            this.load.image('end2_12', 'assets/textures/cutscene_end2_12.png')
+            this.load.image('end2_13', 'assets/textures/cutscene_end2_13.png')
+            this.load.image('end2_14', 'assets/textures/cutscene_end2_14.png')
+            this.load.image('end2_1D', 'assets/textures/cutscene_end2_1D.png')
+            this.load.image('end2_2D', 'assets/textures/cutscene_end2_2D.png')
         }
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
@@ -126,6 +128,7 @@ class MainMenu extends Phaser.Scene {
             const end1_button=this.add.image(200,200,'level2').setInteractive();
             const tutorial_button=this.add.image(300,200,'tutorial').setInteractive();
             const credit_button=this.add.image(400,200,'level3').setInteractive();
+            const end2_button=this.add.image(500,200,'level4').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -161,6 +164,10 @@ class MainMenu extends Phaser.Scene {
               tutorial_button.on('pointerdown', () => {
                 this.scene.start('tutorial'),
                 console.log("tutorial");
+            });
+            end2_button.on('pointerdown', () => {
+                this.scene.start('end2'),
+                console.log("end2_play");
             });
             //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
@@ -2517,26 +2524,26 @@ class Level5 extends Phaser.Scene {
                                 beam.setAlpha(0.4);
                                 setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
                               // beamin katoaminen
-setTimeout(() => {
-    if (beam) beam.destroy();
+                                setTimeout(() => {
+                                    if (beam) beam.destroy();
 
-    // knockback alkaa vasta nyt
-    knockback = 1;
+                                    // knockback alkaa vasta nyt
+                                    knockback = 1;
 
-    // Suunnan laskeminen
-    let direction = Math.sign(player.x - boss.x); 
-    if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
+                                    // Suunnan laskeminen
+                                    let direction = Math.sign(player.x - boss.x); 
+                                    if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
 
-    // Heitto sivulle + ylös
-    player.setVelocityX(1500 * direction);
-    player.setVelocityY(-700);
+                                    // Heitto sivulle + ylös
+                                    player.setVelocityX(1500 * direction);
+                                    player.setVelocityY(-700);
 
-    // knockback loppuu
-    setTimeout(() => {
-        knockback = 0;
-    }, 800);
+                                    // knockback loppuu
+                                    setTimeout(() => {
+                                        knockback = 0;
+                                    }, 800);
 
-}, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
+                                }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
 
                                 this.physics.add.overlap(player, beam, () => {
                                         const currentDeaths = this.registry.get('deaths') + 1;
@@ -2759,8 +2766,8 @@ class Cutscene_knife extends Phaser.Scene {
                             }, 1000);
                         }, 1000);
                     }, 3000);
-                }, 3000);
-            }, 2000);
+                }, 1000);
+            }, 1000);
         }
 }
 class end1 extends Phaser.Scene {
@@ -2804,7 +2811,8 @@ setTimeout(() => {
                                                 let end1img5 = this.add.image(500,450,'end1_5');
                                                 setTimeout(() => {
                                                     end1img5.destroy();
-                                                    let end1img6 = this.add.image(550,480,'end1_6');
+                                                    let end1img6 = this.add.image(550,480,'end1_6'); 
+                                                    setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 3000);
                                                 }, 3000);
                                             }, 3000);
                                         }, 3000);
@@ -2821,6 +2829,44 @@ setTimeout(() => {
 
         }
 }
+class end2 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'end2' });}
+    create() {
+        let end2_1D=this.add.image(500,450,'end2_1D').setScale(4);
+        setTimeout(() => { end2_1D.destroy();let end2_2D=this.add.image(500,450,'end2_2D').setScale(4);
+            setTimeout(() => {end2_2D.destroy();let end2_1=this.add.image(500,450, 'end2_1');
+                setTimeout(() => {end2_1.destroy();let end2_2=this.add.image(500,450, 'end2_2');
+                    setTimeout(() => {end2_2.destroy();let end2_3=this.add.image(500,450, 'end2_3');
+                        setTimeout(() => {end2_3.destroy();let end2_4=this.add.image(500,450, 'end2_4');
+                            setTimeout(() => {end2_4.destroy();let end2_5=this.add.image(500,450, 'end2_5');
+                                setTimeout(() => {end2_5.destroy();let end2_6=this.add.image(500,450, 'end2_6');
+                                    setTimeout(() => {end2_6.destroy();let end2_7=this.add.image(500,450, 'end2_7');
+                                        setTimeout(() => {end2_7.destroy();let end2_8=this.add.image(500,450, 'end2_8');
+                                            setTimeout(() => {end2_8.destroy();let end2_9=this.add.image(500,450, 'end2_9');
+                                                setTimeout(() => {end2_9.destroy();let end2_10=this.add.image(500,450, 'end2_10');
+                                                    setTimeout(() => {end2_10.destroy();let end2_11=this.add.image(500,450, 'end2_11');
+                                                        setTimeout(() => {end2_11.destroy();let end2_12=this.add.image(500,450, 'end2_12');
+                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);
+                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2);
+                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 3000);
+                                                                 }, 3000);
+                                                             }, 3000);
+                                                         }, 3000);
+                                                     }, 3000);
+                                                 }, 1000);
+                                             }, 1000);
+                                         }, 1000);
+                                     }, 1000);
+                                 }, 1000);
+                             }, 1000);
+                         }, 1000);
+                     }, 3000);
+                 }, 3000);
+             }, 3000);
+        }, 3000);
+    }
+}
 //credit_scene
 class credit_scene extends Phaser.Scene {
     constructor() {
@@ -2836,9 +2882,7 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
-            "You died", 
-            currentDeaths,
-            "Times",
+            `You died ${currentDeaths} Times`,
             "",
             "Your score was",
             "PLACEHOLDER",
@@ -2864,6 +2908,12 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
+            "Very Spesical Thanks",
+            "",
+            "",
+            "",
+            "",
+            "Erkki Sinkko",
         ];
 
         const startY = config.height + 20;
@@ -2907,7 +2957,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,credit_scene]
+    scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,credit_scene]
 };
 var enemy_footstep=false;
 var knife_deflect_first_Time=true;
@@ -3183,7 +3233,7 @@ function knifehitboss(boss,knifeSprite) {
         }
         if (boss.lives <=0) {
             if (currentDeaths<=0) {
-
+                this.scene.start('end2')
             }
             else if (currentDeaths>=5000) {
                 
