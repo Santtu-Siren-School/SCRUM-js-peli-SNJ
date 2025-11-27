@@ -785,7 +785,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
         }
     }
         bullets.children.each(b => {
-            if (b.active && b.x > 1580) {
+            if (b.active && b.x > 1880) {
                 b.disableBody(true, true); 
             }
         });
@@ -2688,7 +2688,7 @@ const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
-jump.volume = 0.2;
+jump.volume = 0.3;
 const player_death=new Audio('assets/sound/death.mp3');
 player_death.volume = 1.0;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
@@ -2696,6 +2696,7 @@ const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
 const enemy=new Audio('assets/sound/enemy.mp3');
+enemy.volume = 0.4;
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
