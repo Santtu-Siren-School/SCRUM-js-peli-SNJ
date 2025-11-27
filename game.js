@@ -1518,8 +1518,9 @@ class Level3 extends Phaser.Scene {
 
 
         this.cannons = [
-            this.physics.add.image(620, 420, 'cannon'),
-            this.physics.add.image(620, 650, 'cannon')
+            this.physics.add.image(620, 300, 'cannon'),
+            this.physics.add.image(620, 500, 'cannon'),
+            this.physics.add.image(620, 700, 'cannon'),
         ];
 
         this.cannons.forEach(c => {
@@ -1533,7 +1534,7 @@ class Level3 extends Phaser.Scene {
         });
 
         this.time.addEvent({
-            delay: 2000,
+            delay: 1700,
             callback: () => {
                 this.cannons.forEach(c => shootBullet(c, bullets));
             },
@@ -2987,7 +2988,7 @@ const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
 footsteps.volume = 0.5
 const enemy=new Audio('assets/sound/enemy.mp3');
-enemy.volume = 0.3;
+enemy.volume = 0.5;
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
@@ -3164,7 +3165,6 @@ function knifehitboss(boss,knifeSprite) {
                 weapon2.flipX = true; 
             } else { // Pelaaja on bossin oikealla puolella
                 weapon2.setVelocityX(400); // Heitä oikealle
-            weapon2.setGravityY(-300);
             }
         }
         
@@ -3177,7 +3177,6 @@ function knifehitboss(boss,knifeSprite) {
                 weapon2.flipX = true; 
             } else { // Pelaaja on bossin oikealla puolella
                 weapon2.setVelocityX(600); // Heitä oikealle
-            weapon2.setGravityY(-500);
             }
         }
             else if (phase===3){
@@ -3189,7 +3188,6 @@ function knifehitboss(boss,knifeSprite) {
                 weapon2.flipX = true; 
             } else { // Pelaaja on bossin oikealla puolella
                 weapon2.setVelocityX(800); // Heitä oikealle
-            weapon2.setGravityY(-700);
             }
         }
     }   
