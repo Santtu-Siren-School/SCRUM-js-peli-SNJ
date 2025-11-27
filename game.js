@@ -2065,6 +2065,9 @@ class Level5 extends Phaser.Scene {
             bossattackchanche = 0;
             dialogueActive = false;
             knockback = 0;
+            dialogue1_boss=0;
+            dialogue2_boss=0;
+            dialogue3_boss=0;
             //
             this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
