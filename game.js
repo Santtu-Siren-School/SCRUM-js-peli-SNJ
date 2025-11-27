@@ -542,6 +542,15 @@ class Level1 extends Phaser.Scene {
     //level1 bottom_of_game luonti
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(430,626, 'bottom_of_game').setScale(0.45).refreshBody();
+    bottom_of_game.create(300,900, 'bottom_of_game')
+    bottom_of_game.create(500,900, 'bottom_of_game')
+    bottom_of_game.create(700,900, 'bottom_of_game')
+    bottom_of_game.create(900,900, 'bottom_of_game')
+    bottom_of_game.create(1100,900, 'bottom_of_game')
+    bottom_of_game.create(1300,900, 'bottom_of_game')
+    bottom_of_game.create(1500,900, 'bottom_of_game')
+    bottom_of_game.create(1700,900, 'bottom_of_game')
+    bottom_of_game.create(1900,900, 'bottom_of_game')
     //level1 bottom_of_game luonti lopuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
@@ -551,7 +560,7 @@ class Level1 extends Phaser.Scene {
 const rightPlatform = platforms.getChildren().at(2);
 this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 200, 'enemy');
 //vihollisen koko ja elämäpisteet
-this.enemy.setScale(4);
+this.enemy.setScale(3);
 this.enemy.body.setSize(this.enemy.width, this.enemy.height);
 this.enemy.body.setOffset(0, 0);
 this.enemy.refreshBody();
@@ -2257,27 +2266,27 @@ class Level5 extends Phaser.Scene {
                                 beam.setScale(1);
                                 beam.setAlpha(0.4);
                                 setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
-                              // beamin katoaminen
-setTimeout(() => {
-    if (beam) beam.destroy();
+                                // beamin katoaminen
+                                setTimeout(() => {
+                                    if (beam) beam.destroy();
 
-    // knockback alkaa vasta nyt
-    knockback = 1;
+                                    // knockback alkaa vasta nyt
+                                    knockback = 1;
 
-    // Suunnan laskeminen
-    let direction = Math.sign(player.x - boss.x); 
-    if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
+                                    // Suunnan laskeminen
+                                    let direction = Math.sign(player.x - boss.x); 
+                                    if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
 
-    // Heitto sivulle + ylös
-    player.setVelocityX(1500 * direction);
-    player.setVelocityY(-700);
+                                    // Heitto sivulle + ylös
+                                    player.setVelocityX(1500 * direction);
+                                    player.setVelocityY(-700);
 
-    // knockback loppuu
-    setTimeout(() => {
-        knockback = 0;
-    }, 800);
+                                    // knockback loppuu
+                                    setTimeout(() => {
+                                        knockback = 0;
+                                    }, 800);
 
-}, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
+                                }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
 
                                 this.physics.add.overlap(player, beam, () => {
                                         const currentDeaths = this.registry.get('deaths') + 1;
@@ -2577,9 +2586,7 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
-            "You died", 
-            currentDeaths,
-            "Times",
+            `You died ${currentDeaths} Times`,
             "",
             "Your score was",
             "PLACEHOLDER",
