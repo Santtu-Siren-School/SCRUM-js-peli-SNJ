@@ -2757,8 +2757,8 @@ class Cutscene_knife extends Phaser.Scene {
                             }, 1000);
                         }, 1000);
                     }, 3000);
-                }, 3000);
-            }, 2000);
+                }, 1000);
+            }, 1000);
         }
 }
 class end1 extends Phaser.Scene {
