@@ -1107,16 +1107,6 @@ this.time.addEvent({
     this.time.delayedCall(150, () => enemy.clearTint());
     }
     if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
-
-        // Osumaefekti
-        enemy.setTint(0x550000);
-
-        this.time.delayedCall(150, () => enemy.clearTint());
-        if (enemy.hp <= 0) {
 
         // POISTA HP PALKKI heti
         if (enemy.hpBar) enemy.hpBar.destroy();
@@ -1127,6 +1117,12 @@ this.time.addEvent({
 
         enemy.disableBody(true, true);
         }
+
+        // Osumaefekti
+        enemy.setTint(0x550000);
+
+        this.time.delayedCall(150, () => enemy.clearTint());
+        
     });
     // --ANIMAATIOT VIHOLLISILLE--
 
@@ -1467,21 +1463,11 @@ class Level3 extends Phaser.Scene {
             if (!enemy || !enemy.active) return;
 
             if (enemy.hp > 0) {
-    enemy_hit.play();
-    enemy.hp -= 50;
-    enemy.setTint(0x550000);
-    this.time.delayedCall(150, () => enemy.clearTint());
-    }
-    if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
-
-            // Osumaefekti
+            enemy_hit.play();
+            enemy.hp -= 50;
             enemy.setTint(0x550000);
             this.time.delayedCall(150, () => enemy.clearTint());
-
+            }
             if (enemy.hp <= 0) {
 
             // POISTA HP PALKKI heti
@@ -1493,6 +1479,11 @@ class Level3 extends Phaser.Scene {
 
             enemy.disableBody(true, true);
             }
+
+            // Osumaefekti
+            enemy.setTint(0x550000);
+            this.time.delayedCall(150, () => enemy.clearTint());
+
         });
 
 
@@ -1927,11 +1918,7 @@ class Level4 extends Phaser.Scene {
     enemy.setTint(0x550000);
     this.time.delayedCall(150, () => enemy.clearTint());
     }
-    if (enemy.hp <= 0) {
-          enemy_death.play();
-        enemy.disableBody(true, true);
-        return;
-    }
+    
 
             // Osumaefekti
             enemy.setTint(0x550000);
@@ -1939,9 +1926,10 @@ class Level4 extends Phaser.Scene {
 
             // POISTA HP PALKKI heti
             if (enemy.hp <= 0) {
-                if (enemy.hpBar) enemy.hpBar.destroy();
-                if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+            if (enemy.hpBar) enemy.hpBar.destroy();
+            if (enemy.hpBarBG) enemy.hpBarBG.destroy();
 
+            enemy_death.play();
             enemy.hpBar = null;
             enemy.hpBarBG = null;
 
