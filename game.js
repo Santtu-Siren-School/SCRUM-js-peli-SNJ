@@ -2898,6 +2898,8 @@ class end2 extends Phaser.Scene {
     constructor() {
         super({ key: 'end2' });}
     create() {
+        boss_fight_background_music.pause();
+        end2_background_song.play();
         let end2_1D=this.add.image(500,450,'end2_1D').setScale(4);
         setTimeout(() => { end2_1D.destroy();let end2_2D=this.add.image(500,450,'end2_2D').setScale(4);
             setTimeout(() => {end2_2D.destroy();let end2_1=this.add.image(500,450, 'end2_1');
@@ -3141,6 +3143,7 @@ const intro_player1 = new Audio('assets/sound/dialogue/lore1.wav')
 const intro_player2 = new Audio('assets/sound/dialogue/lore2.wav')
 const intro_player3 = new Audio('assets/sound/dialogue/lore3.wav')
 const end3_player = new Audio('assets/sound/dialogue/uno_reverse_card.wav')
+const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 var player;
 var weapon;
 var weapon2;
