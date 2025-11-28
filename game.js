@@ -2818,6 +2818,8 @@ class end1 extends Phaser.Scene {
     constructor() {
         super({ key: 'end1' });}
         create(){
+            boss_fight_background_music.pause();
+            end1_background_song.play();
             let dialogue7_boss=this.add.image(500,450,'dialogue7_boss').setScale(4);
 setTimeout(() => {
     setTimeout(() => {
@@ -3108,6 +3110,7 @@ const lightbeam_sound = new Audio('assets/sound/lightbeam_sound.mp3')
 const throw_sound = new Audio('assets/sound/throw_sound.mp3')
 const enemy_hit = new Audio('assets/sound/enemy_hit.mp3')
 const tutorial_music = new Audio('assets/sound/tutorial_music.mp3')
+const end1_background_song = new Audio('assets/sound/end1_backround_song.mp3')
 var player;
 var weapon;
 var weapon2;
