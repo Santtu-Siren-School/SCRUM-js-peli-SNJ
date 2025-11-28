@@ -111,7 +111,11 @@ class Intro extends Phaser.Scene {
             this.load.image('end3_2', 'assets/textures/cutscene_end3_3.png')
             this.load.image('end3_3', 'assets/textures/cutscene_end3_2.png')
             this.load.image('end3_4', 'assets/textures/cutscene_end3_4.png')
-            this.load.image('end3_1D', 'assets/textures/cutscene_end3_1D.png')
+            this.load.image('credit_screen_button', 'assets/textures/credit_screen_button.png')
+            this.load.image('cutscene_knife_button', 'assets/textures/cutscene_knife_button.png')
+            this.load.image('end1_button', 'assets/textures/end1_button.png')
+            this.load.image('end2_button', 'assets/textures/end2_button.png')
+            this.load.image('end3_button', 'assets/textures/end3_button.png')
         }
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
@@ -129,12 +133,12 @@ class MainMenu extends Phaser.Scene {
             const level3_button=this.add.image(300,100,'level3').setInteractive();
             const level4_button=this.add.image(400,100,'level4').setInteractive();
             const level5_button=this.add.image(500,100,'level5').setInteractive();
-            const cutscene_knife_button=this.add.image(100,200,'level1').setInteractive();
-            const end1_button=this.add.image(200,200,'level2').setInteractive();
-            const tutorial_button=this.add.image(300,200,'tutorial').setInteractive();
-            const credit_button=this.add.image(400,200,'level3').setInteractive();
-            const end2_button=this.add.image(500,200,'level4').setInteractive();
-            const end3_button=this.add.image(600,200,'level5').setInteractive();
+            const cutscene_knife_button=this.add.image(100,300,'cutscene_knife_button').setInteractive();
+            const end1_button=this.add.image(100,200,'end1_button').setInteractive();
+            const tutorial_button=this.add.image(600,100,'tutorial').setInteractive();
+            const credit_button=this.add.image(200,300,'credit_screen_button').setInteractive();
+            const end2_button=this.add.image(200,200,'end2_button').setInteractive();
+            const end3_button=this.add.image(300,200,'end3_button').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
