@@ -2460,7 +2460,7 @@ class Level5 extends Phaser.Scene {
         }
         else {
             if(dialogue1_boss===0) {
-                if (boss_animation_play===false) {
+                if (dialogue1_boss===0) {
                     if(phase===1){
                         bossattackchanche=Phaser.Math.Between(0, 200);
                         //console.log("boss attack chanche",bossattackchanche)
