@@ -2385,6 +2385,8 @@ class Level5 extends Phaser.Scene {
             setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
             setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();dialogueActive = false;}, 3000)}, 3000);
             dialogue1_boss=0
+            dialogueActive = false;
+
         }
         if (dialogue2_boss===1) {
             dialogueActive = true;
@@ -2393,6 +2395,8 @@ class Level5 extends Phaser.Scene {
             setTimeout(() => {boss_dialogue_img3.destroy();player.setPosition(400, 1800);}, 3000);
             setTimeout(() => {let boss_dialogue_img4=this.add.image(500,1610,'dialogue4_boss').setScale(5);setTimeout(() => {boss_dialogue_img4.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
             dialogue2_boss=2
+            dialogueActive = false;
+
         }
         if (dialogue3_boss===1) {
             dialogueActive = true;
@@ -2401,6 +2405,8 @@ class Level5 extends Phaser.Scene {
             setTimeout(() => {boss_dialogue_img5.destroy();player.setPosition(400, 1800);}, 3000);
             setTimeout(() => {let boss_dialogue_img6=this.add.image(500,1610,'dialogue6_boss').setScale(5);setTimeout(() => {boss_dialogue_img6.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
             dialogue3_boss=2
+            dialogueActive = false;
+
         }
         if (dialogueActive) {
             return;
