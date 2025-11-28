@@ -2892,7 +2892,7 @@ setTimeout(() => {
                                 }, 3000);
                             }, 3000);
                         }, 3000);
-                    }, 4000);
+                    }, 6000);
                 }, 3000);
             }, 3000);
         }, 3000);
@@ -2925,7 +2925,7 @@ class end2 extends Phaser.Scene {
                                                                 setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2); aww_you_want_yo_momma.play();
                                                                     setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);
                                                                  }, 7000);
-                                                             }, 3000);
+                                                             }, 5000);
                                                          }, 3000);
                                                      }, 3000);
                                                  }, 1000);
@@ -2966,7 +2966,7 @@ class end3 extends Phaser.Scene {
                                                                         }, 3000);
                                                                     }, 3000);
                                                                 }, 3000);
-                                                            }, 3000);
+                                                            }, 5000);
                                                         }, 3000);
                                                     }, 1000);
                                                 }, 1000);
