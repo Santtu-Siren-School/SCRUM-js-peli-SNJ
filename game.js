@@ -394,21 +394,17 @@ this.physics.add.collider(player, knife);
     weapon.body.immovable = true;     
 });
 this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+if (!enemy.active) return;
 
+// tuplahittisuojan EI pidä käyttää delayta
+if (enemy.wasHit) return;
+enemy.wasHit = true;
 
-    if (!enemy.active) return;
+// vähennetään HP ensin
+enemy.hp -= 50;
 
-    // tuplahittisuojan EI pidä käyttää delayta
-    if (enemy.wasHit) return;
-    enemy.wasHit = true;
-
-     if (enemy.hp > 0) {
-    enemy_hit.play();
-    enemy.hp -= 50;
-    enemy.setTint(0x550000);
-    this.time.delayedCall(150, () => enemy.clearTint());
-    }
-    if (enemy.hp <= 0) {
+// vihollinen kuolee
+if (enemy.hp <= 0) {
     enemy_death.play();
     if (enemy.hpBar) enemy.hpBar.destroy();
     if (enemy.hpBarBG) enemy.hpBarBG.destroy();
@@ -417,11 +413,18 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     enemy.disableBody(true, true);
     return;
 }
-    // tuhoa veitsi välittömästi
-    weapon.disableBody(true, true);
 
-    // vapauta hit-lukko seuraavalle _uudelle_ veitselle
-    this.time.delayedCall(1, () => enemy.wasHit = false);
+// vihollinen jäi eloon → soitetaan osumaääni
+enemy_hit.play();
+enemy.setTint(0x550000);
+this.time.delayedCall(150, () => enemy.clearTint());
+
+// tuhoa veitsi
+weapon.disableBody(true, true);
+
+// vapauta hit-lock
+this.time.delayedCall(1, () => enemy.wasHit = false);
+
 });
 // jos puukko osuu alustaan -> pysäytä puukko
 
@@ -550,23 +553,26 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
             }
         });
 
-    if (!groundAhead && e.body.blocked.down) {
-        enemy.play()
-        e.direction *= -1;
-        e.setVelocityX(80 * e.direction);
-        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-        }
-        if (e.body.blocked.left) {
-            e.direction = 1;
-            e.setVelocityX(80);
-            e.play('walkRightEnemy', true);
-        }
-        if (e.body.blocked.right) {
-            e.direction = -1;
-            e.setVelocityX(-80);
-            e.play('walkLeftEnemy', true);
+     if (!e.lastTurnTime) e.lastTurnTime = 0;
+    if (this.time.now - e.lastTurnTime > 100) {
+        if (!groundAhead && e.body.blocked.down) {
+            if(enemy_footstep) {
+                e.direction *= -1; 
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
+            else {
+                enemy_footstep=true;
+                enemy.play();
+                setTimeout(() => {enemy_footstep=false;}, 5000);
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
         }
     }
+
         if (this.enemy.hpBar && this.enemy.hpBarBG && this.enemy.active) {
         this.enemy.hpBarBG.x = this.enemy.x;
         this.enemy.hpBarBG.y = this.enemy.y - this.enemyHpOffset;
@@ -577,6 +583,7 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     }
 
     }
+}
 }
 //level1
 class Level1 extends Phaser.Scene {
