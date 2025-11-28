@@ -119,7 +119,8 @@ class Intro extends Phaser.Scene {
         }
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
-            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);setTimeout(() => {intro3img.destroy();this.scene.start('MainMenu')}, 3000); }, 3000); }, 3000); 
+            intro_player1.play();
+            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('MainMenu')}, 6000); }, 6000); }, 6000); 
         }
 }
 //mainmenu
@@ -2999,6 +3000,13 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
+            "Voice actors",
+            "",
+            "Player    Niilo Mustonen",
+            "",
+            "",
+            "",
+            "",
             "Very Spesical Thanks",
             "",
             "",
@@ -3115,6 +3123,9 @@ const throw_sound = new Audio('assets/sound/throw_sound.mp3')
 const enemy_hit = new Audio('assets/sound/enemy_hit.mp3')
 const tutorial_music = new Audio('assets/sound/tutorial_music.mp3')
 const end1_background_song = new Audio('assets/sound/end1_backround_song.mp3')
+const intro_player1 = new Audio('assets/sound/dialogue/lore1.wav')
+const intro_player2 = new Audio('assets/sound/dialogue/lore2.wav')
+const intro_player3 = new Audio('assets/sound/dialogue/lore3.wav')
 var player;
 var weapon;
 var weapon2;
