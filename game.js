@@ -134,7 +134,7 @@ class Intro extends Phaser.Scene {
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
             intro_player1.play();
-            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('MainMenu')}, 6000); }, 6000); }, 6000); 
+            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('MainMenu')}, 6000); }, 8000); }, 6000); 
         }
 }
 //mainmenu
@@ -2737,7 +2737,7 @@ class Cutscene_knife extends Phaser.Scene {
     constructor() {
         super({ key: 'Cutscene_knife' });}
         create(){
-            let cutscene_knife_img = this.add.image(500,500,'cutscene_knife1').setScale(5)
+            let cutscene_knife_img = this.add.image(500,500,'cutscene_knife1').setScale(5);meeting_boss.play();
             setTimeout(() => {
                 cutscene_knife_img.destroy();
                 let cutscene_knife_img2 = this.add.image(500,500,'cutscene_knife2').setScale(4);
@@ -2830,7 +2830,7 @@ class Cutscene_knife extends Phaser.Scene {
                         }, 1000);
                     }, 3000);
                 }, 1000);
-            }, 1000);
+            }, 12000);
         }
 }
 class end1 extends Phaser.Scene {
@@ -2855,10 +2855,10 @@ setTimeout(() => {
                     let dialogue11_boss = this.add.image(500,450,'dialogue11_boss').setScale(4);
                     setTimeout(() => {
                         dialogue11_boss.destroy();
-                        let end1img0A = this.add.image(500,450,'end1_7');
+                        let end1img0A = this.add.image(500,450,'end1_7');voi_vittu.play();
                         setTimeout(() => {
                             end1img0A.destroy();
-                            let end1img0 = this.add.image(500,450,'end1_0');
+                            let end1img0 = this.add.image(500,450,'end1_0');epic_fail.play();
                             setTimeout(() => {
                                 end1img0.destroy();
                                 let end1img1 = this.add.image(500,450,'end1_1');
@@ -2876,8 +2876,8 @@ setTimeout(() => {
                                                 let end1img5 = this.add.image(500,450,'end1_5');
                                                 setTimeout(() => {
                                                     end1img5.destroy();
-                                                    let end1img6 = this.add.image(550,480,'end1_6'); 
-                                                    setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 3000);
+                                                    let end1img6 = this.add.image(550,480,'end1_6'); try_again.play();
+                                                    setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                 }, 3000);
                                             }, 3000);
                                         }, 3000);
@@ -2885,7 +2885,7 @@ setTimeout(() => {
                                 }, 3000);
                             }, 3000);
                         }, 3000);
-                    }, 3000);
+                    }, 4000);
                 }, 3000);
             }, 3000);
         }, 3000);
@@ -2912,10 +2912,10 @@ class end2 extends Phaser.Scene {
                                                 setTimeout(() => {end2_9.destroy();let end2_10=this.add.image(500,450, 'end2_10');
                                                     setTimeout(() => {end2_10.destroy();let end2_11=this.add.image(500,450, 'end2_11');
                                                         setTimeout(() => {end2_11.destroy();let end2_12=this.add.image(500,450, 'end2_12');
-                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);
-                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2);
-                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 3000);
-                                                                 }, 3000);
+                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);arrest.play();
+                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2); aww_you_want_yo_momma.play();
+                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);
+                                                                 }, 7000);
                                                              }, 3000);
                                                          }, 3000);
                                                      }, 3000);
@@ -2953,7 +2953,7 @@ class end3 extends Phaser.Scene {
                                                                 setTimeout(() => {end3_1D.destroy();let end3_2=this.add.image(500,450,'end3_2');
                                                                     setTimeout(() => {end3_2.destroy();let end3_3=this.add.image(500,450,'end3_3');
                                                                         setTimeout(() => {end3_3.destroy();let end3_4=this.add.image(500,450,'end3_4');pistol_shot.play();
-                                                                            setTimeout(() => {end3_4.destroy();this.scene.start('credit_scene');}, 3000);
+                                                                            setTimeout(() => {end3_4.destroy();this.scene.start('credit_scene');}, 7000);
                                                                         }, 3000);
                                                                     }, 3000);
                                                                 }, 3000);
@@ -3021,7 +3021,7 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "",
-            "Very Spesical Thanks",
+            "Very Special Thanks",
             "",
             "",
             "",
@@ -3141,6 +3141,12 @@ const intro_player1 = new Audio('assets/sound/dialogue/lore1.wav')
 const intro_player2 = new Audio('assets/sound/dialogue/lore2.wav')
 const intro_player3 = new Audio('assets/sound/dialogue/lore3.wav')
 const end3_player = new Audio('assets/sound/dialogue/uno_reverse_card.wav')
+const meeting_boss = new Audio('assets/sound/dialogue/arrogant_brat.wav')
+const voi_vittu = new Audio('assets/sound/dialogue/impending_doom.wav')
+const epic_fail = new Audio('assets/sound/dialogue/stupid_scream.wav')
+const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.wav')
+const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
+const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 var player;
 var weapon;
 var weapon2;
