@@ -2818,6 +2818,8 @@ class end1 extends Phaser.Scene {
     constructor() {
         super({ key: 'end1' });}
         create(){
+            boss_fight_background_music.pause();
+            end1_background_song.play();
             let dialogue7_boss=this.add.image(500,450,'dialogue7_boss').setScale(4);
 setTimeout(() => {
     setTimeout(() => {
@@ -2931,7 +2933,7 @@ class end3 extends Phaser.Scene {
                                                             setTimeout(() => {end3_1.destroy();let end3_1D=this.add.image(500,450,'end3_1D');
                                                                 setTimeout(() => {end3_1D.destroy();let end3_2=this.add.image(500,450,'end3_2');
                                                                     setTimeout(() => {end3_2.destroy();let end3_3=this.add.image(500,450,'end3_3');
-                                                                        setTimeout(() => {end3_3.destroy();let end3_4=this.add.image(500,450,'end3_4');
+                                                                        setTimeout(() => {end3_3.destroy();let end3_4=this.add.image(500,450,'end3_4');pistol_shot.play();
                                                                             setTimeout(() => {end3_4.destroy();this.scene.start('credit_scene');}, 3000);
                                                                         }, 3000);
                                                                     }, 3000);
@@ -3044,6 +3046,7 @@ var config = {
     },
     scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,credit_scene]
 };
+var ending=0;
 var enemy_footstep=false;
 var knife_deflect_first_Time=true;
 var dialogue3_boss=0;
@@ -3083,6 +3086,8 @@ const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
+const pistol_shot=new Audio('assets/sound/pistol-shot.mp3');
+pistol_shot.volume = 1;
 jump.volume = 0.3;
 const player_death=new Audio('assets/sound/death.mp3');
 player_death.volume = 1.0;
@@ -3105,6 +3110,7 @@ const lightbeam_sound = new Audio('assets/sound/lightbeam_sound.mp3')
 const throw_sound = new Audio('assets/sound/throw_sound.mp3')
 const enemy_hit = new Audio('assets/sound/enemy_hit.mp3')
 const tutorial_music = new Audio('assets/sound/tutorial_music.mp3')
+const end1_background_song = new Audio('assets/sound/end1_backround_song.mp3')
 var player;
 var weapon;
 var weapon2;
@@ -3319,14 +3325,17 @@ function knifehitboss(boss,knifeSprite) {
         if (boss.lives <=0) {
             if (currentDeaths<=0) {
                 this.scene.start('end2')
+                ending=2;
             }
             else if (currentDeaths>=5000) {
                 
             }
             else if(currentDeaths<=10) {
                 this.scene.start('end3')
+                ending=3;
             }
             else {
+                ending=1;
                 this.scene.start('end1')
             }
         }
