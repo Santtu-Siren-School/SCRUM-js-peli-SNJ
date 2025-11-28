@@ -648,22 +648,17 @@ this.physics.add.collider(player, knife);
     weapon.body.immovable = true;     
 });
 this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+if (!enemy.active) return;
 
+// tuplahittisuojan EI pidä käyttää delayta
+if (enemy.wasHit) return;
+enemy.wasHit = true;
 
-    if (!enemy.active) return;
+// vähennetään HP ensin
+enemy.hp -= 50;
 
-    // tuplahittisuojan EI pidä käyttää delayta
-    if (enemy.wasHit) return;
-    enemy.wasHit = true;
-
-    // hit effect
-     if (enemy.hp > 0) {
-    enemy_hit.play();
-    enemy.hp -= 50;
-    enemy.setTint(0x550000);
-    this.time.delayedCall(150, () => enemy.clearTint());
-    }
-    if (enemy.hp <= 0) {
+// vihollinen kuolee
+if (enemy.hp <= 0) {
     enemy_death.play();
     if (enemy.hpBar) enemy.hpBar.destroy();
     if (enemy.hpBarBG) enemy.hpBarBG.destroy();
@@ -673,13 +668,17 @@ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
     return;
 }
 
+// vihollinen jäi eloon → soitetaan osumaääni
+enemy_hit.play();
+enemy.setTint(0x550000);
+this.time.delayedCall(150, () => enemy.clearTint());
 
+// tuhoa veitsi
+weapon.disableBody(true, true);
 
-    // tuhoa veitsi välittömästi
-    weapon.disableBody(true, true);
+// vapauta hit-lock
+this.time.delayedCall(1, () => enemy.wasHit = false);
 
-    // vapauta hit-lukko seuraavalle _uudelle_ veitselle
-    this.time.delayedCall(1, () => enemy.wasHit = false);
 });
 // jos puukko osuu alustaan -> pysäytä puukko
 
@@ -898,9 +897,10 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     });
 
     if (!e.lastTurnTime) e.lastTurnTime = 0;
-    if (this.time.now - e.lastTurnTime > 500) {
+    if (this.time.now - e.lastTurnTime > 100) {
         if (!groundAhead && e.body.blocked.down) {
             if(enemy_footstep) {
+                e.direction *= -1; 
                 e.setVelocityX(80 * e.direction);
                 e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                 e.lastTurnTime = this.time.now;
@@ -908,7 +908,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
             else {
                 enemy_footstep=true;
                 enemy.play();
-                setTimeout(() => {enemy_footstep=false;}, 3000);
+                setTimeout(() => {enemy_footstep=false;}, 5000);
                 e.setVelocityX(80 * e.direction);
                 e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                 e.lastTurnTime = this.time.now;
@@ -1131,38 +1131,37 @@ this.time.addEvent({
         weapon.body.immovable = true;
     });
     // Turvallinen osuman käsittely knife -> enemy (vähentää hp:tä, ei tuhoa yhdellä osumalla)
-    this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+ this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+if (!enemy.active) return;
 
-        // Tuhoaa veitsen
-        if (weapon && weapon.disableBody) weapon.disableBody(true, true);
-        else if (weapon && weapon.destroy) weapon.destroy();
+// tuplahittisuojan EI pidä käyttää delayta
+if (enemy.wasHit) return;
+enemy.wasHit = true;
 
-        // --- Vihollinen ottaa Damagea ---
-        if (!enemy || !enemy.active) return;
+// vähennetään HP ensin
+enemy.hp -= 50;
 
-        if (enemy.hp > 0) {
-    enemy_hit.play();
-    enemy.hp -= 50;
-    enemy.setTint(0x550000);
-    this.time.delayedCall(150, () => enemy.clearTint());
-    }
-    if (enemy.hp <= 0) {
+// vihollinen kuolee
+if (enemy.hp <= 0) {
+    enemy_death.play();
+    if (enemy.hpBar) enemy.hpBar.destroy();
+    if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+    enemy.hpBar = null;
+    enemy.hpBarBG = null;
+    enemy.disableBody(true, true);
+    return;
+}
 
-        // POISTA HP PALKKI heti
-        if (enemy.hpBar) enemy.hpBar.destroy();
-        if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+// vihollinen jäi eloon → soitetaan osumaääni
+enemy_hit.play();
+enemy.setTint(0x550000);
+this.time.delayedCall(150, () => enemy.clearTint());
 
-        enemy.hpBar = null;
-        enemy.hpBarBG = null;
+// tuhoa veitsi
+weapon.disableBody(true, true);
 
-        enemy.disableBody(true, true);
-        }
-
-        // Osumaefekti
-        enemy.setTint(0x550000);
-
-        this.time.delayedCall(150, () => enemy.clearTint());
-        
+// vapauta hit-lock
+this.time.delayedCall(1, () => enemy.wasHit = false);
     });
     // --ANIMAATIOT VIHOLLISILLE--
 
@@ -1295,14 +1294,23 @@ this.time.addEvent({
         }
     });
 
-    if (!e.lastTurnTime) e.lastTurnTime = 0;
-    if (this.time.now - e.lastTurnTime > 500) {
+        if (!e.lastTurnTime) e.lastTurnTime = 0;
+    if (this.time.now - e.lastTurnTime > 100) {
         if (!groundAhead && e.body.blocked.down) {
-            enemy.play()
-            e.direction *= -1;
-            e.setVelocityX(80 * e.direction);
-            e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-            e.lastTurnTime = this.time.now;
+            if(enemy_footstep) {
+                e.direction *= -1; 
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
+            else {
+                enemy_footstep=true;
+                enemy.play();
+                setTimeout(() => {enemy_footstep=false;}, 5000);
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
         }
     }
 
@@ -1494,37 +1502,38 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+            if (!enemy.active) return;
 
-            // Tuhoaa veitsen
-            if (weapon && weapon.disableBody) weapon.disableBody(true, true);
-            else if (weapon && weapon.destroy) weapon.destroy();
+// tuplahittisuojan EI pidä käyttää delayta
+if (enemy.wasHit) return;
+enemy.wasHit = true;
 
-            // --- Vihollinen ottaa Damagea ---
-            if (!enemy || !enemy.active) return;
+// vähennetään HP ensin
+enemy.hp -= 50;
 
-            if (enemy.hp > 0) {
-            enemy_hit.play();
-            enemy.hp -= 50;
-            enemy.setTint(0x550000);
-            this.time.delayedCall(150, () => enemy.clearTint());
-            }
-            if (enemy.hp <= 0) {
+// vihollinen kuolee
+if (enemy.hp <= 0) {
+    enemy_death.play();
+    if (enemy.hpBar) enemy.hpBar.destroy();
+    if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+    enemy.hpBar = null;
+    enemy.hpBarBG = null;
+    enemy.disableBody(true, true);
+    return;
+}
 
-            // POISTA HP PALKKI heti
-            if (enemy.hpBar) enemy.hpBar.destroy();
-            if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+// vihollinen jäi eloon → soitetaan osumaääni
+enemy_hit.play();
+enemy.setTint(0x550000);
+this.time.delayedCall(150, () => enemy.clearTint());
 
-            enemy.hpBar = null;
-            enemy.hpBarBG = null;
+// tuhoa veitsi
+weapon.disableBody(true, true);
 
-            enemy.disableBody(true, true);
-            }
+// vapauta hit-lock
+this.time.delayedCall(1, () => enemy.wasHit = false);
 
-            // Osumaefekti
-            enemy.setTint(0x550000);
-            this.time.delayedCall(150, () => enemy.clearTint());
-
-        });
+});
 
 
         this.cameras.main.setBounds(0, 0, 2000, 900);
@@ -1713,14 +1722,23 @@ this.enemies.children.iterate(e => {
         }
     });
 
-    if (!e.lastTurnTime) e.lastTurnTime = 0;
-    if (this.time.now - e.lastTurnTime > 500) {
+     if (!e.lastTurnTime) e.lastTurnTime = 0;
+    if (this.time.now - e.lastTurnTime > 100) {
         if (!groundAhead && e.body.blocked.down) {
-               enemy.play()
-            e.direction *= -1;
-            e.setVelocityX(80 * e.direction);
-            e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-            e.lastTurnTime = this.time.now;
+            if(enemy_footstep) {
+                e.direction *= -1; 
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
+            else {
+                enemy_footstep=true;
+                enemy.play();
+                setTimeout(() => {enemy_footstep=false;}, 5000);
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
         }
     }
 
@@ -1946,36 +1964,37 @@ class Level4 extends Phaser.Scene {
 
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
 
-            // Tuhoaa veitsen
-            if (weapon && weapon.disableBody) weapon.disableBody(true, true);
-            else if (weapon && weapon.destroy) weapon.destroy();
+      if (!enemy.active) return;
 
-            // --- Vihollinen ottaa Damagea ---
-            if (!enemy || !enemy.active) return;
+// tuplahittisuojan EI pidä käyttää delayta
+if (enemy.wasHit) return;
+enemy.wasHit = true;
 
-         if (enemy.hp > 0) {
-    enemy_hit.play();
-    enemy.hp -= 50;
-    enemy.setTint(0x550000);
-    this.time.delayedCall(150, () => enemy.clearTint());
-    }
-    
+// vähennetään HP ensin
+enemy.hp -= 50;
 
-            // Osumaefekti
-            enemy.setTint(0x550000);
-            this.time.delayedCall(150, () => enemy.clearTint());
+// vihollinen kuolee
+if (enemy.hp <= 0) {
+    enemy_death.play();
+    if (enemy.hpBar) enemy.hpBar.destroy();
+    if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+    enemy.hpBar = null;
+    enemy.hpBarBG = null;
+    enemy.disableBody(true, true);
+    return;
+}
 
-            // POISTA HP PALKKI heti
-            if (enemy.hp <= 0) {
-            if (enemy.hpBar) enemy.hpBar.destroy();
-            if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+// vihollinen jäi eloon → soitetaan osumaääni
+enemy_hit.play();
+enemy.setTint(0x550000);
+this.time.delayedCall(150, () => enemy.clearTint());
 
-            enemy_death.play();
-            enemy.hpBar = null;
-            enemy.hpBarBG = null;
+// tuhoa veitsi
+weapon.disableBody(true, true);
 
-            enemy.disableBody(true, true);
-            }
+// vapauta hit-lock
+this.time.delayedCall(1, () => enemy.wasHit = false);
+
         });
 
         this.physics.add.collider(this.enemies, platforms);
@@ -2189,16 +2208,25 @@ class Level4 extends Phaser.Scene {
                 }
             });
 
-            if (!e.lastTurnTime) e.lastTurnTime = 0;
-            if (this.time.now - e.lastTurnTime > 500) {
-                if (!groundAhead && e.body.blocked.down) {
-                       enemy.play()
-                    e.direction *= -1;
-                    e.setVelocityX(80 * e.direction);
-                    e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                    e.lastTurnTime = this.time.now;
-                }
+              if (!e.lastTurnTime) e.lastTurnTime = 0;
+    if (this.time.now - e.lastTurnTime > 100) {
+        if (!groundAhead && e.body.blocked.down) {
+            if(enemy_footstep) {
+                e.direction *= -1; 
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
             }
+            else {
+                enemy_footstep=true;
+                enemy.play();
+                setTimeout(() => {enemy_footstep=false;}, 5000);
+                e.setVelocityX(80 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
+        }
+    }
 
             if (e.body.blocked.left) {
                 e.direction = 1;
