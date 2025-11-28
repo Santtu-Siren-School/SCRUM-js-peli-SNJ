@@ -1,8 +1,8 @@
-//intro
-class Intro extends Phaser.Scene {
+//get player to interact with the game
+class force_interaction extends Phaser.Scene {
     constructor() {
-        super({ key: 'Intro' });}
-                preload (){
+        super({ key: 'force_interaction' });}
+        preload (){
             //kaikki textuurien lataus tänne
             this.load.image('background', 'assets/textures/background.png');
             this.load.spritesheet('main_character','assets/textures/tikku_hahmo.png',{frameWidth: 30, frameHeight: 42});
@@ -111,13 +111,26 @@ class Intro extends Phaser.Scene {
             this.load.image('end3_2', 'assets/textures/cutscene_end3_3.png')
             this.load.image('end3_3', 'assets/textures/cutscene_end3_2.png')
             this.load.image('end3_4', 'assets/textures/cutscene_end3_4.png')
-             this.load.image('end3_1D', 'assets/textures/cutscene_end3_1D.png')
+            this.load.image('end3_1D', 'assets/textures/cutscene_end3_1D.png')
             this.load.image('credit_screen_button', 'assets/textures/credit_screen_button.png')
             this.load.image('cutscene_knife_button', 'assets/textures/cutscene_knife_button.png')
             this.load.image('end1_button', 'assets/textures/end1_button.png')
             this.load.image('end2_button', 'assets/textures/end2_button.png')
             this.load.image('end3_button', 'assets/textures/end3_button.png')
+            this.load.image('play_button', 'assets/textures/play_button.png')
         }
+        create() {
+            const play_button=this.add.image(500,500,'play_button').setInteractive();
+            play_button.on('pointerdown', () => {
+                this.scene.start('Intro'),
+                console.log("Start Game");
+            });
+        }
+}
+//intro
+class Intro extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Intro' });}
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
             intro_player1.play();
@@ -3057,7 +3070,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,credit_scene]
+    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,credit_scene]
 };
 var ending=0;
 var enemy_footstep=false;
