@@ -111,6 +111,7 @@ class Intro extends Phaser.Scene {
             this.load.image('end3_2', 'assets/textures/cutscene_end3_3.png')
             this.load.image('end3_3', 'assets/textures/cutscene_end3_2.png')
             this.load.image('end3_4', 'assets/textures/cutscene_end3_4.png')
+             this.load.image('end3_1D', 'assets/textures/cutscene_end3_1D.png')
             this.load.image('credit_screen_button', 'assets/textures/credit_screen_button.png')
             this.load.image('cutscene_knife_button', 'assets/textures/cutscene_knife_button.png')
             this.load.image('end1_button', 'assets/textures/end1_button.png')
@@ -2935,7 +2936,7 @@ class end3 extends Phaser.Scene {
                                                 setTimeout(() => {end3_10.destroy();let end3_11=this.add.image(500,450,'end2_10');
                                                     setTimeout(() => {end3_11.destroy();let end3_12=this.add.image(500,450,'end2_11');
                                                         setTimeout(() => {end3_12.destroy();let end3_1=this.add.image(500,450,'end3_1');
-                                                            setTimeout(() => {end3_1.destroy();let end3_1D=this.add.image(500,450,'end3_1D');
+                                                            setTimeout(() => {end3_1.destroy();let end3_1D=this.add.image(500,450,'end3_1D');end3_player.play();
                                                                 setTimeout(() => {end3_1D.destroy();let end3_2=this.add.image(500,450,'end3_2');
                                                                     setTimeout(() => {end3_2.destroy();let end3_3=this.add.image(500,450,'end3_3');
                                                                         setTimeout(() => {end3_3.destroy();let end3_4=this.add.image(500,450,'end3_4');pistol_shot.play();
@@ -3126,6 +3127,7 @@ const end1_background_song = new Audio('assets/sound/end1_backround_song.mp3')
 const intro_player1 = new Audio('assets/sound/dialogue/lore1.wav')
 const intro_player2 = new Audio('assets/sound/dialogue/lore2.wav')
 const intro_player3 = new Audio('assets/sound/dialogue/lore3.wav')
+const end3_player = new Audio('assets/sound/dialogue/uno_reverse_card.wav')
 var player;
 var weapon;
 var weapon2;
