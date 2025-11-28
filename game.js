@@ -2612,6 +2612,7 @@ class Level5 extends Phaser.Scene {
                                 }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
 
                                 this.physics.add.overlap(player, beam, () => {
+                                        lightbeam_death.play();
                                         const currentDeaths = this.registry.get('deaths') + 1;
                                         this.registry.set('deaths', currentDeaths);
                                         this.deathText.setText("Deaths: " + currentDeaths);
@@ -3089,7 +3090,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=1;
+var phase=3;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
@@ -3156,6 +3157,9 @@ const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
 const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_song.mp3')
+const lightbeam_death = new Audio('assets/sound/lightbeam_death.mp3')
+const fireball_death = new Audio('assets/sound/fireball_death.m4a')
+const wall_death = new Audio('assets/sound/wall_death.m4a')
 var player;
 var weapon;
 var weapon2;
@@ -3391,6 +3395,7 @@ function knifehitboss(boss,knifeSprite) {
     
 
 function fireballplayer(player,fireball) {
+    fireball_death.play()
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     // Päivitä näkyvä teksti
@@ -3398,6 +3403,7 @@ function fireballplayer(player,fireball) {
     this.scene.start('Level5')
 }
 function boss_wall_player(player,bosswall) {
+    wall_death.play()
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     // Päivitä näkyvä teksti
@@ -3405,6 +3411,7 @@ function boss_wall_player(player,bosswall) {
     this.scene.start('Level5')
 }
 function boss_spike_player(player,boss_spike){
+    spike_death.play()
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     // Päivitä näkyvä teksti
