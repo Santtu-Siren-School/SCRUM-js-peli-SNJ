@@ -2439,7 +2439,6 @@ class Level5 extends Phaser.Scene {
             setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
             setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();dialogueActive = false;}, 3000)}, 3000);
             dialogue1_boss=0
-            dialogueActive = false;
 
         }
         if (dialogue2_boss===1) {
@@ -2449,7 +2448,6 @@ class Level5 extends Phaser.Scene {
             setTimeout(() => {boss_dialogue_img3.destroy();player.setPosition(400, 1800);}, 3000);
             setTimeout(() => {let boss_dialogue_img4=this.add.image(500,1610,'dialogue4_boss').setScale(5);setTimeout(() => {boss_dialogue_img4.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
             dialogue2_boss=2
-            dialogueActive = false;
 
         }
         if (dialogue3_boss===1) {
@@ -2459,17 +2457,15 @@ class Level5 extends Phaser.Scene {
             setTimeout(() => {boss_dialogue_img5.destroy();player.setPosition(400, 1800);}, 3000);
             setTimeout(() => {let boss_dialogue_img6=this.add.image(500,1610,'dialogue6_boss').setScale(5);setTimeout(() => {boss_dialogue_img6.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
             dialogue3_boss=2
-            dialogueActive = false;
-
         }
         if (dialogueActive) {
             return;
         }
         else {
             if(dialogue1_boss===0) {
-                if (boss_animation_play===false) {
+                if (dialogue1_boss===0) {
                     if(phase===1){
-                        bossattackchanche=Phaser.Math.Between(0, 200);
+                        bossattackchanche=Phaser.Math.Between(0, 400);
                         //console.log("boss attack chanche",bossattackchanche)
                         if (bossattackchanche===6) {
                             boss_animation_play=true
@@ -2507,7 +2503,7 @@ class Level5 extends Phaser.Scene {
                         }
                     }
                     else if (phase===2){
-                        bossattackchanche=Phaser.Math.Between(0, 120);
+                        bossattackchanche=Phaser.Math.Between(0, 220);
                         //console.log("boss attack chanche",bossattackchanche)
                         if (bossattackchanche===6) {
                             boss_animation_play=true
@@ -2551,7 +2547,7 @@ class Level5 extends Phaser.Scene {
                         }
                     }
                     else if (phase===3){
-                        bossattackchanche=Phaser.Math.Between(0, 50);
+                        bossattackchanche=Phaser.Math.Between(0, 100);
                         //console.log("boss attack chanche",bossattackchanche)
                         if (bossattackchanche===6) {
                             boss_animation_play=true
@@ -2946,6 +2942,8 @@ class end3 extends Phaser.Scene {
         super({ key: 'end3' });}
         create() {
             let end3_1=this.add.image(500,450,'end2_1')
+            boss_fight_background_music.pause();
+            end3_background_song.play();
             setTimeout(() => {end3_1.destroy();let end3_2=this.add.image(500,450,'end2_2');
                 setTimeout(() => {end3_2.destroy();let end3_3=this.add.image(500,450,'end2_2');
                     setTimeout(() => {end3_3.destroy();let end3_4=this.add.image(500,450,'end2_3');
@@ -3157,6 +3155,7 @@ const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.w
 const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
 const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
+const end3_background_song = new Audio('assets/sound/end3_background_song.mp3')
 var player;
 var weapon;
 var weapon2;
