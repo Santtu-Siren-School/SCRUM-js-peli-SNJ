@@ -2898,6 +2898,8 @@ class end2 extends Phaser.Scene {
     constructor() {
         super({ key: 'end2' });}
     create() {
+        boss_fight_background_music.pause();
+        end2_background_song.play();
         let end2_1D=this.add.image(500,450,'end2_1D').setScale(4);
         setTimeout(() => { end2_1D.destroy();let end2_2D=this.add.image(500,450,'end2_2D').setScale(4);
             setTimeout(() => {end2_2D.destroy();let end2_1=this.add.image(500,450, 'end2_1');
@@ -3147,6 +3149,7 @@ const epic_fail = new Audio('assets/sound/dialogue/stupid_scream.wav')
 const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.wav')
 const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
 const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
+const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 var player;
 var weapon;
 var weapon2;
