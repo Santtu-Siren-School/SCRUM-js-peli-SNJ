@@ -780,7 +780,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     this.totalTime = this.registry.get('totalTime') || 0;
 
     //luo tekstin
-    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+    this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
         fontSize: '24px',
         fill: '#fff'
     }).setScrollFactor(0);
@@ -789,7 +789,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     // kuolemalaskuri
     this.deaths = this.registry.get('deaths');
 
-    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+    this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
     fontSize: '24px',
     fill: '#fff'
     }).setScrollFactor(0);
@@ -802,7 +802,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
             this.totalTime++;
             this.registry.set('totalTime', this.totalTime);
 
-            this.timerText.setText("Aika: " + this.totalTime);
+            this.timerText.setText("Time: " + this.totalTime);
         }
     });
 
@@ -1206,7 +1206,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     this.totalTime = this.registry.get('totalTime') || 0;
 
     //luo tekstin
-    this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+    this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
         fontSize: '24px',
         fill: '#fff'
     }).setScrollFactor(0);
@@ -1219,14 +1219,14 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             this.totalTime++;
             this.registry.set('totalTime', this.totalTime);
 
-            this.timerText.setText("Aika: " + this.totalTime);
+            this.timerText.setText("Time: " + this.totalTime);
         }
     });
 
     // kuolemalaskuri
     this.deaths = this.registry.get('deaths');
 
-    this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+    this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
     fontSize: '24px',
     fill: '#fff'
     }).setScrollFactor(0);
@@ -1632,7 +1632,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
 
         this.totalTime = this.registry.get('totalTime') || 0;
 
-        this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
             fontSize: '24px',
             fill: '#fff'
         }).setScrollFactor(0);
@@ -1640,7 +1640,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
         // kuolemalaskuri
         this.deaths = this.registry.get('deaths');
 
-        this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+        this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
         fontSize: '24px',
         fill: '#fff'
         }).setScrollFactor(0);
@@ -1651,7 +1651,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             callback: () => {
                 this.totalTime++;
                 this.registry.set('totalTime', this.totalTime);
-                this.timerText.setText("Aika: " + this.totalTime);
+                this.timerText.setText("Time: " + this.totalTime);
             }
         });
     }
@@ -2101,7 +2101,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
         // CLOCK / TIMER
         // -------------------------
         this.totalTime = this.registry.get('totalTime') || 0;
-        this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+        this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
             fontSize: '24px',
             fill: '#fff'
         }).setScrollFactor(0);
@@ -2112,12 +2112,12 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             callback: () => {
                 this.totalTime++;
                 this.registry.set('totalTime', this.totalTime);
-                this.timerText.setText("Aika: " + this.totalTime);
+                this.timerText.setText("Time: " + this.totalTime);
             }
         });
          this.deaths = this.registry.get('deaths');
 
-        this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+        this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
         fontSize: '24px',
         fill: '#fff'
         }).setScrollFactor(0);
@@ -2405,7 +2405,7 @@ class Level5 extends Phaser.Scene {
             this.totalTime = this.registry.get('totalTime') || 0;
 
             //luo tekstin
-            this.timerText = this.add.text(10, 10, "Aika: " + this.totalTime, {
+            this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
                 fontSize: '24px',
                 fill: '#fff'
             }).setScrollFactor(0);
@@ -2413,7 +2413,7 @@ class Level5 extends Phaser.Scene {
             // kuolemalaskuri
             this.deaths = this.registry.get('deaths');
 
-            this.deathText = this.add.text(10, 40, "Kuolemat: " + this.deaths, {
+            this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
             fontSize: '24px',
             fill: '#fff'
             }).setScrollFactor(0);
@@ -2426,7 +2426,7 @@ class Level5 extends Phaser.Scene {
                     this.totalTime++;
                     this.registry.set('totalTime', this.totalTime);
 
-                    this.timerText.setText("Aika: " + this.totalTime);
+                    this.timerText.setText("Time: " + this.totalTime);
                 }
             });
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
@@ -2614,7 +2614,7 @@ class Level5 extends Phaser.Scene {
                                 this.physics.add.overlap(player, beam, () => {
                                         const currentDeaths = this.registry.get('deaths') + 1;
                                         this.registry.set('deaths', currentDeaths);
-                                        this.deathText.setText("Kuolemat: " + currentDeaths);
+                                        this.deathText.setText("Deaths: " + currentDeaths);
                                         this.scene.start('Level5');
                                     });
                             }
@@ -3210,7 +3210,7 @@ function hitPlayer(player, bullet) {
     this.registry.set('deaths', currentDeaths);
 
     // Päivitä näkyvä teksti
-    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.deathText.setText("Deaths: " + currentDeaths);
 
     this.scene.start(this.scene.key)
 }
@@ -3246,7 +3246,7 @@ function hitByEnemy(player, enemy) {
     player_death.play()
 
     // Päivitä näkyvä teksti
-    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function trampolinePlayer(player, trampoline) {
@@ -3266,7 +3266,7 @@ function hitBySpike(player, spike) {
     spike_death.play()
 
     // Päivitä näkyvä teksti
-    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function knifehit(player, knife2) {
@@ -3275,7 +3275,7 @@ function knifehit(player, knife2) {
     spike_death.play()
 
     // Päivitä näkyvä teksti
-    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function windPlayer(player, wind) {
@@ -3394,21 +3394,21 @@ function fireballplayer(player,fireball) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     // Päivitä näkyvä teksti
-    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start('Level5')
 }
 function boss_wall_player(player,bosswall) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     // Päivitä näkyvä teksti
-    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start('Level5')
 }
 function boss_spike_player(player,boss_spike){
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     // Päivitä näkyvä teksti
-    this.deathText.setText("Kuolemat: " + currentDeaths);
+    this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start('Level5')
 }
 function boss_spike_tower_thingys(boss_spikes, tower_thingys) {
