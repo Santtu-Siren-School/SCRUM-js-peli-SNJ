@@ -3090,7 +3090,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=3;
+var phase=1;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
@@ -3129,13 +3129,14 @@ const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
-footsteps.volume = 0.5
+footsteps.volume = 0.5;
 const enemy=new Audio('assets/sound/enemy.mp3');
 enemy.volume = 0.5;
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
 const wind_sound=new Audio('assets/sound/wind.mp3');
+wind_sound.volume = 0,5;
 const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_music.mp3');
 const fireball_sound=new Audio('assets/sound/fireball.mp3');
 const wall_sound = new Audio('assets/sound/wall.mp3')
