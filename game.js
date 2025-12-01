@@ -139,7 +139,7 @@ class force_interaction extends Phaser.Scene {
                     this.scene.start('MainMenu'),
                     console.log("Start Game");
                 })
-            ;}, 5000);
+            ;}, 10);
                         //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
                 key: 'left',
@@ -639,7 +639,7 @@ class Level1 extends Phaser.Scene {
     bottom_of_game.create(940,470, 'bottom_of_game').setScale(0.45).refreshBody();
         //level1 bottom_of_game luonti lopuu
         //kolikoiden luonti
-        coin.create(50, 180, 'coin');
+    coin.create(50, 180, 'coin');
     coin.create(400, 180, 'coin');
     coin.create(490, 650, 'coin');
     coin.create(1070, 60, 'coin');
@@ -977,6 +977,7 @@ class Level2 extends Phaser.Scene {
         platforms = this.physics.add.staticGroup();
         //määritelään bottom_of_game staatiseksi
         bottom_of_game = this.physics.add.staticGroup();
+        coin = this.physics.add.group();
         //määritelään cursors phaserin avulla
         cursors = this.input.keyboard.createCursorKeys();
         //lisätiin background kuva
@@ -1017,6 +1018,7 @@ class Level2 extends Phaser.Scene {
         bottom_of_game.create(1500,900, 'bottom_of_game')
         bottom_of_game.create(1700,900, 'bottom_of_game')
         bottom_of_game.create(1900,900, 'bottom_of_game')
+        bottom_of_game.create(700,550, 'bottom_of_game').setScale(0.10).refreshBody();
         //level2 bottom_of_game tekeminen
         //määritelään ovi
         ovi=this.physics.add.staticGroup();
@@ -1027,6 +1029,21 @@ class Level2 extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
         this.physics.add.collider(knife, bottom_of_game);
+        this.physics.add.overlap(player, coin, CollectCoin, null, this);
+    coin.create(50, 180, 'coin');
+    coin.create(10, 780, 'coin');
+    coin.create(1450, 650, 'coin');
+    coin.create(1950, 60, 'coin');
+    coin.create(700, 320, 'coin');
+    coin.children.iterate(c => {
+    if (!c) return;
+
+    c.body.setAllowGravity(true);
+    c.body.setImmovable(false);
+
+    c.body.setSize(c.width * 0.6, c.height * 0.6);
+    c.body.setOffset(c.width * 0.25, c.height * 0.25);
+});
         // tykkien luonti
         this.cannons = [
         this.physics.add.image(50, 700, 'cannon'),
@@ -1113,6 +1130,8 @@ class Level2 extends Phaser.Scene {
         // Asetetaan vihollisen hp ja muut tarvittavat arvot (kuten Level1:ssä)
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(coin, platforms);
+        this.physics.add.collider(coin, bottom_of_game);    
         this.physics.add.collider(player, knife);
         this.physics.add.collider(this.enemies, platforms);
         this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
@@ -1158,6 +1177,9 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     this.spikes.create(720, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(1025, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(425, 867, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(1525, 867, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(1855, 867, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(55, 867, 'spike').setScale(0.3).refreshBody();
     this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
 
@@ -2883,7 +2905,7 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "Erkki Sinkko",
-            "Santtus mother",
+            "Santtu's mother",
         ];
         const startY = config.height + 20;
         let offset = 0;
