@@ -590,7 +590,7 @@ class Tutorial extends Phaser.Scene {
 class Level1 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level1' });
-}
+    }
 
     // asetan kellon muuttujan
     init() {
@@ -1302,15 +1302,10 @@ class Level3 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level3' });
     }
-
-    preload (){
-    }
-
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0);
         this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
-
     create (){
         this.lastThrowTime = 0; 
         this.throwCooldown = 1000; 
@@ -1429,11 +1424,6 @@ class Level3 extends Phaser.Scene {
             e.hpBar.x = e.x - 20;
             e.hpBar.y = e.y - hpOffset;
         });
-
-        
-
-     
-
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
@@ -1441,7 +1431,6 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(this.enemies, platforms);
         this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
-
         // knife collisions
         this.physics.add.collider(knife, platforms, (weapon) => {
             weapon.setVelocity(0, 0);
@@ -1454,67 +1443,50 @@ class Level3 extends Phaser.Scene {
             weapon.body.immovable = true;
         });
         this.physics.add.collider(knife, bottom_of_game);
-
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
             if (!enemy.active) return;
-
-// tuplahittisuojan EI pidä käyttää delayta
-if (enemy.wasHit) return;
-enemy.wasHit = true;
-
-// vähennetään HP ensin
-enemy.hp -= 50;
-
-// vihollinen kuolee
-if (enemy.hp <= 0) {
-    enemy_death.play();
-    if (enemy.hpBar) enemy.hpBar.destroy();
-    if (enemy.hpBarBG) enemy.hpBarBG.destroy();
-    enemy.hpBar = null;
-    enemy.hpBarBG = null;
-    enemy.disableBody(true, true);
-    return;
-}
-
-// vihollinen jäi eloon → soitetaan osumaääni
-enemy_hit.play();
-enemy.setTint(0x550000);
-this.time.delayedCall(150, () => enemy.clearTint());
-
-// tuhoa veitsi
-weapon.disableBody(true, true);
-
-// vapauta hit-lock
-this.time.delayedCall(1, () => enemy.wasHit = false);
-
-});
-
-
+            // tuplahittisuojan EI pidä käyttää delayta
+            if (enemy.wasHit) return;
+            enemy.wasHit = true;
+            // vähennetään HP ensin
+            enemy.hp -= 50;
+            // vihollinen kuolee
+            if (enemy.hp <= 0) {
+                enemy_death.play();
+                if (enemy.hpBar) enemy.hpBar.destroy();
+                if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+                enemy.hpBar = null;
+                enemy.hpBarBG = null;
+                enemy.disableBody(true, true);
+                return;
+            }
+            // vihollinen jäi eloon → soitetaan osumaääni
+            enemy_hit.play();
+            enemy.setTint(0x550000);
+            this.time.delayedCall(150, () => enemy.clearTint());
+            // tuhoa veitsi
+            weapon.disableBody(true, true);
+            // vapauta hit-lock
+            this.time.delayedCall(1, () => enemy.wasHit = false);
+        });
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
-
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
         this.physics.add.overlap(player, solid_snake_door, level1trhow, null, this);
-
-
-
         this.cannons = [
             this.physics.add.image(620, 300, 'cannon'),
             this.physics.add.image(620, 500, 'cannon'),
             this.physics.add.image(620, 700, 'cannon'),
         ];
-
         this.cannons.forEach(c => {
             c.setImmovable(true);
             c.body.allowGravity = false;
         });
-
         bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
-
         this.time.addEvent({
             delay: 1700,
             callback: () => {
@@ -1522,26 +1494,21 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             },
             loop: true
         });
-
         this.physics.add.collider(player, bullets, hitPlayer, null, this);
-
         this.cannons_up = [
             this.physics.add.image(1450, 840, 'cannon_up'),
             this.physics.add.image(1100, 840, 'cannon_up'),
             this.physics.add.image(1400, 840, 'cannon_up'),
             this.physics.add.image(1500, 840, 'cannon_up'),
         ];
-
         this.cannons_up.forEach(c => {
             c.setImmovable(true);
             c.body.allowGravity = false;
         });
-
         cannon_up_bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000
         });
-
         this.time.addEvent({
             delay: 1500,
             callback: () => {
@@ -1549,30 +1516,22 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             },
             loop: true
         });
-
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
-
         this.enemies.children.iterate(e => e.play('walkRightEnemy'));
-
         // -------------------------
         // CLOCK / TIMER
         // -------------------------
-
         this.totalTime = this.registry.get('totalTime') || 0;
-
         this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
             fontSize: '24px',
             fill: '#fff'
         }).setScrollFactor(0);
-
         // kuolemalaskuri
         this.deaths = this.registry.get('deaths');
-
         this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
         fontSize: '24px',
         fill: '#fff'
         }).setScrollFactor(0);
-
         this.timeEvent = this.time.addEvent({
             delay: 1000,
             loop: true,
@@ -1583,7 +1542,6 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             }
         });
     }
-
     update (){
         if (gameOver == true) {
             this.physics.pause();
@@ -1591,9 +1549,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             player.anims.play('jump');
             return;
         }
-
         backgroundsound.play();
-
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
@@ -1609,34 +1565,31 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 player.anims.play('turn');
             }
         }
- if (cursors.left.isDown || cursors.right.isDown) {
-    player.setVelocityX(cursors.left.isDown ? -160 : 160);
-    player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
-    facingRight = cursors.right.isDown;
-
-    if (footsteps.paused) {
-        footsteps.play(); 
-    }
-} else {
-    player.setVelocityX(0);
-    player.anims.play('turn');
-
-    if (!footsteps.paused) {
-        footsteps.pause();  
-        footsteps.currentTime = 0; 
-    }
-}
-
- if (cursors.down.isDown) {
+        if (cursors.left.isDown || cursors.right.isDown) {
+            player.setVelocityX(cursors.left.isDown ? -160 : 160);
+            player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
+            facingRight = cursors.right.isDown;
+            if (footsteps.paused) {
+                footsteps.play(); 
+            }
+        } 
+        else {
+            player.setVelocityX(0);
+            player.anims.play('turn');
+            if (!footsteps.paused) {
+                footsteps.pause();  
+                footsteps.currentTime = 0; 
+            }
+        }
+        if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
         }  
-
         // knife heitto
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
             if (now - this.lastThrowTime > this.throwCooldown) {
-                   knife_throw.play()
+                knife_throw.play()
                 this.lastThrowTime = now; 
                 let offset = -30;
                 let spawnX = player.x + (facingRight ? offset : -offset);
@@ -1644,105 +1597,84 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 weapon.setScale(0.1);
                 weapon.setVelocityX(300); 
                 weapon.setGravityY(-200);
-                
                 if (facingRight) {
                     weapon.setVelocityX(300);
-                } else {
+                } 
+                else {
                     weapon.setVelocityX(-300);
                     weapon.flipX = true; 
                 }
-
                 setTimeout(() => { weapon.destroy(); }, 3000);
             }
         }
-
-this.enemies.children.iterate(e => {
-    if (!e.active) return;
-
-    const probeX = e.x + e.direction * (e.width / 2 + 6);
-    const probeY = e.body.bottom + 2;
-
-    let groundAhead = false;
-
-    platforms.getChildren().forEach(p => {
-        const bounds = p.getBounds();
-        if (
-            probeX >= bounds.left - 5 &&
-            probeX <= bounds.right + 5 &&
-            probeY >= bounds.top - 10 &&
-            probeY <= bounds.top + 25
-        ) {
-            groundAhead = true;
-        }
-    });
-
-     if (!e.lastTurnTime) e.lastTurnTime = 0;
-    if (this.time.now - e.lastTurnTime > 100) {
-        if (!groundAhead && e.body.blocked.down) {
-            if(enemy_footstep) {
-                e.direction *= -1; 
-                e.setVelocityX(80 * e.direction);
-                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                e.lastTurnTime = this.time.now;
+        this.enemies.children.iterate(e => {
+            if (!e.active) return;
+            const probeX = e.x + e.direction * (e.width / 2 + 6);
+            const probeY = e.body.bottom + 2;
+            let groundAhead = false;
+            platforms.getChildren().forEach(p => {
+                const bounds = p.getBounds();
+                if (
+                    probeX >= bounds.left - 5 &&
+                    probeX <= bounds.right + 5 &&
+                    probeY >= bounds.top - 10 &&
+                    probeY <= bounds.top + 25
+                ) {
+                    groundAhead = true;
+                }
+            });
+            if (!e.lastTurnTime) e.lastTurnTime = 0;
+            if (this.time.now - e.lastTurnTime > 100) {
+                if (!groundAhead && e.body.blocked.down) {
+                    if(enemy_footstep) {
+                        e.direction *= -1; 
+                        e.setVelocityX(80 * e.direction);
+                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                        e.lastTurnTime = this.time.now;
+                    }
+                    else {
+                        enemy_footstep=true;
+                        enemy.play();
+                        setTimeout(() => {enemy_footstep=false;}, 5000);
+                        e.setVelocityX(80 * e.direction);
+                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                        e.lastTurnTime = this.time.now;
+                    }
+                }
             }
-            else {
-                enemy_footstep=true;
-                enemy.play();
-                setTimeout(() => {enemy_footstep=false;}, 5000);
-                e.setVelocityX(80 * e.direction);
-                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                e.lastTurnTime = this.time.now;
+            if (e.body.blocked.left) {
+                e.direction = 1;
+                e.setVelocityX(80);
+                e.play('walkRightEnemy', true);
             }
-        }
-    }
-
-    if (e.body.blocked.left) {
-        e.direction = 1;
-        e.setVelocityX(80);
-        e.play('walkRightEnemy', true);
-    }
-    if (e.body.blocked.right) {
-        e.direction = -1;
-        e.setVelocityX(-80);
-        e.play('walkLeftEnemy', true);
-    }
-
-    // Päivitä HP palkki vihollisen mukana
-    if (e.hpBar && e.hpBarBG) {
-
-        e.hpBarBG.x = e.x;
-        e.hpBarBG.y = e.y - this.enemyHpOffset;
-
-        e.hpBar.width = 40 * (e.hp / e.maxHp);
-        e.hpBar.x = e.x - (40 * (1 - e.hp / e.maxHp)) / 2;
-        e.hpBar.y = e.y - this.enemyHpOffset;
-    }
-});
-    
-
+            if (e.body.blocked.right) {
+                e.direction = -1;
+                e.setVelocityX(-80);
+                e.play('walkLeftEnemy', true);
+            }
+            // Päivitä HP palkki vihollisen mukana
+            if (e.hpBar && e.hpBarBG) {
+                e.hpBarBG.x = e.x;
+                e.hpBarBG.y = e.y - this.enemyHpOffset;
+                e.hpBar.width = 40 * (e.hp / e.maxHp);
+                e.hpBar.x = e.x - (40 * (1 - e.hp / e.maxHp)) / 2;
+                e.hpBar.y = e.y - this.enemyHpOffset;
+            }
+        });
     }
 }
-
-
 //level 4 
 class Level4 extends Phaser.Scene {
     constructor() {
         super({ key: 'Level4' });
     }
-
-    preload() {
-    }
-
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
         this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
-
     create() {
         this.lastThrowTime = 0;
         this.throwCooldown = 1000;
-
-    
         wind = this.physics.add.staticGroup();
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
@@ -1752,17 +1684,11 @@ class Level4 extends Phaser.Scene {
         cursors = this.input.keyboard.createCursorKeys();
         knife = this.physics.add.group();
         shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-
         this.add.image(0,0,'sky').setScale(10);
         this.add.image(100,1700, 'castle_hallway').setScale(2);
         this.add.image(1700,1700,'spiralsaircase').setScale(3);
-
-   
         player = this.physics.add.sprite(100, 1950, 'main_character');
         player.setCollideWorldBounds(true);
-
-   
         bottom_of_game.create(100,2000, 'bottom_of_game');
         bottom_of_game.create(300,2000, 'bottom_of_game');
         bottom_of_game.create(500,2000, 'bottom_of_game');
@@ -1773,7 +1699,6 @@ class Level4 extends Phaser.Scene {
         bottom_of_game.create(1500,2000, 'bottom_of_game');
         bottom_of_game.create(1700,2000, 'bottom_of_game');
         bottom_of_game.create(1900,2000, 'bottom_of_game');
-
         bottom_of_game.create(100,1300, 'bottom_of_game');
         bottom_of_game.create(300,1300, 'bottom_of_game');
         bottom_of_game.create(500,1300, 'bottom_of_game');
@@ -1781,9 +1706,7 @@ class Level4 extends Phaser.Scene {
         bottom_of_game.create(900,1300, 'bottom_of_game');
         bottom_of_game.create(1100,1300, 'bottom_of_game');
         bottom_of_game.create(1200,1300, 'bottom_of_game');
-
         bottom_of_game.create(1230,1600, 'bottom_of_game');
-
         wall.create(1338,1438, 'wall');
         wall.create(1338,1138, 'wall');
         wall.create(1338,838, 'wall');
@@ -1795,12 +1718,9 @@ class Level4 extends Phaser.Scene {
         wall.create(0,1490,'wall');
         wall.create(440,1700,'wall');
         wall.create(440,2000,'wall');
-
         trampoline.create(300,1950, 'trampoline').setScale(0.5).refreshBody();
         low_power_trampoline.create(1530,1250, 'trampoline').setScale(0.5).refreshBody();
         low_power_trampoline.create(1530,420, 'trampoline').setScale(0.5).refreshBody();
-
-  
         platforms.create(500, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(800, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(1100, 1600, 'platform').setScale(2).refreshBody();
@@ -1814,74 +1734,58 @@ class Level4 extends Phaser.Scene {
         platforms.create(1800,650,'platform').setScale(2).refreshBody();
         platforms.create(1530,500,'platform').setScale(2).refreshBody();
         platforms.create(1800,300,'platform').setScale(2).refreshBody();
-
         wind.create(1530,710, 'wind').setScale(0.4).refreshBody();
         wind.create(1530,670, 'wind').setScale(0.4).refreshBody();
         wind.create(1530,630, 'wind').setScale(0.4).refreshBody();
         wind.create(1530,1520, 'wind').setScale(0.4).refreshBody();
         wind.create(1800,1370, 'wind').setScale(0.4).refreshBody();
-
-    
         ovi = this.physics.add.staticGroup();
         ovi.create(1800,200,'ovi').setScale(0.3).refreshBody();
-            this.enemies = this.physics.add.group();
-
+        this.enemies = this.physics.add.group();
         const platform1 = platforms.getChildren().at(0);
         const enemy1 = this.enemies.create(
             platform1.x - 10,
             platform1.y - 200,
             'enemy'
         ).setScale(4);
-
         const platform2 = platforms.getChildren().at(12);
         const enemy2 = this.enemies.create(
             platform2.x - 10,
             platform2.y - 200,
             'enemy'
         ).setScale(4);
-            const platform3 = platforms.getChildren().at(6);
-            const enemy3 = this.enemies.create(
+        const platform3 = platforms.getChildren().at(6);
+        const enemy3 = this.enemies.create(
             platform3.x - 10,
             platform3.y - 200,
             'enemy'
-            ).setScale(4);
-            const platform4 = platforms.getChildren().at(9);
+        ).setScale(4);
+        const platform4 = platforms.getChildren().at(9);
             const enemy4 = this.enemies.create(
             platform4.x - 10,
             platform4.y - 200,
             'enemy'
-            ).setScale(4);
-
-
-            this.enemyHpOffset = 80;
+        ).setScale(4);
+        this.enemyHpOffset = 80;
         this.enemies.children.iterate(e => {
             e.body.setGravityY(300);
             e.setCollideWorldBounds(true);
             e.setVelocityX(80);
             e.direction = 1;
-
             //vihollisen hp
             e.maxHp = 150;
             e.hp = 150;
-
             e.setPushable(false);
-
             // enemy hp
             e.hpBarBG = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0x000000);
             e.hpBar = this.add.rectangle(e.x, e.y - this.enemyHpOffset, 40, 6, 0xff0000);
-
             e.hpBarBG.setScrollFactor(1);
             e.hpBar.setScrollFactor(1);
-
             if (!e.active) return; // jos ei aktiivinen, hyppää yli
-
             if (!e.hpBar || !e.hpBarBG) return; // jos palkki on jo poistettu, ei tehdä mitään
-
             const hpOffset = this.enemyHpOffset || 50;
-
             e.hpBarBG.x = e.x;
             e.hpBarBG.y = e.y - hpOffset;
-
             const percent = e.hp / e.maxHp;
             e.hpBar.width = 40 * percent;
             e.hpBar.x = e.x - 20;
@@ -1891,8 +1795,6 @@ class Level4 extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, 2000, 2000);
         this.physics.world.setBounds(0, 0, 2000, 2000);
         this.cameras.main.startFollow(player);
-
-   
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
@@ -1900,7 +1802,6 @@ class Level4 extends Phaser.Scene {
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
         this.physics.add.overlap(player, ovi, level5Transition, null, this);
         this.physics.add.overlap(player, wind, windPlayer, null, this);
-
         this.physics.add.collider(player, knife);
         this.physics.add.collider(knife, platforms, (weapon) => {
             if (!weapon) return;
@@ -1915,60 +1816,46 @@ class Level4 extends Phaser.Scene {
             weapon.body.immovable = true;
         });
         this.physics.add.collider(knife, bottom_of_game);
-
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
-
-      if (!enemy.active) return;
-
-// tuplahittisuojan EI pidä käyttää delayta
-if (enemy.wasHit) return;
-enemy.wasHit = true;
-
-// vähennetään HP ensin
-enemy.hp -= 50;
-
-// vihollinen kuolee
-if (enemy.hp <= 0) {
-    enemy_death.play();
-    if (enemy.hpBar) enemy.hpBar.destroy();
-    if (enemy.hpBarBG) enemy.hpBarBG.destroy();
-    enemy.hpBar = null;
-    enemy.hpBarBG = null;
-    enemy.disableBody(true, true);
-    return;
-}
-
-// vihollinen jäi eloon → soitetaan osumaääni
-enemy_hit.play();
-enemy.setTint(0x550000);
-this.time.delayedCall(150, () => enemy.clearTint());
-
-// tuhoa veitsi
-weapon.disableBody(true, true);
-
-// vapauta hit-lock
-this.time.delayedCall(1, () => enemy.wasHit = false);
-
+            if (!enemy.active) return;
+            // tuplahittisuojan EI pidä käyttää delayta
+            if (enemy.wasHit) return;
+            enemy.wasHit = true;
+            // vähennetään HP ensin
+            enemy.hp -= 50;
+            // vihollinen kuolee
+            if (enemy.hp <= 0) {
+                enemy_death.play();
+                if (enemy.hpBar) enemy.hpBar.destroy();
+                if (enemy.hpBarBG) enemy.hpBarBG.destroy();
+                enemy.hpBar = null;
+                enemy.hpBarBG = null;
+                enemy.disableBody(true, true);
+                return;
+            }
+            // vihollinen jäi eloon → soitetaan osumaääni
+            enemy_hit.play();
+            enemy.setTint(0x550000);
+            this.time.delayedCall(150, () => enemy.clearTint());
+            // tuhoa veitsi
+            weapon.disableBody(true, true);
+            // vapauta hit-lock
+            this.time.delayedCall(1, () => enemy.wasHit = false);
         });
-
         this.physics.add.collider(this.enemies, platforms);
         this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
-
         this.cannons = [
             this.physics.add.image(20, 1350, 'cannon'),
             this.physics.add.image(500, 1900, 'cannon'),
         ];
-
         this.cannons.forEach(c => {
             c.setImmovable(true);
             c.body.allowGravity = false;
         });
-
         bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
-
         this.time.addEvent({
             delay: 2000,
             callback: () => {
@@ -1976,9 +1863,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             },
             loop: true
         });
-
         this.physics.add.collider(player, bullets, hitPlayer, null, this);
-
         // cannon_up
         this.cannons_up = [
             this.physics.add.image(600, 1950, 'cannon_up'),
@@ -1988,12 +1873,10 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             this.physics.add.image(1950, 1950, 'cannon_up'),
         ];
         this.cannons_up.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
-
         cannon_up_bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
-
         this.time.addEvent({
             delay: 1200,
             callback: () => {
@@ -2001,30 +1884,22 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             },
             loop: true
         });
-
         this.physics.add.collider(player, cannon_up_bullets, hitPlayer, null, this);
-
         // cannon_back
         cannon_back = this.physics.add.image(1670, 1740, 'cannon_back');
         cannon_back.setImmovable(true);
         cannon_back.body.allowGravity = false;
-
         cannon_back_bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
-
         this.time.addEvent({
             delay: 1000,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
-
         this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
-
-
         this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
-
         // -------------------------
         // CLOCK / TIMER
         // -------------------------
@@ -2033,7 +1908,6 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             fontSize: '24px',
             fill: '#fff'
         }).setScrollFactor(0);
-
         this.timeEvent = this.time.addEvent({
             delay: 1000,
             loop: true,
@@ -2043,13 +1917,11 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 this.timerText.setText("Time: " + this.totalTime);
             }
         });
-         this.deaths = this.registry.get('deaths');
-
+        this.deaths = this.registry.get('deaths');
         this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
         fontSize: '24px',
         fill: '#fff'
         }).setScrollFactor(0);
-
         this.spikes = this.physics.add.staticGroup();
         this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
@@ -2060,7 +1932,6 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
         this.spikes.create(855, 1970, 'spike').setScale(0.8).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
-
     update(){
         footsteps.pause();  
         backgroundsound.play();
@@ -2118,12 +1989,11 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             player.anims.play('turn');
             }
         }
-
         // Knife heitto
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
             const now = this.time.now;
             if (now - this.lastThrowTime > this.throwCooldown) {
-                   knife_throw.play()
+                knife_throw.play()
                 this.lastThrowTime = now; 
                 let offset = -30;
                 let spawnX = player.x + (facingRight ? offset : -offset);
@@ -2142,13 +2012,10 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 setTimeout(() => { weapon.destroy(); }, 3000);
             }
         }
-
         this.enemies.children.iterate(e => {
             if (!e || !e.active) return;
-
             const probeX = e.x + e.direction * (e.width / 2 + 6);
             const probeY = e.body.bottom + 2;
-
             let groundAhead = false;
             platforms.getChildren().forEach(p => {
                 const bounds = p.getBounds();
@@ -2161,27 +2028,25 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                     groundAhead = true;
                 }
             });
-
-              if (!e.lastTurnTime) e.lastTurnTime = 0;
-    if (this.time.now - e.lastTurnTime > 100) {
-        if (!groundAhead && e.body.blocked.down) {
-            if(enemy_footstep) {
-                e.direction *= -1; 
-                e.setVelocityX(80 * e.direction);
-                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                e.lastTurnTime = this.time.now;
+            if (!e.lastTurnTime) e.lastTurnTime = 0;
+            if (this.time.now - e.lastTurnTime > 100) {
+                if (!groundAhead && e.body.blocked.down) {
+                    if(enemy_footstep) {
+                        e.direction *= -1; 
+                        e.setVelocityX(80 * e.direction);
+                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                        e.lastTurnTime = this.time.now;
+                    }
+                    else {
+                        enemy_footstep=true;
+                        enemy.play();
+                        setTimeout(() => {enemy_footstep=false;}, 5000);
+                        e.setVelocityX(80 * e.direction);
+                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                        e.lastTurnTime = this.time.now;
+                    }
+                }
             }
-            else {
-                enemy_footstep=true;
-                enemy.play();
-                setTimeout(() => {enemy_footstep=false;}, 5000);
-                e.setVelocityX(80 * e.direction);
-                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                e.lastTurnTime = this.time.now;
-            }
-        }
-    }
-
             if (e.body.blocked.left) {
                 e.direction = 1;
                 e.setVelocityX(80);
@@ -2194,18 +2059,15 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             }
             // Päivitä HP palkki vihollisen mukana
             if (e.hpBar && e.hpBarBG) {
-
-            e.hpBarBG.x = e.x;
-            e.hpBarBG.y = e.y - this.enemyHpOffset;
-
-            e.hpBar.width = 40 * (e.hp / e.maxHp);
-            e.hpBar.x = e.x - (40 * (1 - e.hp / e.maxHp)) / 2;
-            e.hpBar.y = e.y - this.enemyHpOffset;
+                e.hpBarBG.x = e.x;
+                e.hpBarBG.y = e.y - this.enemyHpOffset;
+                e.hpBar.width = 40 * (e.hp / e.maxHp);
+                e.hpBar.x = e.x - (40 * (1 - e.hp / e.maxHp)) / 2;
+                e.hpBar.y = e.y - this.enemyHpOffset;
             }
         });
     }
 }
-
 //level 5
 class Level5 extends Phaser.Scene {
     constructor() {
