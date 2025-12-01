@@ -2071,157 +2071,149 @@ class Level4 extends Phaser.Scene {
 //level 5
 class Level5 extends Phaser.Scene {
     constructor() {
-        super({ key: 'Level5' });}
-        init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
-        create(){
-            backgroundsound.pause();
-            boss_spike=this.physics.add.group();
-            bosswall=this.physics.add.group();
-            shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-            knife = this.physics.add.group();
-            knife2 = this.physics.add.group();
-            fireball = this.physics.add.group();
-            this.lastThrowTime = 0; 
-            this.throwCooldown = 1000;
-            this.add.image(1000,1000, 'sky_level5').setScale(1);
-            level5_level1=this.physics.add.staticGroup();
-            wind=this.physics.add.staticGroup();
-            platforms = this.physics.add.staticGroup();
-            bottom_of_game = this.physics.add.staticGroup();
-            trampoline=this.physics.add.staticGroup();
-            low_power_trampoline=this.physics.add.staticGroup();
-            wall=this.physics.add.staticGroup();
-            cursors = this.input.keyboard.createCursorKeys();
-            tower_thingys=this.physics.add.staticGroup();
-            level5_level1.create(100,2000, 'level5_level1')
-            level5_level1.create(2000,2000, 'level5_level1')
-            level5_level1.create(1700,2000, 'level5_level1')
-            //
-            bottom_of_game.create(458,2000, 'bottom_of_game')
-            bottom_of_game.create(500,2000, 'bottom_of_game')
-            bottom_of_game.create(700,2000, 'bottom_of_game')
-            bottom_of_game.create(900,2000, 'bottom_of_game')
-            bottom_of_game.create(1100,2000, 'bottom_of_game')
-            bottom_of_game.create(1300,2000, 'bottom_of_game')
-            bottom_of_game.create(1500,2000, 'bottom_of_game')
-            //
-            //this.load.image('tower_thingy1', 'assets/textures/tower_thingy_1.png');
-            //this.load.image('tower_thingy3', 'assets/textures/tower_thingy_3.png');
-            //this.load.image('tower_thingy2', 'assets/textures/tower_thingy_2.png');
-            //this.load.image('tower_thingy4', 'assets/textures/tower_thingy_4.png');
-            tower_thingys.create(1580,1930, 'tower_thingy1').setScale(1).refreshBody();
-            tower_thingys.create(1380,1930, 'tower_thingy2').setScale(1).refreshBody();
-            tower_thingys.create(1180,1930, 'tower_thingy4').setScale(1).refreshBody();
-            tower_thingys.create(980,1930, 'tower_thingy3').setScale(1).refreshBody();
-            tower_thingys.create(780,1930, 'tower_thingy4').setScale(1).refreshBody();
-            tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
-            tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
-            player = this.physics.add.sprite(400, 1800, 'main_character');
-            boss = this.physics.add.sprite(980, 1700, 'boss_level5').setScale(2.5).refreshBody();
-            this.cameras.main.setBounds(0, 0, 2000, 2000);
-            this.physics.world.setBounds(0, 0, 2000, 2000);
-            this.cameras.main.startFollow(player);
-            player.setCollideWorldBounds(true);
-            this.physics.add.collider(player, platforms);
-            this.physics.add.collider(player, tower_thingys);
-            this.physics.add.collider(player, bottom_of_game);
-            this.physics.add.collider(player, wall);
-            this.physics.add.collider(boss, platforms);
-            this.physics.add.collider(boss, tower_thingys);
-            this.physics.add.collider(boss, bottom_of_game);
-            this.physics.add.collider(boss, wall);
-            this.physics.add.overlap(boss, player, bossPlayerContact, null, this);
-            this.physics.add.collider(player, knife);
-            this.physics.add.collider(player, knife2, knifehit, null, this);
-            this.physics.add.overlap(boss, knife, knifehitboss,null,this);
-            boss.lives = boss_lives;
-            this.physics.add.overlap(player, fireball, fireballplayer, null, this);
-            this.physics.add.overlap(player, bosswall, boss_wall_player, null, this);
-            this.physics.add.overlap(player, boss_spike, boss_spike_player, null, this);
-            this.physics.add.overlap(boss_spike, tower_thingys, boss_spike_tower_thingys, null, this);
-            this.physics.add.collider(knife, platforms, (weapon) => {
+        super({ key: 'Level5' });
+    }
+    init() {this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );this.registry.set('deaths', this.registry.get('deaths') ?? 0 );}
+    create(){
+        backgroundsound.pause();
+        boss_spike=this.physics.add.group();
+        bosswall=this.physics.add.group();
+        shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        knife = this.physics.add.group();
+        knife2 = this.physics.add.group();
+        fireball = this.physics.add.group();
+        this.lastThrowTime = 0; 
+        this.throwCooldown = 1000;
+        this.add.image(1000,1000, 'sky_level5').setScale(1);
+        level5_level1=this.physics.add.staticGroup();
+        wind=this.physics.add.staticGroup();
+        platforms = this.physics.add.staticGroup();
+        bottom_of_game = this.physics.add.staticGroup();
+        trampoline=this.physics.add.staticGroup();
+        low_power_trampoline=this.physics.add.staticGroup();
+        wall=this.physics.add.staticGroup();
+        cursors = this.input.keyboard.createCursorKeys();
+        tower_thingys=this.physics.add.staticGroup();
+        level5_level1.create(100,2000, 'level5_level1')
+        level5_level1.create(2000,2000, 'level5_level1')
+        level5_level1.create(1700,2000, 'level5_level1')
+        //
+        bottom_of_game.create(458,2000, 'bottom_of_game')
+        bottom_of_game.create(500,2000, 'bottom_of_game')
+        bottom_of_game.create(700,2000, 'bottom_of_game')
+        bottom_of_game.create(900,2000, 'bottom_of_game')
+        bottom_of_game.create(1100,2000, 'bottom_of_game')
+        bottom_of_game.create(1300,2000, 'bottom_of_game')
+        bottom_of_game.create(1500,2000, 'bottom_of_game')
+        //
+        tower_thingys.create(1580,1930, 'tower_thingy1').setScale(1).refreshBody();
+        tower_thingys.create(1380,1930, 'tower_thingy2').setScale(1).refreshBody();
+        tower_thingys.create(1180,1930, 'tower_thingy4').setScale(1).refreshBody();
+        tower_thingys.create(980,1930, 'tower_thingy3').setScale(1).refreshBody();
+        tower_thingys.create(780,1930, 'tower_thingy4').setScale(1).refreshBody();
+        tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
+        tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
+        player = this.physics.add.sprite(400, 1800, 'main_character');
+        boss = this.physics.add.sprite(980, 1700, 'boss_level5').setScale(2.5).refreshBody();
+        this.cameras.main.setBounds(0, 0, 2000, 2000);
+        this.physics.world.setBounds(0, 0, 2000, 2000);
+        this.cameras.main.startFollow(player);
+        player.setCollideWorldBounds(true);
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, tower_thingys);
+        this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(player, wall);
+        this.physics.add.collider(boss, platforms);
+        this.physics.add.collider(boss, tower_thingys);
+        this.physics.add.collider(boss, bottom_of_game);
+        this.physics.add.collider(boss, wall);
+        this.physics.add.overlap(boss, player, bossPlayerContact, null, this);
+        this.physics.add.collider(player, knife);
+        this.physics.add.collider(player, knife2, knifehit, null, this);
+        this.physics.add.overlap(boss, knife, knifehitboss,null,this);
+        boss.lives = boss_lives;
+        this.physics.add.overlap(player, fireball, fireballplayer, null, this);
+        this.physics.add.overlap(player, bosswall, boss_wall_player, null, this);
+        this.physics.add.overlap(player, boss_spike, boss_spike_player, null, this);
+        this.physics.add.overlap(boss_spike, tower_thingys, boss_spike_tower_thingys, null, this);
+        this.physics.add.collider(knife, platforms, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
             boss_animation_play = false;
-            });
-            //boss asoiten reset
-            bossattack = 0;
-            bossattackchanche = 0;
-            dialogueActive = false;
-            console.log('dialogue active',dialogueActive)
-            knockback = 0;
-            if (dialogue1_boss===1) {
-                dialogue1_boss=1
-                console.log('Dialogue 1 boss:',dialogue1_boss)
-            }
-            else {
-              dialogue1_boss=0  
-              console.log('Dialogue 1 boss:',dialogue1_boss)
-            }
-            if (dialogue2_boss===2) {
-                dialogue2_boss=2
-                console.log('Dialogue 2 boss:',dialogue2_boss)
-            }
-            else {
-              dialogue2_boss=0  
-              console.log('Dialogue 2 boss:',dialogue2_boss)
-            }
-            if (dialogue3_boss===2) {
-                dialogue3_boss=2
-                console.log('Dialogue 3 boss:',dialogue3_boss)
-            }
-            else {
-              dialogue3_boss=0
-              console.log('Dialogue 3 boss:',dialogue3_boss)
-            }
-            //
-            this.physics.add.collider(knife, tower_thingys, (weapon) => {
+        });
+        //boss asioiten reset
+        bossattack = 0;
+        bossattackchanche = 0;
+        dialogueActive = false;
+        console.log('dialogue active',dialogueActive)
+        knockback = 0;
+        if (dialogue1_boss===1) {
+            dialogue1_boss=1
+            console.log('Dialogue 1 boss:',dialogue1_boss)
+        }
+        else {
+            dialogue1_boss=0  
+            console.log('Dialogue 1 boss:',dialogue1_boss)
+        }
+        if (dialogue2_boss===2) {
+            dialogue2_boss=2
+            console.log('Dialogue 2 boss:',dialogue2_boss)
+        }
+        else {
+            dialogue2_boss=0  
+            console.log('Dialogue 2 boss:',dialogue2_boss)
+        }
+        if (dialogue3_boss===2) {
+            dialogue3_boss=2
+            console.log('Dialogue 3 boss:',dialogue3_boss)
+        }
+        else {
+            dialogue3_boss=0
+            console.log('Dialogue 3 boss:',dialogue3_boss)
+        }
+        //
+        this.physics.add.collider(knife, tower_thingys, (weapon) => {
             weapon.setVelocity(0, 0);
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
-            });
-            this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
+        });
+        this.physics.add.collider(knife, this.enemy, (weapon, enemy) => {
             enemy.disableBody(true, true);
             weapon.destroy(); 
-            });
-            this.physics.add.collider(knife2, tower_thingys, (weapon2) => {
-                  weapon2.destroy(); 
-            });
-            //boss animaatio
-            boss.play('idlebossphase1');
-            //kellon funktio
-            // hae aiempi aika
-            this.totalTime = this.registry.get('totalTime') || 0;
-
-            //luo tekstin
-            this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
-                fontSize: '24px',
-                fill: '#fff'
-            }).setScrollFactor(0);
-
-            // kuolemalaskuri
-            this.deaths = this.registry.get('deaths');
-
-            this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
+        });
+        this.physics.add.collider(knife2, tower_thingys, (weapon2) => {
+              weapon2.destroy(); 
+        });
+        //boss animaatio
+        boss.play('idlebossphase1');
+        //kellon funktio
+        // hae aiempi aika
+        this.totalTime = this.registry.get('totalTime') || 0;
+        //luo tekstin
+        this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
             fontSize: '24px',
             fill: '#fff'
-            }).setScrollFactor(0);
-
-            //texti pysyy vasemmassa 
-            this.timeEvent = this.time.addEvent({
-                delay: 1000,
-                loop: true,
-                callback: () => {
-                    this.totalTime++;
-                    this.registry.set('totalTime', this.totalTime);
-
-                    this.timerText.setText("Time: " + this.totalTime);
-                }
-            });
-            this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
-        }
-        update(){
+        }).setScrollFactor(0);
+        // kuolemalaskuri
+        this.deaths = this.registry.get('deaths');
+        this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
+            fontSize: '24px',
+            fill: '#fff'
+        }).setScrollFactor(0);
+        //texti pysyy vasemmassa 
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                this.totalTime++;
+                this.registry.set('totalTime', this.totalTime);
+                this.timerText.setText("Time: " + this.totalTime);
+            }
+        });
+        this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
+    }
+    update(){
         footsteps.pause();
         if (dialogue1_boss===1) {
             dialogueActive = true;
@@ -2379,35 +2371,29 @@ class Level5 extends Phaser.Scene {
                                 beam.setScale(1);
                                 beam.setAlpha(0.4);
                                 setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
-                              // beamin katoaminen
+                                // beamin katoaminen
                                 setTimeout(() => {
                                     if (beam) beam.destroy();
-
                                     // knockback alkaa vasta nyt
                                     knockback = 1;
-
                                     // Suunnan laskeminen
                                     let direction = Math.sign(player.x - boss.x); 
                                     if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
-
                                     // Heitto sivulle + ylös
                                     player.setVelocityX(1500 * direction);
                                     player.setVelocityY(-700);
-
                                     // knockback loppuu
                                     setTimeout(() => {
                                         knockback = 0;
                                     }, 800);
-
                                 }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
-
                                 this.physics.add.overlap(player, beam, () => {
                                         lightbeam_death.play();
                                         const currentDeaths = this.registry.get('deaths') + 1;
                                         this.registry.set('deaths', currentDeaths);
                                         this.deathText.setText("Deaths: " + currentDeaths);
                                         this.scene.start('Level5');
-                                    });
+                                });
                             }
                             else if (bossattack===4) {
                                 throw_sound.play()
@@ -2417,7 +2403,6 @@ class Level5 extends Phaser.Scene {
                             }
                         }
                     }
-
             }
         }}
         boss_fight_background_music.play()
@@ -2442,7 +2427,6 @@ class Level5 extends Phaser.Scene {
                 player.setVelocityY(-300);
                 player.anims.play("jump");
             }
-
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -2460,10 +2444,10 @@ class Level5 extends Phaser.Scene {
                     facingRight = false;
                 }
                 else {
-                player.setVelocityX(-160);
-                player.anims.play('left', true);
-                facingRight = false;
-                footsteps.pause();
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                    footsteps.pause();
                 }
             } 
             else if (cursors.right.isDown) {
@@ -2474,10 +2458,10 @@ class Level5 extends Phaser.Scene {
                     facingRight = true;
                 }
                 else {
-                player.setVelocityX(160);
-                player.anims.play('right', true);
-                facingRight = true;
-                footsteps.pause();
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                    footsteps.pause();
                 }
             }
             else if (cursors.down.isDown) {
@@ -2493,8 +2477,8 @@ class Level5 extends Phaser.Scene {
                     }
                 }
                 else {
-                player.setVelocityX(0)
-                player.anims.play('turn');
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
                 }
             }
             if (cursors.down.isDown) {
@@ -2502,34 +2486,35 @@ class Level5 extends Phaser.Scene {
                 player.anims.play('jump');
             } 
 
-                if (Phaser.Input.Keyboard.JustDown(shoot)) {
+            if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
-            //knife heittoa
-            if (now - this.lastThrowTime > this.throwCooldown) {
-                knife_throw.play()
-                this.lastThrowTime = now; 
-                let offset = -30;
-                let spawnX = player.x + (facingRight ? offset : -offset);
-                let weapon = knife.create(spawnX, player.y, 'dagger');
-                weapon.setScale(0.1);
-                weapon.setVelocityX(300); 
-                weapon.setGravityY(-200);
-                if (facingRight) {
-                    weapon.setVelocityX(300);
-                } 
-            else {
-                weapon.setVelocityX(-300);
-                weapon.flipX = true; 
-            } 
-            setTimeout(() => { weapon.destroy(); }, 3000);
-            }
+                //knife heittoa
+                if (now - this.lastThrowTime > this.throwCooldown) {
+                    knife_throw.play()
+                    this.lastThrowTime = now; 
+                    let offset = -30;
+                    let spawnX = player.x + (facingRight ? offset : -offset);
+                    let weapon = knife.create(spawnX, player.y, 'dagger');
+                    weapon.setScale(0.1);
+                    weapon.setVelocityX(300); 
+                    weapon.setGravityY(-200);
+                    if (facingRight) {
+                        weapon.setVelocityX(300);
+                    } 
+                    else {
+                        weapon.setVelocityX(-300);
+                        weapon.flipX = true; 
+                    } 
+                    setTimeout(() => { weapon.destroy(); }, 3000);
+                }
             }
     }
     }
     }
 class Cutscene_knife extends Phaser.Scene {
     constructor() {
-        super({ key: 'Cutscene_knife' });}
+        super({ key: 'Cutscene_knife' });
+    }
         create(){
             let cutscene_knife_img = this.add.image(500,500,'cutscene_knife1').setScale(5);meeting_boss.play();
             setTimeout(() => {
@@ -2634,58 +2619,57 @@ class end1 extends Phaser.Scene {
             boss_fight_background_music.pause();
             end1_background_song.play();
             let dialogue7_boss=this.add.image(500,450,'dialogue7_boss').setScale(4);
-setTimeout(() => {
-    setTimeout(() => {
-        dialogue7_boss.destroy();
-        let dialogue8_boss = this.add.image(500,450,'dialogue8_boss').setScale(4);
-        setTimeout(() => {
-            dialogue8_boss.destroy();
-            let dialogue9_boss = this.add.image(500,450,'dialogue9_boss').setScale(4);
             setTimeout(() => {
-                dialogue9_boss.destroy();
-                let dialogue10_boss = this.add.image(500,450,'dialogue10_boss').setScale(4);
                 setTimeout(() => {
-                    dialogue10_boss.destroy();
-                    let dialogue11_boss = this.add.image(500,450,'dialogue11_boss').setScale(4);
+                    dialogue7_boss.destroy();
+                    let dialogue8_boss = this.add.image(500,450,'dialogue8_boss').setScale(4);
                     setTimeout(() => {
-                        dialogue11_boss.destroy();
-                        let end1img0A = this.add.image(500,450,'end1_7');voi_vittu.play();
+                        dialogue8_boss.destroy();
+                        let dialogue9_boss = this.add.image(500,450,'dialogue9_boss').setScale(4);
                         setTimeout(() => {
-                            end1img0A.destroy();
-                            let end1img0 = this.add.image(500,450,'end1_0');epic_fail.play();
+                            dialogue9_boss.destroy();
+                            let dialogue10_boss = this.add.image(500,450,'dialogue10_boss').setScale(4);
                             setTimeout(() => {
-                                end1img0.destroy();
-                                let end1img1 = this.add.image(500,450,'end1_1');
+                                dialogue10_boss.destroy();
+                                let dialogue11_boss = this.add.image(500,450,'dialogue11_boss').setScale(4);
                                 setTimeout(() => {
-                                    end1img1.destroy();
-                                    let end1img2 = this.add.image(500,450,'end1_2');
+                                    dialogue11_boss.destroy();
+                                    let end1img0A = this.add.image(500,450,'end1_7');voi_vittu.play();
                                     setTimeout(() => {
-                                        end1img2.destroy();
-                                        let end1img3 = this.add.image(500,450,'end1_3');
+                                        end1img0A.destroy();
+                                        let end1img0 = this.add.image(500,450,'end1_0');epic_fail.play();
                                         setTimeout(() => {
-                                            end1img3.destroy();
-                                            let end1img4 = this.add.image(500,450,'end1_4');
+                                            end1img0.destroy();
+                                            let end1img1 = this.add.image(500,450,'end1_1');
                                             setTimeout(() => {
-                                                end1img4.destroy();
-                                                let end1img5 = this.add.image(500,450,'end1_5');
+                                                end1img1.destroy();
+                                                let end1img2 = this.add.image(500,450,'end1_2');
                                                 setTimeout(() => {
-                                                    end1img5.destroy();
-                                                    let end1img6 = this.add.image(550,480,'end1_6'); try_again.play();
-                                                    setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
+                                                    end1img2.destroy();
+                                                    let end1img3 = this.add.image(500,450,'end1_3');
+                                                    setTimeout(() => {
+                                                        end1img3.destroy();
+                                                        let end1img4 = this.add.image(500,450,'end1_4');
+                                                        setTimeout(() => {
+                                                            end1img4.destroy();
+                                                            let end1img5 = this.add.image(500,450,'end1_5');
+                                                            setTimeout(() => {
+                                                                end1img5.destroy();
+                                                                let end1img6 = this.add.image(550,480,'end1_6'); try_again.play();
+                                                                setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
+                                                            }, 3000);
+                                                        }, 3000);
+                                                    }, 3000);
                                                 }, 3000);
                                             }, 3000);
                                         }, 3000);
                                     }, 3000);
-                                }, 3000);
+                                }, 6000);
                             }, 3000);
                         }, 3000);
-                    }, 6000);
+                    }, 3000);
                 }, 3000);
-            }, 3000);
-        }, 3000);
-    }, 3000);
-}, 1);
-
+            }, 1);
         }
 }
 class end2 extends Phaser.Scene {
@@ -2845,10 +2829,8 @@ class credit_scene extends Phaser.Scene {
             "Erkki Sinkko",
             "Santtus mother",
         ];
-
         const startY = config.height + 20;
         let offset = 0;
-
         messages.forEach(msg => {
             const t = this.add.text(
                 config.width / 2,
@@ -2861,12 +2843,10 @@ class credit_scene extends Phaser.Scene {
                     wordWrap: { width: 700 }
                 }
             ).setOrigin(0.5, 0);
-
             this.textItems.push(t);
             offset += 60;
         });
     }
-
     update(time, delta) {
         const speed = 50;
 
@@ -2875,7 +2855,6 @@ class credit_scene extends Phaser.Scene {
         });
     }
 }
-
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -2984,7 +2963,7 @@ let bullets;
 let facingRight = true;
 // funktiot tänne
 function shootBullet(cannonInstance, bulletsGroup) {
-     cannon_fire.play()
+    cannon_fire.play()
     const c = cannonInstance;
     const bullet = bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (bullet) {
@@ -2994,7 +2973,7 @@ function shootBullet(cannonInstance, bulletsGroup) {
     }
 }
 function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
-     cannon_fire.play()
+    cannon_fire.play()
     const c = cannon_upInstance;
     const cannon_up_bullets = cannon_up_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_up_bullets) {
@@ -3004,7 +2983,7 @@ function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
     }
 }
 function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) {
-     cannon_fire.play()
+    cannon_fire.play()
     const c = cannon_backInstance;
     const cannon_back_bullets = cannon_back_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_back_bullets) {
@@ -3016,19 +2995,16 @@ function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) 
 
 
 function hitPlayer(player, bullet) {
-           cannon_death.play()
+    cannon_death.play()
     // Jos pelaajalla on invulnerabiliteetti (esim. juuri spawnattu taso), ohitetaan osuma
     if (player && player.getData && player.getData('invulnerable')) {
         if (bullet && bullet.disableBody) bullet.disableBody(true, true);
         return;
     }
-
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
-
     // Päivitä näkyvä teksti
     this.deathText.setText("Deaths: " + currentDeaths);
-
     this.scene.start(this.scene.key)
 }
 
@@ -3061,32 +3037,30 @@ function hitByEnemy(player, enemy) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     player_death.play()
-
     // Päivitä näkyvä teksti
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
 function trampolinePlayer(player, trampoline) {
-     trampoline_sound.play()
+    trampoline_sound.play()
     player.setVelocityY(-600);
 }
 function CollectCoin(player, coin) {
     coin.disableBody(true, true);
 	score += 1;
-     this.scoreText.setText("Score: " + score);
+    this.scoreText.setText("Score: " + score);
 }
 function tutorialDeath(player, enemy) {
     this.scene.start(this.scene.key)
 }
 function low_power_trampolinePlayer(player, low_power_trampoline) {
-     trampoline_sound.play()
+    trampoline_sound.play()
     player.setVelocityY(-450);
 }
 function hitBySpike(player, spike) {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     spike_death.play()
-
     // Päivitä näkyvä teksti
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
@@ -3102,7 +3076,7 @@ function knifehit(player, knife2) {
 }
 function windPlayer(player, wind) {
     //console.log("player has activated wind at",wind)
-     wind_sound.play();
+    wind_sound.play();
     player.windActive = true;
     setTimeout(() => { player.windActive = false; }, 10);
 }
