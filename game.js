@@ -139,6 +139,68 @@ class force_interaction extends Phaser.Scene {
                     console.log("Start Game");
                 })
             ;}, 5000);
+                        //määritelään Pelaajan liikumis animaatiot
+            this.anims.create({
+                key: 'left',
+                frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'turn',
+                frames: [ { key: 'main_character', frame: 4 } ],
+                frameRate: 1
+            });
+            this.anims.create({
+                key: 'right',
+                frames: this.anims.generateFrameNumbers('main_character', { start: 5, end: 8 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'jump',
+                frames: [{key: 'main_character', frame: 9}],
+                frameRate: 1
+            });
+            //boss animaatiota
+            this.anims.create({
+                key: 'idlebossphase1',
+                frames: [{ key: 'boss_level5', frame: 3 }],
+            });
+            this.anims.create({
+                key: 'idlebossphase2',
+                frames: [{ key: 'boss_level5', frame: 4 }],
+            });
+            this.anims.create({
+                key: 'bossphase1attack',
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 0, end: 2 }),
+                frameRate: 2,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'bossphase2attack',
+                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
+                frameRate: 2,
+                repeat: 1
+            });
+            //vihollisen animaatiot
+            this.anims.create({
+            key: 'walkLeftEnemy',
+            frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
+            frameRate: 8,
+            repeat: -1
+            });
+            this.anims.create({
+                key: 'idleEnemy',
+                frames: [{ key: 'enemy', frame: 4 }],
+                frameRate: 1
+            });
+            this.anims.create({
+                key: 'walkRightEnemy',
+                frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
+                frameRate: 8,
+                repeat: -1
+            });
         }
 }
 //intro
@@ -216,68 +278,6 @@ class MainMenu extends Phaser.Scene {
             end4_button.on('pointerdown', () => {
                 this.scene.start('end4'),
                 console.log("end4_play");
-            });
-            //määritelään Pelaajan liikumis animaatiot
-            this.anims.create({
-                key: 'left',
-                frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
-                frameRate: 10,
-                repeat: -1
-            });
-            this.anims.create({
-                key: 'turn',
-                frames: [ { key: 'main_character', frame: 4 } ],
-                frameRate: 1
-            });
-            this.anims.create({
-                key: 'right',
-                frames: this.anims.generateFrameNumbers('main_character', { start: 5, end: 8 }),
-                frameRate: 10,
-                repeat: -1
-            });
-            this.anims.create({
-                key: 'jump',
-                frames: [{key: 'main_character', frame: 9}],
-                frameRate: 1
-            });
-            //boss animaatiota
-            this.anims.create({
-                key: 'idlebossphase1',
-                frames: [{ key: 'boss_level5', frame: 3 }],
-            });
-            this.anims.create({
-                key: 'idlebossphase2',
-                frames: [{ key: 'boss_level5', frame: 4 }],
-            });
-            this.anims.create({
-                key: 'bossphase1attack',
-                frames: this.anims.generateFrameNumbers('boss_level5', { start: 0, end: 2 }),
-                frameRate: 2,
-                repeat: -1
-            });
-            this.anims.create({
-                key: 'bossphase2attack',
-                frames: this.anims.generateFrameNumbers('boss_level5', { start: 4, end: 6 }),
-                frameRate: 2,
-                repeat: 1
-            });
-            //vihollisen animaatiot
-            this.anims.create({
-            key: 'walkLeftEnemy',
-            frames: this.anims.generateFrameNumbers('enemy', { start: 0, end: 3 }),
-            frameRate: 8,
-            repeat: -1
-            });
-            this.anims.create({
-                key: 'idleEnemy',
-                frames: [{ key: 'enemy', frame: 4 }],
-                frameRate: 1
-            });
-            this.anims.create({
-                key: 'walkRightEnemy',
-                frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
-                frameRate: 8,
-                repeat: -1
             });
         }
         update(){}
