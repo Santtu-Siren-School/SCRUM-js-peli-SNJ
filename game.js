@@ -148,7 +148,7 @@ class Intro extends Phaser.Scene {
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
             intro_player1.play();
-            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('Tutorial')}, 6000); }, 8000); }, 6000); 
+            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('tutorial')}, 6000); }, 8000); }, 6000); 
         }
 }
 //mainmenu
