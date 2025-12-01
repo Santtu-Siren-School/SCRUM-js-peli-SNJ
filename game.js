@@ -1034,7 +1034,7 @@ class Level2 extends Phaser.Scene {
     coin.create(10, 780, 'coin');
     coin.create(1450, 650, 'coin');
     coin.create(1950, 60, 'coin');
-    coin.create(700, 320, 'coin');
+    coin.create(700, 300, 'coin');
     coin.children.iterate(c => {
     if (!c) return;
 
@@ -1488,7 +1488,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(this.enemies, platforms);
         this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
-           this.physics.add.overlap(player, coin, CollectCoin, null, this);
+        this.physics.add.overlap(player, coin, CollectCoin, null, this);
     coin.create(500, 180, 'coin');
     coin.create(1280, 800, 'coin');
     coin.create(1630, 800, 'coin');
@@ -1763,6 +1763,7 @@ class Level4 extends Phaser.Scene {
         wall = this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
         knife = this.physics.add.group();
+        coin = this.physics.add.group();
         shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.add.image(0,0,'sky').setScale(10);
         this.add.image(100,1700, 'castle_hallway').setScale(2);
@@ -1787,6 +1788,7 @@ class Level4 extends Phaser.Scene {
         bottom_of_game.create(1100,1300, 'bottom_of_game');
         bottom_of_game.create(1200,1300, 'bottom_of_game');
         bottom_of_game.create(1230,1600, 'bottom_of_game');
+        bottom_of_game.create(2000,1500, 'bottom_of_game').setScale(0.5).refreshBody();
         wall.create(1338,1438, 'wall');
         wall.create(1338,1138, 'wall');
         wall.create(1338,838, 'wall');
@@ -1802,8 +1804,9 @@ class Level4 extends Phaser.Scene {
         low_power_trampoline.create(1530,1250, 'trampoline').setScale(0.5).refreshBody();
         low_power_trampoline.create(1530,420, 'trampoline').setScale(0.5).refreshBody();
         platforms.create(500, 1500, 'platform').setScale(2).refreshBody();
-        platforms.create(800, 1500, 'platform').setScale(2).refreshBody();
-        platforms.create(1100, 1600, 'platform').setScale(2).refreshBody();
+        platforms.create(830, 1500, 'platform').setScale(2).refreshBody();
+        platforms.create(700, 1800, 'platform').setScale(2).refreshBody();
+        platforms.create(1110, 1630, 'platform').setScale(2).refreshBody();
         platforms.create(1530, 1870, 'platform').setScale(2).refreshBody();
         platforms.create(1800, 1760, 'platform').setScale(2).refreshBody();
         platforms.create(1530, 1600, 'platform').setScale(2).refreshBody();
@@ -1878,10 +1881,27 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, wall);
+        this.physics.add.collider(coin, platforms);
+        this.physics.add.collider(coin, bottom_of_game); 
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, low_power_trampoline, low_power_trampolinePlayer, null, this);
         this.physics.add.overlap(player, ovi, level5Transition, null, this);
         this.physics.add.overlap(player, wind, windPlayer, null, this);
+           this.physics.add.overlap(player, coin, CollectCoin, null, this);
+    coin.create(500, 1880, 'coin');
+    coin.create(1280, 1300, 'coin');
+    coin.create(1550, 1800, 'coin');
+    coin.create(1990, 1450, 'coin');
+    coin.create(1850, 100, 'coin');
+    coin.children.iterate(c => {
+    if (!c) return;
+
+    c.body.setAllowGravity(true);
+    c.body.setImmovable(false);
+
+    c.body.setSize(c.width * 0.6, c.height * 0.6);
+    c.body.setOffset(c.width * 0.25, c.height * 0.25);
+});
         this.physics.add.collider(player, knife);
         this.physics.add.collider(knife, platforms, (weapon) => {
             if (!weapon) return;
@@ -1947,10 +1967,8 @@ class Level4 extends Phaser.Scene {
         // cannon_up
         this.cannons_up = [
             this.physics.add.image(600, 1950, 'cannon_up'),
-            this.physics.add.image(640, 1950, 'cannon_up'),
-            this.physics.add.image(680, 1950, 'cannon_up'),
-            this.physics.add.image(1700, 1950, 'cannon_up'),
-            this.physics.add.image(1950, 1950, 'cannon_up'),
+            this.physics.add.image(650, 1950, 'cannon_up'),
+            this.physics.add.image(710, 1950, 'cannon_up'),
         ];
         this.cannons_up.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
         cannon_up_bullets = this.physics.add.group({
@@ -1958,9 +1976,25 @@ class Level4 extends Phaser.Scene {
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 1200,
+            delay: 2000,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
+            },
+            loop: true
+        });
+          this.cannons_up2 = [
+            this.physics.add.image(1700, 1950, 'cannon_up'),
+            this.physics.add.image(1950, 1950, 'cannon_up'),
+        ];
+        this.cannons_up2.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
+        cannon_up_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+        this.time.addEvent({
+            delay: 1200,
+            callback: () => {
+                this.cannons_up2.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
             loop: true
         });
@@ -1984,7 +2018,7 @@ class Level4 extends Phaser.Scene {
         // CLOCK / TIMER
         // -------------------------
         this.totalTime = this.registry.get('totalTime') || 0;
-        this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
+        this.timerText = this.add.text(10, 40, "Time: " + this.totalTime, {
             fontSize: '24px',
             fill: '#fff'
         }).setScrollFactor(0);
@@ -1998,7 +2032,7 @@ class Level4 extends Phaser.Scene {
             }
         });
         this.deaths = this.registry.get('deaths');
-        this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
+        this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
         fontSize: '24px',
         fill: '#fff'
         }).setScrollFactor(0);
@@ -2012,7 +2046,7 @@ class Level4 extends Phaser.Scene {
         this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(955, 1970, 'spike').setScale(0.8).refreshBody();
-        this.spikes.create(555, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(575, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(655, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(755, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(855, 1970, 'spike').setScale(0.8).refreshBody();
