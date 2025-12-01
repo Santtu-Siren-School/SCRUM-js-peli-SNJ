@@ -636,23 +636,21 @@ class Level1 extends Phaser.Scene {
         //level1 bottom_of_game luonti
         bottom_of_game.create(150,950, 'bottom_of_game').setScale(3).refreshBody();
         bottom_of_game.create(430,626, 'bottom_of_game').setScale(1).refreshBody();
-    bottom_of_game.create(940,470, 'bottom_of_game').setScale(0.45).refreshBody();
+        bottom_of_game.create(940,470, 'bottom_of_game').setScale(0.45).refreshBody();
         //level1 bottom_of_game luonti lopuu
         //kolikoiden luonti
-        coin.create(50, 180, 'coin');
-    coin.create(400, 180, 'coin');
-    coin.create(490, 650, 'coin');
-    coin.create(1070, 60, 'coin');
-    coin.create(930, 320, 'coin');
-    coin.children.iterate(c => {
-    if (!c) return;
-
-    c.body.setAllowGravity(true);
-    c.body.setImmovable(false);
-
-    c.body.setSize(c.width * 0.6, c.height * 0.6);
-    c.body.setOffset(c.width * 0.25, c.height * 0.25);
-});
+            coin.create(50, 180, 'coin');
+            coin.create(400, 180, 'coin');
+            coin.create(490, 650, 'coin');
+            coin.create(1070, 60, 'coin');
+            coin.create(930, 320, 'coin');
+            coin.children.iterate(c => {
+                if (!c) return;
+                c.body.setAllowGravity(true);
+                c.body.setImmovable(false);
+                c.body.setSize(c.width * 0.6, c.height * 0.6);
+                c.body.setOffset(c.width * 0.25, c.height * 0.25);
+            });
         //level1 scoren luonti loppuu
         //oven luonti seuraavaan tasoon
         ovi=this.physics.add.staticGroup();
