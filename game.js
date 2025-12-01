@@ -124,6 +124,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end4_3D', 'assets/textures/end4_3D.png')
             this.load.image('end4_4D', 'assets/textures/end4_4D.png')
             this.load.image('end4_5D', 'assets/textures/end4_5D.png')
+            this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
         }
         create() {
             const play_button=this.add.image(500,500,'play_button').setInteractive();
@@ -131,6 +132,13 @@ class force_interaction extends Phaser.Scene {
                 this.scene.start('Intro'),
                 console.log("Start Game");
             });
+            setTimeout(() => {            
+                const skipcutscene_button=this.add.image(1050,10,'skipcutscene_button').setInteractive();
+                skipcutscene_button.on('pointerdown', () => {
+                    this.scene.start('MainMenu'),
+                    console.log("Start Game");
+                })
+            ;}, 5000);
         }
 }
 //intro
@@ -140,7 +148,7 @@ class Intro extends Phaser.Scene {
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
             intro_player1.play();
-            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('MainMenu')}, 6000); }, 8000); }, 6000); 
+            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('Tutorial')}, 6000); }, 8000); }, 6000); 
         }
 }
 //mainmenu
@@ -3064,6 +3072,7 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "Erkki Sinkko",
+            "Santtus mother",
         ];
 
         const startY = config.height + 20;
