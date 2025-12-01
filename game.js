@@ -117,7 +117,13 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end1_button', 'assets/textures/end1_button.png')
             this.load.image('end2_button', 'assets/textures/end2_button.png')
             this.load.image('end3_button', 'assets/textures/end3_button.png')
+            this.load.image('end4_button', 'assets/textures/end4_button.png')
             this.load.image('play_button', 'assets/textures/play_button.png')
+            this.load.image('end4_1D', 'assets/textures/end4_1D.png')
+            this.load.image('end4_2D', 'assets/textures/end4_2D.png')
+            this.load.image('end4_3D', 'assets/textures/end4_3D.png')
+            this.load.image('end4_4D', 'assets/textures/end4_4D.png')
+            this.load.image('end4_5D', 'assets/textures/end4_5D.png')
         }
         create() {
             const play_button=this.add.image(500,500,'play_button').setInteractive();
@@ -154,6 +160,7 @@ class MainMenu extends Phaser.Scene {
             const credit_button=this.add.image(200,300,'credit_screen_button').setInteractive();
             const end2_button=this.add.image(200,200,'end2_button').setInteractive();
             const end3_button=this.add.image(300,200,'end3_button').setInteractive();
+            const end4_button=this.add.image(400,200,'end4_button').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -197,6 +204,10 @@ class MainMenu extends Phaser.Scene {
             end3_button.on('pointerdown', () => {
                 this.scene.start('end3'),
                 console.log("end3_play");
+            });
+            end4_button.on('pointerdown', () => {
+                this.scene.start('end4'),
+                console.log("end4_play");
             });
             //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
@@ -2981,6 +2992,24 @@ class end3 extends Phaser.Scene {
 
         }
 }
+//end4
+class end4 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'end4' });}
+        create() {
+            let end4_1D=this.add.image(500,500, 'end4_1D').setScale(4);
+            setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4);
+                setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
+                    setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
+                        setTimeout(() => {end4_4D.destroy(); let end4_5D=this.add.image(500,500, 'end4_5D').setScale(4);
+                            setTimeout(() => {end4_5D.destroy(); this.scene.start(credit_scene);
+                            }, 3000);
+                        }, 3000);
+                    }, 3000);
+                }, 3000);
+            }, 3000);
+        }
+    }
 //credit_scene
 class credit_scene extends Phaser.Scene {
     constructor() {
@@ -3078,7 +3107,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,credit_scene]
+    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,end4,credit_scene]
 };
 var ending=0;
 var enemy_footstep=false;
@@ -3378,7 +3407,8 @@ function knifehitboss(boss,knifeSprite) {
                 ending=2;
             }
             else if (currentDeaths>=5000) {
-                
+                this.scene.start('end4')
+                ending=4;
             }
             else if(currentDeaths<=10) {
                 this.scene.start('end3')
