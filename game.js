@@ -139,7 +139,7 @@ class force_interaction extends Phaser.Scene {
                     this.scene.start('MainMenu'),
                     console.log("Start Game");
                 })
-            ;}, 6000);
+            ;}, 5000);
                         //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
                 key: 'left',
@@ -1924,7 +1924,7 @@ class Level4 extends Phaser.Scene {
     coin.create(500, 1880, 'coin');
     coin.create(1280, 1300, 'coin');
     coin.create(1550, 1800, 'coin');
-    coin.create(1990, 1450, 'coin');
+    coin.create(1980, 1450, 'coin');
     coin.create(1850, 100, 'coin');
     coin.children.iterate(c => {
     if (!c) return;
