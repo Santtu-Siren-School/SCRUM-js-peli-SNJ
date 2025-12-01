@@ -117,8 +117,15 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end1_button', 'assets/textures/end1_button.png')
             this.load.image('end2_button', 'assets/textures/end2_button.png')
             this.load.image('end3_button', 'assets/textures/end3_button.png')
+            this.load.image('end4_button', 'assets/textures/end4_button.png')
             this.load.image('play_button', 'assets/textures/play_button.png')
             this.load.image('coin', 'assets/textures/coin.png')
+            this.load.image('end4_1D', 'assets/textures/end4_1D.png')
+            this.load.image('end4_2D', 'assets/textures/end4_2D.png')
+            this.load.image('end4_3D', 'assets/textures/end4_3D.png')
+            this.load.image('end4_4D', 'assets/textures/end4_4D.png')
+            this.load.image('end4_5D', 'assets/textures/end4_5D.png')
+            this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
         }
         create() {
             const play_button=this.add.image(500,500,'play_button').setInteractive();
@@ -126,80 +133,14 @@ class force_interaction extends Phaser.Scene {
                 this.scene.start('Intro'),
                 console.log("Start Game");
             });
-        }
-}
-//intro
-class Intro extends Phaser.Scene {
-    constructor() {
-        super({ key: 'Intro' });}
-        create() {
-            let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
-            intro_player1.play();
-            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('MainMenu')}, 6000); }, 8000); }, 6000); 
-        }
-}
-//mainmenu
-class MainMenu extends Phaser.Scene {
-    constructor() {
-        super({ key: 'MainMenu' });}
-        create(){
-            this.add.image(1000,1000, 'sky_level5').setScale(1);
-            const level1_button=this.add.image(100,100,'level1').setInteractive();
-            const level2_button=this.add.image(200,100,'level2').setInteractive();
-            const level3_button=this.add.image(300,100,'level3').setInteractive();
-            const level4_button=this.add.image(400,100,'level4').setInteractive();
-            const level5_button=this.add.image(500,100,'level5').setInteractive();
-            const cutscene_knife_button=this.add.image(100,300,'cutscene_knife_button').setInteractive();
-            const end1_button=this.add.image(100,200,'end1_button').setInteractive();
-            const tutorial_button=this.add.image(600,100,'tutorial').setInteractive();
-            const credit_button=this.add.image(200,300,'credit_screen_button').setInteractive();
-            const end2_button=this.add.image(200,200,'end2_button').setInteractive();
-            const end3_button=this.add.image(300,200,'end3_button').setInteractive();
-            level1_button.on('pointerdown', () => {
-                this.scene.start('Level1'),
-                console.log("game start at level1");
-            });
-            level2_button.on('pointerdown', () => {
-                this.scene.start('Level2'),
-                console.log("game start at level2");
-            });
-            level3_button.on('pointerdown', () => {
-                this.scene.start('Level3'),
-                console.log("game start at level3");
-            });
-            level4_button.on('pointerdown', () => {
-                this.scene.start('Level4'),
-                console.log("game start at level4");
-            });
-            level5_button.on('pointerdown', () => {
-                this.scene.start('Level5'),
-                console.log("game start at level5");
-            });
-            cutscene_knife_button.on('pointerdown', () => {
-                this.scene.start('Cutscene_knife'),
-                console.log("Cutscene_knife_play");
-            });
-            end1_button.on('pointerdown', () => {
-                this.scene.start('end1'),
-                console.log("end1_play");
-            });
-            credit_button.on('pointerdown', () => {
-                this.scene.start('credit_scene'),
-                console.log("credit_scene");
-            });
-              tutorial_button.on('pointerdown', () => {
-                this.scene.start('tutorial'),
-                console.log("tutorial");
-            });
-            end2_button.on('pointerdown', () => {
-                this.scene.start('end2'),
-                console.log("end2_play");
-            });
-            end3_button.on('pointerdown', () => {
-                this.scene.start('end3'),
-                console.log("end3_play");
-            });
-            //määritelään Pelaajan liikumis animaatiot
+            setTimeout(() => {            
+                const skipcutscene_button=this.add.image(1050,10,'skipcutscene_button').setInteractive();
+                skipcutscene_button.on('pointerdown', () => {
+                    this.scene.start('MainMenu'),
+                    console.log("Start Game");
+                })
+            ;}, 5000);
+                        //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
                 key: 'left',
                 frames: this.anims.generateFrameNumbers('main_character', { start: 0, end: 3 }),
@@ -260,6 +201,84 @@ class MainMenu extends Phaser.Scene {
                 frames: this.anims.generateFrameNumbers('enemy', { start: 5, end: 8 }),
                 frameRate: 8,
                 repeat: -1
+            });
+        }
+}
+//intro
+class Intro extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Intro' });}
+        create() {
+            let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
+            intro_player1.play();
+            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('tutorial')}, 6000); }, 8000); }, 6000); 
+        }
+}
+//mainmenu
+class MainMenu extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MainMenu' });}
+        create(){
+            this.add.image(1000,1000, 'sky_level5').setScale(1);
+            const level1_button=this.add.image(100,100,'level1').setInteractive();
+            const level2_button=this.add.image(200,100,'level2').setInteractive();
+            const level3_button=this.add.image(300,100,'level3').setInteractive();
+            const level4_button=this.add.image(400,100,'level4').setInteractive();
+            const level5_button=this.add.image(500,100,'level5').setInteractive();
+            const cutscene_knife_button=this.add.image(100,300,'cutscene_knife_button').setInteractive();
+            const end1_button=this.add.image(100,200,'end1_button').setInteractive();
+            const tutorial_button=this.add.image(600,100,'tutorial').setInteractive();
+            const credit_button=this.add.image(200,300,'credit_screen_button').setInteractive();
+            const end2_button=this.add.image(200,200,'end2_button').setInteractive();
+            const end3_button=this.add.image(300,200,'end3_button').setInteractive();
+            const end4_button=this.add.image(400,200,'end4_button').setInteractive();
+            level1_button.on('pointerdown', () => {
+                this.scene.start('Level1'),
+                console.log("game start at level1");
+            });
+            level2_button.on('pointerdown', () => {
+                this.scene.start('Level2'),
+                console.log("game start at level2");
+            });
+            level3_button.on('pointerdown', () => {
+                this.scene.start('Level3'),
+                console.log("game start at level3");
+            });
+            level4_button.on('pointerdown', () => {
+                this.scene.start('Level4'),
+                console.log("game start at level4");
+            });
+            level5_button.on('pointerdown', () => {
+                this.scene.start('Level5'),
+                console.log("game start at level5");
+            });
+            cutscene_knife_button.on('pointerdown', () => {
+                this.scene.start('Cutscene_knife'),
+                console.log("Cutscene_knife_play");
+            });
+            end1_button.on('pointerdown', () => {
+                this.scene.start('end1'),
+                console.log("end1_play");
+            });
+            credit_button.on('pointerdown', () => {
+                this.scene.start('credit_scene'),
+                console.log("credit_scene");
+            });
+              tutorial_button.on('pointerdown', () => {
+                this.scene.start('tutorial'),
+                console.log("tutorial");
+            });
+            end2_button.on('pointerdown', () => {
+                this.scene.start('end2'),
+                console.log("end2_play");
+            });
+            end3_button.on('pointerdown', () => {
+                this.scene.start('end3'),
+                console.log("end3_play");
+            });
+            end4_button.on('pointerdown', () => {
+                this.scene.start('end4'),
+                console.log("end4_play");
             });
         }
         update(){}
@@ -2992,6 +3011,24 @@ class end3 extends Phaser.Scene {
 
         }
 }
+//end4
+class end4 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'end4' });}
+        create() {
+            let end4_1D=this.add.image(500,500, 'end4_1D').setScale(4);
+            setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4);
+                setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
+                    setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
+                        setTimeout(() => {end4_4D.destroy(); let end4_5D=this.add.image(500,500, 'end4_5D').setScale(4);
+                            setTimeout(() => {end4_5D.destroy(); this.scene.start('credit_scene');
+                            }, 3000);
+                        }, 3000);
+                    }, 3000);
+                }, 3000);
+            }, 3000);
+        }
+    }
 //credit_scene
 class credit_scene extends Phaser.Scene {
     constructor() {
@@ -3046,6 +3083,7 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "Erkki Sinkko",
+            "Santtus mother",
         ];
 
         const startY = config.height + 20;
@@ -3089,7 +3127,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,credit_scene]
+    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,end4,credit_scene]
 };
 var coin;
 var ending=0;
@@ -3171,7 +3209,7 @@ const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.w
 const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
 const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
-const end3_background_song = new Audio('assets/sound/end3_background_song.mp3')
+const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const lightbeam_death = new Audio('assets/sound/lightbeam_death.mp3')
 const fireball_death = new Audio('assets/sound/fireball_death.m4a')
 const wall_death = new Audio('assets/sound/wall_death.m4a')
@@ -3397,7 +3435,8 @@ function knifehitboss(boss,knifeSprite) {
                 ending=2;
             }
             else if (currentDeaths>=5000) {
-                
+                this.scene.start('end4')
+                ending=4;
             }
             else if(currentDeaths<=10) {
                 this.scene.start('end3')
