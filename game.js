@@ -119,6 +119,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end3_button', 'assets/textures/end3_button.png')
             this.load.image('end4_button', 'assets/textures/end4_button.png')
             this.load.image('play_button', 'assets/textures/play_button.png')
+            this.load.image('coin', 'assets/textures/coin.png')
             this.load.image('end4_1D', 'assets/textures/end4_1D.png')
             this.load.image('end4_2D', 'assets/textures/end4_2D.png')
             this.load.image('end4_3D', 'assets/textures/end4_3D.png')
@@ -634,6 +635,7 @@ class Level1 extends Phaser.Scene {
 	player.setCollideWorldBounds(true);
     //määritelään knife
     knife = this.physics.add.group();
+    coin = this.physics.add.group();
     //määritelee platforms staatiseksi
     platforms = this.physics.add.staticGroup();
     //määritelee bottom_of_game staatiseksi
@@ -654,6 +656,9 @@ class Level1 extends Phaser.Scene {
     bottom_of_game.create(100,900, 'bottom_of_game')
     bottom_of_game.create(430,626, 'bottom_of_game').setScale(0.45).refreshBody();
     //level1 bottom_of_game luonti lopuu
+    //kolikoiden luonti
+    coin.create(300, 180, 'coin').setScale(1).refreshBody();
+    //level1 scoren luonti loppuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
     ovi.create(920,520,'ovi').setScale(0.3).refreshBody();
@@ -685,6 +690,7 @@ this.enemy.hp = 150;
 
 // Colliders
 this.physics.add.collider(player, platforms);
+this.physics.add.collider(coin, platforms);
 this.physics.add.collider(player, bottom_of_game);
 this.physics.add.collider(player, knife);
     this.physics.add.collider(knife, platforms, (weapon) => {
@@ -736,6 +742,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     this.physics.add.collider(knife, bottom_of_game);
     //Pelaajan liikumisen animaatio määritely pätyy
     this.physics.add.overlap(player, ovi, level2Transition, null, this);
+    this.physics.add.overlap(player, coin, CollectCoin, null, this);
     this.cameras.main.setBounds(0, 0, 2000, 900);
 	this.physics.world.setBounds(0, 0, 2000, 900);
 	this.cameras.main.startFollow(player);
@@ -799,7 +806,7 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     this.totalTime = this.registry.get('totalTime') || 0;
 
     //luo tekstin
-    this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
+    this.timerText = this.add.text(10, 40, "Time: " + this.totalTime, {
         fontSize: '24px',
         fill: '#fff'
     }).setScrollFactor(0);
@@ -808,7 +815,12 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
     // kuolemalaskuri
     this.deaths = this.registry.get('deaths');
 
-    this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
+    this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
+    this.scoreText = this.add.text(10, 10, "Score: " + score, {
     fontSize: '24px',
     fill: '#fff'
     }).setScrollFactor(0);
@@ -840,7 +852,6 @@ this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
 
 
     }
-
     update (){
     //katsoo onko peli loppunut
     if (gameOver == true)
@@ -3118,6 +3129,7 @@ var config = {
     },
     scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,end4,credit_scene]
 };
+var coin;
 var ending=0;
 var enemy_footstep=false;
 var knife_deflect_first_Time=true;
@@ -3154,6 +3166,8 @@ var platforms;
 var bottom_of_game;
 var gameOver;
 var jumping = 0;
+var score = 0;
+var scoreText;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
@@ -3295,6 +3309,11 @@ function hitByEnemy(player, enemy) {
 function trampolinePlayer(player, trampoline) {
      trampoline_sound.play()
     player.setVelocityY(-600);
+}
+function CollectCoin(player, coin) {
+    coin.disableBody(true, true);
+	score += 1;
+     this.scoreText.setText("Score: " + score);
 }
 function tutorialDeath(player, enemy) {
     this.scene.start(this.scene.key)
