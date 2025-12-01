@@ -820,13 +820,23 @@ if (!enemy.active) return;
         this.enemy.hpBarBG.setScrollFactor(1);
     }
     update (){
-        //katsoo onko peli loppunut
-        if (gameOver == true)
-        {
-            this.physics.pause();
-            backgroundsound.pause();
-            player.anims.play('jump');
-            return;
+        if (deathState===true) {
+            if (this.scene.key==='Level1') {
+                score=score-level1score;
+                level1score=0;
+            }
+            else if (this.scene.key==='Level2') {
+                score=score-level2score;
+                level2score=0;
+            }
+            else if (this.scene.key==='Level3') {
+                score=score-level4score;
+                level3score=0;
+            }
+            else if (this.scene.key==='Level4') {
+                score=score-level4score;
+                level4score=0;
+            }
         }
         backgroundsound.play()
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta
@@ -1223,12 +1233,23 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     
 
     update (){
-        if (gameOver == true)
-        {
-            this.physics.pause();
-            backgroundsound.pause();
-            player.anims.play('jump');
-            return;
+        if (deathState===true) {
+            if (this.scene.key==='Level1') {
+                score=score-level1score;
+                level1score=0;
+            }
+            else if (this.scene.key==='Level2') {
+                score=score-level2score;
+                level2score=0;
+            }
+            else if (this.scene.key==='Level3') {
+                score=score-level4score;
+                level3score=0;
+            }
+            else if (this.scene.key==='Level4') {
+                score=score-level4score;
+                level4score=0;
+            }
         }
         backgroundsound.play()
         if (cursors.up.isDown && player.body.touching.down) {
@@ -1605,11 +1626,23 @@ class Level3 extends Phaser.Scene {
     }
 
     update (){
-        if (gameOver == true) {
-            this.physics.pause();
-            backgroundsound.pause();
-            player.anims.play('jump');
-            return;
+        if (deathState===true) {
+            if (this.scene.key==='Level1') {
+                score=score-level1score;
+                level1score=0;
+            }
+            else if (this.scene.key==='Level2') {
+                score=score-level2score;
+                level2score=0;
+            }
+            else if (this.scene.key==='Level3') {
+                score=score-level4score;
+                level3score=0;
+            }
+            else if (this.scene.key==='Level4') {
+                score=score-level4score;
+                level4score=0;
+            }
         }
         backgroundsound.play();
         if (cursors.up.isDown && player.body.touching.down) {
@@ -2001,6 +2034,24 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
     update(){
+        if (deathState===true) {
+            if (this.scene.key==='Level1') {
+                score=score-level1score;
+                level1score=0;
+            }
+            else if (this.scene.key==='Level2') {
+                score=score-level2score;
+                level2score=0;
+            }
+            else if (this.scene.key==='Level3') {
+                score=score-level4score;
+                level3score=0;
+            }
+            else if (this.scene.key==='Level4') {
+                score=score-level4score;
+                level4score=0;
+            }
+        }
         footsteps.pause();  
         backgroundsound.play();
         if (cursors.up.isDown && player.body.touching.down) {
@@ -2946,6 +2997,11 @@ var config = {
     },
     scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,end4,credit_scene]
 };
+var deathState=false;
+var level1score=0;
+var level2score=0;
+var level3score=0;
+var level4score=0;
 var coin;
 var ending=0;
 var enemy_footstep=false;
@@ -3084,6 +3140,7 @@ function hitPlayer(player, bullet) {
     // Päivitä näkyvä teksti
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
+    deathState=true;
 }
 
 function level1Transition() {
@@ -3118,15 +3175,37 @@ function hitByEnemy(player, enemy) {
     // Päivitä näkyvä teksti
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
+    deathState=true;
 }
 function trampolinePlayer(player, trampoline) {
     trampoline_sound.play()
     player.setVelocityY(-600);
 }
 function CollectCoin(player, coin) {
-    coin.disableBody(true, true);
-	score += 1;
-    this.scoreText.setText("Score: " + score);
+    if (this.scene.key==='Level1') {
+        level1score+=1;
+        coin.disableBody(true, true);
+        score += 1;
+        this.scoreText.setText("Score: " + score);
+    }
+    else if (this.scene.key==='Level2') {
+        level2score+=1;
+        coin.disableBody(true, true);
+        score += 1;
+        this.scoreText.setText("Score: " + score);
+    }
+    else if (this.scene.key==='Level3') {
+        level3score+=1;
+        coin.disableBody(true, true);
+        score += 1;
+        this.scoreText.setText("Score: " + score);
+    }
+    else if (this.scene.key==='Level4') {
+        level4score+=1;
+        coin.disableBody(true, true);
+        score += 1;
+        this.scoreText.setText("Score: " + score);
+    }
 }
 function tutorialDeath(player, enemy) {
     this.scene.start(this.scene.key)
@@ -3142,6 +3221,7 @@ function hitBySpike(player, spike) {
     // Päivitä näkyvä teksti
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
+    deathState=true;
 }
 function knifehit(player, knife2) {
     const currentDeaths = this.registry.get('deaths') + 1;
