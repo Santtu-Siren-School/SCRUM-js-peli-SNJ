@@ -5,6 +5,7 @@ CREATE TABLE highscores (
     pisteet INT,
     kuolemat INT,
     aika INT,
+    lopetus INT,
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
