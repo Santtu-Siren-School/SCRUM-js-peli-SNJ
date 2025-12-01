@@ -641,10 +641,10 @@ class Level1 extends Phaser.Scene {
     //määritelee bottom_of_game staatiseksi
     bottom_of_game = this.physics.add.staticGroup();
     //level1 platformien luonti
-    platforms.create(350, 870, 'platform').setScale(3).refreshBody();
+    platforms.create(340, 820, 'platform').setScale(3).refreshBody();
     platforms.create(80, 700, 'platform').setScale(2).refreshBody();
 	platforms.create(300, 580, 'platform').setScale(2).refreshBody();
-	platforms.create(720, 730, 'platform').setScale(6).refreshBody();
+	platforms.create(770, 730, 'platform').setScale(6).refreshBody();
     platforms.create(780, 480, 'platform').setScale(3).refreshBody();
     platforms.create(990, 320, 'platform').setScale(3).refreshBody();
     platforms.create(1240, 230, 'platform').setScale(3).refreshBody();
@@ -653,11 +653,25 @@ class Level1 extends Phaser.Scene {
     platforms.create(1070, 700, 'platform').setScale(3).refreshBody();
     //level1 platformien luonti loppuu
     //level1 bottom_of_game luonti
-    bottom_of_game.create(100,900, 'bottom_of_game')
-    bottom_of_game.create(430,626, 'bottom_of_game').setScale(0.45).refreshBody();
+    bottom_of_game.create(150,950, 'bottom_of_game').setScale(3).refreshBody();
+    bottom_of_game.create(430,626, 'bottom_of_game').setScale(1).refreshBody();
+    bottom_of_game.create(940,470, 'bottom_of_game').setScale(0.45).refreshBody();
     //level1 bottom_of_game luonti lopuu
     //kolikoiden luonti
-    coin.create(300, 180, 'coin').setScale(1).refreshBody();
+    coin.create(50, 180, 'coin');
+    coin.create(400, 180, 'coin');
+    coin.create(490, 650, 'coin');
+    coin.create(1070, 60, 'coin');
+    coin.create(930, 320, 'coin');
+    coin.children.iterate(c => {
+    if (!c) return;
+
+    c.body.setAllowGravity(true);
+    c.body.setImmovable(false);
+
+    c.body.setSize(c.width * 0.6, c.height * 0.6);
+    c.body.setOffset(c.width * 0.25, c.height * 0.25);
+});
     //level1 scoren luonti loppuu
     //oven luonti seuraavaan tasoon
     ovi=this.physics.add.staticGroup();
@@ -691,6 +705,7 @@ this.enemy.hp = 150;
 // Colliders
 this.physics.add.collider(player, platforms);
 this.physics.add.collider(coin, platforms);
+this.physics.add.collider(coin, bottom_of_game);
 this.physics.add.collider(player, bottom_of_game);
 this.physics.add.collider(player, knife);
     this.physics.add.collider(knife, platforms, (weapon) => {
@@ -1236,7 +1251,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     this.totalTime = this.registry.get('totalTime') || 0;
 
     //luo tekstin
-    this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
+    this.timerText = this.add.text(10, 40, "Time: " + this.totalTime, {
         fontSize: '24px',
         fill: '#fff'
     }).setScrollFactor(0);
@@ -1256,11 +1271,17 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     // kuolemalaskuri
     this.deaths = this.registry.get('deaths');
 
-    this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
+    this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
     fontSize: '24px',
     fill: '#fff'
     }).setScrollFactor(0);
+     this.scoreText = this.add.text(10, 10, "Score: " + score, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
     }
+    
 
     update (){
         if (gameOver == true)
@@ -1662,7 +1683,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
 
         this.totalTime = this.registry.get('totalTime') || 0;
 
-        this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
+        this.timerText = this.add.text(10, 40, "Time: " + this.totalTime, {
             fontSize: '24px',
             fill: '#fff'
         }).setScrollFactor(0);
@@ -1670,7 +1691,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
         // kuolemalaskuri
         this.deaths = this.registry.get('deaths');
 
-        this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
+        this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
         fontSize: '24px',
         fill: '#fff'
         }).setScrollFactor(0);
@@ -1684,6 +1705,11 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 this.timerText.setText("Time: " + this.totalTime);
             }
         });
+         this.scoreText = this.add.text(10, 10, "Score: " + score, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
     }
 
     update (){
@@ -2151,6 +2177,11 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
         fontSize: '24px',
         fill: '#fff'
         }).setScrollFactor(0);
+         this.scoreText = this.add.text(10, 10, "Score: " + score, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
 
         this.spikes = this.physics.add.staticGroup();
         this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
@@ -2435,7 +2466,7 @@ class Level5 extends Phaser.Scene {
             this.totalTime = this.registry.get('totalTime') || 0;
 
             //luo tekstin
-            this.timerText = this.add.text(10, 10, "Time: " + this.totalTime, {
+            this.timerText = this.add.text(10, 40, "Time: " + this.totalTime, {
                 fontSize: '24px',
                 fill: '#fff'
             }).setScrollFactor(0);
@@ -2443,7 +2474,7 @@ class Level5 extends Phaser.Scene {
             // kuolemalaskuri
             this.deaths = this.registry.get('deaths');
 
-            this.deathText = this.add.text(10, 40, "Deaths: " + this.deaths, {
+            this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
             fontSize: '24px',
             fill: '#fff'
             }).setScrollFactor(0);
@@ -2459,6 +2490,11 @@ class Level5 extends Phaser.Scene {
                     this.timerText.setText("Time: " + this.totalTime);
                 }
             });
+             this.scoreText = this.add.text(10, 10, "Score: " + score, {
+    fontSize: '24px',
+    fill: '#fff'
+    }).setScrollFactor(0);
+
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
