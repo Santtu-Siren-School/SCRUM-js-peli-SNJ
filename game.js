@@ -139,7 +139,7 @@ class force_interaction extends Phaser.Scene {
                     this.scene.start('MainMenu'),
                     console.log("Start Game");
                 })
-            ;}, 10);
+            ;}, 6000);
                         //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
                 key: 'left',
@@ -3015,6 +3015,7 @@ var config = {
     },
     scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,end4,credit_scene]
 };
+var solid=false;
 var deathState=false;
 var level1score=0;
 var level2score=0;
@@ -3257,9 +3258,15 @@ function windPlayer(player, wind) {
     setTimeout(() => { player.windActive = false; }, 10);
 }
 function level1trhow(player, solid_snake_door) {
-    this.add.image(500,400,'solid_snake');
-    invisible.play();
-    setTimeout(() => {this.scene.start('Level1')}, 9000);
+    if (solid===true) {
+        score=score-20;
+    }
+    else {
+        setTimeout(() => {solid=true;}, 100);
+        this.add.image(500,400,'solid_snake');
+        invisible.play();
+        setTimeout(() => {this.scene.start('Level1');solid=true; score+=20;}, 9000);
+    }
 }
 function bossPlayerContact(boss,player) {
     knockback=1;
