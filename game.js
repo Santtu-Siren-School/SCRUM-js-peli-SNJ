@@ -1388,6 +1388,7 @@ class Level3 extends Phaser.Scene {
         solid_snake_door = this.physics.add.staticGroup(); 
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
+        coin = this.physics.add.group();
         trampoline = this.physics.add.staticGroup();
         wall = this.physics.add.staticGroup();
         cursors = this.input.keyboard.createCursorKeys();
@@ -1414,9 +1415,9 @@ class Level3 extends Phaser.Scene {
 
         // walls
         wall.create(443,455,'wall')
-        wall.create(557,455,'wall')
+        wall.create(547,515,'wall')
         wall.create(443,755,'wall')
-        wall.create(557,755,'wall')
+        wall.create(547,755,'wall')
         wall.create(1245,100,'wall')
         wall.create(1700,840,'wall')
         wall.create(1200,840,'wall')
@@ -1427,7 +1428,7 @@ class Level3 extends Phaser.Scene {
         trampoline.create(1800,850, 'trampoline').setScale(0.4).refreshBody();
 
         // platforms
-        platforms.create(500,230,'platform').setScale(2).refreshBody();
+        platforms.create(510,230,'platform').setScale(2).refreshBody();
         platforms.create(900,530,'platform').setScale(2).refreshBody();
         platforms.create(1300,730,'platform').setScale(2).refreshBody();
         platforms.create(1600,730,'platform').setScale(2).refreshBody();
@@ -1501,11 +1502,28 @@ class Level3 extends Phaser.Scene {
         });
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
+        this.physics.add.collider(coin, platforms);
+        this.physics.add.collider(coin, bottom_of_game); 
         this.physics.add.collider(player, wall);
         this.physics.add.collider(player, knife);
         this.physics.add.collider(this.enemies, platforms);
         this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
+           this.physics.add.overlap(player, coin, CollectCoin, null, this);
+    coin.create(500, 180, 'coin');
+    coin.create(1280, 800, 'coin');
+    coin.create(1630, 800, 'coin');
+    coin.create(1230, 20, 'coin');
+    coin.create(300, 320, 'coin').setScale(0.5);
+    coin.children.iterate(c => {
+    if (!c) return;
+
+    c.body.setAllowGravity(true);
+    c.body.setImmovable(false);
+
+    c.body.setSize(c.width * 0.6, c.height * 0.6);
+    c.body.setOffset(c.width * 0.25, c.height * 0.25);
+});
         // knife collisions
         this.physics.add.collider(knife, platforms, (weapon) => {
             weapon.setVelocity(0, 0);
