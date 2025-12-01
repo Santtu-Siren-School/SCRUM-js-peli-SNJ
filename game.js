@@ -1654,7 +1654,7 @@ class Level3 extends Phaser.Scene {
                 level2score=0;
             }
             else if (this.scene.key==='Level3') {
-                score=score-level4score;
+                score=score-level3score;
                 level3score=0;
             }
             else if (this.scene.key==='Level4') {
