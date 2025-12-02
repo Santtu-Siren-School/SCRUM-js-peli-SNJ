@@ -3233,6 +3233,9 @@ function level1Transition() {
     if (dialogueActive) {
         player.setPosition(400, 1800);
     }
+    else if(this.scene.key='Level5') {
+        this.scene.start('Level1')
+    }
     else {
     nextlevelsound.play()
     this.scene.start('Level1')
