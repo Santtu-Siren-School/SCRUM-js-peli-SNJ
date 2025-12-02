@@ -3199,6 +3199,7 @@ const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const lightbeam_death = new Audio('assets/sound/lightbeam_death.mp3')
 const fireball_death = new Audio('assets/sound/fireball_death.m4a')
 const wall_death = new Audio('assets/sound/wall_death.m4a')
+wall_death.volume = 1;
 const coin_collect = new Audio('assets/sound/coin_collect.wav')
 var player;
 var weapon;
