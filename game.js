@@ -2319,6 +2319,7 @@ class Level5 extends Phaser.Scene {
         dialogueActive = false;
         console.log('dialogue active',dialogueActive)
         knockback = 0;
+        //katsotaan onko mitäään bossin dialogeista jo aktivoitu, ja muutetaan dialogi activointi arvoja sen mukaan, logataan arvo consoliin
         if (dialogue1_boss===1) {
             dialogue1_boss=1
             console.log('Dialogue 1 boss:',dialogue1_boss)
@@ -2356,7 +2357,7 @@ class Level5 extends Phaser.Scene {
             this.physics.add.collider(knife2, tower_thingys, (weapon2) => {
                   weapon2.destroy(); 
             });
-            //boss animaatio
+            //boss animaatio pelataan
             boss.play('idlebossphase1');
             //kellon funktio
             // hae aiempi aika
@@ -2387,15 +2388,16 @@ class Level5 extends Phaser.Scene {
                     this.timerText.setText("Time: " + this.totalTime);
                 }
             });
-             this.scoreText = this.add.text(10, 10, "Score: " + score, {
-    fontSize: '24px',
-    fill: '#fff'
-    }).setScrollFactor(0);
+            this.scoreText = this.add.text(10, 10, "Score: " + score, {
+                fontSize: '24px',
+                fill: '#fff'
+            }).setScrollFactor(0);
 
             this.physics.add.overlap(player, level5_level1,level1Transition,null,this);
         }
         update(){
         footsteps.pause();
+        //katsotaan onko minkään dialogian activointi arvo oikein, jos on pelataan dialogia
         if (dialogue1_boss===1) {
             dialogueActive = true;
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
@@ -2424,15 +2426,19 @@ class Level5 extends Phaser.Scene {
         if (dialogueActive) {
             return;
         }
+        //jos mikään dialogia ei ole käynissä
         else {
+            //katsotaan vielä kerran jos dialogia ei pelata
             if(dialogue1_boss===0) {
-                if (dialogue1_boss===0) {
+                    //katsotaan jos on phase 1
                     if(phase===1){
+                        //anetaan random value 0-400, jos on 6 tee hyökäys ja pelaa animaatio
                         bossattackchanche=Phaser.Math.Between(0, 400);
                         //console.log("boss attack chanche",bossattackchanche)
                         if (bossattackchanche===6) {
                             boss_animation_play=true
                             boss.play('bossphase1attack');
+                            //arvoidaan mikä hyökäys tehdään ja sitten suoritetaan hyökäys
                             setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 2);console.log("boss attack",bossattack)}, 1500);
                             if (bossattack===0) {
                                  wall_sound.play()
@@ -2465,6 +2471,7 @@ class Level5 extends Phaser.Scene {
                             }
                         }
                     }
+                    //sama kuin phase 1 mutta phase 2, pienemät arvot enemän hyökäyksiä (ja voimakaampia)
                     else if (phase===2){
                         bossattackchanche=Phaser.Math.Between(0, 220);
                         //console.log("boss attack chanche",bossattackchanche)
@@ -2509,6 +2516,7 @@ class Level5 extends Phaser.Scene {
                             }
                         }
                     }
+                    //same kuin phase 2 ja phase 1, mutta voimakaamat hyökäysket je enemän niitä
                     else if (phase===3){
                         bossattackchanche=Phaser.Math.Between(0, 100);
                         //console.log("boss attack chanche",bossattackchanche)
@@ -2583,7 +2591,6 @@ class Level5 extends Phaser.Scene {
                                 setTimeout(() => {player.setVelocityX(700);player.setVelocityY(-300);setTimeout(() => {knockback=0;},1000 )}, 2000);
                             }
                         }
-                    }
             }
         }}
         boss_fight_background_music.play()
@@ -2769,28 +2776,28 @@ class Cutscene_knife extends Phaser.Scene {
                                                                                                         let cutscene_knife_img24 = this.add.image(500,500,'cutscene_knife24').setScale(4);
                                                                                                             setTimeout(()=>{this.scene.start('Level5')},3000);
                                                                                                     }, 3000);
-                                                                                                }, 3000);
-                                                                                            }, 1000);
-                                                                                        }, 1000);
-                                                                                    }, 1000);
-                                                                                }, 1000);
-                                                                            }, 1000);
-                                                                        }, 1000);
-                                                                    }, 1000);
-                                                                }, 1000);
-                                                            }, 1000);
-                                                        }, 1000);
-                                                    }, 1000);
-                                                }, 1000);
-                                            }, 1000);
-                                        }, 1000);
-                                    }, 1000);
-                                }, 1000);
-                            }, 1000);
-                        }, 1000);
-                    }, 3000);
+                                                                                                }, 500);
+                                                                                            }, 500);
+                                                                                        }, 500);
+                                                                                    }, 500);
+                                                                                }, 500);
+                                                                            }, 500);
+                                                                        }, 500);
+                                                                    }, 500);
+                                                                }, 500);
+                                                            }, 500);
+                                                        }, 500);
+                                                    }, 500);
+                                                }, 500);
+                                            }, 500);
+                                        }, 500);
+                                    }, 500);
+                                }, 500);
+                            }, 500);
+                        }, 500);
+                    }, 1000);
                 }, 1000);
-            }, 12000);
+            }, 1200);
         }
 }
 class end1 extends Phaser.Scene {
