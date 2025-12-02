@@ -1514,7 +1514,7 @@ class Level3 extends Phaser.Scene {
     coin.create(1280, 800, 'coin');
     coin.create(1630, 800, 'coin');
     coin.create(1230, 20, 'coin');
-    coin.create(300, 320, 'coin').setScale(0.5);
+    coin.create(300, 820, 'coin').setScale(0.5);
     coin.children.iterate(c => {
     if (!c) return;
 
@@ -3139,6 +3139,7 @@ const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const lightbeam_death = new Audio('assets/sound/lightbeam_death.mp3')
 const fireball_death = new Audio('assets/sound/fireball_death.m4a')
 const wall_death = new Audio('assets/sound/wall_death.m4a')
+const coin_collect = new Audio('assets/sound/coin_collect.wav')
 var player;
 var weapon;
 var weapon2;
@@ -3235,6 +3236,7 @@ function trampolinePlayer(player, trampoline) {
     player.setVelocityY(-600);
 }
 function CollectCoin(player, coin) {
+    coin_collect.play()
     if (this.scene.key==='Level1') {
         level1score+=1;
         coin.disableBody(true, true);
