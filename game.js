@@ -2087,7 +2087,7 @@ class Level4 extends Phaser.Scene {
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 1000,
+            delay: 2000,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
@@ -2567,7 +2567,7 @@ class Level5 extends Phaser.Scene {
                         //same kuin phase 2 ja phase 1, mutta voimakaamat hyökäysket je enemän niitä
                         else if (phase===3){
                             bossattackchanche=Phaser.Math.Between(0, 100);
-                            //console.log("boss attack chanche",bossattackchanche)
+                            console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
                                 boss.play('bossphase2attack');
@@ -3031,7 +3031,7 @@ class credit_scene extends Phaser.Scene {
             `You died ${currentDeaths} Times`,
             "",
             "Your score was",
-            "PLACEHOLDER",
+            `${score}`,
             "",
             "",
             "",
