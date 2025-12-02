@@ -2998,6 +2998,8 @@ class end4 extends Phaser.Scene {
     constructor() {
         super({ key: 'end4' });}
         create() {
+            boss_fight_background_music.pause();
+            end4_background_song.play();
             let end4_1D=this.add.image(500,500, 'end4_1D').setScale(4);
             setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4);
                 setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
@@ -3196,6 +3198,7 @@ const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
 const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
+const end4_background_song = new Audio('assets/sound/end4_background_sound.mp3')
 const lightbeam_death = new Audio('assets/sound/lightbeam_death.mp3')
 const fireball_death = new Audio('assets/sound/fireball_death.m4a')
 const wall_death = new Audio('assets/sound/wall_death.m4a')
