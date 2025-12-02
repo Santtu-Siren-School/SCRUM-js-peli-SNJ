@@ -1,3 +1,5 @@
+//import { API_URL } from "./config.js";
+
 //get player to interact with the game
 class force_interaction extends Phaser.Scene {
     constructor() {
