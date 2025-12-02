@@ -540,7 +540,7 @@ class Tutorial extends Phaser.Scene {
         if (now - this.lastThrowTime > this.throwCooldown) {
             knife_throw.play()
             this.lastThrowTime = now; 
-                let offset = -30;
+                let offset = offset_1;
                 let spawnX = player.x + (facingRight ? offset : -offset);
                 let weapon = knife.create(spawnX, player.y, 'dagger');
                 weapon.setScale(0.1);
@@ -929,7 +929,7 @@ if (!enemy.active) return;
             if (now - this.lastThrowTime > this.throwCooldown) {
                 knife_throw.play()
                 this.lastThrowTime = now; 
-                let offset = -30;
+                let offset = offset_1;
                 let spawnX = player.x + (facingRight ? offset : -offset);
                 let weapon = knife.create(spawnX, player.y, 'dagger');
                 weapon.setScale(0.1);
@@ -1341,7 +1341,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
         if (now - this.lastThrowTime > this.throwCooldown) {
             knife_throw.play()
             this.lastThrowTime = now; 
-                let offset = -30;
+                let offset = offset_1;
                 let spawnX = player.x + (facingRight ? offset : -offset);
                 let weapon = knife.create(spawnX, player.y, 'dagger');
                 weapon.setScale(0.1);
@@ -1750,7 +1750,7 @@ class Level3 extends Phaser.Scene {
             if (now - this.lastThrowTime > this.throwCooldown) {
                 knife_throw.play()
                 this.lastThrowTime = now; 
-                let offset = -30;
+                let offset = offset_1;
                 let spawnX = player.x + (facingRight ? offset : -offset);
                 let weapon = knife.create(spawnX, player.y, 'dagger');
                 weapon.setScale(0.1);
@@ -2212,7 +2212,7 @@ class Level4 extends Phaser.Scene {
             if (now - this.lastThrowTime > this.throwCooldown) {
                 knife_throw.play()
                 this.lastThrowTime = now; 
-                let offset = -30;
+                let offset = offset_1;
                 let spawnX = player.x + (facingRight ? offset : -offset);
                 let weapon = knife.create(spawnX, player.y, 'dagger');
                 weapon.setScale(0.1);
@@ -2730,7 +2730,7 @@ class Level5 extends Phaser.Scene {
                 if (now - this.lastThrowTime > this.throwCooldown) {
                     knife_throw.play()
                     this.lastThrowTime = now; 
-                    let offset = -30;
+                    let offset = offset_1;
                     let spawnX = player.x + (facingRight ? offset : -offset);
                     let weapon = knife.create(spawnX, player.y, 'dagger');
                     weapon.setScale(0.1);
@@ -2826,27 +2826,27 @@ class Cutscene_knife extends Phaser.Scene {
                                                                                                         let cutscene_knife_img24 = this.add.image(500,500,'cutscene_knife24').setScale(4);
                                                                                                             setTimeout(()=>{this.scene.start('Level5')},3000);
                                                                                                     }, 3000);
-                                                                                                }, 500);
-                                                                                            }, 500);
-                                                                                        }, 500);
-                                                                                    }, 500);
-                                                                                }, 500);
-                                                                            }, 500);
-                                                                        }, 500);
-                                                                    }, 500);
-                                                                }, 500);
-                                                            }, 500);
-                                                        }, 500);
-                                                    }, 500);
-                                                }, 500);
-                                            }, 500);
-                                        }, 500);
-                                    }, 500);
-                                }, 500);
-                            }, 500);
-                        }, 500);
-                    }, 1000);
-                }, 1000);
+                                                                                                },  cutscene_2);
+                                                                                            },  cutscene_2);
+                                                                                        },  cutscene_2);
+                                                                                    },  cutscene_2);
+                                                                                },  cutscene_2);
+                                                                            },  cutscene_2);
+                                                                        },  cutscene_2);
+                                                                    },  cutscene_2);
+                                                                },  cutscene_2);
+                                                            },  cutscene_2);
+                                                        },  cutscene_2);
+                                                    },  cutscene_2);
+                                                },  cutscene_2);
+                                            },  cutscene_2);
+                                        },  cutscene_2);
+                                    },  cutscene_2);
+                                },  cutscene_2);
+                            },  cutscene_2);
+                        },  cutscene_2);
+                    }, cutscene_1);
+                }, cutscene_1);
             }, 12000);
         }
 }
@@ -2895,18 +2895,18 @@ class end1 extends Phaser.Scene {
                                                                 end1img5.destroy();
                                                                 let end1img6 = this.add.image(550,480,'end1_6'); try_again.play();
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
-                                                            }, 3000);
-                                                        }, 3000);
-                                                    }, 3000);
-                                                }, 3000);
-                                            }, 3000);
-                                        }, 3000);
-                                    }, 3000);
+                                                            }, cutscene_1);
+                                                        }, cutscene_1);
+                                                    }, cutscene_1);
+                                                }, cutscene_1);
+                                            }, cutscene_1);
+                                        }, cutscene_1);
+                                    }, cutscene_1);
                                 }, 6000);
-                            }, 3000);
-                        }, 3000);
-                    }, 3000);
-                }, 3000);
+                            }, cutscene_1);
+                        }, cutscene_1);
+                    }, cutscene_1);
+                }, cutscene_1);
             }, 1);
         }
 }
@@ -2935,19 +2935,19 @@ class end2 extends Phaser.Scene {
                                                                     setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);
                                                                  }, 7000);
                                                              }, 5000);
-                                                         }, 3000);
-                                                     }, 3000);
-                                                 }, 1000);
-                                             }, 1000);
-                                         }, 1000);
-                                     }, 1000);
-                                 }, 1000);
-                             }, 1000);
-                         }, 1000);
-                     }, 3000);
-                 }, 3000);
-             }, 3000);
-        }, 3000);
+                                                         }, cutscene_1);
+                                                     }, cutscene_1);
+                                                 }, cutscene_1);
+                                             }, cutscene_1);
+                                         },cutscene_1);
+                                     }, cutscene_1);
+                                 }, cutscene_1);
+                             }, cutscene_1);
+                         }, cutscene_1);
+                     }, cutscene_1);
+                 }, cutscene_1);
+             }, cutscene_1);
+        }, cutscene_1);
     }
 }
 class end3 extends Phaser.Scene {
@@ -2974,22 +2974,22 @@ class end3 extends Phaser.Scene {
                                                                     setTimeout(() => {end3_2.destroy();let end3_3=this.add.image(500,450,'end3_3');
                                                                         setTimeout(() => {end3_3.destroy();let end3_4=this.add.image(500,450,'end3_4');pistol_shot.play();
                                                                             setTimeout(() => {end3_4.destroy();this.scene.start('credit_scene');}, 7000);
-                                                                        }, 3000);
-                                                                    }, 3000);
-                                                                }, 3000);
+                                                                        }, cutscene_1);
+                                                                    }, cutscene_1);
+                                                                }, cutscene_1);
                                                             }, 5000);
-                                                        }, 3000);
-                                                    }, 1000);
-                                                }, 1000);
-                                            }, 1000);
-                                        }, 1000);
-                                    }, 1000);
-                                }, 1000);
-                            }, 1000);
-                        }, 1000);
-                    }, 1000);
-                }, 1000);
-            }, 1000);
+                                                        }, cutscene_1);
+                                                    }, cutscene_1);
+                                                }, cutscene_1);
+                                            }, cutscene_1);
+                                        }, cutscene_1);
+                                    }, cutscene_1);
+                                }, cutscene_1);
+                            }, cutscene_1);
+                        }, cutscene_1);
+                    }, cutscene_1);
+                }, cutscene_1);
+            }, cutscene_1);
 
         }
 }
@@ -3006,11 +3006,11 @@ class end4 extends Phaser.Scene {
                     setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
                         setTimeout(() => {end4_4D.destroy(); let end4_5D=this.add.image(500,500, 'end4_5D').setScale(4);
                             setTimeout(() => {end4_5D.destroy(); this.scene.start('credit_scene');
-                            }, 3000);
-                        }, 3000);
-                    }, 3000);
-                }, 3000);
-            }, 3000);
+                            }, cutscene_1);
+                        }, cutscene_1);
+                    }, cutscene_1);
+                }, cutscene_1);
+            }, cutscene_1);
         }
     }
 //credit_scene
@@ -3114,6 +3114,9 @@ var level1score=0;
 var level2score=0;
 var level3score=0;
 var level4score=0;
+var offset_1=-30;
+var cutscene_1=1000;
+var cutscene_2=1000;
 var coin;
 var ending=0;
 var enemy_footstep=false;
