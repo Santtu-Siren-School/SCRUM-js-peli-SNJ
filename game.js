@@ -1085,20 +1085,20 @@ class Level2 extends Phaser.Scene {
         this.cameras.main.startFollow(player);
         this.physics.add.collider(knife, bottom_of_game);
         this.physics.add.overlap(player, coin, CollectCoin, null, this);
-    coin.create(50, 180, 'coin');
-    coin.create(10, 780, 'coin');
-    coin.create(1450, 650, 'coin');
-    coin.create(1950, 60, 'coin');
-    coin.create(700, 180, 'coin');
-    coin.children.iterate(c => {
-    if (!c) return;
+        coin.create(50, 180, 'coin');
+        coin.create(10, 780, 'coin');
+        coin.create(1450, 650, 'coin');
+        coin.create(1950, 60, 'coin');
+        coin.create(700, 180, 'coin');
+        coin.children.iterate(c => {
+        if (!c) return;
 
-    c.body.setAllowGravity(true);
-    c.body.setImmovable(false);
+            c.body.setAllowGravity(true);
+            c.body.setImmovable(false);
 
-    c.body.setSize(c.width * 0.6, c.height * 0.6);
-    c.body.setOffset(c.width * 0.25, c.height * 0.25);
-});
+            c.body.setSize(c.width * 0.6, c.height * 0.6);
+            c.body.setOffset(c.width * 0.25, c.height * 0.25);
+        });
         // tykkien luonti
         this.cannons = [
         this.physics.add.image(50, 700, 'cannon'),
@@ -1235,7 +1235,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     this.spikes.create(425, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(1525, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(1855, 867, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(55, 867, 'spike').setScale(0.3).refreshBody();
+    this.spikes.create(55, 877, 'spike').setScale(0.3).refreshBody();
     this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
 
