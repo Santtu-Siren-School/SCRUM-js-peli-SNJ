@@ -20,6 +20,7 @@ class force_interaction extends Phaser.Scene {
             this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
             this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
             this.load.image('cannon_up', 'assets/textures/cannon_up.png');
+            this.load.image('cannon_down', 'assets/textures/cannon_down.png');
             this.load.image('spike','assets/textures/spikes.png');
             this.load.image('dungeon', 'assets/textures/dungeon.png');
             this.load.image('trampoline', 'assets/textures/Trampoline.png')
@@ -637,11 +638,13 @@ class Level1 extends Phaser.Scene {
         //määritelään knife
         knife = this.physics.add.group();
         coin = this.physics.add.group();
+        wall = this.physics.add.staticGroup();
         //määritelee platforms staatiseksi
         platforms = this.physics.add.staticGroup();
         //määritelee bottom_of_game staatiseksi
         bottom_of_game = this.physics.add.staticGroup();
         //level1 platformien luonti
+        wall.create(1940,770,'wall').setScale(0.70).refreshBody();
         platforms.create(340, 820, 'platform').setScale(3).refreshBody();
         platforms.create(80, 700, 'platform').setScale(2).refreshBody();
         platforms.create(300, 580, 'platform').setScale(2).refreshBody();
@@ -655,11 +658,12 @@ class Level1 extends Phaser.Scene {
         //level1 platformien luonti loppuu
         //level1 bottom_of_game luonti
         bottom_of_game.create(150,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(1900,950, 'bottom_of_game').setScale(3).refreshBody();
         bottom_of_game.create(430,626, 'bottom_of_game').setScale(1).refreshBody();
         bottom_of_game.create(940,470, 'bottom_of_game').setScale(0.45).refreshBody();
         //level1 bottom_of_game luonti lopuu
         //kolikoiden luonti
-    coin.create(50, 180, 'coin');
+    coin.create(2000, 180, 'coin');
     coin.create(400, 180, 'coin');
     coin.create(490, 650, 'coin');
     coin.create(1070, 60, 'coin');
@@ -705,6 +709,7 @@ class Level1 extends Phaser.Scene {
 
 // Colliders
 this.physics.add.collider(player, platforms);
+ this.physics.add.collider(player, wall);
 this.physics.add.collider(coin, platforms);
 this.physics.add.collider(coin, bottom_of_game);
 this.physics.add.collider(player, bottom_of_game);
@@ -714,6 +719,11 @@ this.physics.add.collider(player, knife);
     weapon.body.allowGravity = false; 
     weapon.body.immovable = true;     
 });
+   this.physics.add.collider(knife, wall, (weapon) => {
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+        });
 this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
 if (!enemy.active) return;
 
@@ -793,9 +803,24 @@ if (!enemy.active) return;
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
+          cannon_down = this.physics.add.image(2000, 10, 'cannon_down');
+        cannon_down.setImmovable(true);
+        cannon_down.body.allowGravity = false;
+
+        cannon_down_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 4000,
+            callback: () => shootBullet_cannon_down(cannon_down, cannon_down_bullets),
+            loop: true
+        });
         // törmäykset luoteihin
         this.physics.add.collider(player, bullets, hitPlayer, null, this);
         this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
+         this.physics.add.collider(player, cannon_down_bullets, hitPlayer, null, this);
         //vihollisen fysiikat
         this.physics.add.collider(this.enemy, platforms);
         this.physics.add.collider(player, this.enemy, hitByEnemy, null, this); 
@@ -1048,7 +1073,7 @@ class Level2 extends Phaser.Scene {
         bottom_of_game.create(1500,900, 'bottom_of_game')
         bottom_of_game.create(1700,900, 'bottom_of_game')
         bottom_of_game.create(1900,900, 'bottom_of_game')
-        bottom_of_game.create(700,550, 'bottom_of_game').setScale(0.10).refreshBody();
+        bottom_of_game.create(700,530, 'bottom_of_game').setScale(0.10).refreshBody();
         //level2 bottom_of_game tekeminen
         //määritelään ovi
         ovi=this.physics.add.staticGroup();
@@ -1064,7 +1089,7 @@ class Level2 extends Phaser.Scene {
     coin.create(10, 780, 'coin');
     coin.create(1450, 650, 'coin');
     coin.create(1950, 60, 'coin');
-    coin.create(700, 300, 'coin');
+    coin.create(700, 180, 'coin');
     coin.children.iterate(c => {
     if (!c) return;
 
@@ -1170,6 +1195,7 @@ class Level2 extends Phaser.Scene {
             weapon.body.allowGravity = false;
             weapon.body.immovable = true;
         });
+        
         // Turvallinen osuman käsittely knife -> enemy (vähentää hp:tä, ei tuhoa yhdellä osumalla)
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
             if (!enemy.active) return;
@@ -3113,6 +3139,8 @@ var cannon_up;
 var cannon_up_bullets;
 var cannon_back;
 var cannon_back_bullets;
+var cannon_down;
+var cannon_down_bullets;
 var wall;
 var trampoline;
 var low_power_trampoline;
@@ -3133,7 +3161,7 @@ const pistol_shot=new Audio('assets/sound/pistol-shot.mp3');
 pistol_shot.volume = 1;
 jump.volume = 0.3;
 const player_death=new Audio('assets/sound/death.mp3');
-player_death.volume = 1.0;
+player_death.volume = 0.5;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 knife_throw.volume = 0.4;
@@ -3146,7 +3174,7 @@ const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
 const wind_sound=new Audio('assets/sound/wind.mp3');
-wind_sound.volume = 0,3;
+wind_sound.volume = 0.5;
 const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_music.mp3');
 const fireball_sound=new Audio('assets/sound/fireball.mp3');
 const wall_sound = new Audio('assets/sound/wall.mp3')
@@ -3210,6 +3238,16 @@ function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) 
         cannon_back_bullets.enableBody(true, c.x, c.y, true, true);
         cannon_back_bullets.setVelocityX(-400);
         cannon_back_bullets.body.allowGravity = false;
+    }
+}
+function shootBullet_cannon_down(cannon_downInstance, cannon_down_bulletsGroup) {
+    cannon_fire.play()
+    const c = cannon_downInstance;
+    const cannon_down_bullets = cannon_down_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
+    if (cannon_down_bullets) {
+        cannon_down_bullets.enableBody(true, c.x, c.y+40, true, true);
+        cannon_down_bullets.setVelocityY(400);
+        cannon_down_bullets.body.allowGravity = false;
     }
 }
 
