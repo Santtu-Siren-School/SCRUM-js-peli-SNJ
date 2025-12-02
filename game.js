@@ -302,6 +302,7 @@ class Tutorial extends Phaser.Scene {
         player.setCollideWorldBounds(true);
         //määritelään knife
         knife = this.physics.add.group();
+        coin = this.physics.add.group();
         //määritelee platforms staatiseksi
         platforms = this.physics.add.staticGroup();
         //määritelee bottom_of_game staatiseksi
@@ -346,6 +347,16 @@ class Tutorial extends Phaser.Scene {
         bottom_of_game.create(8700,900, 'bottom_of_game').setScale(3).refreshBody();
         bottom_of_game.create(9200,900, 'bottom_of_game').setScale(3).refreshBody();
         bottom_of_game.create(9700,900, 'bottom_of_game').setScale(3).refreshBody();
+    coin.create(8800, 180, 'coin');
+    coin.children.iterate(c => {
+    if (!c) return;
+
+    c.body.setAllowGravity(true);
+    c.body.setImmovable(false);
+
+    c.body.setSize(c.width * 0.6, c.height * 0.6);
+    c.body.setOffset(c.width * 0.25, c.height * 0.25);
+});
         this.guide1Text = this.add.text(10, 10, "Welcome to your journey to greatness. You're a young teen\n hellbent on conquering the world.\n But before you can do that, you must first depose the\n current king living in the castle, he is very evil.\n You must complete four levels to get to him.\n But before you get to level 1, let us first show you\n how to play the game. See your character? He's currently\n not doing anything. Use arrow keys to make him move.\n Press left to go left and right to go right.\n No shit sherlock. More guides are coming\n as you progress through this tutorial.", {
             fontSize: '30px',
             fill: '#000000ff'
@@ -371,6 +382,10 @@ class Tutorial extends Phaser.Scene {
             fill: '#000000ff'
         })
             this.guide6Text = this.add.text(7700, 10, "What about now if\n you can't get up?\n Use your trusty knife\n to climb the wall.\n Shoot a knife at\n the wall, it lingers\n there for 3 seconds.\n In those 3 seconds,\n you can stand on it\n and jump higher than you\n you normally would.", {
+            fontSize: '30px',
+            fill: '#000000ff'
+        })
+            this.guide7Text = this.add.text(8500, 10, "See that coin? That's\n what's gonna give you score in\n the later stages. Collect it \n by simply walking on it.", {
             fontSize: '30px',
             fill: '#000000ff'
         })
@@ -406,6 +421,8 @@ class Tutorial extends Phaser.Scene {
         this.physics.add.collider(player, platforms);
         this.physics.add.collider(player, bottom_of_game);
         this.physics.add.collider(player, knife);
+        this.physics.add.collider(coin, platforms);
+        this.physics.add.collider(coin, bottom_of_game);
             this.physics.add.collider(knife, platforms, (weapon) => {
             weapon.setVelocity(0, 0);   
             weapon.body.allowGravity = false; 
@@ -449,6 +466,7 @@ class Tutorial extends Phaser.Scene {
         this.physics.add.collider(knife, bottom_of_game);
         //Pelaajan liikumisen animaatio määritely pätyy
         this.physics.add.overlap(player, ovi, level1Transition, null, this);
+        this.physics.add.overlap(player, coin, TutorialtCoin, null, this);
         this.cameras.main.setBounds(0, 0, 10000, 900);
         this.physics.world.setBounds(0, 0, 10000, 900);
         this.cameras.main.startFollow(player);
@@ -3118,16 +3136,17 @@ const player_death=new Audio('assets/sound/death.mp3');
 player_death.volume = 1.0;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
+knife_throw.volume = 0.4;
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
 const footsteps=new Audio('assets/sound/footsteps.mp3');
 footsteps.volume = 0.5;
 const enemy=new Audio('assets/sound/enemy.mp3');
-enemy.volume = 0.5;
+enemy.volume = 0.4;
 const spike_death=new Audio('assets/sound/spike_death.mp3');
 const cannon_death=new Audio('assets/sound/cannon_death.mp3');
 const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
 const wind_sound=new Audio('assets/sound/wind.mp3');
-wind_sound.volume = 0,5;
+wind_sound.volume = 0,3;
 const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_music.mp3');
 const fireball_sound=new Audio('assets/sound/fireball.mp3');
 const wall_sound = new Audio('assets/sound/wall.mp3')
@@ -3248,6 +3267,10 @@ function trampolinePlayer(player, trampoline) {
     trampoline_sound.play()
     player.setVelocityY(-600);
 }
+function TutorialtCoin(player, coin) {
+    coin_collect.play()
+        coin.disableBody(true, true);
+    }
 function CollectCoin(player, coin) {
     coin_collect.play()
     if (this.scene.key==='Level1') {
