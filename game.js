@@ -3333,7 +3333,8 @@ function knifehitboss(boss,knifeSprite) {
     const currentDeaths = this.registry.get('deaths') + 1;
     var bosshitchanchethingy = Phaser.Math.Between(0, 3);
     console.log(bosshitchanchethingy)
-    knife_deflect_first_Time=false;
+    //knife_deflect_first_Time=false;
+    //
     if (knife_deflect_first_Time) {
         this.scene.start('Cutscene_knife');
         knife_deflect_first_Time=false;
