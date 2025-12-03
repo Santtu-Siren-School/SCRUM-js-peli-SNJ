@@ -2480,11 +2480,11 @@ class Level5 extends Phaser.Scene {
             //katsotaan vielä kerran jos dialogia ei pelata
             if(dialogue1_boss===0) {
                 if(dialogue2_boss===2 || dialogue2_boss===0) {
-                    if(dialogue3_boss===3|| dialogue3_boss===0) {
+                    if(dialogue3_boss===2|| dialogue3_boss===0) {
                         //katsotaan jos on phase 1
                         if(phase===1){
                             //anetaan random value 0-400, jos on 6 tee hyökäys ja pelaa animaatio
-                            bossattackchanche=Phaser.Math.Between(0, 400);
+                            bossattackchanche=Phaser.Math.Between(0, 200);
                             //console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
@@ -2524,7 +2524,7 @@ class Level5 extends Phaser.Scene {
                         }
                         //sama kuin phase 1 mutta phase 2, pienemät arvot enemän hyökäyksiä (ja voimakaampia)
                         else if (phase===2){
-                            bossattackchanche=Phaser.Math.Between(0, 220);
+                            bossattackchanche=Phaser.Math.Between(0, 100);
                             //console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
@@ -2569,7 +2569,7 @@ class Level5 extends Phaser.Scene {
                         }
                         //same kuin phase 2 ja phase 1, mutta voimakaamat hyökäysket je enemän niitä
                         else if (phase===3){
-                            bossattackchanche=Phaser.Math.Between(0, 100);
+                            bossattackchanche=Phaser.Math.Between(0, 60);
                             console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
