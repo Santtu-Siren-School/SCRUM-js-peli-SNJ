@@ -3027,6 +3027,9 @@ class credit_scene extends Phaser.Scene {
             "Player    Niilo Mustonen",
             "",
             "",
+            "Boss      Santtu Sirén",
+            "",
+            "",
             "",
             "",
             "Very Special Thanks",
@@ -3161,6 +3164,19 @@ const end3_background_song = new Audio('assets/sound/end3_background_song.mp3')
 const lightbeam_death = new Audio('assets/sound/lightbeam_death.mp3')
 const fireball_death = new Audio('assets/sound/fireball_death.m4a')
 const wall_death = new Audio('assets/sound/wall_death.m4a')
+const boss_dialogy_1S = new Audio('assets/sound/boss_dialogy_1.m4a')
+const boss_dialogy_2S = new Audio('assets/sound/boss_dialogy_2.m4a')
+const boss_dialogy_3S = new Audio('assets/sound/boss_dialogy_3.m4a')
+const boss_dialogy_4S = new Audio('assets/sound/boss_dialogy_4.m4a')
+const boss_dialogy_5S = new Audio('assets/sound/boss_dialogy_5.m4a')
+const boss_dialogy_6S = new Audio('assets/sound/boss_dialogy_6.m4a')
+const boss_dialogy_7S = new Audio('assets/sound/boss_dialogy_7.m4a')
+const boss_dialogy_8S = new Audio('assets/sound/boss_dialogy_8.m4a')
+const boss_dialogy_9S = new Audio('assets/sound/boss_dialogy_9.m4a')
+const boss_dialogy_10S = new Audio('assets/sound/boss_dialogy_10.m4a')
+const boss_dialogy_11S = new Audio('assets/sound/boss_dialogy_11.m4a')
+const cutscene_knife_23S = new Audio('assets/sound/cutscene_knife_23.m4a')
+const cutscene_knife_24S = new Audio('assets/sound/cutscene_knife_23.m4a')
 var player;
 var weapon;
 var weapon2;
