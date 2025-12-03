@@ -2087,7 +2087,7 @@ class Level4 extends Phaser.Scene {
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 2000,
+            delay: 1000,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
@@ -3116,7 +3116,7 @@ var level3score=0;
 var level4score=0;
 var offset_1=-30;
 var cutscene_1=1000;
-var cutscene_2=1000;
+var cutscene_2=500;
 var coin;
 var ending=0;
 var enemy_footstep=false;
@@ -3181,6 +3181,7 @@ const trampoline_sound=new Audio('assets/sound/trampoline.m4a');
 const wind_sound=new Audio('assets/sound/wind.mp3');
 wind_sound.volume = 0.5;
 const boss_fight_background_music=new Audio('assets/sound/boss_fight_background_music.mp3');
+boss_fight_background_music.volume = 0.5;
 const fireball_sound=new Audio('assets/sound/fireball.mp3');
 const wall_sound = new Audio('assets/sound/wall.mp3')
 const spikes_sound = new Audio('assets/sound/spikes.mp3')
