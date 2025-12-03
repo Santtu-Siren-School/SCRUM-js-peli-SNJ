@@ -142,7 +142,7 @@ class force_interaction extends Phaser.Scene {
                     this.scene.start('MainMenu'),
                     console.log("Start Game");
                 })
-            ;}, 5000);
+            ;}, 1);
                         //määritelään Pelaajan liikumis animaatiot
             this.anims.create({
                 key: 'left',
@@ -2447,8 +2447,9 @@ class Level5 extends Phaser.Scene {
         if (dialogue1_boss===1) {
             dialogueActive = true;
             let boss_dialogue_img1=this.add.image(500,1610,'dialogue1_boss').setScale(5)
-            setTimeout(() => {boss_dialogue_img1.destroy();}, 3000);
-            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);setTimeout(() => {boss_dialogue_img2.destroy();dialogueActive = false;}, 3000)}, 3000);
+            boss_dialogy_1S.play();
+            setTimeout(() => {boss_dialogue_img1.destroy();}, 4000);
+            setTimeout(() => {let boss_dialogue_img2=this.add.image(500,1610,'dialogue2_boss').setScale(5);boss_dialogy_2S.play();setTimeout(() => {boss_dialogue_img2.destroy();dialogueActive = false;}, 4000)}, 4000);
             dialogue1_boss=0
 
         }
@@ -2456,8 +2457,9 @@ class Level5 extends Phaser.Scene {
             dialogueActive = true;
             player.setPosition(400, 1800);
             let boss_dialogue_img3=this.add.image(500,1610,'dialogue3_boss').setScale(5)
-            setTimeout(() => {boss_dialogue_img3.destroy();player.setPosition(400, 1800);}, 3000);
-            setTimeout(() => {let boss_dialogue_img4=this.add.image(500,1610,'dialogue4_boss').setScale(5);setTimeout(() => {boss_dialogue_img4.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
+            boss_dialogy_3S.play();
+            setTimeout(() => {boss_dialogue_img3.destroy();player.setPosition(400, 1800);}, 4000);
+            setTimeout(() => {let boss_dialogue_img4=this.add.image(500,1610,'dialogue4_boss').setScale(5);boss_dialogy_4S.play();setTimeout(() => {boss_dialogue_img4.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 4000)}, 4000);
             dialogue2_boss=2
 
         }
@@ -2465,8 +2467,9 @@ class Level5 extends Phaser.Scene {
             dialogueActive = true;
             player.setPosition(400, 1800);
             let boss_dialogue_img5=this.add.image(500,1610,'dialogue5_boss').setScale(5)
-            setTimeout(() => {boss_dialogue_img5.destroy();player.setPosition(400, 1800);}, 3000);
-            setTimeout(() => {let boss_dialogue_img6=this.add.image(500,1610,'dialogue6_boss').setScale(5);setTimeout(() => {boss_dialogue_img6.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 3000)}, 3000);
+            boss_dialogy_5S.play();
+            setTimeout(() => {boss_dialogue_img5.destroy();player.setPosition(400, 1800);}, 4000);
+            setTimeout(() => {let boss_dialogue_img6=this.add.image(500,1610,'dialogue6_boss').setScale(5);boss_dialogy_6S.play();setTimeout(() => {boss_dialogue_img6.destroy();dialogueActive = false;player.setPosition(400, 1800);}, 4000)}, 4000);
             dialogue3_boss=2
         }
         if (dialogueActive) {
@@ -2821,11 +2824,13 @@ class Cutscene_knife extends Phaser.Scene {
                                                                                                 setTimeout(() => {
                                                                                                     cutscene_knife_img22.destroy();
                                                                                                     let cutscene_knife_img23 = this.add.image(500,500,'cutscene_knife23').setScale(4);
+                                                                                                    cutscene_knife_23S.play();
                                                                                                     setTimeout(() => {
                                                                                                         cutscene_knife_img23.destroy();
                                                                                                         let cutscene_knife_img24 = this.add.image(500,500,'cutscene_knife24').setScale(4);
-                                                                                                            setTimeout(()=>{this.scene.start('Level5')},3000);
-                                                                                                    }, 3000);
+                                                                                                        cutscene_knife_24S.play();
+                                                                                                            setTimeout(()=>{this.scene.start('Level5')},dialogue_speed);
+                                                                                                    }, dialogue_speed);
                                                                                                 },  cutscene_2);
                                                                                             },  cutscene_2);
                                                                                         },  cutscene_2);
@@ -2857,25 +2862,30 @@ class end1 extends Phaser.Scene {
             boss_fight_background_music.pause();
             end1_background_song.play();
             let dialogue7_boss=this.add.image(500,450,'dialogue7_boss').setScale(4);
+            boss_dialogy_7S.play();
             setTimeout(() => {
                 setTimeout(() => {
                     dialogue7_boss.destroy();
-                    let dialogue8_boss = this.add.image(500,450,'dialogue8_boss').setScale(4);
+                    let dialogue8_boss = this.add.image(500,450,'dialogue8_boss').setScale(4); 
+                    boss_dialogy_8S.play();
                     setTimeout(() => {
                         dialogue8_boss.destroy();
                         let dialogue9_boss = this.add.image(500,450,'dialogue9_boss').setScale(4);
+                        boss_dialogy_9S.play();
                         setTimeout(() => {
                             dialogue9_boss.destroy();
                             let dialogue10_boss = this.add.image(500,450,'dialogue10_boss').setScale(4);
+                            boss_dialogy_10S.play();
                             setTimeout(() => {
                                 dialogue10_boss.destroy();
                                 let dialogue11_boss = this.add.image(500,450,'dialogue11_boss').setScale(4);
+                                boss_dialogy_11S.play();
                                 setTimeout(() => {
                                     dialogue11_boss.destroy();
-                                    let end1img0A = this.add.image(500,450,'end1_7');voi_vittu.play();
+                                    let end1img0A = this.add.image(500,450,'end1_7');
                                     setTimeout(() => {
                                         end1img0A.destroy();
-                                        let end1img0 = this.add.image(500,450,'end1_0');epic_fail.play();
+                                        let end1img0 = this.add.image(500,450,'end1_0');
                                         setTimeout(() => {
                                             end1img0.destroy();
                                             let end1img1 = this.add.image(500,450,'end1_1');
@@ -2893,7 +2903,7 @@ class end1 extends Phaser.Scene {
                                                             let end1img5 = this.add.image(500,450,'end1_5');
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
-                                                                let end1img6 = this.add.image(550,480,'end1_6'); try_again.play();
+                                                                let end1img6 = this.add.image(550,480,'end1_6');
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -2903,10 +2913,10 @@ class end1 extends Phaser.Scene {
                                         }, cutscene_1);
                                     }, cutscene_1);
                                 }, 6000);
-                            }, cutscene_1);
-                        }, cutscene_1);
-                    }, cutscene_1);
-                }, cutscene_1);
+                            }, dialogue_speed);
+                        }, dialogue_speed);
+                    }, dialogue_speed);
+                }, dialogue_speed);
             }, 1);
         }
 }
@@ -2917,7 +2927,8 @@ class end2 extends Phaser.Scene {
         boss_fight_background_music.pause();
         end2_background_song.play();
         let end2_1D=this.add.image(500,450,'end2_1D').setScale(4);
-        setTimeout(() => { end2_1D.destroy();let end2_2D=this.add.image(500,450,'end2_2D').setScale(4);
+        end2_1s.play();
+        setTimeout(() => { end2_1D.destroy();let end2_2D=this.add.image(500,450,'end2_2D').setScale(4);end2_2s.play();
             setTimeout(() => {end2_2D.destroy();let end2_1=this.add.image(500,450, 'end2_1');
                 setTimeout(() => {end2_1.destroy();let end2_2=this.add.image(500,450, 'end2_2');
                     setTimeout(() => {end2_2.destroy();let end2_3=this.add.image(500,450, 'end2_3');
@@ -2930,8 +2941,8 @@ class end2 extends Phaser.Scene {
                                                 setTimeout(() => {end2_9.destroy();let end2_10=this.add.image(500,450, 'end2_10');
                                                     setTimeout(() => {end2_10.destroy();let end2_11=this.add.image(500,450, 'end2_11');
                                                         setTimeout(() => {end2_11.destroy();let end2_12=this.add.image(500,450, 'end2_12');
-                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);arrest.play();
-                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2); aww_you_want_yo_momma.play();
+                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);
+                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2);
                                                                     setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);
                                                                  }, 7000);
                                                              }, 5000);
@@ -2946,8 +2957,8 @@ class end2 extends Phaser.Scene {
                          }, cutscene_1);
                      }, cutscene_1);
                  }, cutscene_1);
-             }, cutscene_1);
-        }, cutscene_1);
+             }, dialogue_speed);
+        }, dialogue_speed);
     }
 }
 class end3 extends Phaser.Scene {
@@ -2976,8 +2987,8 @@ class end3 extends Phaser.Scene {
                                                                             setTimeout(() => {end3_4.destroy();this.scene.start('credit_scene');}, 7000);
                                                                         }, cutscene_1);
                                                                     }, cutscene_1);
-                                                                }, cutscene_1);
-                                                            }, 5000);
+                                                                }, dialogue_speed);
+                                                            }, cutscene_1);
                                                         }, cutscene_1);
                                                     }, cutscene_1);
                                                 }, cutscene_1);
@@ -3120,6 +3131,7 @@ var level4score=0;
 var offset_1=-30;
 var cutscene_1=1000;
 var cutscene_2=500;
+var dialogue_speed=4000;
 var coin;
 var ending=0;
 var enemy_footstep=false;
@@ -3206,24 +3218,45 @@ const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_k
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const end4_background_song = new Audio('assets/sound/end4_background_song.mp3')
+end1_background_song.volume=0.3;
+end2_background_song.volume=0.3;
+end3_background_song.volume=0.3;
+end4_background_song.volume=0.3;
 const lightbeam_death = new Audio('assets/sound/lightbeam_death.mp3')
 const fireball_death = new Audio('assets/sound/fireball_death.m4a')
 const wall_death = new Audio('assets/sound/wall_death.m4a')
 wall_death.volume = 1;
 const coin_collect = new Audio('assets/sound/coin_collect.wav')
-const boss_dialogy_1S = new Audio('assets/sound/boss_dialogy_1.m4a')
-const boss_dialogy_2S = new Audio('assets/sound/boss_dialogy_2.m4a')
-const boss_dialogy_3S = new Audio('assets/sound/boss_dialogy_3.m4a')
-const boss_dialogy_4S = new Audio('assets/sound/boss_dialogy_4.m4a')
-const boss_dialogy_5S = new Audio('assets/sound/boss_dialogy_5.m4a')
-const boss_dialogy_6S = new Audio('assets/sound/boss_dialogy_6.m4a')
-const boss_dialogy_7S = new Audio('assets/sound/boss_dialogy_7.m4a')
-const boss_dialogy_8S = new Audio('assets/sound/boss_dialogy_8.m4a')
-const boss_dialogy_9S = new Audio('assets/sound/boss_dialogy_9.m4a')
-const boss_dialogy_10S = new Audio('assets/sound/boss_dialogy_10.m4a')
-const boss_dialogy_11S = new Audio('assets/sound/boss_dialogy_11.m4a')
-const cutscene_knife_23S = new Audio('assets/sound/cutscene_knife_23.m4a')
-const cutscene_knife_24S = new Audio('assets/sound/cutscene_knife_23.m4a')
+const boss_dialogy_1S = new Audio('assets/sound/dialogue/boss_dialogy_1.m4a')
+const boss_dialogy_2S = new Audio('assets/sound/dialogue/boss_dialogy_2.m4a')
+const boss_dialogy_3S = new Audio('assets/sound/dialogue/boss_dialogy_3.m4a')
+const boss_dialogy_4S = new Audio('assets/sound/dialogue/boss_dialogy_4.m4a')
+const boss_dialogy_5S = new Audio('assets/sound/dialogue/boss_dialogy_5.m4a')
+const boss_dialogy_6S = new Audio('assets/sound/dialogue/boss_dialogy_6.m4a')
+const boss_dialogy_7S = new Audio('assets/sound/dialogue/boss_dialogy_7.m4a')
+const boss_dialogy_8S = new Audio('assets/sound/dialogue/boss_dialogy_8.m4a')
+const boss_dialogy_9S = new Audio('assets/sound/dialogue/boss_dialogy_9.m4a')
+const boss_dialogy_10S = new Audio('assets/sound/dialogue/boss_dialogy_10.m4a')
+const boss_dialogy_11S = new Audio('assets/sound/dialogue/boss_dialogy_11.m4a')
+const cutscene_knife_23S = new Audio('assets/sound/dialogue/cutscene_knife_23.m4a')
+const cutscene_knife_24S = new Audio('assets/sound/dialogue/cutscene_knife_24.m4a')
+const end2_1s = new Audio('assets/sound/dialogue/cutscene_end2_1.m4a')
+const end2_2s = new Audio('assets/sound/dialogue/cutscene_end2_2.m4a')
+boss_dialogy_1S.volume=1;
+boss_dialogy_2S.volume=1;
+boss_dialogy_3S.volume=1;
+boss_dialogy_4S.volume=1;
+boss_dialogy_5S.volume=1;
+boss_dialogy_6S.volume=1;
+boss_dialogy_7S.volume=1;
+boss_dialogy_8S.volume=1;
+boss_dialogy_9S.volume=1;
+boss_dialogy_10S.volume=1;
+boss_dialogy_11S.volume=1;
+cutscene_knife_23S.volume=1;
+cutscene_knife_24S.volume=1;
+end2_1s.volume=1;
+end2_2s.volume=1;
 var player;
 var weapon;
 var weapon2;
