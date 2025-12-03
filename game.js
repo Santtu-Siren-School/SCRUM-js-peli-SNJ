@@ -1885,7 +1885,7 @@ class Level4 extends Phaser.Scene {
         platforms.create(500, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(830, 1500, 'platform').setScale(2).refreshBody();
         platforms.create(700, 1800, 'platform').setScale(2).refreshBody();
-        platforms.create(1110, 1630, 'platform').setScale(2).refreshBody();
+        platforms.create(1110, 1635, 'platform').setScale(2).refreshBody();
         platforms.create(1530, 1870, 'platform').setScale(2).refreshBody();
         platforms.create(1800, 1760, 'platform').setScale(2).refreshBody();
         platforms.create(1530, 1600, 'platform').setScale(2).refreshBody();
