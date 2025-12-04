@@ -2883,9 +2883,11 @@ class end1 extends Phaser.Scene {
                                 setTimeout(() => {
                                     dialogue11_boss.destroy();
                                     let end1img0A = this.add.image(500,450,'end1_7');
+                                    voi_vittu.play();
                                     setTimeout(() => {
                                         end1img0A.destroy();
                                         let end1img0 = this.add.image(500,450,'end1_0');
+                                        epic_fail.play();
                                         setTimeout(() => {
                                             end1img0.destroy();
                                             let end1img1 = this.add.image(500,450,'end1_1');
@@ -2903,6 +2905,7 @@ class end1 extends Phaser.Scene {
                                                             let end1img5 = this.add.image(500,450,'end1_5');
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
+                                                                try_again.play();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
@@ -2911,8 +2914,8 @@ class end1 extends Phaser.Scene {
                                                 }, cutscene_1);
                                             }, cutscene_1);
                                         }, cutscene_1);
-                                    }, cutscene_1);
-                                }, 6000);
+                                    }, 4000);
+                                }, dialogue_speed);
                             }, dialogue_speed);
                         }, dialogue_speed);
                     }, dialogue_speed);
@@ -2941,11 +2944,11 @@ class end2 extends Phaser.Scene {
                                                 setTimeout(() => {end2_9.destroy();let end2_10=this.add.image(500,450, 'end2_10');
                                                     setTimeout(() => {end2_10.destroy();let end2_11=this.add.image(500,450, 'end2_11');
                                                         setTimeout(() => {end2_11.destroy();let end2_12=this.add.image(500,450, 'end2_12');
-                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);
+                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);arrest.play();
                                                                 setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2);
-                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);
+                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);aww_you_want_yo_momma.play();
                                                                  }, 7000);
-                                                             }, 5000);
+                                                             }, cutscene_1);
                                                          }, cutscene_1);
                                                      }, cutscene_1);
                                                  }, cutscene_1);
