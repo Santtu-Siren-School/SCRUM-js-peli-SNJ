@@ -1910,7 +1910,7 @@ class Level4 extends Phaser.Scene {
             platform1.y - 200,
             'enemy'
         ).setScale(4);
-        const platform2 = platforms.getChildren().at(12);
+        const platform2 = platforms.getChildren().at(13);
         const enemy2 = this.enemies.create(
             platform2.x - 10,
             platform2.y - 200,
