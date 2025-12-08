@@ -127,6 +127,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end4_2D', 'assets/textures/end4_2D.png')
             this.load.image('end4_3D', 'assets/textures/end4_3D.png')
             this.load.image('end4_4D', 'assets/textures/end4_4D.png')
+            this.load.image('end4_5D', 'assets/textures/end4_5D.png')
             this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
         }
         create() {
@@ -1909,7 +1910,7 @@ class Level4 extends Phaser.Scene {
             platform1.y - 200,
             'enemy'
         ).setScale(4);
-        const platform2 = platforms.getChildren().at(13);
+        const platform2 = platforms.getChildren().at(12);
         const enemy2 = this.enemies.create(
             platform2.x - 10,
             platform2.y - 200,
@@ -2904,6 +2905,7 @@ class end1 extends Phaser.Scene {
                                                             let end1img5 = this.add.image(500,450,'end1_5');
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
+                                                                try_again.play();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
@@ -3016,7 +3018,9 @@ class end4 extends Phaser.Scene {
             setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4);
                 setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
                     setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
-                        setTimeout(() => {end4_4D.destroy(); this.scene.start('credit_scene');
+                        setTimeout(() => {end4_4D.destroy(); let end4_5D=this.add.image(500,500, 'end4_5D').setScale(4);
+                            setTimeout(() => {end4_5D.destroy(); this.scene.start('credit_scene');
+                            }, 3000);
                         }, 3000);
                     }, 3000);
                 }, 3000);
