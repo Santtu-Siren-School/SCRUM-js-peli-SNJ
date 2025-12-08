@@ -127,7 +127,6 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end4_2D', 'assets/textures/end4_2D.png')
             this.load.image('end4_3D', 'assets/textures/end4_3D.png')
             this.load.image('end4_4D', 'assets/textures/end4_4D.png')
-            this.load.image('end4_5D', 'assets/textures/end4_5D.png')
             this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
         }
         create() {
@@ -3015,9 +3014,7 @@ class end4 extends Phaser.Scene {
             setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4);
                 setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
                     setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
-                        setTimeout(() => {end4_4D.destroy(); let end4_5D=this.add.image(500,500, 'end4_5D').setScale(4);
-                            setTimeout(() => {end4_5D.destroy(); this.scene.start('credit_scene');
-                            }, 3000);
+                        setTimeout(() => {end4_4D.destroy(); this.scene.start('credit_scene');
                         }, 3000);
                     }, 3000);
                 }, 3000);
