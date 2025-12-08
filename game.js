@@ -127,7 +127,6 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end4_2D', 'assets/textures/end4_2D.png')
             this.load.image('end4_3D', 'assets/textures/end4_3D.png')
             this.load.image('end4_4D', 'assets/textures/end4_4D.png')
-            this.load.image('end4_5D', 'assets/textures/end4_5D.png')
             this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
         }
         create() {
@@ -1910,7 +1909,7 @@ class Level4 extends Phaser.Scene {
             platform1.y - 200,
             'enemy'
         ).setScale(4);
-        const platform2 = platforms.getChildren().at(12);
+        const platform2 = platforms.getChildren().at(13);
         const enemy2 = this.enemies.create(
             platform2.x - 10,
             platform2.y - 200,
@@ -2484,7 +2483,7 @@ class Level5 extends Phaser.Scene {
                         //katsotaan jos on phase 1
                         if(phase===1){
                             //anetaan random value 0-400, jos on 6 tee hyökäys ja pelaa animaatio
-                            bossattackchanche=Phaser.Math.Between(0, 200);
+                            bossattackchanche=Phaser.Math.Between(0, 150);
                             //console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
@@ -2524,7 +2523,7 @@ class Level5 extends Phaser.Scene {
                         }
                         //sama kuin phase 1 mutta phase 2, pienemät arvot enemän hyökäyksiä (ja voimakaampia)
                         else if (phase===2){
-                            bossattackchanche=Phaser.Math.Between(0, 150);
+                            bossattackchanche=Phaser.Math.Between(0, 125);
                             //console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
@@ -3017,9 +3016,7 @@ class end4 extends Phaser.Scene {
             setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4);
                 setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
                     setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
-                        setTimeout(() => {end4_4D.destroy(); let end4_5D=this.add.image(500,500, 'end4_5D').setScale(4);
-                            setTimeout(() => {end4_5D.destroy(); this.scene.start('credit_scene');
-                            }, 3000);
+                        setTimeout(() => {end4_4D.destroy(); this.scene.start('credit_scene');
                         }, 3000);
                     }, 3000);
                 }, 3000);
@@ -3214,6 +3211,7 @@ const end3_player = new Audio('assets/sound/dialogue/uno_reverse_card.wav')
 const meeting_boss = new Audio('assets/sound/dialogue/arrogant_brat.wav')
 const voi_vittu = new Audio('assets/sound/dialogue/impending_doom.wav')
 const epic_fail = new Audio('assets/sound/dialogue/stupid_scream.wav')
+const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.wav')
 const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
 const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
