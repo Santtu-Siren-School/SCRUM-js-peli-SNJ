@@ -2483,7 +2483,7 @@ class Level5 extends Phaser.Scene {
                         //katsotaan jos on phase 1
                         if(phase===1){
                             //anetaan random value 0-400, jos on 6 tee hyökäys ja pelaa animaatio
-                            bossattackchanche=Phaser.Math.Between(0, 150);
+                            bossattackchanche=Phaser.Math.Between(0, 200);
                             //console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
@@ -2523,7 +2523,7 @@ class Level5 extends Phaser.Scene {
                         }
                         //sama kuin phase 1 mutta phase 2, pienemät arvot enemän hyökäyksiä (ja voimakaampia)
                         else if (phase===2){
-                            bossattackchanche=Phaser.Math.Between(0, 125);
+                            bossattackchanche=Phaser.Math.Between(0, 100);
                             //console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
@@ -2568,7 +2568,7 @@ class Level5 extends Phaser.Scene {
                         }
                         //same kuin phase 2 ja phase 1, mutta voimakaamat hyökäysket je enemän niitä
                         else if (phase===3){
-                            bossattackchanche=Phaser.Math.Between(0, 100);
+                            bossattackchanche=Phaser.Math.Between(0, 60);
                             console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
@@ -2904,6 +2904,7 @@ class end1 extends Phaser.Scene {
                                                             let end1img5 = this.add.image(500,450,'end1_5');
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
+                                                                try_again.play();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
