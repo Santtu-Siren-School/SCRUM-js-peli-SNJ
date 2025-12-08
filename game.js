@@ -446,6 +446,8 @@ class Tutorial extends Phaser.Scene {
             enemy.hpBar = null;
             enemy.hpBarBG = null;
             enemy.disableBody(true, true);
+            weapon.disableBody(true, true);
+            
             return;
         }
         // vihollinen jäi eloon → soitetaan osumaääni
@@ -739,6 +741,7 @@ if (!enemy.active) return;
                 enemy.hpBar = null;
                 enemy.hpBarBG = null;
                 enemy.disableBody(true, true);
+                weapon.disableBody(true, true);
                 return;
             }
             // vihollinen jäi eloon → soitetaan osumaääni
@@ -1211,6 +1214,7 @@ class Level2 extends Phaser.Scene {
                 enemy.hpBar = null;
                 enemy.hpBarBG = null;
                 enemy.disableBody(true, true);
+                weapon.disableBody(true, true);
                 return;
             }
 
@@ -1596,6 +1600,7 @@ class Level3 extends Phaser.Scene {
                 enemy.hpBar = null;
                 enemy.hpBarBG = null;
                 enemy.disableBody(true, true);
+                weapon.disableBody(true, true);
                 return;
             }
             // vihollinen jäi eloon → soitetaan osumaääni
@@ -2009,6 +2014,7 @@ class Level4 extends Phaser.Scene {
                 enemy.hpBar = null;
                 enemy.hpBarBG = null;
                 enemy.disableBody(true, true);
+                weapon.disableBody(true, true);
                 return;
             }
             // vihollinen jäi eloon → soitetaan osumaääni
