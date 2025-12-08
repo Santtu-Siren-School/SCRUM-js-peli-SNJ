@@ -1616,7 +1616,7 @@ class Level3 extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 2000, 900);
         this.cameras.main.startFollow(player);
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
-        this.physics.add.overlap(player, solid_snake_door, level1trhow, null, this);
+        this.physics.add.overlap(player, solid_snake_door, level1throw, null, this);
         this.cannons = [
             this.physics.add.image(620, 300, 'cannon'),
             this.physics.add.image(620, 500, 'cannon'),
@@ -3431,7 +3431,7 @@ function windPlayer(player, wind) {
     player.windActive = true;
     setTimeout(() => { player.windActive = false; }, 10);
 }
-function level1trhow(player, solid_snake_door) {
+function level1throw(player, solid_snake_door) {
     if (solid===true) {
         score=score-20;
     }
