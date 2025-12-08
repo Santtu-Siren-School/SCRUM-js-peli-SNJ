@@ -2904,7 +2904,6 @@ class end1 extends Phaser.Scene {
                                                             let end1img5 = this.add.image(500,450,'end1_5');
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
-                                                                try_again.play();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
