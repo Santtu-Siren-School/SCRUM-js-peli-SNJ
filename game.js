@@ -868,18 +868,22 @@ if (!enemy.active) return;
             if (this.scene.key==='Level1') {
                 score=score-level1score;
                 level1score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level2') {
                 score=score-level2score;
                 level2score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level3') {
                 score=score-level4score;
                 level3score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level4') {
                 score=score-level4score;
                 level4score=0;
+                deathState=false
             }
         }
         backgroundsound.play()
@@ -1282,18 +1286,22 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             if (this.scene.key==='Level1') {
                 score=score-level1score;
                 level1score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level2') {
                 score=score-level2score;
                 level2score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level3') {
                 score=score-level4score;
                 level3score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level4') {
                 score=score-level4score;
                 level4score=0;
+                deathState=false
             }
         }
         backgroundsound.play()
@@ -1693,18 +1701,22 @@ class Level3 extends Phaser.Scene {
             if (this.scene.key==='Level1') {
                 score=score-level1score;
                 level1score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level2') {
                 score=score-level2score;
                 level2score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level3') {
-                score=score-level3score;
+                score=score-level4score;
                 level3score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level4') {
                 score=score-level4score;
                 level4score=0;
+                deathState=false
             }
         }
         backgroundsound.play();
@@ -2135,18 +2147,22 @@ class Level4 extends Phaser.Scene {
             if (this.scene.key==='Level1') {
                 score=score-level1score;
                 level1score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level2') {
                 score=score-level2score;
                 level2score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level3') {
                 score=score-level4score;
                 level3score=0;
+                deathState=false
             }
             else if (this.scene.key==='Level4') {
                 score=score-level4score;
                 level4score=0;
+                deathState=false
             }
         }
         footsteps.pause();  
