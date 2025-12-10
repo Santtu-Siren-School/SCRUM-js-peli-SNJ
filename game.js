@@ -2927,6 +2927,7 @@ class end1 extends Phaser.Scene {
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
+                                                                 try_again.play()
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -3234,6 +3235,7 @@ const meeting_boss = new Audio('assets/sound/dialogue/arrogant_brat.wav')
 const voi_vittu = new Audio('assets/sound/dialogue/impending_doom.wav')
 const epic_fail = new Audio('assets/sound/dialogue/stupid_scream.wav')
 const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
+const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.wav')
 const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
