@@ -3205,6 +3205,7 @@ jump.volume = 0.3;
 const player_death=new Audio('assets/sound/death.mp3');
 player_death.volume = 0.5;
 const cannon_fire=new Audio('assets/sound/cannon_fire.mp3');
+cannon_fire.volume = 0.6;
 const knife_throw=new Audio('assets/sound/knife_throw.m4a');
 knife_throw.volume = 0.4;
 const enemy_death=new Audio('assets/sound/enemy_death.mp3');
