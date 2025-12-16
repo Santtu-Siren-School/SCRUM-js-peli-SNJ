@@ -290,8 +290,8 @@ class Tutorial extends Phaser.Scene {
     }
     create (){
         //knife cooldownin laatiminen
-        this.lastThrowTime = 0; 
-        this.throwCooldown = 1000;
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
         //määritelään cursors phaserin avulla
         cursors = this.input.keyboard.createCursorKeys();
         //asetaa taustakuvan
@@ -544,17 +544,17 @@ class Tutorial extends Phaser.Scene {
                 let offset = offset_1;
                 let spawnX = player.x + (facingRight ? offset : -offset);
                 let weapon = knife.create(spawnX, player.y, 'dagger');
-                weapon.setScale(0.1);
-                weapon.setVelocityX(300); 
-                weapon.setGravityY(-200);
+                weapon.setScale(weapon_scale);
+                weapon.setVelocityX(weapon_velocity); 
+                weapon.setGravityY(weapon_gravity);
                 weapon.body.isSensor = true;
                 if (facingRight) {
-            weapon.setVelocityX(300);
+            weapon.setVelocityX(weapon_velocity);
         } else {
-            weapon.setVelocityX(-300);
+            weapon.setVelocityX(weapon_velocity2);
             weapon.flipX = true; 
         }
-            setTimeout(() => { weapon.destroy(); }, 3000);
+            setTimeout(() => { weapon.destroy(); }, weapon_kill);
             }
         }
         //vihollisen kääntymis ominaisuus että pysyy platformin päällä
@@ -588,7 +588,7 @@ class Tutorial extends Phaser.Scene {
             else {
                 enemy_footstep=true;
                 enemy.play();
-                setTimeout(() => {enemy_footstep=false;}, 5000);
+                setTimeout(() => {enemy_footstep=false;}, enemy_delay);
                 e.setVelocityX(80 * e.direction);
                 e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                 e.lastTurnTime = this.time.now;
@@ -626,8 +626,8 @@ class Level1 extends Phaser.Scene {
         tutorial_music.pause();
         boss_fight_background_music.pause();
         //knife cooldownin laatiminen
-        this.lastThrowTime = 0; 
-        this.throwCooldown = 1000;
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
         //määritelään cursors phaserin avulla
         cursors = this.input.keyboard.createCursorKeys();
         //asetaa taustakuvan
@@ -929,29 +929,28 @@ if (!enemy.active) return;
         } 
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
         //????
-        if (Phaser.Input.Keyboard.JustDown(shoot)) {
-            const now = this.time.now;
-            //knife heittoa
-            if (now - this.lastThrowTime > this.throwCooldown) {
-                knife_throw.play()
-                this.lastThrowTime = now; 
-                let offset = offset_1;
-                let spawnX = player.x + (facingRight ? offset : -offset);
-                let weapon = knife.create(spawnX, player.y, 'dagger');
-                weapon.setScale(0.1);
-                weapon.setVelocityX(300); 
-                weapon.setGravityY(-200);
-                weapon.body.isSensor = true;
-                if (facingRight) {
-                    weapon.setVelocityX(300);
-                } 
-                else {
-                    weapon.setVelocityX(-300);
-                    weapon.flipX = true; 
+ if (Phaser.Input.Keyboard.JustDown(shoot)) {
+                const now = this.time.now;
+                //knife heittoa
+                if (now - this.lastThrowTime > this.throwCooldown) {
+                    knife_throw.play()
+                    this.lastThrowTime = now; 
+                    let offset = offset_1;
+                    let spawnX = player.x + (facingRight ? offset : -offset);
+                    let weapon = knife.create(spawnX, player.y, 'dagger');
+                    weapon.setScale(weapon_scale);
+                    weapon.setVelocityX(weapon_velocity); 
+                    weapon.setGravityY(weapon_gravity);
+                    if (facingRight) {
+                        weapon.setVelocityX(weapon_velocity);
+                    } 
+                    else {
+                        weapon.setVelocityX(weapon_velocity2);
+                        weapon.flipX = true; 
+                    } 
+                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
                 }
-                setTimeout(() => { weapon.destroy(); }, 3000);
             }
-        }
         bullets.children.each(b => {
             if (b.active && b.x > 1880) {
                 b.disableBody(true, true); 
@@ -989,7 +988,7 @@ if (!enemy.active) return;
                     else {
                         enemy_footstep=true;
                         enemy.play();
-                        setTimeout(() => {enemy_footstep=false;}, 5000);
+                        setTimeout(() => {enemy_footstep=false;}, enemy_delay);
                         e.setVelocityX(80 * e.direction);
                         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                         e.lastTurnTime = this.time.now;
@@ -1030,8 +1029,8 @@ class Level2 extends Phaser.Scene {
     
     create (){
         gameOver=false;
-        this.lastThrowTime = 0; 
-        this.throwCooldown = 1000; 
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
         //määritelään knife
         knife = this.physics.add.group();
         //määritelään platformit staatiseksi
@@ -1346,28 +1345,28 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             player.setVelocityY(300);
             player.anims.play('jump');
         }  
-        if (Phaser.Input.Keyboard.JustDown(shoot)) {
-        const now = this.time.now;
-        //knife heittoa
-        if (now - this.lastThrowTime > this.throwCooldown) {
-            knife_throw.play()
-            this.lastThrowTime = now; 
-                let offset = offset_1;
-                let spawnX = player.x + (facingRight ? offset : -offset);
-                let weapon = knife.create(spawnX, player.y, 'dagger');
-                weapon.setScale(0.1);
-                weapon.setVelocityX(300); 
-                weapon.setGravityY(-200);
-                if (facingRight) {
-                    weapon.setVelocityX(300);
-                } 
-                else {
-                    weapon.setVelocityX(-300);
-                    weapon.flipX = true; 
+ if (Phaser.Input.Keyboard.JustDown(shoot)) {
+                const now = this.time.now;
+                //knife heittoa
+                if (now - this.lastThrowTime > this.throwCooldown) {
+                    knife_throw.play()
+                    this.lastThrowTime = now; 
+                    let offset = offset_1;
+                    let spawnX = player.x + (facingRight ? offset : -offset);
+                    let weapon = knife.create(spawnX, player.y, 'dagger');
+                    weapon.setScale(weapon_scale);
+                    weapon.setVelocityX(weapon_velocity); 
+                    weapon.setGravityY(weapon_gravity);
+                    if (facingRight) {
+                        weapon.setVelocityX(weapon_velocity);
+                    } 
+                    else {
+                        weapon.setVelocityX(weapon_velocity2);
+                        weapon.flipX = true; 
+                    } 
+                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
                 }
-            setTimeout(() => { weapon.destroy(); }, 3000);
-        }
-        }
+            }
         this.enemies.children.iterate(e => {
             if (!e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -1396,7 +1395,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                     else {
                         enemy_footstep=true;
                         enemy.play();
-                        setTimeout(() => {enemy_footstep=false;}, 5000);
+                        setTimeout(() => {enemy_footstep=false;}, enemy_delay);
                         e.setVelocityX(80 * e.direction);
                         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                         e.lastTurnTime = this.time.now;
@@ -1439,9 +1438,8 @@ class Level3 extends Phaser.Scene {
         this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
     create (){
-        this.lastThrowTime = 0; 
-        this.throwCooldown = 1000; 
-
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
         solid_snake_door = this.physics.add.staticGroup(); 
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
@@ -1761,27 +1759,28 @@ class Level3 extends Phaser.Scene {
             player.anims.play('jump');
         }  
         // knife heitto
-        if (Phaser.Input.Keyboard.JustDown(shoot)) {
-            const now = this.time.now;
-            if (now - this.lastThrowTime > this.throwCooldown) {
-                knife_throw.play()
-                this.lastThrowTime = now; 
-                let offset = offset_1;
-                let spawnX = player.x + (facingRight ? offset : -offset);
-                let weapon = knife.create(spawnX, player.y, 'dagger');
-                weapon.setScale(0.1);
-                weapon.setVelocityX(300); 
-                weapon.setGravityY(-200);
-                if (facingRight) {
-                    weapon.setVelocityX(300);
-                } 
-                else {
-                    weapon.setVelocityX(-300);
-                    weapon.flipX = true; 
+ if (Phaser.Input.Keyboard.JustDown(shoot)) {
+                const now = this.time.now;
+                //knife heittoa
+                if (now - this.lastThrowTime > this.throwCooldown) {
+                    knife_throw.play()
+                    this.lastThrowTime = now; 
+                    let offset = offset_1;
+                    let spawnX = player.x + (facingRight ? offset : -offset);
+                    let weapon = knife.create(spawnX, player.y, 'dagger');
+                    weapon.setScale(weapon_scale);
+                    weapon.setVelocityX(weapon_velocity); 
+                    weapon.setGravityY(weapon_gravity);
+                    if (facingRight) {
+                        weapon.setVelocityX(weapon_velocity);
+                    } 
+                    else {
+                        weapon.setVelocityX(weapon_velocity2);
+                        weapon.flipX = true; 
+                    } 
+                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
                 }
-                setTimeout(() => { weapon.destroy(); }, 3000);
             }
-        }
         this.enemies.children.iterate(e => {
             if (!e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -1810,7 +1809,7 @@ class Level3 extends Phaser.Scene {
                     else {
                         enemy_footstep=true;
                         enemy.play();
-                        setTimeout(() => {enemy_footstep=false;}, 5000);
+                        setTimeout(() => {enemy_footstep=false;}, enemy_delay);
                         e.setVelocityX(80 * e.direction);
                         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                         e.lastTurnTime = this.time.now;
@@ -1848,8 +1847,8 @@ class Level4 extends Phaser.Scene {
         this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
     create() {
-        this.lastThrowTime = 0;
-        this.throwCooldown = 1000;
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
         wind = this.physics.add.staticGroup();
         platforms = this.physics.add.staticGroup();
         bottom_of_game = this.physics.add.staticGroup();
@@ -2228,28 +2227,28 @@ class Level4 extends Phaser.Scene {
             }
         }
         // Knife heitto
-          if (Phaser.Input.Keyboard.JustDown(shoot)) {
-            const now = this.time.now;
-            if (now - this.lastThrowTime > this.throwCooldown) {
-                knife_throw.play()
-                this.lastThrowTime = now; 
-                let offset = offset_1;
-                let spawnX = player.x + (facingRight ? offset : -offset);
-                let weapon = knife.create(spawnX, player.y, 'dagger');
-                weapon.setScale(0.1);
-                weapon.setVelocityX(300); 
-                weapon.setGravityY(-200);
-                
-                if (facingRight) {
-                    weapon.setVelocityX(300);
-                } else {
-                    weapon.setVelocityX(-300);
-                    weapon.flipX = true; 
+       if (Phaser.Input.Keyboard.JustDown(shoot)) {
+                const now = this.time.now;
+                //knife heittoa
+                if (now - this.lastThrowTime > this.throwCooldown) {
+                    knife_throw.play()
+                    this.lastThrowTime = now; 
+                    let offset = offset_1;
+                    let spawnX = player.x + (facingRight ? offset : -offset);
+                    let weapon = knife.create(spawnX, player.y, 'dagger');
+                    weapon.setScale(weapon_scale);
+                    weapon.setVelocityX(weapon_velocity); 
+                    weapon.setGravityY(weapon_gravity);
+                    if (facingRight) {
+                        weapon.setVelocityX(weapon_velocity);
+                    } 
+                    else {
+                        weapon.setVelocityX(weapon_velocity2);
+                        weapon.flipX = true; 
+                    } 
+                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
                 }
-
-                setTimeout(() => { weapon.destroy(); }, 3000);
             }
-        }
         this.enemies.children.iterate(e => {
             if (!e || !e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -2278,7 +2277,7 @@ class Level4 extends Phaser.Scene {
                     else {
                         enemy_footstep=true;
                         enemy.play();
-                        setTimeout(() => {enemy_footstep=false;}, 5000);
+                        setTimeout(() => {enemy_footstep=false;}, enemy_delay);
                         e.setVelocityX(80 * e.direction);
                         e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                         e.lastTurnTime = this.time.now;
@@ -2320,8 +2319,8 @@ class Level5 extends Phaser.Scene {
         knife = this.physics.add.group();
         knife2 = this.physics.add.group();
         fireball = this.physics.add.group();
-        this.lastThrowTime = 0; 
-        this.throwCooldown = 1000;
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
         this.add.image(1000,1000, 'sky_level5').setScale(1);
         level5_level1=this.physics.add.staticGroup();
         wind=this.physics.add.staticGroup();
@@ -2757,17 +2756,17 @@ class Level5 extends Phaser.Scene {
                     let offset = offset_1;
                     let spawnX = player.x + (facingRight ? offset : -offset);
                     let weapon = knife.create(spawnX, player.y, 'dagger');
-                    weapon.setScale(0.1);
-                    weapon.setVelocityX(300); 
-                    weapon.setGravityY(-200);
+                    weapon.setScale(weapon_scale);
+                    weapon.setVelocityX(weapon_velocity); 
+                    weapon.setGravityY(weapon_gravity);
                     if (facingRight) {
-                        weapon.setVelocityX(300);
+                        weapon.setVelocityX(weapon_velocity);
                     } 
                     else {
-                        weapon.setVelocityX(-300);
+                        weapon.setVelocityX(weapon_velocity2);
                         weapon.flipX = true; 
                     } 
-                    setTimeout(() => { weapon.destroy(); }, 3000);
+                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
                 }
             }
     }
@@ -3040,10 +3039,10 @@ class end4 extends Phaser.Scene {
                 setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
                     setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
                         setTimeout(() => {end4_4D.destroy(); this.scene.start('credit_scene');
-                        }, 3000);
-                    }, 3000);
-                }, 3000);
-            }, 3000);
+                        }, ending4);
+                    }, ending4);
+                }, ending4);
+            }, );
         }
     }
 //credit_scene
@@ -3154,6 +3153,15 @@ var offset_1=-30;
 var cutscene_1=1000;
 var cutscene_2=500;
 var dialogue_speed=4000;
+var ending4=3000;
+var weapon_kill=3000;
+var enemy_delay=5000;
+var weapon_velocity=300;
+var weapon_velocity2=-300;
+var weapon_gravity=-200;
+var weapon_scale=0.1;
+var throwtimelast=0;
+var cooldownthrow=1000;
 var coin;
 var ending=0;
 var enemy_footstep=false;
