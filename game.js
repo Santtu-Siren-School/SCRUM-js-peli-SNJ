@@ -2084,6 +2084,7 @@ class Level4 extends Phaser.Scene {
           this.cannons_up2 = [
             this.physics.add.image(1700, 1950, 'cannon_up'),
             this.physics.add.image(1950, 1950, 'cannon_up'),
+            this.physics.add.image(1390, 1950, 'cannon_up'),
         ];
         this.cannons_up2.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
         cannon_up_bullets = this.physics.add.group({
