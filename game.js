@@ -1632,7 +1632,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
         this.physics.add.overlap(player, solid_snake_door, level1throw, null, this);
         this.cannons = [
-            this.physics.add.image(620, 300, 'cannon'),
+            this.physics.add.image(640, 260, 'cannon'),
             this.physics.add.image(620, 500, 'cannon'),
             this.physics.add.image(620, 700, 'cannon'),
         ];
@@ -2069,7 +2069,7 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, bullets, hitPlayer, null, this);
         // cannon_up
         this.cannons_up = [
-            this.physics.add.image(600, 1950, 'cannon_up'),
+             this.physics.add.image(600, 1950, 'cannon_up'),
             this.physics.add.image(650, 1950, 'cannon_up'),
             this.physics.add.image(710, 1950, 'cannon_up'),
         ];
@@ -2088,6 +2088,7 @@ class Level4 extends Phaser.Scene {
           this.cannons_up2 = [
             this.physics.add.image(1700, 1950, 'cannon_up'),
             this.physics.add.image(1950, 1950, 'cannon_up'),
+            this.physics.add.image(1390, 1950, 'cannon_up'),
         ];
         this.cannons_up2.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
         cannon_up_bullets = this.physics.add.group({
@@ -2934,6 +2935,7 @@ class end1 extends Phaser.Scene {
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
+                                                                  try_again.play()
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -3238,6 +3240,7 @@ boss_fight_background_music.volume = 0.5;
 const fireball_sound=new Audio('assets/sound/fireball.mp3');
 const wall_sound = new Audio('assets/sound/wall.mp3')
 const spikes_sound = new Audio('assets/sound/spikes.mp3')
+const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.wav')
 const lightbeam_sound = new Audio('assets/sound/lightbeam_sound.mp3')
 const throw_sound = new Audio('assets/sound/throw_sound.mp3')
 const enemy_hit = new Audio('assets/sound/enemy_hit.mp3')
