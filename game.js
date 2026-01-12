@@ -404,6 +404,7 @@ class Tutorial extends Phaser.Scene {
         this.enemy.refreshBody();
         this.enemy.maxHp = 150;
         this.enemy.hp = 150;
+        this.enemy.setPushable(false);
         // Käytä Phaserin dataa (stabiilimpi kuin plain property)
         // Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
         {
@@ -464,7 +465,6 @@ class Tutorial extends Phaser.Scene {
         this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
         this.enemy.setVelocityX(80); // alku nopeus
         this.enemy.direction = 1;
-        this.enemy.body.mass = 10;
         this.physics.add.collider(knife, bottom_of_game);
         //Pelaajan liikumisen animaatio määritely pätyy
         this.physics.add.overlap(player, ovi, TutorialLevel1, null, this);
@@ -687,6 +687,7 @@ class Level1 extends Phaser.Scene {
         const rightPlatform = platforms.getChildren().at(2);
         this.enemy = this.enemies.create(rightPlatform.x - 10, rightPlatform.y - 200, 'enemy');
         //vihollisen koko ja elämäpisteet
+        this.enemy.setPushable(false);
         this.enemy.setScale(4);
         this.enemy.body.setSize(this.enemy.width, this.enemy.height);
         this.enemy.body.setOffset(0, 0);
@@ -760,7 +761,6 @@ if (!enemy.active) return;
         this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
         this.enemy.setVelocityX(80); // alku nopeus
         this.enemy.direction = 1;
-        this.enemy.body.mass = 10;
         this.physics.add.collider(knife, bottom_of_game);
         //Pelaajan liikumisen animaatio määritely pätyy
         this.physics.add.overlap(player, ovi, level2Transition, null, this);
