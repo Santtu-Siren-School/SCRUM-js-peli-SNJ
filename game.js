@@ -711,7 +711,7 @@ class Level1 extends Phaser.Scene {
 
 // Colliders
 this.physics.add.collider(player, platforms);
- this.physics.add.collider(player, wall);
+this.physics.add.collider(player, wall);
 this.physics.add.collider(coin, platforms);
 this.physics.add.collider(coin, bottom_of_game);
 this.physics.add.collider(player, bottom_of_game);
@@ -1135,7 +1135,7 @@ class Level2 extends Phaser.Scene {
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 1500,
+            delay: 2000,
             callback: () => shootBullet_cannon_up(cannon_up, cannon_up_bullets),
             loop: true
         });
@@ -1242,6 +1242,10 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     this.spikes.create(1525, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(1855, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(55, 877, 'spike').setScale(0.3).refreshBody();
+    this.spikes.create(205, 470, 'spike').setScale(3).refreshBody();
+    this.spikes.create(620, 510, 'spike').setScale(0.5).refreshBody();
+    this.spikes.create(775, 510, 'spike').setScale(0.5).refreshBody();
+    this.spikes.create(1090, 500, 'spike').setScale(1.5).refreshBody();
     this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
 
