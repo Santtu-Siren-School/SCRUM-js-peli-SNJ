@@ -2069,7 +2069,6 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(player, bullets, hitPlayer, null, this);
         // cannon_up
         this.cannons_up = [
-            this.physics.add.image(600, 1950, 'cannon_up'),
             this.physics.add.image(650, 1950, 'cannon_up'),
             this.physics.add.image(710, 1950, 'cannon_up'),
         ];
@@ -2935,7 +2934,6 @@ class end1 extends Phaser.Scene {
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
-                                                                 try_again.play()
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -2973,9 +2971,9 @@ class end2 extends Phaser.Scene {
                                                 setTimeout(() => {end2_9.destroy();let end2_10=this.add.image(500,450, 'end2_10');
                                                     setTimeout(() => {end2_10.destroy();let end2_11=this.add.image(500,450, 'end2_11');
                                                         setTimeout(() => {end2_11.destroy();let end2_12=this.add.image(500,450, 'end2_12');
-                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);arrest.play();
+                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);
                                                                 setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2);
-                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);aww_you_want_yo_momma.play();
+                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);
                                                                  }, 7000);
                                                              }, cutscene_1);
                                                          }, cutscene_1);
@@ -3252,9 +3250,6 @@ const end3_player = new Audio('assets/sound/dialogue/uno_reverse_card.wav')
 const meeting_boss = new Audio('assets/sound/dialogue/arrogant_brat.wav')
 const voi_vittu = new Audio('assets/sound/dialogue/impending_doom.wav')
 const epic_fail = new Audio('assets/sound/dialogue/stupid_scream.wav')
-const arrest = new Audio('assets/sound/dialogue/wannabe_cop.wav')
-const try_again = new Audio('assets/sound/dialogue/death_doesnt_work_like_that.wav')
-const aww_you_want_yo_momma = new Audio('assets/sound/dialogue/rise_of_the_new_king.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const end4_background_song = new Audio('assets/sound/end4_background_song.mp3')
