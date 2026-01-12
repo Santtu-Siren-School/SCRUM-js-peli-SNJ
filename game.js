@@ -467,7 +467,7 @@ class Tutorial extends Phaser.Scene {
         this.enemy.body.mass = 10;
         this.physics.add.collider(knife, bottom_of_game);
         //Pelaajan liikumisen animaatio määritely pätyy
-        this.physics.add.overlap(player, ovi, level1Transition, null, this);
+        this.physics.add.overlap(player, ovi, TutorialLevel1, null, this);
         this.physics.add.overlap(player, coin, TutorialtCoin, null, this);
         this.cameras.main.setBounds(0, 0, 10000, 900);
         this.physics.world.setBounds(0, 0, 10000, 900);
@@ -513,7 +513,7 @@ class Tutorial extends Phaser.Scene {
             }
         }
             if (cursors.left.isDown || cursors.right.isDown) {
-        player.setVelocityX(cursors.left.isDown ? -160 : 160);
+        player.setVelocityX(cursors.left.isDown ? -460 : 460);
         player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
         facingRight = cursors.right.isDown;
 
@@ -3366,6 +3366,10 @@ function level1Transition() {
     nextlevelsound.play()
     this.scene.start('Level1')
     }
+}
+function TutorialLevel1() {
+    nextlevelsound.play()
+    this.scene.start('Level1')
 }
 function level2Transition() {
     nextlevelsound.play()
