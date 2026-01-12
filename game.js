@@ -3112,6 +3112,11 @@ class credit_scene extends Phaser.Scene {
             "",
             "Erkki Sinkko",
             "Santtu's mother",
+            "ChatGPT",
+            "Phaser",
+            "Niilo for coming up with the greatest ideas",
+            "Solid Snake",
+
         ];
         const startY = config.height + 20;
         let offset = 0;
