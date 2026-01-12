@@ -1078,10 +1078,7 @@ class Level2 extends Phaser.Scene {
         bottom_of_game.create(1500,900, 'bottom_of_game')
         bottom_of_game.create(1700,900, 'bottom_of_game')
         bottom_of_game.create(1900,900, 'bottom_of_game')
-        bottom_of_game.create(700,515, 'bottom_of_game')
-        bottom_of_game.create(1100,515, 'bottom_of_game')
-        bottom_of_game.create(300,515, 'bottom_of_game')
-        bottom_of_game.create(100,515, 'bottom_of_game')
+        bottom_of_game.create(700,530, 'bottom_of_game').setScale(0.10).refreshBody();
         //level2 bottom_of_game tekeminen
         //määritelään ovi
         ovi=this.physics.add.staticGroup();
@@ -1245,16 +1242,15 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
     this.spikes.create(1525, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(1855, 867, 'spike').setScale(0.8).refreshBody();
     this.spikes.create(55, 877, 'spike').setScale(0.3).refreshBody();
-    this.spikes.create(55, 485, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(155, 485, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(255, 485, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(355, 485, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(655, 485, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(755, 485, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(1055, 485, 'spike').setScale(0.8).refreshBody();
-    this.spikes.create(1155, 485, 'spike').setScale(0.8).refreshBody();
+    this.spikes.create(205, 470, 'spike').setScale(3).refreshBody();
+    this.spikes.create(620, 510, 'spike').setScale(0.5).refreshBody();
+    this.spikes.create(775, 510, 'spike').setScale(0.5).refreshBody();
+    this.spikes.create(1090, 500, 'spike').setScale(1.5).refreshBody();
     this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     this.enemies.children.iterate(e => { if (e && e.play) e.play('walkRightEnemy'); });
+
+
+
     //kellon funktio
     // hae aiempi aika
     this.totalTime = this.registry.get('totalTime') || 0;
@@ -1632,7 +1628,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
         this.physics.add.overlap(player, solid_snake_door, level1throw, null, this);
         this.cannons = [
-            this.physics.add.image(620, 300, 'cannon'),
+            this.physics.add.image(640, 265, 'cannon'),
             this.physics.add.image(620, 500, 'cannon'),
             this.physics.add.image(620, 700, 'cannon'),
         ];
