@@ -2597,7 +2597,7 @@ class Level5 extends Phaser.Scene {
                         }
                         //same kuin phase 2 ja phase 1, mutta voimakaamat hyökäysket je enemän niitä
                         else if (phase===3){
-                            bossattackchanche=Phaser.Math.Between(0, 30);
+                            bossattackchanche=Phaser.Math.Between(0, 10);
                             console.log("boss attack chanche",bossattackchanche)
                             if (bossattackchanche===6) {
                                 boss_animation_play=true
