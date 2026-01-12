@@ -513,7 +513,7 @@ class Tutorial extends Phaser.Scene {
             }
         }
             if (cursors.left.isDown || cursors.right.isDown) {
-        player.setVelocityX(cursors.left.isDown ? -460 : 460);
+        player.setVelocityX(cursors.left.isDown ? -160 : 160);
         player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
         facingRight = cursors.right.isDown;
 
