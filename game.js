@@ -3564,18 +3564,22 @@ function knifehitboss(boss,knifeSprite) {
             if (currentDeaths<=0) {
                 this.scene.start('end2')
                 ending=2;
+                console.log("ending 2")
             }
             else if (currentDeaths>=5000) {
                 this.scene.start('end4')
                 ending=4;
+                console.log("ending 4")
             }
-            else if(currentDeaths<=10) {
+            else if(currentDeaths<=10 && currentDeaths>=1) {
                 this.scene.start('end3')
                 ending=3;
+                console.log("ending 3")
             }
             else {
                 ending=1;
                 this.scene.start('end1')
+                console.log("ending 1")
             }
         }
         }
