@@ -3174,19 +3174,6 @@ class Boss_Dialogue3 extends Phaser.Scene {
         setTimeout(() => {let boss_dialogue_img6=this.add.image(500,450,'dialogue6_boss').setScale(5);boss_dialogy_6S.play();setTimeout(() => {boss_dialogue_img6.destroy();this.scene.start('Level5');}, 4000)}, 4000);
     }
 }
-var config = {
-    type: Phaser.AUTO,
-    width: 1080,
-    height: 900,
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 270 },
-            debug: false
-        }
-    },
-    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene]
-};
 class game_over extends Phaser.Scene {
     constructor() {
         super({ key: 'game_over' });
@@ -3290,7 +3277,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,end4,game_over]
+    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over]
 };
 var bossIsAttacking=false;
 var solid=false;
