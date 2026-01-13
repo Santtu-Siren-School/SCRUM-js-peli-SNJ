@@ -3031,11 +3031,9 @@ class end1 extends Phaser.Scene {
                                 setTimeout(() => {
                                     dialogue11_boss.destroy();
                                     let end1img0A = this.add.image(500,450,'end1_7');
-                                    voi_vittu.play();
                                     setTimeout(() => {
                                         end1img0A.destroy();
                                         let end1img0 = this.add.image(500,450,'end1_0');
-                                        epic_fail.play();
                                         setTimeout(() => {
                                             end1img0.destroy();
                                             let end1img1 = this.add.image(500,450,'end1_1');
@@ -3054,7 +3052,6 @@ class end1 extends Phaser.Scene {
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
                                                                 let end1img6 = this.add.image(550,480,'end1_6');
-                                                                  try_again.play()
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -3182,6 +3179,7 @@ class credit_scene extends Phaser.Scene {
     create() {
         this.textItems = [];
         const currentDeaths = this.registry.get('deaths');
+        const totalTime = this.registry.get('totalTime') || 0;
         const messages = [
             "Thank you for playing!",
             "",
@@ -3193,6 +3191,8 @@ class credit_scene extends Phaser.Scene {
             "Your score was",
             `${score}`,
             "",
+            "Your time was",
+            `${totalTime} seconds`,
             "",
             "",
             "",
