@@ -123,6 +123,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end3_button', 'assets/textures/end3_button.png')
             this.load.image('end4_button', 'assets/textures/end4_button.png')
             this.load.image('play_button', 'assets/textures/play_button.png')
+            this.load.image('petya_button', 'assets/textures/petya_button.png')
             this.load.image('coin', 'assets/textures/coin.png')
             this.load.image('end4_1D', 'assets/textures/end4_1D.png')
             this.load.image('end4_2D', 'assets/textures/end4_2D.png')
@@ -236,6 +237,7 @@ class MainMenu extends Phaser.Scene {
             const end2_button=this.add.image(200,200,'end2_button').setInteractive();
             const end3_button=this.add.image(300,200,'end3_button').setInteractive();
             const end4_button=this.add.image(400,200,'end4_button').setInteractive();
+            const petya_button=this.add.image(300,300,'petya_button').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -283,6 +285,10 @@ class MainMenu extends Phaser.Scene {
             end4_button.on('pointerdown', () => {
                 this.scene.start('end4'),
                 console.log("end4_play");
+            });
+            petya_button.on('pointerdown', () => {
+            this.scene.start('peli_ohi'),
+            console.log("Computer destruction incoming");
             });
         }
 }
@@ -394,7 +400,7 @@ class Tutorial extends Phaser.Scene {
         //tutorial bottom_of_game luonti lopuu
         //oven luonti seuraavaan tasoon
         tutorial_ovi=this.physics.add.staticGroup();
-        tutorial_ovi.hp = 100;
+        tutorial_ovi.hp = 1;
         tutorial_ovi.create(9950,790,'tutorial_ovi').setScale(0.3).refreshBody();
         // --VIHOLLISEN LUONTI--
         this.enemies = this.physics.add.group();
@@ -508,15 +514,10 @@ class Tutorial extends Phaser.Scene {
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta
        footsteps.pause();  
        
-            if (tutorial_ovi.hp <= 0) {
-                     tutorial_music.pause();
-              this.add.image(9150,430,'petya').setScale(1.4);
-        hacked.play();
-        setTimeout(() => {this.scene.start('game_over')}, 16000);
-            
+        if (tutorial_ovi.hp <= 0) {
+            {this.scene.start('peli_ohi')}
             return;
         }
-          backgroundsound.play();
        footsteps.pause();  
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
@@ -3276,6 +3277,17 @@ class game_over extends Phaser.Scene {
         });
     }
 }
+class peli_ohi extends Phaser.Scene {
+    constructor() {
+        super({ key: 'peli_ohi' });}
+       create() {
+        let petya=this.add.image(530,450,'petya').setScale(0.9)
+         tutorial_music.pause();
+        hacked.play();
+        setTimeout(() => {petya.destroy(); this.scene.start('game_over');
+        }, 10000);
+    }
+}
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -3287,8 +3299,9 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over]
+    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over,peli_ohi]
 };
+                                                              
 var bossIsAttacking=false;
 var solid=false;
 var deathState=false;
