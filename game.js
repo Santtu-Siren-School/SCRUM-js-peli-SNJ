@@ -879,7 +879,7 @@ if (!enemy.active) return;
                 deathState=false
             }
             else if (this.scene.key==='Level3') {
-                score=score-level4score;
+                score=score-level3score;
                 level3score=0;
                 deathState=false
             }
@@ -1305,7 +1305,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 deathState=false
             }
             else if (this.scene.key==='Level3') {
-                score=score-level4score;
+                score=score-level3score;
                 level3score=0;
                 deathState=false
             }
@@ -1720,7 +1720,7 @@ class Level3 extends Phaser.Scene {
                 deathState=false
             }
             else if (this.scene.key==='Level3') {
-                score=score-level4score;
+                score=score-level3score;
                 level3score=0;
                 deathState=false
             }
@@ -2169,7 +2169,7 @@ class Level4 extends Phaser.Scene {
                 deathState=false
             }
             else if (this.scene.key==='Level3') {
-                score=score-level4score;
+                score=score-level3score;
                 level3score=0;
                 deathState=false
             }
