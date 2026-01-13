@@ -400,7 +400,7 @@ class Tutorial extends Phaser.Scene {
         //tutorial bottom_of_game luonti lopuu
         //oven luonti seuraavaan tasoon
         tutorial_ovi=this.physics.add.staticGroup();
-        tutorial_ovi.hp = 1;
+        tutorial_ovi.hp = 100;
         tutorial_ovi.create(9950,790,'tutorial_ovi').setScale(0.3).refreshBody();
         // --VIHOLLISEN LUONTI--
         this.enemies = this.physics.add.group();
