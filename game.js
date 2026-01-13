@@ -527,7 +527,7 @@ class Tutorial extends Phaser.Scene {
             if (player.body.touching.down) {
                 footsteps.play(); 
             }
-            player.setVelocityX(-160);
+            player.setVelocityX(160);
             player.anims.play('left', true);
             facingRight = false;
         } 
@@ -915,48 +915,81 @@ if (!enemy.active) return;
         backgroundsound.play();
        footsteps.pause();  
         backgroundsound.play();
-        if (cursors.up.isDown && player.body.touching.down) {
-            jumping = 1;
-            player.setVelocityY(-300);
-            player.anims.play("jump");
-            jump.play();
+        if (knockback==1) {
+            return;
         }
-
-        if (jumping === 1) {
-            player.anims.play("jump", true);
-            player.setVelocityX(0);
-            if (player.body.touching.down) {
-                jumping = 0;
+        else if (dialogueActive) {
                 player.setVelocityX(0);
-                player.anims.play('turn');
-            }
+                player.setVelocityY(0);
+                player.anims.play('turn', true);
+                return;
         }
-        if (cursors.left.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
+        else {
+            if (cursors.up.isDown && player.body.touching.down) {
+                jumping = 1;
+                player.setVelocityY(-300);
+                player.anims.play("jump");
+                jump.play();
             }
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
+            if (jumping === 1) {
+                player.anims.play("jump", true);
+                player.setVelocityX(0);
+                if (player.body.touching.down) {
+                    jumping = 0;
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
             }
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }  
-    
+            if (cursors.left.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                }
+                else {
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                    footsteps.pause();
+                }
+            } 
+            else if (cursors.right.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                }
+                else {
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                    footsteps.pause();
+                }
+            }
+            else if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }  
             else {
-            player.setVelocityX(0)
-            player.anims.play('turn');
+                if (player.windActive) {
+                    const windAcceleration = 10;
+                    const maxWindSpeed = 200;
+                    if (player.body.velocity.x < maxWindSpeed) {
+                        player.setVelocityX(player.body.velocity.x + windAcceleration);
+                    }
+                }
+                else {
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
+                }
             }
- if (Phaser.Input.Keyboard.JustDown(shoot)) {
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }}
+        if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
                 //knife heittoa
                 if (now - this.lastThrowTime > this.throwCooldown) {
@@ -1345,47 +1378,80 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
               backgroundsound.play();
        footsteps.pause();  
         backgroundsound.play();
-        if (cursors.up.isDown && player.body.touching.down) {
-            jumping = 1;
-            player.setVelocityY(-300);
-            player.anims.play("jump");
-            jump.play();
+                if (knockback==1) {
+            return;
         }
-
-        if (jumping === 1) {
-            player.anims.play("jump", true);
-            player.setVelocityX(0);
-            if (player.body.touching.down) {
-                jumping = 0;
+        else if (dialogueActive) {
                 player.setVelocityX(0);
-                player.anims.play('turn');
-            }
+                player.setVelocityY(0);
+                player.anims.play('turn', true);
+                return;
         }
-        if (cursors.left.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
+        else {
+            if (cursors.up.isDown && player.body.touching.down) {
+                jumping = 1;
+                player.setVelocityY(-300);
+                player.anims.play("jump");
+                jump.play();
             }
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
+            if (jumping === 1) {
+                player.anims.play("jump", true);
+                player.setVelocityX(0);
+                if (player.body.touching.down) {
+                    jumping = 0;
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
             }
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }  
-    
+            if (cursors.left.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                }
+                else {
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                    footsteps.pause();
+                }
+            } 
+            else if (cursors.right.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                }
+                else {
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                    footsteps.pause();
+                }
+            }
+            else if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }  
             else {
-            player.setVelocityX(0)
-            player.anims.play('turn');
+                if (player.windActive) {
+                    const windAcceleration = 10;
+                    const maxWindSpeed = 200;
+                    if (player.body.velocity.x < maxWindSpeed) {
+                        player.setVelocityX(player.body.velocity.x + windAcceleration);
+                    }
+                }
+                else {
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
+                }
             }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }}
  if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
                 //knife heittoa
@@ -1766,47 +1832,80 @@ class Level3 extends Phaser.Scene {
         backgroundsound.play();
        footsteps.pause();  
         backgroundsound.play();
-        if (cursors.up.isDown && player.body.touching.down) {
-            jumping = 1;
-            player.setVelocityY(-300);
-            player.anims.play("jump");
-            jump.play();
+                if (knockback==1) {
+            return;
         }
-
-        if (jumping === 1) {
-            player.anims.play("jump", true);
-            player.setVelocityX(0);
-            if (player.body.touching.down) {
-                jumping = 0;
+        else if (dialogueActive) {
                 player.setVelocityX(0);
-                player.anims.play('turn');
-            }
+                player.setVelocityY(0);
+                player.anims.play('turn', true);
+                return;
         }
-        if (cursors.left.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
+        else {
+            if (cursors.up.isDown && player.body.touching.down) {
+                jumping = 1;
+                player.setVelocityY(-300);
+                player.anims.play("jump");
+                jump.play();
             }
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
+            if (jumping === 1) {
+                player.anims.play("jump", true);
+                player.setVelocityX(0);
+                if (player.body.touching.down) {
+                    jumping = 0;
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
             }
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }  
-    
+            if (cursors.left.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                }
+                else {
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                    footsteps.pause();
+                }
+            } 
+            else if (cursors.right.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                }
+                else {
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                    footsteps.pause();
+                }
+            }
+            else if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }  
             else {
-            player.setVelocityX(0)
-            player.anims.play('turn');
+                if (player.windActive) {
+                    const windAcceleration = 10;
+                    const maxWindSpeed = 200;
+                    if (player.body.velocity.x < maxWindSpeed) {
+                        player.setVelocityX(player.body.velocity.x + windAcceleration);
+                    }
+                }
+                else {
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
+                }
             }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }}
         // knife heitto
  if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
@@ -2222,55 +2321,80 @@ class Level4 extends Phaser.Scene {
         }
         footsteps.pause();  
         backgroundsound.play();
-        if (cursors.up.isDown && player.body.touching.down) {
-            jumping = 1;
-            player.setVelocityY(-300);
-            player.anims.play("jump");
-            jump.play();
+                if (knockback==1) {
+            return;
         }
-
-        if (jumping === 1) {
-            player.anims.play("jump", true);
-            player.setVelocityX(0);
-            if (player.body.touching.down) {
-                jumping = 0;
+        else if (dialogueActive) {
                 player.setVelocityX(0);
-                player.anims.play('turn');
-            }
+                player.setVelocityY(0);
+                player.anims.play('turn', true);
+                return;
         }
-        if (cursors.left.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
-            }
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
-            }
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }  
         else {
-            if (player.windActive) {
-                const windAcceleration = 10;
-                const maxWindSpeed = 300;
-                if (player.body.velocity.x < maxWindSpeed) {
-                    player.setVelocityX(player.body.velocity.x + windAcceleration);
+            if (cursors.up.isDown && player.body.touching.down) {
+                jumping = 1;
+                player.setVelocityY(-300);
+                player.anims.play("jump");
+                jump.play();
+            }
+            if (jumping === 1) {
+                player.anims.play("jump", true);
+                player.setVelocityX(0);
+                if (player.body.touching.down) {
+                    jumping = 0;
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
                 }
             }
-            else {
-            player.setVelocityX(0)
-            player.anims.play('turn');
+            if (cursors.left.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                }
+                else {
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                    footsteps.pause();
+                }
+            } 
+            else if (cursors.right.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                }
+                else {
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                    footsteps.pause();
+                }
             }
-        }
+            else if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }  
+            else {
+                if (player.windActive) {
+                    const windAcceleration = 10;
+                    const maxWindSpeed = 200;
+                    if (player.body.velocity.x < maxWindSpeed) {
+                        player.setVelocityX(player.body.velocity.x + windAcceleration);
+                    }
+                }
+                else {
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
+                }
+            }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }}
         // Knife heitto
        if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
@@ -2688,11 +2812,6 @@ class Level5 extends Phaser.Scene {
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
-            }
-            if (cursors.up.isDown && player.body.touching.down) {
-                jumping = 1;
-                player.setVelocityY(-300);
-                player.anims.play("jump");
             }
             if (jumping === 1) {
                 player.anims.play("jump", true);
