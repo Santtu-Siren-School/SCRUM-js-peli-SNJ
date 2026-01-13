@@ -3747,6 +3747,7 @@ function CollectCoin(player, coin) {
 }
 function tutorialDeath(player, enemy) {
     this.scene.start(this.scene.key)
+    player_death.play()
 }
 function low_power_trampolinePlayer(player, low_power_trampoline) {
     trampoline_sound.play()
