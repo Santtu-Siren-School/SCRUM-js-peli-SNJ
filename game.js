@@ -507,47 +507,7 @@ class Tutorial extends Phaser.Scene {
         }
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta
        footsteps.pause();  
-        if (cursors.up.isDown && player.body.touching.down) {
-            jumping = 1;
-            player.setVelocityY(-300);
-            player.anims.play("jump");
-            jump.play();
-        }
-
-        if (jumping === 1) {
-            player.anims.play("jump", true);
-            player.setVelocityX(0);
-            if (player.body.touching.down) {
-                jumping = 0;
-                player.setVelocityX(0);
-                player.anims.play('turn');
-            }
-        }
-        if (cursors.left.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
-            }
-            player.setVelocityX(-160);
-            player.anims.play('left', true);
-            facingRight = false;
-        } 
-        else if (cursors.right.isDown) {
-            if (player.body.touching.down) {
-                footsteps.play(); 
-            }
-            player.setVelocityX(160);
-            player.anims.play('right', true);
-            facingRight = true;
-        }
-        else if (cursors.down.isDown) {
-            player.setVelocityY(300);
-            player.anims.play('jump');
-        }  
-    
-            else {
-            player.setVelocityX(0)
-            player.anims.play('turn');
-            }
+       
             if (tutorial_ovi.hp <= 0) {
                      tutorial_music.pause();
               this.add.image(9150,430,'petya').setScale(1.4);
@@ -3109,9 +3069,17 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "Santtu's mother",
+            "",
+            "", 
             "ChatGPT",
+            "",
+            "",
             "Phaser",
+            "",
+            "",
             "Niilo for coming up with the greatest ideas",
+            "",
+            "",
             "Solid Snake",
 
         ];
