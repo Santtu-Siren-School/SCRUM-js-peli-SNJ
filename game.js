@@ -527,7 +527,7 @@ class Tutorial extends Phaser.Scene {
             if (player.body.touching.down) {
                 footsteps.play(); 
             }
-            player.setVelocityX(160);
+            player.setVelocityX(-160);
             player.anims.play('left', true);
             facingRight = false;
         } 
