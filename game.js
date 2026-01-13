@@ -16,6 +16,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('cannon_back', 'assets/textures/cannon_back.png')
             this.load.image('bullet', 'assets/textures/cannon_ball.png');
             this.load.image('ovi','assets/textures/ovi.png');
+            this.load.image('tutorial_ovi','assets/textures/tutorial_ovi.png');
             this.load.image('dungeon','assets/textures/dungeon.png');
             this.load.spritesheet('enemy','assets/textures/vihollinen.png',{frameWidth: 32, frameHeight: 42});
             this.load.image('castle_hallway', 'assets/textures/castle_hallway.jpg');
@@ -128,6 +129,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end4_3D', 'assets/textures/end4_3D.png')
             this.load.image('end4_4D', 'assets/textures/end4_4D.png')
             this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
+            this.load.image('petya', 'assets/textures/petya.png')
         }
         create() {
             const play_button=this.add.image(500,500,'play_button').setInteractive();
@@ -391,8 +393,9 @@ class Tutorial extends Phaser.Scene {
         })
         //tutorial bottom_of_game luonti lopuu
         //oven luonti seuraavaan tasoon
-        ovi=this.physics.add.staticGroup();
-        ovi.create(9950,790,'ovi').setScale(0.3).refreshBody();
+        tutorial_ovi=this.physics.add.staticGroup();
+        tutorial_ovi.hp = 100;
+        tutorial_ovi.create(9950,790,'tutorial_ovi').setScale(0.3).refreshBody();
         // --VIHOLLISEN LUONTI--
         this.enemies = this.physics.add.group();
         const rightPlatform = platforms.getChildren().at(1);
@@ -429,6 +432,12 @@ class Tutorial extends Phaser.Scene {
             weapon.body.allowGravity = false; 
             weapon.body.immovable = true;     
         });
+               this.physics.add.collider(knife, tutorial_ovi, (weapon) => {
+                tutorial_ovi.hp -= 1;
+                weapon.disableBody(true, true);
+              
+        });
+        
         this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
         if (!enemy.active) return;
 
@@ -467,7 +476,7 @@ class Tutorial extends Phaser.Scene {
         this.enemy.direction = 1;
         this.physics.add.collider(knife, bottom_of_game);
         //Pelaajan liikumisen animaatio määritely pätyy
-        this.physics.add.overlap(player, ovi, TutorialLevel1, null, this);
+        this.physics.add.overlap(player, tutorial_ovi, TutorialLevel1, null, this);
         this.physics.add.overlap(player, coin, TutorialtCoin, null, this);
         this.cameras.main.setBounds(0, 0, 10000, 900);
         this.physics.world.setBounds(0, 0, 10000, 900);
@@ -518,7 +527,7 @@ class Tutorial extends Phaser.Scene {
             if (player.body.touching.down) {
                 footsteps.play(); 
             }
-            player.setVelocityX(-160);
+            player.setVelocityX(160);
             player.anims.play('left', true);
             facingRight = false;
         } 
@@ -539,6 +548,14 @@ class Tutorial extends Phaser.Scene {
             player.setVelocityX(0)
             player.anims.play('turn');
             }
+            if (tutorial_ovi.hp <= 0) {
+                     tutorial_music.pause();
+              this.add.image(9150,430,'petya').setScale(1.4);
+        hacked.play();
+        setTimeout(() => {this.scene.start('game_over')}, 16000);
+            
+            return;
+        }
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
         //????
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -3170,6 +3187,111 @@ var config = {
     },
     scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene]
 };
+class game_over extends Phaser.Scene {
+    constructor() {
+        super({ key: 'game_over' });
+    }
+
+    create() {
+        this.textItems = [];
+        const messages = [
+            "...Why did you do it?",
+            "",
+            "",
+            "",
+            "",
+            "You know what you just did?",
+            "",
+            "",
+            "",
+            "",
+            "You didn't fucking listen to me.",
+            "",
+            "",
+            "",
+            "",
+            "You didn't care about the tutorial, you didn't progress normally...",
+            "",
+            "",
+            "",
+            "",
+            "No, you just had to shoot the door 100 times...",
+            "",
+            "",
+            "",
+            "",
+            "...But why? What did you get from it?",
+            "",
+            "",
+            "",
+            "",
+            "You should have known the legend of the tutorial door...",
+            "",
+            "",
+            "",
+            "",
+            "It was sealed for hundreds of years for a reason. It contained an extremely deadly virus...",
+            "",
+            "",
+            "",
+            "",
+            "Players weren't supposed to open it. But you? You did.",
+            "",
+            "",
+            "",
+            "",
+            "This means your computer is now completely infected by the feared Petya. We tried to warn ya, but you didn't listen...",
+            "",
+            "",
+            "",
+            "",
+            "It was nice knowing you... But you did this to yourself. Goodbye. Your computer will be completely destroyed any time now...",
+            "",
+            "",
+            "",
+            "",
+            "BAD ENDING, GAME OVER",
+
+        ];
+        const startY = config.height + 20;
+        let offset = 0;
+        messages.forEach(msg => {
+            const t = this.add.text(
+                config.width / 2,
+                startY + offset,
+                msg,
+                {
+                    fontSize: "28px",
+                    color: "#ffffff",
+                    align: "center",
+                    wordWrap: { width: 700 }
+                }
+            ).setOrigin(0.5, 0);
+            this.textItems.push(t);
+            offset += 60;
+        });
+    }
+    update(time, delta) {
+        const speed = 50;
+
+        this.textItems.forEach(t => {
+            t.y -= speed * (delta / 1000);
+        });
+    }
+}
+var config = {
+    type: Phaser.AUTO,
+    width: 1080,
+    height: 900,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 270 },
+            debug: false
+        }
+    },
+    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,end1,end2,end3,end4,game_over]
+};
 var bossIsAttacking=false;
 var solid=false;
 var deathState=false;
@@ -3223,6 +3345,7 @@ var wall;
 var trampoline;
 var low_power_trampoline;
 var ovi;
+var tutorial_ovi;
 var cursors;
 var game = new Phaser.Game(config);
 var platforms;
@@ -3272,6 +3395,7 @@ const enemy_hit = new Audio('assets/sound/enemy_hit.mp3')
 enemy_hit.volume = 0.7;
 const tutorial_music = new Audio('assets/sound/tutorial_music.mp3')
 const end1_background_song = new Audio('assets/sound/end1_backround_song.mp3')
+const hacked = new Audio('assets/sound/hacked.mp3')
 const intro_player1 = new Audio('assets/sound/dialogue/lore1.wav')
 const intro_player2 = new Audio('assets/sound/dialogue/lore2.wav')
 const intro_player3 = new Audio('assets/sound/dialogue/lore3.wav')
@@ -3403,8 +3527,10 @@ function level1Transition() {
     }
 }
 function TutorialLevel1() {
-    nextlevelsound.play()
+      if (tutorial_ovi.hp > 0) {
     this.scene.start('Level1')
+        nextlevelsound.play()
+      }
 }
 function level2Transition() {
     nextlevelsound.play()
