@@ -497,12 +497,14 @@ class Tutorial extends Phaser.Scene {
             return;
         }
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta
+       footsteps.pause();  
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
             jump.play();
         }
+
         if (jumping === 1) {
             player.anims.play("jump", true);
             player.setVelocityX(0);
@@ -512,27 +514,31 @@ class Tutorial extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-            if (cursors.left.isDown || cursors.right.isDown) {
-        player.setVelocityX(cursors.left.isDown ? -160 : 160);
-        player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
-        facingRight = cursors.right.isDown;
-
-        if (footsteps.paused) {
-            footsteps.play(); 
-        }
-        } else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-
-            if (!footsteps.paused) {
-                footsteps.pause();  
-                footsteps.currentTime = 0; 
+        if (cursors.left.isDown) {
+            if (player.body.touching.down) {
+                footsteps.play(); 
             }
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            if (player.body.touching.down) {
+                footsteps.play(); 
+            }
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
         }
-        if (cursors.down.isDown) {
+        else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        } 
+        }  
+    
+            else {
+            player.setVelocityX(0)
+            player.anims.play('turn');
+            }
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
         //????
         if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -889,14 +895,16 @@ if (!enemy.active) return;
                 deathState=false
             }
         }
-        backgroundsound.play()
-        //märitelään pelaajaan liityvää liikumista ja animaation pelausta
+        backgroundsound.play();
+       footsteps.pause();  
+        backgroundsound.play();
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
             jump.play();
         }
+
         if (jumping === 1) {
             player.anims.play("jump", true);
             player.setVelocityX(0);
@@ -906,29 +914,31 @@ if (!enemy.active) return;
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown || cursors.right.isDown) {
-            player.setVelocityX(cursors.left.isDown ? -160 : 160);
-            player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
-            facingRight = cursors.right.isDown;
-            if (footsteps.paused) {
+        if (cursors.left.isDown) {
+            if (player.body.touching.down) {
                 footsteps.play(); 
             }
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
         } 
-        else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-            if (!footsteps.paused) {
-                footsteps.pause();  
-                footsteps.currentTime = 0; 
+        else if (cursors.right.isDown) {
+            if (player.body.touching.down) {
+                footsteps.play(); 
             }
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
         }
-
-        if (cursors.down.isDown) {
+        else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
-        } 
-        //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
-        //????
+        }  
+    
+            else {
+            player.setVelocityX(0)
+            player.anims.play('turn');
+            }
  if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
                 //knife heittoa
@@ -1315,44 +1325,50 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 deathState=false
             }
         }
-        backgroundsound.play()
+              backgroundsound.play();
+       footsteps.pause();  
+        backgroundsound.play();
         if (cursors.up.isDown && player.body.touching.down) {
-                jumping = 1;
-                player.setVelocityY(-300);
-                player.anims.play("jump");
-                jump.play();
-            }
-            if (jumping === 1) {
-                player.anims.play("jump", true);
-                player.setVelocityX(0);
-                if (player.body.touching.down) {
-                    jumping = 0;
-                    player.setVelocityX(0);
-                    player.anims.play('turn');
-                }
-            }
-        if (cursors.left.isDown || cursors.right.isDown) {
-            player.setVelocityX(cursors.left.isDown ? -160 : 160);
-            player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
-            facingRight = cursors.right.isDown;
-
-        if (footsteps.paused) {
-            footsteps.play(); 
+            jumping = 1;
+            player.setVelocityY(-300);
+            player.anims.play("jump");
+            jump.play();
         }
-        } 
-        else {
+
+        if (jumping === 1) {
+            player.anims.play("jump", true);
             player.setVelocityX(0);
-            player.anims.play('turn');
-            if (!footsteps.paused) {
-                footsteps.pause();  
-                footsteps.currentTime = 0; 
+            if (player.body.touching.down) {
+                jumping = 0;
+                player.setVelocityX(0);
+                player.anims.play('turn');
             }
         }
-
-        if (cursors.down.isDown) {
+        if (cursors.left.isDown) {
+            if (player.body.touching.down) {
+                footsteps.play(); 
+            }
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
+        } 
+        else if (cursors.right.isDown) {
+            if (player.body.touching.down) {
+                footsteps.play(); 
+            }
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
+        }
+        else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
         }  
+    
+            else {
+            player.setVelocityX(0)
+            player.anims.play('turn');
+            }
  if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
                 //knife heittoa
@@ -1731,12 +1747,15 @@ class Level3 extends Phaser.Scene {
             }
         }
         backgroundsound.play();
+       footsteps.pause();  
+        backgroundsound.play();
         if (cursors.up.isDown && player.body.touching.down) {
             jumping = 1;
             player.setVelocityY(-300);
             player.anims.play("jump");
             jump.play();
         }
+
         if (jumping === 1) {
             player.anims.play("jump", true);
             player.setVelocityX(0);
@@ -1746,26 +1765,31 @@ class Level3 extends Phaser.Scene {
                 player.anims.play('turn');
             }
         }
-        if (cursors.left.isDown || cursors.right.isDown) {
-            player.setVelocityX(cursors.left.isDown ? -160 : 160);
-            player.anims.play(cursors.left.isDown ? 'left' : 'right', true);
-            facingRight = cursors.right.isDown;
-            if (footsteps.paused) {
+        if (cursors.left.isDown) {
+            if (player.body.touching.down) {
                 footsteps.play(); 
             }
+            player.setVelocityX(-160);
+            player.anims.play('left', true);
+            facingRight = false;
         } 
-        else {
-            player.setVelocityX(0);
-            player.anims.play('turn');
-            if (!footsteps.paused) {
-                footsteps.pause();  
-                footsteps.currentTime = 0; 
+        else if (cursors.right.isDown) {
+            if (player.body.touching.down) {
+                footsteps.play(); 
             }
+            player.setVelocityX(160);
+            player.anims.play('right', true);
+            facingRight = true;
         }
-        if (cursors.down.isDown) {
+        else if (cursors.down.isDown) {
             player.setVelocityY(300);
             player.anims.play('jump');
         }  
+    
+            else {
+            player.setVelocityX(0)
+            player.anims.play('turn');
+            }
         // knife heitto
  if (Phaser.Input.Keyboard.JustDown(shoot)) {
                 const now = this.time.now;
@@ -2186,11 +2210,6 @@ class Level4 extends Phaser.Scene {
             player.setVelocityY(-300);
             player.anims.play("jump");
             jump.play();
-        }
-        if (cursors.up.isDown && player.body.touching.down) {
-            jumping = 1;
-            player.setVelocityY(-300);
-            player.anims.play("jump");
         }
 
         if (jumping === 1) {
