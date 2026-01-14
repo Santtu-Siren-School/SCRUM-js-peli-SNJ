@@ -3201,7 +3201,7 @@ class end4 extends Phaser.Scene {
                         }, ending4);
                     }, ending4);
                 }, ending4);
-            }, );
+            }, ending4);
         }
     }
 //credit_scene
