@@ -226,6 +226,21 @@ class MainMenu extends Phaser.Scene {
     constructor() {
         super({ key: 'MainMenu' });}
         create(){
+            this.input.keyboard.on('keydown', (event) => {
+
+    // sallitaan vain kirjaimet ja välilyönti
+    if (event.key.length === 1) {
+        this.secretBuffer += event.key.toLowerCase();
+    }
+    // tarkistus
+    if (this.secretBuffer.includes("you think that is a knoif, this is a knoif")) {
+        console.log("cheat mode enabled");
+        cheat = true;
+    // deaths voi mennä miinukselle
+        this.input.keyboard.removeAllListeners();
+        // teleportti takaisin Level1
+    }
+});
             this.add.image(1000,1000, 'sky_level5').setScale(1);
             const level1_button=this.add.image(100,100,'level1').setInteractive();
             const level2_button=this.add.image(200,100,'level2').setInteractive();
@@ -295,7 +310,7 @@ class MainMenu extends Phaser.Scene {
             });
             secret_level_button.on('pointerdown', () => {
             this.scene.start('secret_level'),
-            console.log("You were too lazy to do it the legit way, so you used tihs button to unlock the cheat");
+            console.log("You were too lazy to do it the legit way, so you used thiss button to unlock the cheat");
             });
         }
 }
@@ -602,28 +617,45 @@ class Tutorial extends Phaser.Scene {
             }}
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
         //????
-        if (Phaser.Input.Keyboard.JustDown(shoot)) {
-            const now = this.time.now;
-        //knife heittoa
-        if (now - this.lastThrowTime > this.throwCooldown) {
-            knife_throw.play()
-            this.lastThrowTime = now; 
-                let offset = offset_1;
-                let spawnX = player.x + (facingRight ? offset : -offset);
-                let weapon = knife.create(spawnX, player.y, 'dagger');
-                weapon.setScale(weapon_scale);
-                weapon.setVelocityX(weapon_velocity); 
-                weapon.setGravityY(weapon_gravity);
-                weapon.body.isSensor = true;
-                if (facingRight) {
-            weapon.setVelocityX(weapon_velocity);
-        } else {
-            weapon.setVelocityX(weapon_velocity2);
-            weapon.flipX = true; 
-        }
-            setTimeout(() => { weapon.destroy(); }, weapon_kill);
-            }
-        }
+    if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
+        
         //vihollisen kääntymis ominaisuus että pysyy platformin päällä
         const e = this.enemy;
         if (!e || !e.body || !e.active) {
@@ -937,28 +969,44 @@ this.physics.add.collider(player, knife);
                 player.setVelocityY(300);
                 player.anims.play('jump');
             }}
-        if (Phaser.Input.Keyboard.JustDown(shoot)) {
-                const now = this.time.now;
-                //knife heittoa
-                if (now - this.lastThrowTime > this.throwCooldown) {
-                    knife_throw.play()
-                    this.lastThrowTime = now; 
-                    let offset = offset_1;
-                    let spawnX = player.x + (facingRight ? offset : -offset);
-                    let weapon = knife.create(spawnX, player.y, 'dagger');
-                    weapon.setScale(weapon_scale);
-                    weapon.setVelocityX(weapon_velocity); 
-                    weapon.setGravityY(weapon_gravity);
-                    if (facingRight) {
-                        weapon.setVelocityX(weapon_velocity);
-                    } 
-                    else {
-                        weapon.setVelocityX(weapon_velocity2);
-                        weapon.flipX = true; 
-                    } 
-                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
-                }
-            }
+           if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
 
     }
 }
@@ -1320,28 +1368,44 @@ if (!enemy.active) return;
                 player.setVelocityY(300);
                 player.anims.play('jump');
             }}
-        if (Phaser.Input.Keyboard.JustDown(shoot)) {
-                const now = this.time.now;
-                //knife heittoa
-                if (now - this.lastThrowTime > this.throwCooldown) {
-                    knife_throw.play()
-                    this.lastThrowTime = now; 
-                    let offset = offset_1;
-                    let spawnX = player.x + (facingRight ? offset : -offset);
-                    let weapon = knife.create(spawnX, player.y, 'dagger');
-                    weapon.setScale(weapon_scale);
-                    weapon.setVelocityX(weapon_velocity); 
-                    weapon.setGravityY(weapon_gravity);
-                    if (facingRight) {
-                        weapon.setVelocityX(weapon_velocity);
-                    } 
-                    else {
-                        weapon.setVelocityX(weapon_velocity2);
-                        weapon.flipX = true; 
-                    } 
-                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
-                }
-            }
+          if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
         bullets.children.each(b => {
             if (b.active && b.x > 1880) {
                 b.disableBody(true, true); 
@@ -1783,28 +1847,44 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 player.setVelocityY(300);
                 player.anims.play('jump');
             }}
- if (Phaser.Input.Keyboard.JustDown(shoot)) {
-                const now = this.time.now;
-                //knife heittoa
-                if (now - this.lastThrowTime > this.throwCooldown) {
-                    knife_throw.play()
-                    this.lastThrowTime = now; 
-                    let offset = offset_1;
-                    let spawnX = player.x + (facingRight ? offset : -offset);
-                    let weapon = knife.create(spawnX, player.y, 'dagger');
-                    weapon.setScale(weapon_scale);
-                    weapon.setVelocityX(weapon_velocity); 
-                    weapon.setGravityY(weapon_gravity);
-                    if (facingRight) {
-                        weapon.setVelocityX(weapon_velocity);
-                    } 
-                    else {
-                        weapon.setVelocityX(weapon_velocity2);
-                        weapon.flipX = true; 
-                    } 
-                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
-                }
-            }
+     if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
         this.enemies.children.iterate(e => {
             if (!e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -2238,28 +2318,45 @@ class Level3 extends Phaser.Scene {
                 player.anims.play('jump');
             }}
         // knife heitto
- if (Phaser.Input.Keyboard.JustDown(shoot)) {
-                const now = this.time.now;
-                //knife heittoa
-                if (now - this.lastThrowTime > this.throwCooldown) {
-                    knife_throw.play()
-                    this.lastThrowTime = now; 
-                    let offset = offset_1;
-                    let spawnX = player.x + (facingRight ? offset : -offset);
-                    let weapon = knife.create(spawnX, player.y, 'dagger');
-                    weapon.setScale(weapon_scale);
-                    weapon.setVelocityX(weapon_velocity); 
-                    weapon.setGravityY(weapon_gravity);
-                    if (facingRight) {
-                        weapon.setVelocityX(weapon_velocity);
-                    } 
-                    else {
-                        weapon.setVelocityX(weapon_velocity2);
-                        weapon.flipX = true; 
-                    } 
-                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
-                }
-            }
+     if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
+            
         this.enemies.children.iterate(e => {
             if (!e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -2727,28 +2824,44 @@ class Level4 extends Phaser.Scene {
                 player.anims.play('jump');
             }}
         // Knife heitto
-       if (Phaser.Input.Keyboard.JustDown(shoot)) {
-                const now = this.time.now;
-                //knife heittoa
-                if (now - this.lastThrowTime > this.throwCooldown) {
-                    knife_throw.play()
-                    this.lastThrowTime = now; 
-                    let offset = offset_1;
-                    let spawnX = player.x + (facingRight ? offset : -offset);
-                    let weapon = knife.create(spawnX, player.y, 'dagger');
-                    weapon.setScale(weapon_scale);
-                    weapon.setVelocityX(weapon_velocity); 
-                    weapon.setGravityY(weapon_gravity);
-                    if (facingRight) {
-                        weapon.setVelocityX(weapon_velocity);
-                    } 
-                    else {
-                        weapon.setVelocityX(weapon_velocity2);
-                        weapon.flipX = true; 
-                    } 
-                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
-                }
-            }
+           if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
         this.enemies.children.iterate(e => {
             if (!e || !e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -3093,28 +3206,44 @@ class Level5 extends Phaser.Scene {
                 player.anims.play('jump');
             } 
 
-            if (Phaser.Input.Keyboard.JustDown(shoot)) {
-                const now = this.time.now;
-                //knife heittoa
-                if (now - this.lastThrowTime > this.throwCooldown) {
-                    knife_throw.play()
-                    this.lastThrowTime = now; 
-                    let offset = offset_1;
-                    let spawnX = player.x + (facingRight ? offset : -offset);
-                    let weapon = knife.create(spawnX, player.y, 'dagger');
-                    weapon.setScale(weapon_scale);
-                    weapon.setVelocityX(weapon_velocity); 
-                    weapon.setGravityY(weapon_gravity);
-                    if (facingRight) {
-                        weapon.setVelocityX(weapon_velocity);
-                    } 
-                    else {
-                        weapon.setVelocityX(weapon_velocity2);
-                        weapon.flipX = true; 
-                    } 
-                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
-                }
-            }
+               if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
     }
     }
     }
@@ -3620,7 +3749,7 @@ this.input.keyboard.on('keydown', (event) => {
 
     // sallitaan vain kirjaimet ja välilyönti
     if (event.key.length === 1) {
-        this.secretBuffer += event.key.toLowerCase();
+        this.secretBuffer += event.key.toLowerCase();  
     }
     // tarkistus
     if (this.secretBuffer.includes("fuck you petya, i use antivirus")) {
@@ -3717,6 +3846,7 @@ var bottom_of_game;
 var gameOver;
 var jumping = 0;
 var score = 0;
+var cheat;
 var scoreText;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
