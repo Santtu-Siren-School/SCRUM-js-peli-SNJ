@@ -4196,7 +4196,7 @@ function boss_phase2_attacks() {
         wall_sound.play()
         let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
         boss_wall_object.setScale(1).refreshBody();
-        const speed = 100;
+        const speed = 200;
         const direction = Math.sign(player.x - boss.x);
         boss_wall_object.setVelocityX(speed * direction);
         boss_wall_object.body.allowGravity = false;
@@ -4209,7 +4209,7 @@ function boss_phase2_attacks() {
             fireball_sound.play()
             let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
             fireballobject.setScale(2).refreshBody();
-            const speed = 300;
+            const speed = 400;
             const direction = Math.sign(player.x - boss.x);
             fireballobject.setVelocityX(speed * direction);
             fireballobject.body.allowGravity = false;
@@ -4222,7 +4222,7 @@ function boss_phase2_attacks() {
             spikes_sound.play()
             let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
             spikebossobject.setScale(2).refreshBody();
-            const speed = 100;
+            const speed = 250;
             spikebossobject.setVelocityY(speed);
             spikebossobject.body.allowGravity = false;
             setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
