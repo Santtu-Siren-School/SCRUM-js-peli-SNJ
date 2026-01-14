@@ -2956,7 +2956,7 @@ class Level5 extends Phaser.Scene {
         else {
             //katsotaan jos on phase 1
             if(phase===1 && !bossIsAttacking){
-                //anetaan random value 0-400, jos on 6 tee hyökäys ja pelaa animaatio
+                //anetaan random value 0-200, jos on 1 tee hyökäys ja pelaa animaatio
                 bossattackchanche=Phaser.Math.Between(0, 200);
                 console.log("boss attack chanche",bossattackchanche)
                 if (bossattackchanche===1) {
@@ -2964,37 +2964,14 @@ class Level5 extends Phaser.Scene {
                     boss_animation_play=true
                     boss.play('bossphase1attack');
                     //arvoidaan mikä hyökäys tehdään ja sitten suoritetaan hyökäys
-                    setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 2);console.log("boss attack",bossattack)}, 1500);
+                    setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;}, 1500);
                     setTimeout(()=> {
-                        if (bossattack===0) {
-                            wall_sound.play()
-                            let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
-                            boss_wall_object.setScale(1).refreshBody();
-                            const speed = 100;
-                            const direction = Math.sign(player.x - boss.x);
-                            boss_wall_object.setVelocityX(speed * direction);
-                            boss_wall_object.body.allowGravity = false;
-                            setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
+                        while (!attackMade) {
+                            bossattack=Phaser.Math.Between(0, 2);
+                            console.log("boss attack attempt",bossattack)
+                            boss_phase1_attacks();
                         }
-                        else if (bossattack===1) {
-                            fireball_sound.play()
-                            let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
-                            fireballobject.setScale(2).refreshBody();
-                            const speed = 300;
-                            const direction = Math.sign(player.x - boss.x);
-                            fireballobject.setVelocityX(speed * direction);
-                            fireballobject.body.allowGravity = false;
-                            setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
-                        }
-                        else {
-                            spikes_sound.play()
-                            let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
-                            spikebossobject.setScale(2).refreshBody();
-                            const speed = 100;
-                            spikebossobject.setVelocityY(speed);
-                            spikebossobject.body.allowGravity = false;
-                            setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
-                        }
+                        attackMade=false;
                         bossIsAttacking=false;
                     },1600);
                 }
@@ -3007,43 +2984,14 @@ class Level5 extends Phaser.Scene {
                     bossIsAttacking=true;
                     boss_animation_play=true
                     boss.play('bossphase1attack');
-                    setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 3);console.log("boss attack",bossattack)}, 1500);
+                    setTimeout(() => {boss.play('idlebossphase1');boss_animation_play=false;}, 1500);
                     setTimeout(()=> {
-                        if (bossattack===0) {
-                            wall_sound.play()
-                            let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
-                            boss_wall_object.setScale(1).refreshBody();
-                            const speed = 200;
-                            const direction = Math.sign(player.x - boss.x);
-                            boss_wall_object.setVelocityX(speed * direction);
-                            boss_wall_object.body.allowGravity = false;
-                            setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
+                        while (!attackMade) {
+                            bossattack=Phaser.Math.Between(0, 3);
+                            console.log("boss attack attempt",bossattack)
+                            boss_phase2_attacks();
                         }
-                        else if(bossattack===1) {
-                            fireball_sound.play()
-                            let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
-                            fireballobject.setScale(2).refreshBody();
-                            const speed = 500;
-                            const direction = Math.sign(player.x - boss.x);
-                            fireballobject.setVelocityX(speed * direction);
-                            fireballobject.body.allowGravity = false;
-                            setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
-                        }
-                        else if (bossattack===2) {
-                            spikes_sound.play()
-                            let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
-                            spikebossobject.setScale(2).refreshBody();
-                            const speed = 200;
-                            spikebossobject.setVelocityY(speed);
-                            spikebossobject.body.allowGravity = false;
-                            setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
-                        }
-                        else if (bossattack===3){
-                            throw_sound.play()
-                            knockback=1;
-                            player.setVelocityY(-500);
-                            setTimeout(() => {player.setVelocityX(500);player.setVelocityY(-100);setTimeout(() => {knockback=0;},1000 )}, 2000);
-                        }
+                        attackMade=false;
                         bossIsAttacking=false;
                     },1600);
                 }
@@ -3056,72 +3004,14 @@ class Level5 extends Phaser.Scene {
                     bossIsAttacking=true;
                     boss_animation_play=true
                     boss.play('bossphase2attack');
-                    setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;bossattack=Phaser.Math.Between(0, 4);console.log("boss attack",bossattack)}, 1600);
+                    setTimeout(() => {boss.play('idlebossphase2');boss_animation_play=false;}, 1600);
                     setTimeout(()=> {
-                        if (bossattack===0) {
-                            wall_sound.play()
-                            let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
-                            boss_wall_object.setScale(1).refreshBody();
-                            const speed = 300;
-                            const direction = Math.sign(player.x - boss.x);
-                            boss_wall_object.setVelocityX(speed * direction);
-                            boss_wall_object.body.allowGravity = false;
-                            setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
+                        while (!attackMade) {
+                            bossattack=Phaser.Math.Between(0, 4);
+                            console.log("boss attack",bossattack)
+                            boss_phase3_attacks();
                         }
-                        else if(bossattack===1) {
-                            fireball_sound.play()
-                            let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
-                            fireballobject.setScale(2).refreshBody();
-                            const speed = 500;
-                            const direction = Math.sign(player.x - boss.x);
-                            fireballobject.setVelocityX(speed * direction);
-                            fireballobject.body.allowGravity = false;
-                            setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
-                        }
-                        else if (bossattack===2) {
-                            spikes_sound.play()
-                            let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
-                            spikebossobject.setScale(2).refreshBody();
-                            const speed = 400;
-                            spikebossobject.setVelocityY(speed);
-                            spikebossobject.body.allowGravity = false;
-                            setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
-                        }
-                        else if (bossattack===3) {
-                            lightbeam_sound.play()
-                            let beam = this.physics.add.image(boss.x, boss.y-400, 'lightbeam');
-                            beam.body.allowGravity = false;
-                            beam.setScale(1);
-                            beam.setAlpha(0.4);
-                            setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
-                            // beamin katoaminen
-                            setTimeout(() => {
-                                if (beam) beam.destroy();
-                                // knockback alkaa vasta nyt
-                                knockback = 1;
-                                // Suunnan laskeminen
-                                let direction = Math.sign(player.x - boss.x); 
-                                if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
-                                // Heitto sivulle + ylös
-                                player.setVelocityX(1500 * direction);
-                                player.setVelocityY(-700);
-                                // knockback loppuu
-                                setTimeout(() => {knockback = 0;}, 800);
-                            }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
-                            this.physics.add.overlap(player, beam, () => {
-                                lightbeam_death.play();
-                                const currentDeaths = this.registry.get('deaths') + 1;
-                                this.registry.set('deaths', currentDeaths);
-                                this.deathText.setText("Deaths: " + currentDeaths);
-                                this.scene.start('Level5');
-                            });
-                        }
-                        else if (bossattack===4) {
-                            throw_sound.play()
-                            knockback=1;
-                            player.setVelocityY(-700);
-                            setTimeout(() => {player.setVelocityX(700);player.setVelocityY(-300);setTimeout(() => {knockback=0;},1000 )}, 2000);
-                        }
+                        attackMade=false;
                         bossIsAttacking=false;
                     },1700);
                 }
@@ -3760,7 +3650,11 @@ var config = {
     },
     scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over,peli_ohi]
 };
-                                                              
+var attackMade=false;
+var LightbeamLatest=false;
+var WallLatest=false;
+var FireballLatest=false;
+var SpikesLatest=false;                                                             
 var bossIsAttacking=false;
 var solid=false;
 var deathState=false;
@@ -4250,4 +4144,175 @@ function boss_spike_player(player,boss_spike){
 }
 function boss_spike_tower_thingys(boss_spikes, tower_thingys) {
     boss_spikes.destroy();
+}
+function boss_phase1_attacks() {
+    if (bossattack===0&&!WallLatest) {
+        FireballLatest=false;
+        SpikesLatest=false;
+        WallLatest=true;
+        wall_sound.play()
+        let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
+        boss_wall_object.setScale(1).refreshBody();
+        const speed = 100;
+        const direction = Math.sign(player.x - boss.x);
+        boss_wall_object.setVelocityX(speed * direction);
+        boss_wall_object.body.allowGravity = false;
+        setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
+        }
+        else if (bossattack===1&&!FireballLatest) {
+            FireballLatest=true;
+            SpikesLatest=false;
+            WallLatest=false;
+            fireball_sound.play()
+            let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
+            fireballobject.setScale(2).refreshBody();
+            const speed = 300;
+            const direction = Math.sign(player.x - boss.x);
+            fireballobject.setVelocityX(speed * direction);
+            fireballobject.body.allowGravity = false;
+            setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
+        }
+        else if (bossattack===2&&!SpikesLatest){
+            FireballLatest=false;
+            SpikesLatest=true;
+            WallLatest=false;
+            spikes_sound.play()
+            let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
+            spikebossobject.setScale(2).refreshBody();
+            const speed = 100;
+            spikebossobject.setVelocityY(speed);
+            spikebossobject.body.allowGravity = false;
+            setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
+        }
+        attackMade=true;
+}
+function boss_phase2_attacks() {
+    if (bossattack===0&&!WallLatest) {
+        FireballLatest=false;
+        SpikesLatest=false;
+        WallLatest=true;
+        wall_sound.play()
+        let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
+        boss_wall_object.setScale(1).refreshBody();
+        const speed = 100;
+        const direction = Math.sign(player.x - boss.x);
+        boss_wall_object.setVelocityX(speed * direction);
+        boss_wall_object.body.allowGravity = false;
+        setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
+        }
+        else if (bossattack===1&&!FireballLatest) {
+            FireballLatest=true;
+            SpikesLatest=false;
+            WallLatest=false;
+            fireball_sound.play()
+            let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
+            fireballobject.setScale(2).refreshBody();
+            const speed = 300;
+            const direction = Math.sign(player.x - boss.x);
+            fireballobject.setVelocityX(speed * direction);
+            fireballobject.body.allowGravity = false;
+            setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
+        }
+        else if (bossattack===2&&!SpikesLatest){
+            FireballLatest=false;
+            SpikesLatest=true;
+            WallLatest=false;
+            spikes_sound.play()
+            let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
+            spikebossobject.setScale(2).refreshBody();
+            const speed = 100;
+            spikebossobject.setVelocityY(speed);
+            spikebossobject.body.allowGravity = false;
+            setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
+        }
+        else if (bossattack===3){
+            throw_sound.play()
+            knockback=1;
+            player.setVelocityY(-500);
+            setTimeout(() => {player.setVelocityX(500);player.setVelocityY(-100);setTimeout(() => {knockback=0;},1000 )}, 2000);
+        }
+        attackMade=true;
+}
+function boss_phase3_attacks() {
+    if (bossattack===0&&!WallLatest) {
+        FireballLatest=false;
+        SpikesLatest=false;
+        WallLatest=true;
+        LightbeamLatest=false;
+        wall_sound.play()
+        let boss_wall_object = bosswall.create(boss.x, boss.y+40, 'boss_wall');
+        boss_wall_object.setScale(1).refreshBody();
+        const speed = 300;
+        const direction = Math.sign(player.x - boss.x);
+        boss_wall_object.setVelocityX(speed * direction);
+        boss_wall_object.body.allowGravity = false;
+        setTimeout(() => {if (boss_wall_object) boss_wall_object.destroy(); }, 9000);
+    }
+    else if(bossattack===1&&!FireballLatest) {
+        FireballLatest=true;
+        SpikesLatest=false;
+        WallLatest=false;
+        LightbeamLatest=false;
+        fireball_sound.play()
+        let fireballobject = fireball.create(boss.x, boss.y, 'fireball');
+        fireballobject.setScale(2).refreshBody();
+        const speed = 500;
+        const direction = Math.sign(player.x - boss.x);
+        fireballobject.setVelocityX(speed * direction);
+        fireballobject.body.allowGravity = false;
+        setTimeout(() => {if (fireballobject) fireballobject.destroy(); }, 4000);
+    }
+    else if (bossattack===2&&!SpikesLatest) {
+        FireballLatest=false;
+        SpikesLatest=true;
+        WallLatest=false;
+        LightbeamLatest=false;
+        spikes_sound.play()
+        let spikebossobject = boss_spike.create(player.x, 1000, 'boss_spike');
+        spikebossobject.setScale(2).refreshBody();
+        const speed = 400;
+        spikebossobject.setVelocityY(speed);
+        spikebossobject.body.allowGravity = false;
+        setTimeout(() => {if (spikebossobject) spikebossobject.destroy(); }, 90000);
+    }
+    else if (bossattack===3&&!LightbeamLatest) {
+        FireballLatest=false;
+        SpikesLatest=false;
+        WallLatest=false;
+        LightbeamLatest=true;
+        lightbeam_sound.play()
+        let beam = this.physics.add.image(boss.x, boss.y-400, 'lightbeam');
+        beam.body.allowGravity = false;
+        beam.setScale(1);
+        beam.setAlpha(0.4);
+        setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
+        // beamin katoaminen
+        setTimeout(() => {
+            if (beam) beam.destroy();
+            // knockback alkaa vasta nyt
+            knockback = 1;
+            // Suunnan laskeminen
+            let direction = Math.sign(player.x - boss.x); 
+            if (direction === 0) direction = 1; // varmistetaan ettei tule 0-nopeutta
+            // Heitto sivulle + ylös
+            player.setVelocityX(1500 * direction);
+            player.setVelocityY(-700);
+            // knockback loppuu
+            setTimeout(() => {knockback = 0;}, 800);
+        }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
+        this.physics.add.overlap(player, beam, () => {
+            lightbeam_death.play();
+            const currentDeaths = this.registry.get('deaths') + 1;
+            this.registry.set('deaths', currentDeaths);
+            this.deathText.setText("Deaths: " + currentDeaths);
+            this.scene.start('Level5');
+        });
+    }
+    else if (bossattack===4) {
+        throw_sound.play()
+        knockback=1;
+        player.setVelocityY(-700);
+        setTimeout(() => {player.setVelocityX(700);player.setVelocityY(-300);setTimeout(() => {knockback=0;},1000 )}, 2000);
+    }
+    attackMade=true;
 }
