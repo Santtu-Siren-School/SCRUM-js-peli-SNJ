@@ -3450,7 +3450,8 @@ class credit_scene extends Phaser.Scene {
             "",
             "Santtu's mother",
             "",
-            "", 
+            "",
+            "Phaser developers",
 
         ];
         const startY = config.height + 20;
