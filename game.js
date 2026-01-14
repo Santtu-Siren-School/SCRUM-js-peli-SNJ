@@ -3009,7 +3009,7 @@ class Level5 extends Phaser.Scene {
                         while (!attackMade) {
                             bossattack=Phaser.Math.Between(0, 4);
                             console.log("boss attack",bossattack)
-                            boss_phase3_attacks();
+                            boss_phase3_attacks(this);
                         }
                         attackMade=false;
                         bossIsAttacking=false;
@@ -4235,7 +4235,7 @@ function boss_phase2_attacks() {
         }
         attackMade=true;
 }
-function boss_phase3_attacks() {
+function boss_phase3_attacks(a) {
     if (bossattack===0&&!WallLatest) {
         FireballLatest=false;
         SpikesLatest=false;
@@ -4282,12 +4282,12 @@ function boss_phase3_attacks() {
         SpikesLatest=false;
         WallLatest=false;
         LightbeamLatest=true;
-        lightbeam_sound.play()
-        let beam = this.physics.add.image(boss.x, boss.y-400, 'lightbeam');
+        lightbeam_sound.play();
+        let beam = a.physics.add.image(boss.x, boss.y-400, 'lightbeam');
         beam.body.allowGravity = false;
         beam.setScale(1);
         beam.setAlpha(0.4);
-        setTimeout(() => {this.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
+        setTimeout(() => {a.tweens.add({targets: beam,scaleX: 12,scaleY: 6,duration: 1300});}, 1000);
         // beamin katoaminen
         setTimeout(() => {
             if (beam) beam.destroy();
@@ -4302,12 +4302,12 @@ function boss_phase3_attacks() {
             // knockback loppuu
             setTimeout(() => {knockback = 0;}, 800);
         }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
-        this.physics.add.overlap(player, beam, () => {
+        a.physics.add.overlap(player, beam, () => {
             lightbeam_death.play();
-            const currentDeaths = this.registry.get('deaths') + 1;
-            this.registry.set('deaths', currentDeaths);
-            this.deathText.setText("Deaths: " + currentDeaths);
-            this.scene.start('Level5');
+            const currentDeaths = a.registry.get('deaths') + 1;
+            a.registry.set('deaths', currentDeaths);
+            a.deathText.setText("Deaths: " + currentDeaths);
+            a.scene.start('Level5');
         });
     }
     else if (bossattack===4) {
