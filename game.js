@@ -3307,9 +3307,9 @@ class end2 extends Phaser.Scene {
                                                 setTimeout(() => {end2_9.destroy();let end2_10=this.add.image(500,450, 'end2_10');
                                                     setTimeout(() => {end2_10.destroy();let end2_11=this.add.image(500,450, 'end2_11');
                                                         setTimeout(() => {end2_11.destroy();let end2_12=this.add.image(500,450, 'end2_12');
-                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);
-                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2);
-                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);
+                                                            setTimeout(() => {end2_12.destroy();let end2_13=this.add.image(500,450, 'end2_13').setScale(0.8);fbi.play();
+                                                                setTimeout(() => {end2_13.destroy();let end2_14=this.add.image(500,450, 'end2_14').setScale(2); 
+                                                                    setTimeout(() => {end2_14.destroy();this.scene.start('credit_scene')}, 7000);bro_really_thought.play();
                                                                  }, 7000);
                                                              }, cutscene_1);
                                                          }, cutscene_1);
@@ -3766,6 +3766,8 @@ const end3_player = new Audio('assets/sound/dialogue/uno_reverse_card.wav')
 const meeting_boss = new Audio('assets/sound/dialogue/arrogant_brat.wav')
 const voi_vittu = new Audio('assets/sound/dialogue/impending_doom.wav')
 const epic_fail = new Audio('assets/sound/dialogue/stupid_scream.wav')
+const bro_really_thought = new Audio('assets/sound/dialogue/bro_really_thought.wav')
+const fbi = new Audio('assets/sound/dialogue/fbi_open_up.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const end4_background_song = new Audio('assets/sound/end4_background_song.mp3')
