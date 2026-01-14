@@ -124,6 +124,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end4_button', 'assets/textures/end4_button.png')
             this.load.image('play_button', 'assets/textures/play_button.png')
             this.load.image('petya_button', 'assets/textures/petya_button.png')
+            this.load.image('secret_level_button', 'assets/textures/secret_level_button.png')
             this.load.image('coin', 'assets/textures/coin.png')
             this.load.image('end4_1D', 'assets/textures/end4_1D.png')
             this.load.image('end4_2D', 'assets/textures/end4_2D.png')
@@ -131,6 +132,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end4_4D', 'assets/textures/end4_4D.png')
             this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
             this.load.image('petya', 'assets/textures/petya.png')
+            this.load.image('gold', 'assets/textures/gold.jpg')
         }
         create() {
             const play_button=this.add.image(500,500,'play_button').setInteractive();
@@ -238,6 +240,7 @@ class MainMenu extends Phaser.Scene {
             const end3_button=this.add.image(300,200,'end3_button').setInteractive();
             const end4_button=this.add.image(400,200,'end4_button').setInteractive();
             const petya_button=this.add.image(300,300,'petya_button').setInteractive();
+            const secret_level_button=this.add.image(700,100,'secret_level_button').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -289,6 +292,10 @@ class MainMenu extends Phaser.Scene {
             petya_button.on('pointerdown', () => {
             this.scene.start('peli_ohi'),
             console.log("Computer destruction incoming");
+            });
+            secret_level_button.on('pointerdown', () => {
+            this.scene.start('secret_level'),
+            console.log("You were too lazy to do it the legit way, so you used tihs button to unlock the cheat");
             });
         }
 }
@@ -667,6 +674,293 @@ class Tutorial extends Phaser.Scene {
 
     }
 }
+}
+//secret level
+class secret_level extends Phaser.Scene {
+    constructor() {
+        super({ key: 'secret_level' });
+    }
+
+    // asetan kellon muuttujan
+    init() {
+        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
+    }
+
+    preload (){
+    }
+    create (){
+        tutorial_music.pause();
+        boss_fight_background_music.pause();
+        //knife cooldownin laatiminen
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
+        //määritelään cursors phaserin avulla
+        cursors = this.input.keyboard.createCursorKeys();
+        //asetaa taustakuvan
+        this.add.image(910,400, 'gold').setScale(2.5);
+        //lisää player hahmoon spire sheetin
+        player = this.physics.add.sprite(100, 750, 'main_character');
+        //asetaa pelaajan collisoinin mailman seinien kanssa
+        player.setCollideWorldBounds(true);
+        //määritelään knife
+        knife = this.physics.add.group();
+        coin = this.physics.add.group();
+        wall = this.physics.add.staticGroup();
+        //määritelee platforms staatiseksi
+        platforms = this.physics.add.staticGroup();
+        //määritelee bottom_of_game staatiseksi
+        bottom_of_game = this.physics.add.staticGroup();
+        //level1 platformien luonti
+
+        //level1 platformien luonti loppuu
+        //level1 bottom_of_game luonti
+        bottom_of_game.create(150,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(350,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(550,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(750,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(950,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(1150,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(1350,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(1550,950, 'bottom_of_game').setScale(3).refreshBody();
+        bottom_of_game.create(1750,950, 'bottom_of_game').setScale(3).refreshBody();
+        //level1 bottom_of_game luonti lopuu
+        //kolikoiden luonti
+    coin.create(200, 820, 'coin');
+    coin.create(250, 820, 'coin');
+    coin.create(300, 820, 'coin');
+    coin.create(350, 820,'coin');
+    coin.create(400, 820, 'coin');
+    coin.create(450, 820, 'coin');
+    coin.create(500, 820, 'coin');
+    coin.create(550, 820, 'coin');
+    coin.create(600, 820, 'coin');
+    coin.create(650, 820, 'coin');
+    coin.create(700, 820, 'coin');
+    coin.create(750, 820, 'coin');
+    coin.create(800, 820, 'coin');
+    coin.create(850, 820, 'coin');
+    coin.create(900, 820, 'coin');
+    coin.create(950, 820, 'coin');
+    coin.create(1000, 820, 'coin');
+    coin.create(1050, 820, 'coin');
+    coin.create(1100, 820, 'coin');
+    coin.create(1150, 820, 'coin');
+    coin.create(1200, 820, 'coin');
+    coin.create(1250, 820, 'coin');
+    coin.create(1300, 820, 'coin');
+    coin.create(1350, 820, 'coin');
+    coin.create(1400, 820, 'coin');
+    coin.create(1450, 820, 'coin');
+    coin.create(1500, 820, 'coin');
+    coin.create(1550, 820, 'coin');
+    coin.create(1600, 820, 'coin');
+    coin.create(1650, 820, 'coin');
+    coin.create(1700, 820, 'coin');
+    coin.create(1750, 820, 'coin');
+    coin.create(1800, 820, 'coin');
+    coin.create(1850, 820, 'coin');
+    coin.create(1900, 820, 'coin');
+    
+
+    coin.children.iterate(c => {
+    if (!c) return;
+
+    c.body.setAllowGravity(true);
+    c.body.setImmovable(false);
+
+    c.body.setSize(c.width * 0.6, c.height * 0.6);
+    c.body.setOffset(c.width * 0.25, c.height * 0.25);
+});
+        //level1 scoren luonti loppuu
+        //oven luonti seuraavaan tasoon
+        ovi=this.physics.add.staticGroup();
+        ovi.create(1970,840,'ovi').setScale(0.3).refreshBody();
+        // --VIHOLLISEN LUONTI--
+
+// Käytä Phaserin dataa (stabiilimpi kuin plain property)
+// Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
+
+// Colliders
+this.physics.add.collider(player, platforms);
+this.physics.add.collider(player, wall);
+this.physics.add.collider(coin, platforms);
+this.physics.add.collider(coin, bottom_of_game);
+this.physics.add.collider(player, bottom_of_game);
+this.physics.add.collider(player, knife);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+    weapon.setVelocity(0, 0);   
+    weapon.body.allowGravity = false; 
+    weapon.body.immovable = true;     
+});
+   this.physics.add.collider(knife, wall, (weapon) => {
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+        });
+        // jos puukko osuu alustaan -> pysäytä puukko
+        this.physics.add.collider(knife, bottom_of_game);
+        //Pelaajan liikumisen animaatio määritely pätyy
+        this.physics.add.overlap(player, ovi, secretLevel1, null, this);
+        this.physics.add.overlap(player, coin, CollectCoin, null, this);
+        this.cameras.main.setBounds(0, 0, 2000, 900);
+        this.physics.world.setBounds(0, 0, 2000, 900);
+        this.cameras.main.startFollow(player);
+        shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        //kellon funktio
+        // hae aiempi aika
+        this.totalTime = this.registry.get('totalTime') || 0;
+        //luo tekstin
+        this.timerText = this.add.text(10, 40, "Time: " + this.totalTime, {
+            fontSize: '24px',
+            fill: '#fff'
+        }).setScrollFactor(0);
+        //texti pysyy vasemmassa 
+        // kuolemalaskuri
+        this.deaths = this.registry.get('deaths');
+        this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
+        fontSize: '24px',
+        fill: '#fff'
+        }).setScrollFactor(0);
+        this.scoreText = this.add.text(10, 10, "Score: " + score, {
+        fontSize: '24px',
+        fill: '#fff'
+        }).setScrollFactor(0);
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                this.totalTime++;
+                this.registry.set('totalTime', this.totalTime);
+                this.timerText.setText("Time: " + this.totalTime);
+            }
+        });
+
+    }
+    update (){
+        if (deathState===true) {
+            if (this.scene.key==='Level1') {
+                score=score-level1score;
+                level1score=0;
+                deathState=false
+            }
+            else if (this.scene.key==='Level2') {
+                score=score-level2score;
+                level2score=0;
+                deathState=false
+            }
+            else if (this.scene.key==='Level3') {
+                score=score-level3score;
+                level3score=0;
+                deathState=false
+            }
+            else if (this.scene.key==='Level4') {
+                score=score-level4score;
+                level4score=0;
+                deathState=false
+            }
+        }
+        backgroundsound.play();
+       footsteps.pause();  
+        backgroundsound.play();
+        if (knockback==1) {
+            return;
+        }
+        else if (dialogueActive) {
+                player.setVelocityX(0);
+                player.setVelocityY(0);
+                player.anims.play('turn', true);
+                return;
+        }
+        else {
+            if (cursors.up.isDown && player.body.touching.down) {
+                jumping = 1;
+                player.setVelocityY(-300);
+                player.anims.play("jump");
+                jump.play();
+            }
+            if (jumping === 1) {
+                player.anims.play("jump", true);
+                player.setVelocityX(0);
+                if (player.body.touching.down) {
+                    jumping = 0;
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
+            }
+            if (cursors.left.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                }
+                else {
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                    footsteps.pause();
+                }
+            } 
+            else if (cursors.right.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                }
+                else {
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                    footsteps.pause();
+                }
+            }
+            else if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }  
+            else {
+                if (player.windActive) {
+                    const windAcceleration = 10;
+                    const maxWindSpeed = 200;
+                    if (player.body.velocity.x < maxWindSpeed) {
+                        player.setVelocityX(player.body.velocity.x + windAcceleration);
+                    }
+                }
+                else {
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
+                }
+            }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }}
+        if (Phaser.Input.Keyboard.JustDown(shoot)) {
+                const now = this.time.now;
+                //knife heittoa
+                if (now - this.lastThrowTime > this.throwCooldown) {
+                    knife_throw.play()
+                    this.lastThrowTime = now; 
+                    let offset = offset_1;
+                    let spawnX = player.x + (facingRight ? offset : -offset);
+                    let weapon = knife.create(spawnX, player.y, 'dagger');
+                    weapon.setScale(weapon_scale);
+                    weapon.setVelocityX(weapon_velocity); 
+                    weapon.setGravityY(weapon_gravity);
+                    if (facingRight) {
+                        weapon.setVelocityX(weapon_velocity);
+                    } 
+                    else {
+                        weapon.setVelocityX(weapon_velocity2);
+                        weapon.flipX = true; 
+                    } 
+                    setTimeout(() => { weapon.destroy(); }, weapon_kill);
+                }
+            }
+
+    }
 }
 //level1
 class Level1 extends Phaser.Scene {
@@ -3429,7 +3723,29 @@ class peli_ohi extends Phaser.Scene {
         hacked.play();
         setTimeout(() => {petya.destroy(); this.scene.start('game_over');
         }, 10000);
+        this.secretBuffer = "";
+
+this.input.keyboard.on('keydown', (event) => {
+
+    // sallitaan vain kirjaimet ja välilyönti
+    if (event.key.length === 1) {
+        this.secretBuffer += event.key.toLowerCase();
     }
+    // tarkistus
+    if (this.secretBuffer.includes("fuck you petya, i use antivirus")) {
+        console.log("SECRET ESCAPE ACTIVATED");
+    // deaths voi mennä miinukselle
+        this.input.keyboard.removeAllListeners();
+        // teleportti takaisin Level1
+        this.scene.start('secret_level');
+        this.scene.stop('peli_ohi');
+        this.scene.remove('peli_ohi');
+        hacked.pause();
+    }
+});
+
+    }
+    
 }
 var config = {
     type: Phaser.AUTO,
@@ -3442,7 +3758,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over,peli_ohi]
+    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over,peli_ohi]
 };
                                                               
 var bossIsAttacking=false;
@@ -3685,6 +4001,13 @@ function TutorialLevel1() {
         nextlevelsound.play()
       }
 }
+function secretLevel1() {
+
+    this.scene.start('Level1')
+        nextlevelsound.play()
+         let deaths = this.registry.get('deaths') || 0;
+    this.registry.set('deaths', deaths - 100);
+}
 function level2Transition() {
     nextlevelsound.play()
     this.scene.start('Level2')
@@ -3740,6 +4063,11 @@ function CollectCoin(player, coin) {
     }
     else if (this.scene.key==='Level4') {
         level4score+=1;
+        coin.disableBody(true, true);
+        score += 1;
+        this.scoreText.setText("Score: " + score);
+    }
+       else if (this.scene.key==='secret_level') {
         coin.disableBody(true, true);
         score += 1;
         this.scoreText.setText("Score: " + score);
