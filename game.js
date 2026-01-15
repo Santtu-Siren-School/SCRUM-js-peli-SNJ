@@ -238,7 +238,7 @@ class MainMenu extends Phaser.Scene {
         cheat = true;
         this.input.keyboard.removeAllListeners();
     }
-    else if (this.secretBuffer.includes("i use adrenaline to gain better stamina and speed")) {
+    else if (this.secretBuffer.includes("i use adrenaline to gain better armor and speed")) {
         console.log("gotta go fast.");
         cheat2 = true;
         this.input.keyboard.removeAllListeners();
@@ -315,7 +315,7 @@ class MainMenu extends Phaser.Scene {
             });
             secret_level_button.on('pointerdown', () => {
             this.scene.start('secret_level'),
-            console.log("You were too lazy to do it the legit way, so you used thiss button to unlock the cheat");
+            console.log("You were too lazy to do it the legit way, so you used this button to unlock the cheat");
             });
         }
 }
@@ -4128,20 +4128,23 @@ function shootBullet_cannon_down(cannon_downInstance, cannon_down_bulletsGroup) 
 
 
 function hitPlayer(player, bullet) {
-    cannon_death.play()
-    // Jos pelaajalla on invulnerabiliteetti (esim. juuri spawnattu taso), ohitetaan osuma
-    if (player && player.getData && player.getData('invulnerable')) {
-        if (bullet && bullet.disableBody) bullet.disableBody(true, true);
-        return;
+    if (cheat2===true){
     }
-    const currentDeaths = this.registry.get('deaths') + 1;
-    this.registry.set('deaths', currentDeaths);
-    // Päivitä näkyvä teksti
-    this.deathText.setText("Deaths: " + currentDeaths);
-    this.scene.start(this.scene.key)
-    deathState=true;
+    else {
+        cannon_death.play()
+        // Jos pelaajalla on invulnerabiliteetti (esim. juuri spawnattu taso), ohitetaan osuma
+        if (player && player.getData && player.getData('invulnerable')) {
+            if (bullet && bullet.disableBody) bullet.disableBody(true, true);
+            return;
+        }
+        const currentDeaths = this.registry.get('deaths') + 1;
+        this.registry.set('deaths', currentDeaths);
+        // Päivitä näkyvä teksti
+        this.deathText.setText("Deaths: " + currentDeaths);
+        this.scene.start(this.scene.key)
+        deathState=true;
+    }
 }
-
 function level1Transition() {
     if (dialogueActive) {
         player.setPosition(400, 1800);
@@ -4184,6 +4187,9 @@ function level5Transition() {
     this.scene.start('Level5')
 }
 function hitByEnemy(player, enemy) {
+     if (cheat2===true){
+     }
+     else {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     player_death.play()
@@ -4191,6 +4197,7 @@ function hitByEnemy(player, enemy) {
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
     deathState=true;
+}
 }
 function trampolinePlayer(player, trampoline) {
     trampoline_sound.play()
@@ -4241,6 +4248,9 @@ function low_power_trampolinePlayer(player, low_power_trampoline) {
     player.setVelocityY(-450);
 }
 function hitBySpike(player, spike) {
+     if (cheat2===true){
+     }
+     else {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     spike_death.play()
@@ -4249,7 +4259,11 @@ function hitBySpike(player, spike) {
     this.scene.start(this.scene.key)
     deathState=true;
 }
+}
 function knifehit(player, knife2) {
+     if (cheat2===true){
+     }
+      else {
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
     spike_death.play()
@@ -4258,7 +4272,9 @@ function knifehit(player, knife2) {
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start(this.scene.key)
 }
+}
 function windPlayer(player, wind) {
+
     //console.log("player has activated wind at",wind)
     wind_sound.play();
     player.windActive = true;
@@ -4276,6 +4292,9 @@ function level1throw(player, solid_snake_door) {
     }
 }
 function bossPlayerContact(boss,player) {
+    if (cheat2===true){
+}
+ else {
     knockback=1;
     setTimeout(() => {knockback=0;}, 1300);
       if (player.x < boss.x) { 
@@ -4286,6 +4305,8 @@ function bossPlayerContact(boss,player) {
     player.setVelocityY(-450)
     }
 }
+}
+
 function knifehitboss(boss,knifeSprite) {
     knifeSprite.destroy();
     const currentDeaths = this.registry.get('deaths');
@@ -4384,6 +4405,9 @@ function knifehitboss(boss,knifeSprite) {
     
 
 function fireballplayer(player,fireball) {
+     if (cheat2===true){
+     }
+      else {
     fireball_death.play()
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
@@ -4391,7 +4415,11 @@ function fireballplayer(player,fireball) {
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start('Level5')
 }
+}
 function boss_wall_player(player,bosswall) {
+     if (cheat2===true){
+     }
+      else {
     wall_death.play()
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
@@ -4399,7 +4427,11 @@ function boss_wall_player(player,bosswall) {
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start('Level5')
 }
+}
 function boss_spike_player(player,boss_spike){
+     if (cheat2===true){
+     }
+    else {
     spike_death.play()
     const currentDeaths = this.registry.get('deaths') + 1;
     this.registry.set('deaths', currentDeaths);
@@ -4407,6 +4439,8 @@ function boss_spike_player(player,boss_spike){
     this.deathText.setText("Deaths: " + currentDeaths);
     this.scene.start('Level5')
 }
+}
+
 function boss_spike_tower_thingys(boss_spikes, tower_thingys) {
     boss_spikes.destroy();
 }
