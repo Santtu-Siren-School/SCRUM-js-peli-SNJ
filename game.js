@@ -635,6 +635,10 @@ class Tutorial extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }
             }
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
         //????
@@ -1004,6 +1008,10 @@ this.physics.add.collider(player, knife);
                     player.setVelocityX(0)
                     player.anims.play('turn');
                 }
+            }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
             }
             }
            if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -1420,7 +1428,10 @@ if (!enemy.active) return;
                     player.anims.play('turn');
                 }
             }
-            }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }}
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
     const now = this.time.now;
@@ -1915,6 +1926,10 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                     player.anims.play('turn');
                 }
             }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }
             }
      if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
@@ -2400,6 +2415,10 @@ class Level3 extends Phaser.Scene {
                     player.setVelocityX(0)
                     player.anims.play('turn');
                 }
+            }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
             }
             }
         // knife heitto
@@ -2923,6 +2942,10 @@ class Level4 extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
+            }
             }
         // Knife heitto
            if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -3320,6 +3343,10 @@ class Level5 extends Phaser.Scene {
                     player.setVelocityX(0)
                     player.anims.play('turn');
                 }
+            }
+            if (cursors.down.isDown) {
+                player.setVelocityY(300);
+                player.anims.play('jump');
             }
             }
 
