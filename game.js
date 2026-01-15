@@ -239,7 +239,7 @@ class MainMenu extends Phaser.Scene {
         this.input.keyboard.removeAllListeners();
     }
     else if (this.secretBuffer.includes("i use adrenaline to gain better stamina and speed")) {
-        console.log("gotta go fastt");
+        console.log("gotta go fast.");
         cheat2 = true;
         this.input.keyboard.removeAllListeners();
     }
