@@ -236,11 +236,16 @@ class MainMenu extends Phaser.Scene {
     if (this.secretBuffer.includes("you think that is a knoif, this is a knoif")) {
         console.log("cheat mode enabled");
         cheat = true;
-    // deaths voi mennä miinukselle
         this.input.keyboard.removeAllListeners();
-        // teleportti takaisin Level1
+    }
+    else if (this.secretBuffer.includes("i use adrenaline to gain better stamina and speed")) {
+        console.log("gotta go fastt");
+        cheat2 = true;
+        this.input.keyboard.removeAllListeners();
     }
 });
+
+
             this.add.image(1000,1000, 'sky_level5').setScale(1);
             const level1_button=this.add.image(100,100,'level1').setInteractive();
             const level2_button=this.add.image(200,100,'level2').setInteractive();
@@ -556,7 +561,11 @@ class Tutorial extends Phaser.Scene {
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(-700);   
+                }
             }
+            
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -572,12 +581,18 @@ class Tutorial extends Phaser.Scene {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(-760);   
+                }
                 }
                 else {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(-760);   
+                }
                 }
             } 
             else if (cursors.right.isDown) {
@@ -586,17 +601,26 @@ class Tutorial extends Phaser.Scene {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
                 else {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
             }
             else if (cursors.down.isDown) {
                 player.setVelocityY(300);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(700);   
+                }
             }  
             else {
                 if (player.windActive) {
@@ -611,10 +635,7 @@ class Tutorial extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
-            if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }}
+            }
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
         //????
     if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -898,7 +919,7 @@ this.physics.add.collider(player, knife);
         if (knockback==1) {
             return;
         }
-        else if (dialogueActive) {
+       else if (dialogueActive) {
                 player.setVelocityX(0);
                 player.setVelocityY(0);
                 player.anims.play('turn', true);
@@ -910,7 +931,11 @@ this.physics.add.collider(player, knife);
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(-700);   
+                }
             }
+            
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -926,12 +951,18 @@ this.physics.add.collider(player, knife);
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(-760);   
+                }
                 }
                 else {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(-760);   
+                }
                 }
             } 
             else if (cursors.right.isDown) {
@@ -940,17 +971,26 @@ this.physics.add.collider(player, knife);
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
                 else {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
             }
             else if (cursors.down.isDown) {
                 player.setVelocityY(300);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(700);   
+                }
             }  
             else {
                 if (player.windActive) {
@@ -965,10 +1005,7 @@ this.physics.add.collider(player, knife);
                     player.anims.play('turn');
                 }
             }
-            if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }}
+            }
            if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
     const now = this.time.now;
@@ -1297,7 +1334,7 @@ if (!enemy.active) return;
         if (knockback==1) {
             return;
         }
-        else if (dialogueActive) {
+       else if (dialogueActive) {
                 player.setVelocityX(0);
                 player.setVelocityY(0);
                 player.anims.play('turn', true);
@@ -1309,7 +1346,11 @@ if (!enemy.active) return;
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(-700);   
+                }
             }
+            
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -1325,12 +1366,18 @@ if (!enemy.active) return;
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(-760);   
+                }
                 }
                 else {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(-760);   
+                }
                 }
             } 
             else if (cursors.right.isDown) {
@@ -1339,17 +1386,26 @@ if (!enemy.active) return;
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
                 else {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
             }
             else if (cursors.down.isDown) {
                 player.setVelocityY(300);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(700);   
+                }
             }  
             else {
                 if (player.windActive) {
@@ -1364,10 +1420,7 @@ if (!enemy.active) return;
                     player.anims.play('turn');
                 }
             }
-            if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }}
+            }
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
     const now = this.time.now;
@@ -1776,7 +1829,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 if (knockback==1) {
             return;
         }
-        else if (dialogueActive) {
+       else if (dialogueActive) {
                 player.setVelocityX(0);
                 player.setVelocityY(0);
                 player.anims.play('turn', true);
@@ -1788,7 +1841,11 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(-700);   
+                }
             }
+            
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -1804,12 +1861,18 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(-760);   
+                }
                 }
                 else {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(-760);   
+                }
                 }
             } 
             else if (cursors.right.isDown) {
@@ -1818,17 +1881,26 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
                 else {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
             }
             else if (cursors.down.isDown) {
                 player.setVelocityY(300);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(700);   
+                }
             }  
             else {
                 if (player.windActive) {
@@ -1843,10 +1915,7 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                     player.anims.play('turn');
                 }
             }
-            if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }}
+            }
      if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
     const now = this.time.now;
@@ -2246,7 +2315,7 @@ class Level3 extends Phaser.Scene {
                 if (knockback==1) {
             return;
         }
-        else if (dialogueActive) {
+    else if (dialogueActive) {
                 player.setVelocityX(0);
                 player.setVelocityY(0);
                 player.anims.play('turn', true);
@@ -2258,7 +2327,11 @@ class Level3 extends Phaser.Scene {
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(-700);   
+                }
             }
+            
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -2274,12 +2347,18 @@ class Level3 extends Phaser.Scene {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(-760);   
+                }
                 }
                 else {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(-760);   
+                }
                 }
             } 
             else if (cursors.right.isDown) {
@@ -2288,17 +2367,26 @@ class Level3 extends Phaser.Scene {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
                 else {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
             }
             else if (cursors.down.isDown) {
                 player.setVelocityY(300);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(700);   
+                }
             }  
             else {
                 if (player.windActive) {
@@ -2313,10 +2401,7 @@ class Level3 extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
-            if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }}
+            }
         // knife heitto
      if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
@@ -2752,7 +2837,7 @@ class Level4 extends Phaser.Scene {
         if (knockback==1) {
             return;
         }
-        else if (dialogueActive) {
+       else if (dialogueActive) {
                 player.setVelocityX(0);
                 player.setVelocityY(0);
                 player.anims.play('turn', true);
@@ -2764,7 +2849,11 @@ class Level4 extends Phaser.Scene {
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(-700);   
+                }
             }
+            
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -2780,12 +2869,18 @@ class Level4 extends Phaser.Scene {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(-760);   
+                }
                 }
                 else {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(-760);   
+                }
                 }
             } 
             else if (cursors.right.isDown) {
@@ -2794,17 +2889,26 @@ class Level4 extends Phaser.Scene {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
                 else {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
             }
             else if (cursors.down.isDown) {
                 player.setVelocityY(300);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(700);   
+                }
             }  
             else {
                 if (player.windActive) {
@@ -2819,10 +2923,7 @@ class Level4 extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
-            if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            }}
+            }
         // Knife heitto
            if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
@@ -3146,7 +3247,11 @@ class Level5 extends Phaser.Scene {
                 player.setVelocityY(-300);
                 player.anims.play("jump");
                 jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(-700);   
+                }
             }
+            
             if (jumping === 1) {
                 player.anims.play("jump", true);
                 player.setVelocityX(0);
@@ -3162,12 +3267,18 @@ class Level5 extends Phaser.Scene {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(-760);   
+                }
                 }
                 else {
                     player.setVelocityX(-160);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(-760);   
+                }
                 }
             } 
             else if (cursors.right.isDown) {
@@ -3176,17 +3287,26 @@ class Level5 extends Phaser.Scene {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
                 else {
                     player.setVelocityX(160);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(760);   
+                }
                 }
             }
             else if (cursors.down.isDown) {
                 player.setVelocityY(300);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(700);   
+                }
             }  
             else {
                 if (player.windActive) {
@@ -3201,10 +3321,7 @@ class Level5 extends Phaser.Scene {
                     player.anims.play('turn');
                 }
             }
-            if (cursors.down.isDown) {
-                player.setVelocityY(300);
-                player.anims.play('jump');
-            } 
+            }
 
                if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
@@ -3244,7 +3361,6 @@ class Level5 extends Phaser.Scene {
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
   
-    }
     }
     }
 class Cutscene_knife extends Phaser.Scene {
@@ -3847,6 +3963,7 @@ var gameOver;
 var jumping = 0;
 var score = 0;
 var cheat;
+var cheat2;
 var scoreText;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
