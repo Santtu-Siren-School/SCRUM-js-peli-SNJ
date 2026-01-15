@@ -3192,7 +3192,7 @@ class Level5 extends Phaser.Scene {
             //katsotaan jos on phase 1
             if(phase===1 && !bossIsAttacking){
                 //anetaan random value 0-200, jos on 1 tee hyökäys ja pelaa animaatio
-                bossattackchanche=Phaser.Math.Between(0, 200);
+                bossattackchanche=Phaser.Math.Between(0, bossphase1attackfrequency);
                 console.log("boss attack chanche",bossattackchanche)
                 if (bossattackchanche===1) {
                     bossIsAttacking=true;
@@ -3213,7 +3213,7 @@ class Level5 extends Phaser.Scene {
             }
             //sama kuin phase 1 mutta phase 2, pienemät arvot enemän hyökäyksiä (ja voimakaampia)
             else if (phase===2 && !bossIsAttacking){
-                bossattackchanche=Phaser.Math.Between(0, 150);
+                bossattackchanche=Phaser.Math.Between(0, bossphase2attackfrequency);
                 console.log("boss attack chanche",bossattackchanche)
                 if (bossattackchanche===1) {
                     bossIsAttacking=true;
@@ -3233,7 +3233,7 @@ class Level5 extends Phaser.Scene {
             }
             //same kuin phase 2 ja phase 1, mutta voimakaamat hyökäysket je enemän niitä
             else if (phase===3 && !bossIsAttacking){
-                bossattackchanche=Phaser.Math.Between(0, 100);
+                bossattackchanche=Phaser.Math.Between(0, bossphase3attackfrequency);
                 console.log("boss attack chanche",bossattackchanche)
                 if (bossattackchanche===1) {
                     bossIsAttacking=true;
@@ -3936,6 +3936,9 @@ var config = {
     },
     scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over,peli_ohi]
 };
+var bossphase1attackfrequency=150;
+var bossphase2attackfrequency=120;
+var bossphase3attackfrequency=70;
 var attackMade=false;
 var LightbeamLatest=false;
 var WallLatest=false;
