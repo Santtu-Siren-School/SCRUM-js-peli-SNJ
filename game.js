@@ -4625,11 +4625,14 @@ function boss_phase3_attacks(a) {
             setTimeout(() => {knockback = 0;}, 800);
         }, 2000);  // tämä on sama aika kuin sulla beam.destroy() oli
         a.physics.add.overlap(player, beam, () => {
-            lightbeam_death.play();
-            const currentDeaths = a.registry.get('deaths') + 1;
-            a.registry.set('deaths', currentDeaths);
-            a.deathText.setText("Deaths: " + currentDeaths);
-            a.scene.start('Level5');
+            if (cheat2===true) {}
+            else {
+                lightbeam_death.play();
+                const currentDeaths = a.registry.get('deaths') + 1;
+                a.registry.set('deaths', currentDeaths);
+                a.deathText.setText("Deaths: " + currentDeaths);
+                a.scene.start('Level5');
+            };
         });
     }
     else if (bossattack===4) {
