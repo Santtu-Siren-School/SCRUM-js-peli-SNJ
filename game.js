@@ -234,14 +234,12 @@ class MainMenu extends Phaser.Scene {
     }
     // tarkistus
     if (this.secretBuffer.includes("you think that is a knoif, this is a knoif")) {
-        console.log("cheat mode enabled");
+        console.log("knives sharpened");
         cheat = true;
-        this.input.keyboard.removeAllListeners();
     }
-    else if (this.secretBuffer.includes("i use adrenaline to gain better armor and speed")) {
-        console.log("gotta go fast.");
+    if (this.secretBuffer.includes("i use adrenaline to gain better armor and speed")) {
+        console.log("gotta go fast (and invincible).");
         cheat2 = true;
-        this.input.keyboard.removeAllListeners();
     }
 });
 
