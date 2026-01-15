@@ -3937,7 +3937,7 @@ var config = {
     scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over,peli_ohi]
 };
 var bossphase1attackfrequency=150;
-var bossphase2attackfrequency=120;
+var bossphase2attackfrequency=110;
 var bossphase3attackfrequency=70;
 var attackMade=false;
 var LightbeamLatest=false;
