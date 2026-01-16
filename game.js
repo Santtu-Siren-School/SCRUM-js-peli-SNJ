@@ -133,14 +133,13 @@ class force_interaction extends Phaser.Scene {
             this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
             this.load.image('petya', 'assets/textures/petya.png')
             this.load.image('gold', 'assets/textures/gold.jpg')
-            this.load.spritesheet('tikku_hahmo_skini', 'assets/textures/tikku_hahmo_skini.png',{frameWidth: 30, frameHeight: 42});
+            this.load.spritesheet('tikku_hahmo_skini', 'assets/textures/tikku_hahmo_skini.png',{frameWidth: 30, frameHeight: 52});
             this.load.image('Boss_dialogue_cheat_1', 'assets/textures/Boss_dialogue_cheat_1.png')
             this.load.image('Boss_dialogue_cheat_2', 'assets/textures/Boss_dialogue_cheat_2.png')
             this.load.image('cutscene_cheat_end1', 'assets/textures/cutscene_cheat_end1.png')
             this.load.image('cutscene_cheat_end2', 'assets/textures/cutscene_cheat_end2.png')
         }
         create() {
-            const playerTexture = cheat3 ? 'tikku_hahmo_skini' : 'main_character';
             const play_button=this.add.image(500,500,'play_button').setInteractive();
             play_button.on('pointerdown', () => {
                 this.scene.start('Intro'),
@@ -153,31 +152,6 @@ class force_interaction extends Phaser.Scene {
                     console.log("Start Game");
                 })
             ;}, 1);
-         this.anims.create({
-    key: 'left',
-    frames: this.anims.generateFrameNumbers(playerTexture, { start: 0, end: 3 }),
-    frameRate: 10,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'turn',
-    frames: [{ key: playerTexture, frame: 4 }],
-    frameRate: 1
-});
-
-this.anims.create({
-    key: 'right',
-    frames: this.anims.generateFrameNumbers(playerTexture, { start: 5, end: 8 }),
-    frameRate: 10,
-    repeat: -1
-});
-
-this.anims.create({
-    key: 'jump',
-    frames: [{ key: playerTexture, frame: 9 }],
-    frameRate: 1
-});
 
             //boss animaatiota
             this.anims.create({
@@ -235,6 +209,8 @@ class MainMenu extends Phaser.Scene {
     constructor() {
         super({ key: 'MainMenu' });}
         create(){
+            this.registry.set('playerTexture', 'main_character');
+            this.secretBuffer = "";
             this.input.keyboard.on('keydown', (event) => {
 
     // sallitaan vain kirjaimet ja välilyönti
@@ -250,9 +226,10 @@ class MainMenu extends Phaser.Scene {
         console.log("gotta go fast (and invincible).");
         cheat2 = true;
     }
-      if (this.secretBuffer.includes("m")) {
+      if (this.secretBuffer.includes("i do not need any more riches, for i am already far wealthier than any puny king")) {
         console.log("stonks.");
         cheat3 = true;
+        this.registry.set('playerTexture', 'tikku_hahmo_skini');
     }
 });
 
@@ -343,7 +320,35 @@ class Tutorial extends Phaser.Scene {
         //asetaa taustakuvan
         this.add.image(4740,-700, 'tutorial_background').setScale(5.5);
         //lisää player hahmoon spire sheetin
-       player = this.physics.add.sprite(100, 750, playerTexture);
+        const tex = this.registry.get('playerTexture');
+this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+player = this.physics.add.sprite(100, 750, tex);
+
         //asetaa pelaajan collisoinin mailman seinien kanssa
         player.setCollideWorldBounds(true);
         //määritelään knife
@@ -768,7 +773,34 @@ class secret_level extends Phaser.Scene {
         //asetaa taustakuvan
         this.add.image(910,400, 'gold').setScale(2.5);
         //lisää player hahmoon spire sheetin
-            player = this.physics.add.sprite(100, 750, playerTexture);
+          const tex = this.registry.get('playerTexture');
+        this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+        player = this.physics.add.sprite(100, 750, tex);
         //asetaa pelaajan collisoinin mailman seinien kanssa
         player.setCollideWorldBounds(true);
         //määritelään knife
@@ -1091,7 +1123,35 @@ class Level1 extends Phaser.Scene {
         //asetaa taustakuvan
         this.add.image(910,400, 'background').setScale(1.5);
         //lisää player hahmoon spire sheetin
-             player = this.physics.add.sprite(100, 750, playerTexture);
+          const tex = this.registry.get('playerTexture');
+          
+        this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+        player = this.physics.add.sprite(100, 750, tex);
         //asetaa pelaajan collisoinin mailman seinien kanssa
         player.setCollideWorldBounds(true);
         //määritelään knife
@@ -1573,7 +1633,34 @@ class Level2 extends Phaser.Scene {
         //lisätiin background kuva
         this.add.image(500,400, 'castle_hallway').setScale(3);
         //määritelään pelaajan spritesheet
-             player = this.physics.add.sprite(100, 750, playerTexture);
+          const tex = this.registry.get('playerTexture');
+        this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+        player = this.physics.add.sprite(100, 750, tex);
         //määritelään pelaajan pysähtyminen mailman seiniin
         player.setCollideWorldBounds(true);
 
@@ -2062,8 +2149,34 @@ class Level3 extends Phaser.Scene {
         cursors = this.input.keyboard.createCursorKeys();
 
         this.add.image(1000,400, 'dungeon').setScale(3.5);
+          const tex = this.registry.get('playerTexture');
+        this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
 
-             player = this.physics.add.sprite(100, 750, playerTexture);
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+        player = this.physics.add.sprite(100, 750, tex);
         player.setCollideWorldBounds(true);
 
         knife = this.physics.add.group();
@@ -2553,7 +2666,34 @@ class Level4 extends Phaser.Scene {
         this.add.image(0,0,'sky').setScale(10);
         this.add.image(100,1700, 'castle_hallway').setScale(2);
         this.add.image(1700,1700,'spiralsaircase').setScale(3);
-             player = this.physics.add.sprite(100, 750, playerTexture);
+          const tex = this.registry.get('playerTexture');
+        this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+        player = this.physics.add.sprite(100, 1880, tex);
         player.setCollideWorldBounds(true);
         bottom_of_game.create(100,2000, 'bottom_of_game');
         bottom_of_game.create(300,2000, 'bottom_of_game');
@@ -3099,7 +3239,34 @@ class Level5 extends Phaser.Scene {
         tower_thingys.create(780,1930, 'tower_thingy4').setScale(1).refreshBody();
         tower_thingys.create(580,1930, 'tower_thingy2').setScale(1).refreshBody();
         tower_thingys.create(380,1930, 'tower_thingy2').setScale(1).refreshBody();
-              player = this.physics.add.sprite(100, 750, playerTexture);
+          const tex = this.registry.get('playerTexture');
+        this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+        player = this.physics.add.sprite(400, 1750, tex);
         boss = this.physics.add.sprite(980, 1700, 'boss_level5').setScale(2.5).refreshBody();
         this.cameras.main.setBounds(0, 0, 2000, 2000);
         this.physics.world.setBounds(0, 0, 2000, 2000);
