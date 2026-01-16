@@ -134,6 +134,10 @@ class force_interaction extends Phaser.Scene {
             this.load.image('petya', 'assets/textures/petya.png')
             this.load.image('gold', 'assets/textures/gold.jpg')
             this.load.spritesheet('tikku_hahmo_skini', 'assets/textures/tikku_hahmo_skini.png',{frameWidth: 30, frameHeight: 54});
+            this.load.image('Boss_dialogue_cheat_1', 'assets/textures/Boss_dialogue_cheat_1.png')
+            this.load.image('Boss_dialogue_cheat_2', 'assets/textures/Boss_dialogue_cheat_2.png')
+            this.load.image('cutscene_cheat_end1', 'assets/textures/cutscene_cheat_end1.png')
+            this.load.image('cutscene_cheat_end2', 'assets/textures/cutscene_cheat_end2.png')
         }
         create() {
             const playerTexture = cheat3 ? 'tikku_hahmo_skini' : 'main_character';
@@ -3181,7 +3185,11 @@ class Level5 extends Phaser.Scene {
         update(){
         footsteps.pause();
         //katsotaan onko minkään dialogian activointi arvo oikein, jos on pelataan dialogia
-        if (dialogue1_boss===1) {
+        if (cheat===true||cheat2===true) {
+            dialogue1_boss=2;
+            this.scene.start('endcheat');
+        }
+        else if (dialogue1_boss===1) {
             dialogue1_boss=2;
             console.log("dialogue1 activated")
             this.scene.start('Boss_Dialogue1');
@@ -3667,6 +3675,22 @@ class end4 extends Phaser.Scene {
             }, ending4);
         }
     }
+class endcheat extends Phaser.Scene {
+    constructor() {
+        super({ key: 'endcheat' });}
+        create() {
+            boss_fight_background_music.pause();
+            let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
+             setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4);
+                setTimeout(() => {endcheat2D.destroy();let endcheat1=this.add.image(500,500, 'cutscene_cheat_end1')
+                    setTimeout(() => {endcheat1.destroy();let endcheat2=this.add.image(500,500, 'cutscene_cheat_end2')
+                        setTimeout(() => {endcheat2.destroy(); this.scene.start('credit_scene');
+                        }, ending4);
+                    }, ending4);
+                }, ending4);
+            }, ending4);
+        }
+    }
 //credit_scene
 class credit_scene extends Phaser.Scene {
     constructor() {
@@ -3943,7 +3967,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,credit_scene,game_over,peli_ohi]
+    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,endcheat,credit_scene,game_over,peli_ohi]
 };
 var bossphase1attackfrequency=150;
 var bossphase2attackfrequency=110;
