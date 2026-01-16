@@ -3185,7 +3185,7 @@ class Level5 extends Phaser.Scene {
         update(){
         footsteps.pause();
         //katsotaan onko minkään dialogian activointi arvo oikein, jos on pelataan dialogia
-        if (cheat===true||cheat2===true) {
+        if (cheat===true||cheat2===true||cheat3===true) {
             dialogue1_boss=2;
             this.scene.start('endcheat');
         }
