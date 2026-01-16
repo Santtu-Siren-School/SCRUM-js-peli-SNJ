@@ -133,7 +133,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('skipcutscene_button', 'assets/textures/skipcutscene_button.png')
             this.load.image('petya', 'assets/textures/petya.png')
             this.load.image('gold', 'assets/textures/gold.jpg')
-            this.load.spritesheet('tikku_hahmo_skini', 'assets/textures/tikku_hahmo_skini.png',{frameWidth: 30, frameHeight: 54});
+            this.load.spritesheet('tikku_hahmo_skini', 'assets/textures/tikku_hahmo_skini.png',{frameWidth: 30, frameHeight: 42});
             this.load.image('Boss_dialogue_cheat_1', 'assets/textures/Boss_dialogue_cheat_1.png')
             this.load.image('Boss_dialogue_cheat_2', 'assets/textures/Boss_dialogue_cheat_2.png')
             this.load.image('cutscene_cheat_end1', 'assets/textures/cutscene_cheat_end1.png')
