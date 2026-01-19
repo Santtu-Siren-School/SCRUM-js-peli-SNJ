@@ -140,6 +140,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('cutscene_cheat_end2', 'assets/textures/cutscene_cheat_end2.png')
         }
         create() {
+            this.registry.set('playerTexture', 'main_character');
             const play_button=this.add.image(500,500,'play_button').setInteractive();
             play_button.on('pointerdown', () => {
                 this.scene.start('Intro'),
@@ -209,7 +210,6 @@ class MainMenu extends Phaser.Scene {
     constructor() {
         super({ key: 'MainMenu' });}
         create(){
-            this.registry.set('playerTexture', 'main_character');
             this.secretBuffer = "";
             this.input.keyboard.on('keydown', (event) => {
 
