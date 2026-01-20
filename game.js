@@ -2204,18 +2204,21 @@ this.anims.create({
         bottom_of_game.create(1500,900, 'bottom_of_game')
         bottom_of_game.create(1700,900, 'bottom_of_game')
         bottom_of_game.create(1900,900, 'bottom_of_game')
+        //
+        bottom_of_game.create(550,400, 'bottom_of_game').setScale(0.1).refreshBody();
 
         // walls
         wall.create(443,455,'wall')
-        wall.create(547,515,'wall')
+        wall.create(570,455,'wall')
         wall.create(443,755,'wall')
-        wall.create(547,755,'wall')
+        wall.create(570,655,'wall')
         wall.create(1245,100,'wall')
         wall.create(1700,840,'wall')
         wall.create(1200,840,'wall')
 
         // trampolines
         trampoline.create(300,850, 'trampoline').setScale(0.4).refreshBody();
+        trampoline.create(500,870, 'trampoline').setScale(0.2).refreshBody();
         trampoline.create(650,850, 'trampoline').setScale(0.4).refreshBody();
         trampoline.create(1800,850, 'trampoline').setScale(0.4).refreshBody();
 
@@ -2302,11 +2305,11 @@ this.anims.create({
         this.physics.add.collider(player, this.enemies, hitByEnemy, null, this);
         this.physics.add.overlap(player, trampoline, trampolinePlayer, null, this);
         this.physics.add.overlap(player, coin, CollectCoin, null, this);
-    coin.create(500, 180, 'coin');
-    coin.create(1280, 800, 'coin');
-    coin.create(1630, 800, 'coin');
-    coin.create(1230, 20, 'coin');
-    coin.create(300, 820, 'coin').setScale(0.5);
+        coin.create(520, 180, 'coin');
+        coin.create(1280, 800, 'coin');
+        coin.create(1630, 800, 'coin');
+        coin.create(1230, 20, 'coin');
+        coin.create(300, 820, 'coin').setScale(0.5);
     coin.children.iterate(c => {
     if (!c) return;
 
@@ -2361,7 +2364,7 @@ this.anims.create({
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
         this.physics.add.overlap(player, solid_snake_door, level1throw, null, this);
         this.cannons = [
-            this.physics.add.image(640, 260, 'cannon'),
+            this.physics.add.image(620, 360, 'cannon'),
             this.physics.add.image(620, 500, 'cannon'),
             this.physics.add.image(620, 700, 'cannon'),
         ];
@@ -2396,7 +2399,7 @@ this.anims.create({
             maxSize: 10000
         });
         this.time.addEvent({
-            delay: 1500,
+            delay: 2000,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
@@ -2894,7 +2897,7 @@ this.anims.create({
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 2000,
+            delay: 1800,
             callback: () => {
                 this.cannons.forEach(c => shootBullet(c, bullets));
             },
@@ -2946,7 +2949,7 @@ this.anims.create({
             maxSize: 10000000000
         });
         this.time.addEvent({
-            delay: 1000,
+            delay: 1500,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
@@ -2983,7 +2986,6 @@ this.anims.create({
         this.spikes = this.physics.add.staticGroup();
         this.spikes.create(1170, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(1445, 1970, 'spike').setScale(0.8).refreshBody();
-        this.spikes.create(955, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(575, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(655, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(755, 1970, 'spike').setScale(0.8).refreshBody();
