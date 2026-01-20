@@ -975,9 +975,8 @@ this.physics.add.collider(player, knife);
                 deathState=false
             }
         }
-        backgroundsound.play();
        footsteps.pause();  
-        backgroundsound.play();
+         virus_beaten.play();
         if (knockback==1) {
             return;
         }
@@ -1128,6 +1127,7 @@ class Level1 extends Phaser.Scene {
     preload (){
     }
     create (){
+          virus_beaten.pause();
         tutorial_music.pause();
         boss_fight_background_music.pause();
         //knife cooldownin laatiminen
@@ -4355,6 +4355,7 @@ const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const end4_background_song = new Audio('assets/sound/end4_background_song.mp3')
 const lets_cheat = new Audio('assets/sound/cheat_end.mp3')
+const virus_beaten = new Audio('assets/sound/hallelujah.mp3')
 end1_background_song.volume=0.5;
 end2_background_song.volume=0.5;
 end3_background_song.volume=0.5;
