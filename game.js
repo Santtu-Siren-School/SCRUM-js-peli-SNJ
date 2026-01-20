@@ -3923,8 +3923,8 @@ class endcheat extends Phaser.Scene {
     constructor() {
         super({ key: 'endcheat' });}
         create() {
+        lets_cheat.play();
         this.secretBuffer = "";
-            end1_background_song.play();
             boss_fight_background_music.pause();
             let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
              setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4);
@@ -4354,6 +4354,7 @@ const fbi = new Audio('assets/sound/dialogue/fbi_open_up.wav')
 const end2_background_song = new Audio('assets/sound/end2_background_song.mp3')
 const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const end4_background_song = new Audio('assets/sound/end4_background_song.mp3')
+const lets_cheat = new Audio('assets/sound/cheat_end.mp3')
 end1_background_song.volume=0.5;
 end2_background_song.volume=0.5;
 end3_background_song.volume=0.5;
