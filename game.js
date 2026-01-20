@@ -3927,8 +3927,8 @@ class endcheat extends Phaser.Scene {
             let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
              setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4);
                 setTimeout(() => {endcheat2D.destroy();let endcheat1=this.add.image(500,500, 'cutscene_cheat_end1')
-                    setTimeout(() => {endcheat1.destroy();let endcheat2=this.add.image(500,500, 'cutscene_cheat_end2')
-                        setTimeout(() => {endcheat2.destroy(); this.scene.start('credit_scene');
+                    setTimeout(() => {endcheat1.destroy();let endcheat2=this.add.image(500,500, 'cutscene_cheat_end2');cheating_didnt_go_to_plan.play();
+                        setTimeout(() => {endcheat2.destroy(); this.scene.start('credit_scene')
                         }, ending4);
                     }, ending4);
                 }, ending4);
@@ -4378,6 +4378,7 @@ const cutscene_knife_23S = new Audio('assets/sound/dialogue/cutscene_knife_23.m4
 const cutscene_knife_24S = new Audio('assets/sound/dialogue/cutscene_knife_24.m4a')
 const end2_1s = new Audio('assets/sound/dialogue/cutscene_end2_1.m4a')
 const end2_2s = new Audio('assets/sound/dialogue/cutscene_end2_2.m4a')
+const cheating_didnt_go_to_plan = new Audio('assets/sound/boss_wins_brutality.mp3')
 boss_dialogy_1S.volume=1;
 boss_dialogy_2S.volume=1;
 boss_dialogy_3S.volume=1;
