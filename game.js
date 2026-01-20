@@ -3878,6 +3878,8 @@ class end5 extends Phaser.Scene {
         super({key: 'end5'});
     }
     create() {
+        boss_fight_background_music.pause();
+        end3_background_song.play();
         let end5_1D=this.add.image(500,500, 'end5_1D').setScale(4);
         setTimeout(() => {end5_1D.destroy();let end5_2D=this.add.image(500,500, 'end5_2D').setScale(4);
                 setTimeout(() => {end5_2D.destroy();let end5_3D=this.add.image(500,500, 'end5_3D').setScale(4);
@@ -3922,7 +3924,7 @@ class endcheat extends Phaser.Scene {
         super({ key: 'endcheat' });}
         create() {
         this.secretBuffer = "";
-
+            end1_background_song.play();
             boss_fight_background_music.pause();
             let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
              setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4);
