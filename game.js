@@ -232,6 +232,10 @@ class MainMenu extends Phaser.Scene {
         cheat3 = true;
         this.registry.set('playerTexture', 'tikku_hahmo_skini');
     }
+       if (this.secretBuffer.includes("the boss is not bossing in the boss level")) {
+        console.log("no, only one of us plays that game.");
+        cheat4 = true;
+    }
 });
 
 
@@ -1543,7 +1547,7 @@ if (!enemy.active) return;
 }
   
         bullets.children.each(b => {
-            if (b.active && b.x > 1880) {
+            if (b.active && b.x > 2880) {
                 b.disableBody(true, true); 
             }
         });
@@ -2912,6 +2916,7 @@ this.anims.create({
           this.cannons_up2 = [
             this.physics.add.image(1700, 1950, 'cannon_up'),
             this.physics.add.image(1950, 1950, 'cannon_up'),
+            this.physics.add.image(1400, 1950, 'cannon_up'),
             
         ];
         this.cannons_up2.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
@@ -3354,8 +3359,15 @@ this.anims.create({
         footsteps.pause();
         //katsotaan onko minkään dialogian activointi arvo oikein, jos on pelataan dialogia
         if (cheat===true||cheat2===true) {
-            dialogue1_boss=2;
-            this.scene.start('endcheat');
+            if (cheat4===false) {
+                dialogue1_boss=2;
+                this.scene.start('endcheat');
+            }
+            else {
+                dialogue1_boss=2;
+                console.log("dialogue1 activated")
+                this.scene.start('Boss_Dialogue1');
+            }
         }
         else if (cheat3===true&&cheat3dialogueactived===false) {
             cheat3dialogueactived=true
@@ -3852,6 +3864,8 @@ class endcheat extends Phaser.Scene {
     constructor() {
         super({ key: 'endcheat' });}
         create() {
+        this.secretBuffer = "";
+
             boss_fight_background_music.pause();
             let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
              setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4);
@@ -4225,6 +4239,7 @@ var score = 0;
 var cheat=false;
 var cheat2=false;
 var cheat3=false;
+var cheat4=false;
 var scoreText;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
