@@ -122,6 +122,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end2_button', 'assets/textures/end2_button.png')
             this.load.image('end3_button', 'assets/textures/end3_button.png')
             this.load.image('end4_button', 'assets/textures/end4_button.png')
+            this.load.image('end5_button', 'assets/textures/end5_button.png')
             this.load.image('play_button', 'assets/textures/play_button.png')
             this.load.image('petya_button', 'assets/textures/petya_button.png')
             this.load.image('secret_level_button', 'assets/textures/secret_level_button.png')
@@ -139,6 +140,10 @@ class force_interaction extends Phaser.Scene {
             this.load.image('cutscene_cheat_end1', 'assets/textures/cutscene_cheat_end1.png')
             this.load.image('cutscene_cheat_end2', 'assets/textures/cutscene_cheat_end2.png')
             this.load.image('Boss_dialogue_cheat3_1', 'assets/textures/Boss_dialogue_cheat3_1.png')
+            this.load.image('end5_1D', 'assets/textures/cutscene_end5_1D.png')
+            this.load.image('end5_2D', 'assets/textures/cutscene_end5_2D.png')
+            this.load.image('end5_3D', 'assets/textures/cutscene_end5_3D.png')
+            this.load.image('end5_4D', 'assets/textures/cutscene_end5_4D.png')
         }
         create() {
             this.registry.set('playerTexture', 'main_character');
@@ -248,6 +253,7 @@ class MainMenu extends Phaser.Scene {
             const end2_button=this.add.image(200,200,'end2_button').setInteractive();
             const end3_button=this.add.image(300,200,'end3_button').setInteractive();
             const end4_button=this.add.image(400,200,'end4_button').setInteractive();
+            const end5_button=this.add.image(500,200, 'end5_button').setInteractive();
             const petya_button=this.add.image(300,300,'petya_button').setInteractive();
             const secret_level_button=this.add.image(700,100,'secret_level_button').setInteractive();
             level1_button.on('pointerdown', () => {
@@ -297,6 +303,10 @@ class MainMenu extends Phaser.Scene {
             end4_button.on('pointerdown', () => {
                 this.scene.start('end4'),
                 console.log("end4_play");
+            });
+            end5_button.on('pointerdown', () => {
+                this.scene.start('end5'),
+                console.log("end5_play");
             });
             petya_button.on('pointerdown', () => {
             this.scene.start('peli_ohi'),
@@ -3729,7 +3739,7 @@ class end1 extends Phaser.Scene {
                                                             let end1img5 = this.add.image(500,450,'end1_5'); 
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
-                                                                let end1img6 = this.add.image(550,480,'end1_6'); try_again.play();
+                                                                let end1img6 = this.add.image(550,480,'end1_6');
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -3848,6 +3858,50 @@ class end4 extends Phaser.Scene {
             }, ending4);
         }
     }
+class end5 extends Phaser.Scene {
+    constructor() {
+        super({key: 'end5'});
+    }
+    create() {
+        let end5_1D=this.add.image(500,500, 'end5_1D').setScale(4);
+        setTimeout(() => {end5_1D.destroy();let end5_2D=this.add.image(500,500, 'end5_2D').setScale(4);
+                setTimeout(() => {end5_2D.destroy();let end5_3D=this.add.image(500,500, 'end5_3D').setScale(4);
+                    setTimeout(() => {end5_3D.destroy(); let end5_4D=this.add.image(500,500, 'end5_4D').setScale(4);
+                        setTimeout(() => {end5_4D.destroy();let end1img0A = this.add.image(500,450,'end1_7'); voi_vittu.play();
+                        setTimeout(() => {
+                            end1img0A.destroy();let end1img0 = this.add.image(500,450,'end1_0'); epic_fail.play();
+                                setTimeout(() => {
+                                    end1img0.destroy();
+                                    let end1img1 = this.add.image(500,450,'end1_1');
+                                    setTimeout(() => {
+                                        end1img1.destroy();
+                                        let end1img2 = this.add.image(500,450,'end1_2');
+                                        setTimeout(() => {
+                                            end1img2.destroy();
+                                            let end1img3 = this.add.image(500,450,'end1_3'); 
+                                            setTimeout(() => {
+                                                end1img3.destroy();
+                                                let end1img4 = this.add.image(500,450,'end1_4'); 
+                                                setTimeout(() => {
+                                                    end1img4.destroy();
+                                                    let end1img5 = this.add.image(500,450,'end1_5'); 
+                                                    setTimeout(() => {
+                                                        end1img5.destroy();
+                                                        let end1img6 = this.add.image(550,480,'end1_6');
+                                                            setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
+                                                            }, cutscene_1);
+                                                        }, cutscene_1);
+                                                    }, cutscene_1);
+                                                }, cutscene_1);
+                                            }, cutscene_1);
+                                        }, cutscene_1);
+                                    }, ending4);
+                                }, 4000);
+                    }, ending4);
+                }, ending4);
+        }, ending4);
+    }
+}
 class endcheat extends Phaser.Scene {
     constructor() {
         super({ key: 'endcheat' });}
@@ -4150,7 +4204,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi]
+    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi]
 };
 var cheat3dialogueactived=false;
 var bossphase1attackfrequency=150;
@@ -4556,7 +4610,7 @@ function bossPlayerContact(boss,player) {
 
 function knifehitboss(boss,knifeSprite) {
     knifeSprite.destroy();
-    const currentDeaths = this.registry.get('deaths');
+    const currentDeaths = this.registry.get('deaths')-10000;
     var bosshitchanchethingy = Phaser.Math.Between(0, 3);
     console.log(bosshitchanchethingy)
     //knife_deflect_first_Time=false;
@@ -4624,10 +4678,15 @@ function knifehitboss(boss,knifeSprite) {
             phase = 3
         }
         if (boss.lives <=0) {
-            if (currentDeaths<=0) {
+            if (currentDeaths===0) {
                 this.scene.start('end2')
                 ending=2;
                 console.log("ending 2")
+            }
+            else if (currentDeaths<0) {
+                this.scene.start('end5')
+                ending=5
+                console.log('ending 5')
             }
             else if (currentDeaths>=5000) {
                 this.scene.start('end4')
