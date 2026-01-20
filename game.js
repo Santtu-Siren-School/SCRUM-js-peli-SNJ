@@ -237,6 +237,10 @@ class MainMenu extends Phaser.Scene {
         cheat3 = true;
         this.registry.set('playerTexture', 'tikku_hahmo_skini');
     }
+       if (this.secretBuffer.includes("the boss is not bossing in the boss level")) {
+        console.log("no, only one of us plays that game.");
+        cheat4 = true;
+    }
 });
 
 
@@ -1553,7 +1557,7 @@ if (!enemy.active) return;
 }
   
         bullets.children.each(b => {
-            if (b.active && b.x > 1880) {
+            if (b.active && b.x > 2880) {
                 b.disableBody(true, true); 
             }
         });
@@ -2925,6 +2929,7 @@ this.anims.create({
           this.cannons_up2 = [
             this.physics.add.image(1700, 1950, 'cannon_up'),
             this.physics.add.image(1950, 1950, 'cannon_up'),
+            this.physics.add.image(1400, 1950, 'cannon_up'),
             
         ];
         this.cannons_up2.forEach(c => { c.setImmovable(true); c.body.allowGravity = false; });
@@ -2990,6 +2995,7 @@ this.anims.create({
         this.spikes.create(655, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(755, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(855, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(955, 1970, 'spike').setScale(0.8).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
     update(){
@@ -3366,8 +3372,15 @@ this.anims.create({
         footsteps.pause();
         //katsotaan onko minkään dialogian activointi arvo oikein, jos on pelataan dialogia
         if (cheat===true||cheat2===true) {
-            dialogue1_boss=2;
-            this.scene.start('endcheat');
+            if (cheat4===false) {
+                dialogue1_boss=2;
+                this.scene.start('endcheat');
+            }
+            else {
+                dialogue1_boss=2;
+                console.log("dialogue1 activated")
+                this.scene.start('Boss_Dialogue1');
+            }
         }
         else if (cheat3===true&&cheat3dialogueactived===false) {
             cheat3dialogueactived=true
@@ -3908,12 +3921,14 @@ class endcheat extends Phaser.Scene {
     constructor() {
         super({ key: 'endcheat' });}
         create() {
+        this.secretBuffer = "";
+
             boss_fight_background_music.pause();
             let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
              setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4);
                 setTimeout(() => {endcheat2D.destroy();let endcheat1=this.add.image(500,500, 'cutscene_cheat_end1')
-                    setTimeout(() => {endcheat1.destroy();let endcheat2=this.add.image(500,500, 'cutscene_cheat_end2')
-                        setTimeout(() => {endcheat2.destroy(); this.scene.start('credit_scene');
+                    setTimeout(() => {endcheat1.destroy();let endcheat2=this.add.image(500,500, 'cutscene_cheat_end2');cheating_didnt_go_to_plan.play();
+                        setTimeout(() => {endcheat2.destroy(); this.scene.start('credit_scene')
                         }, ending4);
                     }, ending4);
                 }, ending4);
@@ -4281,6 +4296,7 @@ var score = 0;
 var cheat=false;
 var cheat2=false;
 var cheat3=false;
+var cheat4=false;
 var scoreText;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
@@ -4362,6 +4378,7 @@ const cutscene_knife_23S = new Audio('assets/sound/dialogue/cutscene_knife_23.m4
 const cutscene_knife_24S = new Audio('assets/sound/dialogue/cutscene_knife_24.m4a')
 const end2_1s = new Audio('assets/sound/dialogue/cutscene_end2_1.m4a')
 const end2_2s = new Audio('assets/sound/dialogue/cutscene_end2_2.m4a')
+const cheating_didnt_go_to_plan = new Audio('assets/sound/boss_wins_brutality.mp3')
 boss_dialogy_1S.volume=1;
 boss_dialogy_2S.volume=1;
 boss_dialogy_3S.volume=1;
