@@ -2995,6 +2995,7 @@ this.anims.create({
         this.spikes.create(655, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(755, 1970, 'spike').setScale(0.8).refreshBody();
         this.spikes.create(855, 1970, 'spike').setScale(0.8).refreshBody();
+        this.spikes.create(955, 1970, 'spike').setScale(0.8).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike, null, this);
     }
     update(){
