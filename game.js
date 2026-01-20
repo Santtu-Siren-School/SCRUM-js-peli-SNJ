@@ -138,6 +138,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('Boss_dialogue_cheat_2', 'assets/textures/Boss_dialogue_cheat_2.png')
             this.load.image('cutscene_cheat_end1', 'assets/textures/cutscene_cheat_end1.png')
             this.load.image('cutscene_cheat_end2', 'assets/textures/cutscene_cheat_end2.png')
+            this.load.image('Boss_dialogue_cheat3_1', 'assets/textures/Boss_dialogue_cheat3_1.png')
         }
         create() {
             this.registry.set('playerTexture', 'main_character');
@@ -3352,9 +3353,14 @@ this.anims.create({
         update(){
         footsteps.pause();
         //katsotaan onko minkään dialogian activointi arvo oikein, jos on pelataan dialogia
-        if (cheat===true||cheat2===true||cheat3===true) {
+        if (cheat===true||cheat2===true) {
             dialogue1_boss=2;
             this.scene.start('endcheat');
+        }
+        else if (cheat3===true&&cheat3dialogueactived===false) {
+            cheat3dialogueactived=true
+            dialogue1_boss=2;
+            this.scene.start('cheat3Dialogue')
         }
         else if (dialogue1_boss===1) {
             dialogue1_boss=2;
@@ -4123,6 +4129,16 @@ this.input.keyboard.on('keydown', (event) => {
     }
     
 }
+class cheat3Dialogue extends Phaser.Scene {
+    constructor() {
+        super({ key: 'cheat3Dialogue' });}
+        create() {
+            cheat3dialogueactived=true;
+            let Boss_dialogue_cheat3_1=this.add.image(500,450,'Boss_dialogue_cheat3_1').setScale(5)
+            boss_dialogy_5S.play();
+            setTimeout(() => {Boss_dialogue_cheat3_1.destroy();this.scene.start('Level5');}, 4000);
+        }
+}
 var config = {
     type: Phaser.AUTO,
     width: 1080,
@@ -4134,8 +4150,9 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,endcheat,credit_scene,game_over,peli_ohi]
+    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi]
 };
+var cheat3dialogueactived=false;
 var bossphase1attackfrequency=150;
 var bossphase2attackfrequency=110;
 var bossphase3attackfrequency=70;
@@ -4205,9 +4222,9 @@ var bottom_of_game;
 var gameOver;
 var jumping = 0;
 var score = 0;
-var cheat;
-var cheat2;
-var cheat3;
+var cheat=false;
+var cheat2=false;
+var cheat3=false;
 var scoreText;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
