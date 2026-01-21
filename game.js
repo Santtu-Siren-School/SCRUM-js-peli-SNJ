@@ -597,11 +597,11 @@ player = this.physics.add.sprite(100, 750, tex);
         else {
             if (cursors.up.isDown && player.body.touching.down) {
                 jumping = 1;
-                player.setVelocityY(-300);
+                player.setVelocityY(player_jump2);
                 player.anims.play("jump");
                 jump.play();
                 if (cheat2 === true) {
-                  player.setVelocityY(-700);   
+                  player.setVelocityY(player_jump2_cheat);   
                 }
             }
             
@@ -617,31 +617,31 @@ player = this.physics.add.sprite(100, 750, tex);
             if (cursors.left.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                      if (cheat2 === true) {
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
                 else {
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
                      if (cheat2 === true) {                                    
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
             } 
             else if (cursors.right.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                         if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
                 else {
@@ -650,15 +650,15 @@ player = this.physics.add.sprite(100, 750, tex);
                     facingRight = true;
                     footsteps.pause();
                        if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
             }
             else if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
                    if (cheat2 === true) {
-                  player.setVelocityY(700);   
+                  player.setVelocityY(player_jump_cheat);   
                 }
             }  
             else {
@@ -675,8 +675,11 @@ player = this.physics.add.sprite(100, 750, tex);
                 }
             }
             if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
             }
             }
         //märitelään pelaajaan liityvää liikumista ja animaation pelausta lopuu
@@ -991,14 +994,14 @@ this.physics.add.collider(player, knife);
                 player.anims.play('turn', true);
                 return;
         }
-        else {
+            else {
             if (cursors.up.isDown && player.body.touching.down) {
                 jumping = 1;
-                player.setVelocityY(-300);
+                player.setVelocityY(player_jump2);
                 player.anims.play("jump");
                 jump.play();
                 if (cheat2 === true) {
-                  player.setVelocityY(-700);   
+                  player.setVelocityY(player_jump2_cheat);   
                 }
             }
             
@@ -1014,31 +1017,31 @@ this.physics.add.collider(player, knife);
             if (cursors.left.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                      if (cheat2 === true) {
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
                 else {
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
                      if (cheat2 === true) {                                    
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
             } 
             else if (cursors.right.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                         if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
                 else {
@@ -1047,15 +1050,15 @@ this.physics.add.collider(player, knife);
                     facingRight = true;
                     footsteps.pause();
                        if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
             }
             else if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
                    if (cheat2 === true) {
-                  player.setVelocityY(700);   
+                  player.setVelocityY(player_jump_cheat);   
                 }
             }  
             else {
@@ -1072,8 +1075,11 @@ this.physics.add.collider(player, knife);
                 }
             }
             if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
             }
             }
            if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -1439,14 +1445,14 @@ if (!enemy.active) return;
                 player.anims.play('turn', true);
                 return;
         }
-        else {
+           else {
             if (cursors.up.isDown && player.body.touching.down) {
                 jumping = 1;
-                player.setVelocityY(-300);
+                player.setVelocityY(player_jump2);
                 player.anims.play("jump");
                 jump.play();
                 if (cheat2 === true) {
-                  player.setVelocityY(-700);   
+                  player.setVelocityY(player_jump2_cheat);   
                 }
             }
             
@@ -1462,31 +1468,31 @@ if (!enemy.active) return;
             if (cursors.left.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                      if (cheat2 === true) {
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
                 else {
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
                      if (cheat2 === true) {                                    
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
             } 
             else if (cursors.right.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                         if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
                 else {
@@ -1495,15 +1501,15 @@ if (!enemy.active) return;
                     facingRight = true;
                     footsteps.pause();
                        if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
             }
             else if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
                    if (cheat2 === true) {
-                  player.setVelocityY(700);   
+                  player.setVelocityY(player_jump_cheat);   
                 }
             }  
             else {
@@ -1520,9 +1526,13 @@ if (!enemy.active) return;
                 }
             }
             if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
-            }}
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
+            }
+            }
           if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
     const now = this.time.now;
@@ -1961,14 +1971,14 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 player.anims.play('turn', true);
                 return;
         }
-        else {
+           else {
             if (cursors.up.isDown && player.body.touching.down) {
                 jumping = 1;
-                player.setVelocityY(-300);
+                player.setVelocityY(player_jump2);
                 player.anims.play("jump");
                 jump.play();
                 if (cheat2 === true) {
-                  player.setVelocityY(-700);   
+                  player.setVelocityY(player_jump2_cheat);   
                 }
             }
             
@@ -1984,31 +1994,31 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
             if (cursors.left.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                      if (cheat2 === true) {
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
                 else {
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
                      if (cheat2 === true) {                                    
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
             } 
             else if (cursors.right.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                         if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
                 else {
@@ -2017,15 +2027,15 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                     facingRight = true;
                     footsteps.pause();
                        if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
             }
             else if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
                    if (cheat2 === true) {
-                  player.setVelocityY(700);   
+                  player.setVelocityY(player_jump_cheat);   
                 }
             }  
             else {
@@ -2042,8 +2052,11 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 }
             }
             if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
             }
             }
      if (Phaser.Input.Keyboard.JustDown(shoot)) {
@@ -2477,14 +2490,14 @@ this.anims.create({
                 player.anims.play('turn', true);
                 return;
         }
-        else {
+           else {
             if (cursors.up.isDown && player.body.touching.down) {
                 jumping = 1;
-                player.setVelocityY(-300);
+                player.setVelocityY(player_jump2);
                 player.anims.play("jump");
                 jump.play();
                 if (cheat2 === true) {
-                  player.setVelocityY(-700);   
+                  player.setVelocityY(player_jump2_cheat);   
                 }
             }
             
@@ -2500,31 +2513,31 @@ this.anims.create({
             if (cursors.left.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                      if (cheat2 === true) {
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
                 else {
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
                      if (cheat2 === true) {                                    
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
             } 
             else if (cursors.right.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                         if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
                 else {
@@ -2533,15 +2546,15 @@ this.anims.create({
                     facingRight = true;
                     footsteps.pause();
                        if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
             }
             else if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
                    if (cheat2 === true) {
-                  player.setVelocityY(700);   
+                  player.setVelocityY(player_jump_cheat);   
                 }
             }  
             else {
@@ -2558,8 +2571,11 @@ this.anims.create({
                 }
             }
             if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
             }
             }
         // knife heitto
@@ -3028,14 +3044,14 @@ this.anims.create({
                 player.anims.play('turn', true);
                 return;
         }
-        else {
+           else {
             if (cursors.up.isDown && player.body.touching.down) {
                 jumping = 1;
-                player.setVelocityY(-300);
+                player.setVelocityY(player_jump2);
                 player.anims.play("jump");
                 jump.play();
                 if (cheat2 === true) {
-                  player.setVelocityY(-700);   
+                  player.setVelocityY(player_jump2_cheat);   
                 }
             }
             
@@ -3051,31 +3067,31 @@ this.anims.create({
             if (cursors.left.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                      if (cheat2 === true) {
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
                 else {
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
                      if (cheat2 === true) {                                    
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
             } 
             else if (cursors.right.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                         if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
                 else {
@@ -3084,15 +3100,15 @@ this.anims.create({
                     facingRight = true;
                     footsteps.pause();
                        if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
             }
             else if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
                    if (cheat2 === true) {
-                  player.setVelocityY(700);   
+                  player.setVelocityY(player_jump_cheat);   
                 }
             }  
             else {
@@ -3109,8 +3125,11 @@ this.anims.create({
                 }
             }
             if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
             }
             }
         // Knife heitto
@@ -3470,14 +3489,14 @@ this.anims.create({
                 player.anims.play('turn', true);
                 return;
         }
-        else {
+            else {
             if (cursors.up.isDown && player.body.touching.down) {
                 jumping = 1;
-                player.setVelocityY(-300);
+                player.setVelocityY(player_jump2);
                 player.anims.play("jump");
                 jump.play();
                 if (cheat2 === true) {
-                  player.setVelocityY(-700);   
+                  player.setVelocityY(player_jump2_cheat);   
                 }
             }
             
@@ -3493,31 +3512,31 @@ this.anims.create({
             if (cursors.left.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                      if (cheat2 === true) {
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
                 else {
-                    player.setVelocityX(-160);
+                    player.setVelocityX(player_velocity2);
                     player.anims.play('left', true);
                     facingRight = false;
                     footsteps.pause();
                      if (cheat2 === true) {                                    
-                  player.setVelocityX(-760);   
+                  player.setVelocityX(player_velocity2_cheat);   
                 }
                 }
             } 
             else if (cursors.right.isDown) {
                 if (player.body.touching.down) {
                     footsteps.play(); 
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                         if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
                 else {
@@ -3526,15 +3545,15 @@ this.anims.create({
                     facingRight = true;
                     footsteps.pause();
                        if (cheat2 === true) {
-                  player.setVelocityX(760);   
+                  player.setVelocityX(player_velocity_cheat);   
                 }
                 }
             }
             else if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
                    if (cheat2 === true) {
-                  player.setVelocityY(700);   
+                  player.setVelocityY(player_jump_cheat);   
                 }
             }  
             else {
@@ -3551,8 +3570,11 @@ this.anims.create({
                 }
             }
             if (cursors.down.isDown) {
-                player.setVelocityY(300);
+                player.setVelocityY(player_jump);
                 player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
             }
             }
 
@@ -4222,6 +4244,14 @@ var config = {
     scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi]
 };
 var tutorialStart=true;
+var player_velocity = 160;
+var player_velocity2 = -160;
+var player_jump = 300;
+var player_jump2 =- 300;
+var player_velocity_cheat = 760;
+var player_velocity2_cheat = -760;
+var player_jump_cheat = 700;
+var player_jump2_cheat =- 700;
 var cheat3dialogueactived=false;
 var bossphase1attackfrequency=150;
 var bossphase2attackfrequency=110;
