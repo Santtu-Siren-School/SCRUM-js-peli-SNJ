@@ -752,9 +752,6 @@ player = this.physics.add.sprite(100, 750, tex);
                 enemy_footstep=true;
                 enemy.play();
                 setTimeout(() => {enemy_footstep=false;}, enemy_delay);
-                e.setVelocityX(80 * e.direction);
-                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                e.lastTurnTime = this.time.now;
             }
         }
         }
@@ -1602,9 +1599,6 @@ if (!enemy.active) return;
                         enemy_footstep=true;
                         enemy.play();
                         setTimeout(() => {enemy_footstep=false;}, enemy_delay);
-                        e.setVelocityX(80 * e.direction);
-                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                        e.lastTurnTime = this.time.now;
                     }
                 }
             }
@@ -2119,9 +2113,6 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                         enemy_footstep=true;
                         enemy.play();
                         setTimeout(() => {enemy_footstep=false;}, enemy_delay);
-                        e.setVelocityX(80 * e.direction);
-                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                        e.lastTurnTime = this.time.now;
                     }
                 }
             }
@@ -2640,9 +2631,6 @@ this.anims.create({
                         enemy_footstep=true;
                         enemy.play();
                         setTimeout(() => {enemy_footstep=false;}, enemy_delay);
-                        e.setVelocityX(80 * e.direction);
-                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                        e.lastTurnTime = this.time.now;
                     }
                 }
             }
@@ -3193,9 +3181,6 @@ this.anims.create({
                         enemy_footstep=true;
                         enemy.play();
                         setTimeout(() => {enemy_footstep=false;}, enemy_delay);
-                        e.setVelocityX(80 * e.direction);
-                        e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
-                        e.lastTurnTime = this.time.now;
                     }
                 }
             }
