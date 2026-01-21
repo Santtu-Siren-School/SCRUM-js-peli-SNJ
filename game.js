@@ -3754,7 +3754,7 @@ class end1 extends Phaser.Scene {
                                                             let end1img5 = this.add.image(500,450,'end1_5'); 
                                                             setTimeout(() => {
                                                                 end1img5.destroy();
-                                                                let end1img6 = this.add.image(550,480,'end1_6');try_again.play();
+                                                                let end1img6 = this.add.image(550,480,'end1_6');
                                                                 setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -3763,11 +3763,11 @@ class end1 extends Phaser.Scene {
                                             }, cutscene_1);
                                         }, cutscene_1);
                                     }, 4000);
-                                }, dialogue_speed);
-                            }, dialogue_speed);
-                        }, dialogue_speed);
-                    }, dialogue_speed);
-                }, dialogue_speed);
+                                }, dialogue_speed+1000);
+                            }, dialogue_speed+1000);
+                        }, dialogue_speed+1000);
+                    }, dialogue_speed+1000);
+                }, dialogue_speed+1000);
             }, 1);
         }
 }
@@ -3808,8 +3808,8 @@ class end2 extends Phaser.Scene {
                          }, cutscene_1);
                      }, cutscene_1);
                  }, cutscene_1);
-             }, dialogue_speed);
-        }, dialogue_speed);
+             }, dialogue_speed+1000);
+        }, dialogue_speed+1000);
     }
 }
 class end3 extends Phaser.Scene {
@@ -4370,7 +4370,7 @@ const wall_death = new Audio('assets/sound/wall_death.m4a')
 wall_death.volume = 1;
 const coin_collect = new Audio('assets/sound/coin_collect.wav')
 coin_collect.volume = 0.5;
-const boss_dialogy_1S = new Audio('assets/sound/dialogue/boss_dialogue_1m4a')
+const boss_dialogy_1S = new Audio('assets/sound/dialogue/boss_dialogue_1.m4a')
 const boss_dialogy_2S = new Audio('assets/sound/dialogue/boss_dialogue_2.m4a')
 const boss_dialogy_3S = new Audio('assets/sound/dialogue/boss_dialogue_3.m4a')
 const boss_dialogy_4S = new Audio('assets/sound/dialogue/boss_dialogue_4.m4a')
@@ -4383,8 +4383,8 @@ const boss_dialogy_10S = new Audio('assets/sound/dialogue/boss_dialogue_10.m4a')
 const boss_dialogy_11S = new Audio('assets/sound/dialogue/boss_dialogue_11.m4a')
 const cutscene_knife_23S = new Audio('assets/sound/dialogue/cutscene_knife_23.m4a')
 const cutscene_knife_24S = new Audio('assets/sound/dialogue/cutscene_knife_24.m4a')
-const end2_1s = new Audio('assets/sound/dialogue/cutscene_end2D_boss_1.m4a')
-const end2_2s = new Audio('assets/sound/dialogue/cutscene_end2D_boss_2.m4a')
+const end2_1s = new Audio('assets/sound/dialogue/end2D_boss_1.m4a')
+const end2_2s = new Audio('assets/sound/dialogue/end2D_boss_2.m4a')
 const end4_1s = new Audio('assets/sound/dialogue/end4D_1.m4a')
 const end4_2s = new Audio('assets/sound/dialogue/end4D_2.m4a')
 const end4_3s = new Audio('assets/sound/dialogue/end4D_3.m4a')
