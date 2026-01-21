@@ -1160,7 +1160,10 @@ class training_arena extends Phaser.Scene {
     frameRate: 10,
     repeat: -1
 });
-
+   this.arenaguide = this.add.text(230, 70, "Survive as long as you can without dying", {
+            fontSize: '35px',
+            fill: 'rgb(255, 0, 0)'
+        })
 this.anims.create({
     key: 'turn',
     frames: [{ key: tex, frame: 4 }],
@@ -1217,7 +1220,21 @@ this.anims.create({
 
 // Käytä Phaserin dataa (stabiilimpi kuin plain property)
 // Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
+    cannon_back = this.physics.add.image(1100, 680, 'cannon_back');
+        cannon_back.setImmovable(true);
+        cannon_back.body.allowGravity = false;
 
+        cannon_back_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 700,
+            callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
+            loop: true
+        });
+        
 // Colliders
 this.physics.add.collider(player, platforms);
 this.physics.add.collider(player, wall);
@@ -1240,6 +1257,9 @@ this.physics.add.collider(player, knife);
         //Pelaajan liikumisen animaatio määritely pätyy
         this.physics.add.overlap(player, ovi, secretLevel1, null, this);
         this.physics.add.overlap(player, coin, CollectCoin, null, this);
+         this.physics.add.collider(player, bullets, hitPlayer, null, this);
+        this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
+        this.physics.add.collider(player, cannon_down_bullets, hitPlayer, null, this);
         this.cameras.main.setBounds(0, 0, 1000, 900);
         this.physics.world.setBounds(0, 0, 1100, 900);
         this.cameras.main.startFollow(player);
@@ -4699,6 +4719,7 @@ const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const end4_background_song = new Audio('assets/sound/end4_background_song.mp3')
 const lets_cheat = new Audio('assets/sound/cheat_end.mp3')
 const virus_beaten = new Audio('assets/sound/hallelujah.mp3')
+virus_beaten.volume = 0.5;
 const unused_until_now = new Audio('assets/sound/GAMEOVER.wav')
 end1_background_song.volume=0.5;
 end2_background_song.volume=0.5;
@@ -4739,6 +4760,7 @@ const boss_cheat_dialogue_2 = new Audio('assets/sound/dialogue/boss_cheat_dialog
 const boss_cheat3_dialogue_1 = new Audio('assets/sound/dialogue/boss_cheat3_dialogue_1.m4a')
 const cheating_didnt_go_to_plan = new Audio('assets/sound/boss_wins_brutality.mp3')
 const showdown = new Audio('assets/sound/arena_battle.mp3')
+showdown.volume = 0.5;
 boss_dialogy_1S.volume=1;
 boss_dialogy_2S.volume=1;
 boss_dialogy_3S.volume=1;
