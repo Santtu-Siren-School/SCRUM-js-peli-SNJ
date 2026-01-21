@@ -3868,10 +3868,10 @@ class end4 extends Phaser.Scene {
                 setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4); end4_3s.play();
                     setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4); end4_4s.play();
                         setTimeout(() => {end4_4D.destroy(); this.scene.start('credit_scene');
-                        }, ending4);
-                    }, ending4);
-                }, ending4);
-            }, ending4);
+                        }, ending4+1000);
+                    }, ending4+1000);
+                }, ending4+1000);
+            }, ending4+1000);
         }
     }
 class end5 extends Phaser.Scene {
@@ -3916,9 +3916,9 @@ class end5 extends Phaser.Scene {
                                         }, cutscene_1);
                                     }, ending4);
                                 }, 4000);
-                    }, ending4);
-                }, ending4);
-        }, ending4);
+                    }, ending4+1000);
+                }, ending4+1000);
+        }, ending4+1000);
     }
 }
 class endcheat extends Phaser.Scene {
