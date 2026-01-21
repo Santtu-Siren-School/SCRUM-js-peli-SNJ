@@ -2367,7 +2367,7 @@ this.anims.create({
         this.physics.add.overlap(player, ovi, level4Transition, null, this);
         this.physics.add.overlap(player, solid_snake_door, level1throw, null, this);
         this.cannons = [
-            this.physics.add.image(620, 360, 'cannon'),
+            this.physics.add.image(620, 300, 'cannon'),
             this.physics.add.image(620, 500, 'cannon'),
             this.physics.add.image(620, 700, 'cannon'),
         ];
