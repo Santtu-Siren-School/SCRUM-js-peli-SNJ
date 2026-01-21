@@ -145,6 +145,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end5_3D', 'assets/textures/cutscene_end5_3D.png')
             this.load.image('end5_4D', 'assets/textures/cutscene_end5_4D.png')
             this.load.image('play_button_tutorial_skip', 'assets/textures/play_button_tutorial_skip.png')
+            this.load.image('training_arena_button', 'assets/textures/training_arena_button.png')
         }
         create() {
             this.registry.set('playerTexture', 'main_character');
@@ -268,6 +269,7 @@ class MainMenu extends Phaser.Scene {
             const end5_button=this.add.image(500,200, 'end5_button').setInteractive();
             const petya_button=this.add.image(300,300,'petya_button').setInteractive();
             const secret_level_button=this.add.image(700,100,'secret_level_button').setInteractive();
+            const training_arena_button=this.add.image(800,100,'training_arena_button').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -327,6 +329,10 @@ class MainMenu extends Phaser.Scene {
             secret_level_button.on('pointerdown', () => {
             this.scene.start('secret_level'),
             console.log("You were too lazy to do it the legit way, so you used this button to unlock the cheat");
+            });
+            training_arena_button.on('pointerdown', () => {
+            this.scene.start('training_arena'),
+            console.log("Training arena");
             });
         }
 }
@@ -928,6 +934,315 @@ this.physics.add.collider(player, knife);
         this.physics.add.overlap(player, coin, CollectCoin, null, this);
         this.cameras.main.setBounds(0, 0, 2000, 900);
         this.physics.world.setBounds(0, 0, 2000, 900);
+        this.cameras.main.startFollow(player);
+        shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        //kellon funktio
+        // hae aiempi aika
+        this.totalTime = this.registry.get('totalTime') || 0;
+        //luo tekstin
+        this.timerText = this.add.text(10, 40, "Time: " + this.totalTime, {
+            fontSize: '24px',
+            fill: '#fff'
+        }).setScrollFactor(0);
+        //texti pysyy vasemmassa 
+        // kuolemalaskuri
+        this.deaths = this.registry.get('deaths');
+        this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
+        fontSize: '24px',
+        fill: '#fff'
+        }).setScrollFactor(0);
+        this.scoreText = this.add.text(10, 10, "Score: " + score, {
+        fontSize: '24px',
+        fill: '#fff'
+        }).setScrollFactor(0);
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callback: () => {
+                this.totalTime++;
+                this.registry.set('totalTime', this.totalTime);
+                this.timerText.setText("Time: " + this.totalTime);
+            }
+        });
+
+    }
+    update (){
+        if (deathState===true) {
+            if (this.scene.key==='Level1') {
+                score=score-level1score;
+                level1score=0;
+                deathState=false
+            }
+            else if (this.scene.key==='Level2') {
+                score=score-level2score;
+                level2score=0;
+                deathState=false
+            }
+            else if (this.scene.key==='Level3') {
+                score=score-level3score;
+                level3score=0;
+                deathState=false
+            }
+            else if (this.scene.key==='Level4') {
+                score=score-level4score;
+                level4score=0;
+                deathState=false
+            }
+        }
+       footsteps.pause();  
+         virus_beaten.play();
+        if (knockback==1) {
+            return;
+        }
+       else if (dialogueActive) {
+                player.setVelocityX(0);
+                player.setVelocityY(0);
+                player.anims.play('turn', true);
+                return;
+        }
+            else {
+            if (cursors.up.isDown && player.body.touching.down) {
+                jumping = 1;
+                player.setVelocityY(player_jump2);
+                player.anims.play("jump");
+                jump.play();
+                if (cheat2 === true) {
+                  player.setVelocityY(player_jump2_cheat);   
+                }
+            }
+            
+            if (jumping === 1) {
+                player.anims.play("jump", true);
+                player.setVelocityX(0);
+                if (player.body.touching.down) {
+                    jumping = 0;
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
+            }
+            if (cursors.left.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(player_velocity2);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                     if (cheat2 === true) {
+                  player.setVelocityX(player_velocity2_cheat);   
+                }
+                }
+                else {
+                    player.setVelocityX(player_velocity2);
+                    player.anims.play('left', true);
+                    facingRight = false;
+                    footsteps.pause();
+                     if (cheat2 === true) {                                    
+                  player.setVelocityX(player_velocity2_cheat);   
+                }
+                }
+            } 
+            else if (cursors.right.isDown) {
+                if (player.body.touching.down) {
+                    footsteps.play(); 
+                    player.setVelocityX(player_velocity);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                        if (cheat2 === true) {
+                  player.setVelocityX(player_velocity_cheat);   
+                }
+                }
+                else {
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                    facingRight = true;
+                    footsteps.pause();
+                       if (cheat2 === true) {
+                  player.setVelocityX(player_velocity_cheat);   
+                }
+                }
+            }
+            else if (cursors.down.isDown) {
+                player.setVelocityY(player_jump);
+                player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
+            }  
+            else {
+                if (player.windActive) {
+                    const windAcceleration = 10;
+                    const maxWindSpeed = 200;
+                    if (player.body.velocity.x < maxWindSpeed) {
+                        player.setVelocityX(player.body.velocity.x + windAcceleration);
+                    }
+                }
+                else {
+                    player.setVelocityX(0)
+                    player.anims.play('turn');
+                }
+            }
+            if (cursors.down.isDown) {
+                player.setVelocityY(player_jump);
+                player.anims.play('jump');
+                   if (cheat2 === true) {
+                  player.setVelocityY(player_jump_cheat);   
+                }
+            }
+            }
+           if (Phaser.Input.Keyboard.JustDown(shoot)) {
+
+    const now = this.time.now;
+
+    // jos EI cheat ja cooldown ei valmis → älä ammu
+    if (!cheat && now - this.lastThrowTime <= this.throwCooldown) {
+        return;
+    }
+
+    // päivitä cooldown VAIN jos ei cheat
+    if (!cheat) {
+        this.lastThrowTime = now;
+    }
+
+    knife_throw.play();
+
+    let offset = offset_1;
+    let spawnX = player.x + (facingRight ? offset : -offset);
+    let weapon = knife.create(spawnX, player.y, 'dagger');
+
+    weapon.setScale(weapon_scale);
+    weapon.body.isSensor = true;
+
+    const speed   = cheat ? 1000 : weapon_velocity;
+    const gravity = cheat ? 500  : weapon_gravity;
+
+    weapon.setGravityY(gravity);
+
+    if (facingRight) {
+        weapon.setVelocityX(speed);
+    } else {
+        weapon.setVelocityX(-speed);
+        weapon.flipX = true;
+    }
+
+    setTimeout(() => weapon.destroy(), weapon_kill);
+}
+  
+
+    }
+}
+//training arena
+class training_arena extends Phaser.Scene {
+    constructor() {
+        super({ key: 'training_arena' });
+    }
+
+    // asetan kellon muuttujan
+    init() {
+        this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
+        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
+    }
+
+    preload (){
+    }
+    create (){
+        tutorial_music.pause();
+        boss_fight_background_music.pause();
+        //knife cooldownin laatiminen
+        this.lastThrowTime = throwtimelast; 
+        this.throwCooldown = cooldownthrow;
+        //määritelään cursors phaserin avulla
+        cursors = this.input.keyboard.createCursorKeys();
+        //asetaa taustakuvan
+        this.add.image(910,400, 'gold').setScale(2.5);
+        //lisää player hahmoon spire sheetin
+          const tex = this.registry.get('playerTexture');
+        this.anims.create({
+    key: 'left',
+    frames: this.anims.generateFrameNumbers(tex, { start: 0, end: 3 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'turn',
+    frames: [{ key: tex, frame: 4 }],
+    frameRate: 1
+});
+
+this.anims.create({
+    key: 'right',
+    frames: this.anims.generateFrameNumbers(tex, { start: 5, end: 8 }),
+    frameRate: 10,
+    repeat: -1
+});
+
+this.anims.create({
+    key: 'jump',
+    frames: [{ key: tex, frame: 9 }],
+    frameRate: 1
+});
+
+        player = this.physics.add.sprite(100, 450, tex);
+        //asetaa pelaajan collisoinin mailman seinien kanssa
+        player.setCollideWorldBounds(true);
+        //määritelään knife
+        knife = this.physics.add.group();
+        coin = this.physics.add.group();
+        wall = this.physics.add.staticGroup();
+        //määritelee platforms staatiseksi
+        platforms = this.physics.add.staticGroup();
+        //määritelee bottom_of_game staatiseksi
+        bottom_of_game = this.physics.add.staticGroup();
+        //level1 platformien luonti
+
+        //level1 platformien luonti loppuu
+        //level1 bottom_of_game luonti
+        bottom_of_game.create(450,850, 'bottom_of_game').setScale(6).refreshBody();
+        //level1 bottom_of_game luonti lopuu
+        //kolikoiden luonti
+    
+    
+
+    coin.children.iterate(c => {
+    if (!c) return;
+
+    c.body.setAllowGravity(true);
+    c.body.setImmovable(false);
+
+    c.body.setSize(c.width * 0.6, c.height * 0.6);
+    c.body.setOffset(c.width * 0.25, c.height * 0.25);
+});
+        //level1 scoren luonti loppuu
+        //oven luonti seuraavaan tasoon
+        ovi=this.physics.add.staticGroup();
+        // --VIHOLLISEN LUONTI--
+
+// Käytä Phaserin dataa (stabiilimpi kuin plain property)
+// Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
+
+// Colliders
+this.physics.add.collider(player, platforms);
+this.physics.add.collider(player, wall);
+this.physics.add.collider(coin, platforms);
+this.physics.add.collider(coin, bottom_of_game);
+this.physics.add.collider(player, bottom_of_game);
+this.physics.add.collider(player, knife);
+    this.physics.add.collider(knife, platforms, (weapon) => {
+    weapon.setVelocity(0, 0);   
+    weapon.body.allowGravity = false; 
+    weapon.body.immovable = true;     
+});
+   this.physics.add.collider(knife, wall, (weapon) => {
+            weapon.setVelocity(0, 0);
+            weapon.body.allowGravity = false;
+            weapon.body.immovable = true;
+        });
+        // jos puukko osuu alustaan -> pysäytä puukko
+        this.physics.add.collider(knife, bottom_of_game);
+        //Pelaajan liikumisen animaatio määritely pätyy
+        this.physics.add.overlap(player, ovi, secretLevel1, null, this);
+        this.physics.add.overlap(player, coin, CollectCoin, null, this);
+        this.cameras.main.setBounds(0, 0, 1000, 900);
+        this.physics.world.setBounds(0, 0, 1000, 900);
         this.cameras.main.startFollow(player);
         shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         //kellon funktio
@@ -4087,7 +4402,7 @@ class game_over extends Phaser.Scene {
 
     create() {
             setTimeout(() => { unused_until_now.play(); }, 100000);
-                setTimeout(() => { hacked.pause(); }, 100000);
+            setTimeout(() => { hacked.pause(); }, 100000);
         this.textItems = [];
         const messages = [
             "...Why did you do it?",
@@ -4243,7 +4558,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi]
+    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi, training_arena]
 };
 var tutorialStart=true;
 var player_velocity = 160;
