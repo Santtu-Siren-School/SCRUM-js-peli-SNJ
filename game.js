@@ -4086,6 +4086,8 @@ class game_over extends Phaser.Scene {
     }
 
     create() {
+            setTimeout(() => { unused_until_now.play(); }, 100000);
+                setTimeout(() => { hacked.pause(); }, 100000);
         this.textItems = [];
         const messages = [
             "...Why did you do it?",
@@ -4383,6 +4385,7 @@ const end3_background_song = new Audio('assets/sound/end3_background_sound.mp3')
 const end4_background_song = new Audio('assets/sound/end4_background_song.mp3')
 const lets_cheat = new Audio('assets/sound/cheat_end.mp3')
 const virus_beaten = new Audio('assets/sound/hallelujah.mp3')
+const unused_until_now = new Audio('assets/sound/GAMEOVER.wav')
 end1_background_song.volume=0.5;
 end2_background_song.volume=0.5;
 end3_background_song.volume=0.5;
