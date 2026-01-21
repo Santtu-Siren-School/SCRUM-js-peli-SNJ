@@ -146,6 +146,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end5_4D', 'assets/textures/cutscene_end5_4D.png')
             this.load.image('play_button_tutorial_skip', 'assets/textures/play_button_tutorial_skip.png')
             this.load.image('training_arena_button', 'assets/textures/training_arena_button.png')
+            this.load.image('areena', 'assets/textures/areena.webp')
         }
         create() {
             this.registry.set('playerTexture', 'main_character');
@@ -1144,15 +1145,13 @@ class training_arena extends Phaser.Scene {
     preload (){
     }
     create (){
-        tutorial_music.pause();
-        boss_fight_background_music.pause();
         //knife cooldownin laatiminen
         this.lastThrowTime = throwtimelast; 
         this.throwCooldown = cooldownthrow;
         //määritelään cursors phaserin avulla
         cursors = this.input.keyboard.createCursorKeys();
         //asetaa taustakuvan
-        this.add.image(910,400, 'gold').setScale(2.5);
+        this.add.image(610,400, 'areena').setScale(0.8);
         //lisää player hahmoon spire sheetin
           const tex = this.registry.get('playerTexture');
         this.anims.create({
@@ -1242,7 +1241,7 @@ this.physics.add.collider(player, knife);
         this.physics.add.overlap(player, ovi, secretLevel1, null, this);
         this.physics.add.overlap(player, coin, CollectCoin, null, this);
         this.cameras.main.setBounds(0, 0, 1000, 900);
-        this.physics.world.setBounds(0, 0, 1000, 900);
+        this.physics.world.setBounds(0, 0, 1100, 900);
         this.cameras.main.startFollow(player);
         shoot = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         //kellon funktio
@@ -1299,7 +1298,7 @@ this.physics.add.collider(player, knife);
             }
         }
        footsteps.pause();  
-         virus_beaten.play();
+         showdown.play();
         if (knockback==1) {
             return;
         }
@@ -4739,6 +4738,7 @@ const boss_cheat_dialogue_1 = new Audio('assets/sound/dialogue/boss_cheat_dialog
 const boss_cheat_dialogue_2 = new Audio('assets/sound/dialogue/boss_cheat_dialogue_2.m4a')
 const boss_cheat3_dialogue_1 = new Audio('assets/sound/dialogue/boss_cheat3_dialogue_1.m4a')
 const cheating_didnt_go_to_plan = new Audio('assets/sound/boss_wins_brutality.mp3')
+const showdown = new Audio('assets/sound/arena_battle.mp3')
 boss_dialogy_1S.volume=1;
 boss_dialogy_2S.volume=1;
 boss_dialogy_3S.volume=1;
