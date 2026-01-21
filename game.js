@@ -144,11 +144,19 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end5_2D', 'assets/textures/cutscene_end5_2D.png')
             this.load.image('end5_3D', 'assets/textures/cutscene_end5_3D.png')
             this.load.image('end5_4D', 'assets/textures/cutscene_end5_4D.png')
+            this.load.image('play_button_tutorial_skip', 'assets/textures/play_button_tutorial_skip.png')
         }
         create() {
             this.registry.set('playerTexture', 'main_character');
-            const play_button=this.add.image(500,500,'play_button').setInteractive();
+            const play_button=this.add.image(400,500,'play_button').setInteractive();
+            const play_button_tutorial_skip=this.add.image(600,500,'play_button_tutorial_skip').setInteractive();
             play_button.on('pointerdown', () => {
+                tutorialStart=true;
+                this.scene.start('Intro'),
+                console.log("Start Game");
+            });
+            play_button_tutorial_skip.on('pointerdown', () => {
+                tutorialStart=false;
                 this.scene.start('Intro'),
                 console.log("Start Game");
             });
@@ -208,7 +216,7 @@ class Intro extends Phaser.Scene {
         create() {
             let intro1img=this.add.image(550,500, 'intro_1').setScale(0.6);
             intro_player1.play();
-            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();this.scene.start('tutorial')}, 6000); }, 8000); }, 6000); 
+            setTimeout(() => {intro1img.destroy(); let intro2img=this.add.image(550,500,'intro_2').setScale(0.6);intro_player2.play();setTimeout(() => {intro2img.destroy(); let intro3img=this.add.image(550,500,'intro_3').setScale(0.6);intro_player3.play();setTimeout(() => {intro3img.destroy();if (tutorialStart===true) {this.scene.start('tutorial')} else {this.scene.start('Level1')}}, 6000); }, 8000); }, 6000); 
         }
 }
 //mainmenu
@@ -4228,6 +4236,7 @@ var config = {
     },
     scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi]
 };
+var tutorialStart=true;
 var cheat3dialogueactived=false;
 var bossphase1attackfrequency=150;
 var bossphase2attackfrequency=110;
