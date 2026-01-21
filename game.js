@@ -3863,9 +3863,10 @@ class end4 extends Phaser.Scene {
             boss_fight_background_music.pause();
             end4_background_song.play();
             let end4_1D=this.add.image(500,500, 'end4_1D').setScale(4);
-            setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4);
-                setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4);
-                    setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4);
+            end4_1s.play();
+            setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4); end4_2s.play();
+                setTimeout(() => {end4_2D.destroy();let end4_3D=this.add.image(500,500, 'end4_3D').setScale(4); end4_3s.play();
+                    setTimeout(() => {end4_3D.destroy();let end4_4D=this.add.image(500,500, 'end4_4D').setScale(4); end4_4s.play();
                         setTimeout(() => {end4_4D.destroy(); this.scene.start('credit_scene');
                         }, ending4);
                     }, ending4);
@@ -3881,9 +3882,10 @@ class end5 extends Phaser.Scene {
         boss_fight_background_music.pause();
         end3_background_song.play();
         let end5_1D=this.add.image(500,500, 'end5_1D').setScale(4);
-        setTimeout(() => {end5_1D.destroy();let end5_2D=this.add.image(500,500, 'end5_2D').setScale(4);
-                setTimeout(() => {end5_2D.destroy();let end5_3D=this.add.image(500,500, 'end5_3D').setScale(4);
-                    setTimeout(() => {end5_3D.destroy(); let end5_4D=this.add.image(500,500, 'end5_4D').setScale(4);
+        end5_1s.play();
+        setTimeout(() => {end5_1D.destroy();let end5_2D=this.add.image(500,500, 'end5_2D').setScale(4);end5_2s.play();
+                setTimeout(() => {end5_2D.destroy();let end5_3D=this.add.image(500,500, 'end5_3D').setScale(4);end5_3s.play();
+                    setTimeout(() => {end5_3D.destroy(); let end5_4D=this.add.image(500,500, 'end5_4D').setScale(4);end5_4s.play();
                         setTimeout(() => {end5_4D.destroy();let end1img0A = this.add.image(500,450,'end1_7'); voi_vittu.play();
                         setTimeout(() => {
                             end1img0A.destroy();let end1img0 = this.add.image(500,450,'end1_0'); epic_fail.play();
@@ -3904,7 +3906,7 @@ class end5 extends Phaser.Scene {
                                                     let end1img5 = this.add.image(500,450,'end1_5'); 
                                                     setTimeout(() => {
                                                         end1img5.destroy();
-                                                        let end1img6 = this.add.image(550,480,'end1_6');try_again.play();
+                                                        let end1img6 = this.add.image(550,480,'end1_6');
                                                             setTimeout(() => {end1img6.destroy();this.scene.start('credit_scene')}, 7000);
                                                             }, cutscene_1);
                                                         }, cutscene_1);
@@ -3927,7 +3929,8 @@ class endcheat extends Phaser.Scene {
         this.secretBuffer = "";
             boss_fight_background_music.pause();
             let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
-             setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4);
+            boss_cheat_dialogue_1.play();
+             setTimeout(() => {endcheat1D.destroy();let endcheat2D=this.add.image(500,500, 'Boss_dialogue_cheat_2').setScale(4); boss_cheat_dialogue_2.play();
                 setTimeout(() => {endcheat2D.destroy();let endcheat1=this.add.image(500,500, 'cutscene_cheat_end1')
                     setTimeout(() => {endcheat1.destroy();let endcheat2=this.add.image(500,500, 'cutscene_cheat_end2');cheating_didnt_go_to_plan.play();
                         setTimeout(() => {endcheat2.destroy(); this.scene.start('credit_scene')
@@ -4208,7 +4211,7 @@ class cheat3Dialogue extends Phaser.Scene {
         create() {
             cheat3dialogueactived=true;
             let Boss_dialogue_cheat3_1=this.add.image(500,450,'Boss_dialogue_cheat3_1').setScale(5)
-            boss_dialogy_5S.play();
+            boss_cheat3_dialogue_1.play();
             setTimeout(() => {Boss_dialogue_cheat3_1.destroy();this.scene.start('Level5');}, 4000);
         }
 }
