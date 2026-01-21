@@ -645,7 +645,7 @@ player = this.physics.add.sprite(100, 750, tex);
                 }
                 }
                 else {
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
@@ -1496,7 +1496,7 @@ if (!enemy.active) return;
                 }
                 }
                 else {
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
@@ -2541,7 +2541,7 @@ this.anims.create({
                 }
                 }
                 else {
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
@@ -3095,7 +3095,7 @@ this.anims.create({
                 }
                 }
                 else {
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
@@ -3540,7 +3540,7 @@ this.anims.create({
                 }
                 }
                 else {
-                    player.setVelocityX(160);
+                    player.setVelocityX(player_velocity);
                     player.anims.play('right', true);
                     facingRight = true;
                     footsteps.pause();
