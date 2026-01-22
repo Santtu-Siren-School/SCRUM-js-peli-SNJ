@@ -1182,7 +1182,7 @@ this.anims.create({
     frameRate: 1
 });
 
-        player = this.physics.add.sprite(100, 450, tex);
+        player = this.physics.add.sprite(100, 700, tex);
         //asetaa pelaajan collisoinin mailman seinien kanssa
         player.setCollideWorldBounds(true);
         //määritelään knife
