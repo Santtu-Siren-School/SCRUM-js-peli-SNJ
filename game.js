@@ -1909,11 +1909,6 @@ if (!enemy.active) return;
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
   
-        bullets.children.each(b => {
-            if (b.active && b.x > 2880) {
-                b.disableBody(true, true); 
-            }
-        });
         //vihollisen kääntymis ominaisuus että pysyy platformin päällä
         this.enemies.children.iterate(e => {
             if (!e.active) return;
@@ -2434,16 +2429,6 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
 
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
-        bullets.children.each(b => {
-            if (b.active && b.x > 2200) {
-                b.disableBody(true, true); 
-            }
-        });
-        cannon_up_bullets.children.each(b => {
-            if (b.active && b.x > 1000) {
-                b.disableBody(true, true); 
-            }
-        });
         this.enemies.children.iterate(e => {
             if (!e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -2963,17 +2948,6 @@ this.anims.create({
 
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
-        bullets.children.each(b => {
-            if (b.active && b.x > 2200) {
-                b.disableBody(true, true); 
-            }
-        });
-        cannon_up_bullets.children.each(b => {
-            if (b.active && b.x > 1400) {
-                b.disableBody(true, true); 
-            }
-        });
-            
         this.enemies.children.iterate(e => {
             if (!e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -3526,21 +3500,6 @@ this.anims.create({
 
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
-        bullets.children.each(b => {
-            if (b.active && b.x > 2200) {
-                b.disableBody(true, true); 
-            }
-        });
-        cannon_up_bullets.children.each(b => {
-            if (b.active && b.x > 2000) {
-                b.disableBody(true, true); 
-            }
-        });
-        cannon_back_bullets.children.each(b => {
-            if (b.active && b.x > 1800) {
-                b.disableBody(true, true); 
-            }
-        });
         this.enemies.children.iterate(e => {
             if (!e || !e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -4935,6 +4894,11 @@ function shootBullet(cannonInstance, bulletsGroup) {
         bullet.enableBody(true, c.x + 40, c.y, true, true);
         bullet.setVelocityX(400);
         bullet.body.allowGravity = false;
+        setTimeout(() => {
+            if (bullet.active) {
+                bullet.disableBody(true, true);
+            }
+        }, 5000);
     }
 }
 function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
@@ -4945,6 +4909,11 @@ function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
         cannon_up_bullets.enableBody(true, c.x, c.y-40, true, true);
         cannon_up_bullets.setVelocityY(-400);
         cannon_up_bullets.body.allowGravity = false;
+        setTimeout(() => {
+            if (cannon_up_bullets.active) {
+                cannon_up_bullets.disableBody(true, true);
+            }
+        }, 5000);
     }
 }
 function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) {
@@ -4955,6 +4924,11 @@ function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) 
         cannon_back_bullets.enableBody(true, c.x, c.y, true, true);
         cannon_back_bullets.setVelocityX(-400);
         cannon_back_bullets.body.allowGravity = false;
+        setTimeout(() => {
+            if (cannon_back_bullets.active) {
+                cannon_back_bullets.disableBody(true, true);
+            }
+        }, 5000);
     }
 }
 function shootBullet_cannon_down(cannon_downInstance, cannon_down_bulletsGroup) {
@@ -4965,6 +4939,12 @@ function shootBullet_cannon_down(cannon_downInstance, cannon_down_bulletsGroup) 
         cannon_down_bullets.enableBody(true, c.x, c.y+40, true, true);
         cannon_down_bullets.setVelocityY(400);
         cannon_down_bullets.body.allowGravity = false;
+        setTimeout(() => {
+            if (cannon_down_bullets.active) {
+                cannon_down_bullets.disableBody(true, true);
+            }
+        }, 5000);
+        
     }
 }
 
