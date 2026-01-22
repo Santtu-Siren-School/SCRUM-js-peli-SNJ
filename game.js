@@ -1301,10 +1301,12 @@ this.anims.create({
             loop: true
         });
         this.cannons_down = [
-            this.physics.add.image(50, 10, 'cannon_down'),
+            this.physics.add.image(10, 10, 'cannon_down'),
+            this.physics.add.image(100, 10, 'cannon_down'),
             this.physics.add.image(300, 10, 'cannon_down'),
             this.physics.add.image(600, 10, 'cannon_down'),
             this.physics.add.image(900, 10, 'cannon_down'),
+            this.physics.add.image(1080, 10, 'cannon_down'),
         ];
 
         this.cannons_down.forEach(c => {
@@ -1324,7 +1326,7 @@ this.anims.create({
             loop: true
         });
             this.cannons_up = [
-            this.physics.add.image(80, 1000, 'cannon_up'),
+            this.physics.add.image(50, 1000, 'cannon_up'),
             this.physics.add.image(330, 1000, 'cannon_up'),
             this.physics.add.image(630, 1000, 'cannon_up'),
             this.physics.add.image(930, 1000, 'cannon_up'),
