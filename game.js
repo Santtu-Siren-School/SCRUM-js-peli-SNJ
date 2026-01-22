@@ -1205,7 +1205,7 @@ this.anims.create({
         this.spikes.create(225, 715, 'spike').setScale(0.6).refreshBody();
         this.spikes.create(475, 715, 'spike').setScale(0.6).refreshBody();
         this.spikes.create(735, 715, 'spike').setScale(0.6).refreshBody();
-        this.spikes.create(965, 715, 'spike').setScale(0.6).refreshBody();
+        this.spikes.create(975, 715, 'spike').setScale(0.6).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike_Arena, null, this);
     
 
