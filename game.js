@@ -2434,7 +2434,16 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
 
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
-  
+        bullets.children.each(b => {
+            if (b.active && b.x > 2200) {
+                b.disableBody(true, true); 
+            }
+        });
+        cannon_up_bullets.children.each(b => {
+            if (b.active && b.x > 1000) {
+                b.disableBody(true, true); 
+            }
+        });
         this.enemies.children.iterate(e => {
             if (!e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
@@ -2954,7 +2963,16 @@ this.anims.create({
 
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
-  
+        bullets.children.each(b => {
+            if (b.active && b.x > 2200) {
+                b.disableBody(true, true); 
+            }
+        });
+        cannon_up_bullets.children.each(b => {
+            if (b.active && b.x > 1400) {
+                b.disableBody(true, true); 
+            }
+        });
             
         this.enemies.children.iterate(e => {
             if (!e.active) return;
@@ -3508,7 +3526,21 @@ this.anims.create({
 
     setTimeout(() => weapon.destroy(), weapon_kill);
 }
-  
+        bullets.children.each(b => {
+            if (b.active && b.x > 2200) {
+                b.disableBody(true, true); 
+            }
+        });
+        cannon_up_bullets.children.each(b => {
+            if (b.active && b.x > 2000) {
+                b.disableBody(true, true); 
+            }
+        });
+        cannon_back_bullets.children.each(b => {
+            if (b.active && b.x > 1800) {
+                b.disableBody(true, true); 
+            }
+        });
         this.enemies.children.iterate(e => {
             if (!e || !e.active) return;
             const probeX = e.x + e.direction * (e.width / 2 + 6);
