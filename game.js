@@ -1139,7 +1139,6 @@ class training_arena extends Phaser.Scene {
     // asetan kellon muuttujan
     init() {
         this.registry.set('totalTime', this.registry.get('totalTime') ?? 0 );
-        this.registry.set('deaths', this.registry.get('deaths') ?? 0 );
     }
 
     preload (){
@@ -1230,8 +1229,22 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 700,
+            delay: 900,
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
+            loop: true
+        });
+       cannon = this.physics.add.image(10, 680, 'cannon');
+        cannon.setImmovable(true);
+        cannon.body.allowGravity = false;
+
+        bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 1300,
+            callback: () => shootBullet(cannon, bullets),
             loop: true
         });
         
@@ -1257,9 +1270,9 @@ this.physics.add.collider(player, knife);
         //Pelaajan liikumisen animaatio määritely pätyy
         this.physics.add.overlap(player, ovi, secretLevel1, null, this);
         this.physics.add.overlap(player, coin, CollectCoin, null, this);
-         this.physics.add.collider(player, bullets, hitPlayer, null, this);
-        this.physics.add.collider(player, cannon_back_bullets, hitPlayer, null, this);
-        this.physics.add.collider(player, cannon_down_bullets, hitPlayer, null, this);
+         this.physics.add.collider(player, bullets, hitPlayer_Arena, null, this);
+        this.physics.add.collider(player, cannon_back_bullets, hitPlayer_Arena, null, this);
+        this.physics.add.collider(player, cannon_down_bullets, hitPlayer_Arena, null, this);
         this.cameras.main.setBounds(0, 0, 1000, 900);
         this.physics.world.setBounds(0, 0, 1100, 900);
         this.cameras.main.startFollow(player);
@@ -1274,15 +1287,6 @@ this.physics.add.collider(player, knife);
         }).setScrollFactor(0);
         //texti pysyy vasemmassa 
         // kuolemalaskuri
-        this.deaths = this.registry.get('deaths');
-        this.deathText = this.add.text(10, 70, "Deaths: " + this.deaths, {
-        fontSize: '24px',
-        fill: '#fff'
-        }).setScrollFactor(0);
-        this.scoreText = this.add.text(10, 10, "Score: " + score, {
-        fontSize: '24px',
-        fill: '#fff'
-        }).setScrollFactor(0);
         this.timeEvent = this.time.addEvent({
             delay: 1000,
             loop: true,
@@ -4353,6 +4357,9 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "Phaser developers",
+            "",
+            "",
+            "Pixabay for their free sound effects and music",
 
         ];
         const startY = config.height + 20;
@@ -4523,6 +4530,105 @@ class game_over extends Phaser.Scene {
         });
     }
 }
+class training_arena_credits extends Phaser.Scene {
+    constructor() {
+        super({ key: 'training_arena_credits' });
+    }
+
+    create() {
+         showdown.pause();
+         trial_over.play();
+         footsteps.pause();
+        const totalTime = this.registry.get('totalTime') || 0;
+        this.textItems = [];
+        const messages = [
+           "Thank you for playing the training arena!",
+            "",
+            "",
+            "",
+            "",
+            "Your time was",
+            `${totalTime} seconds`,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "SNJ",
+            "",
+            "",
+            "",
+            "",
+            "Developers",
+            "",
+            "Niilo Mustonen",
+            "",
+            "Justus Nyholm",
+            "",
+            "Santtu Sirén",
+            "",
+            "",
+            "",
+            "",
+            "Developers for arena",
+            "",
+            "",
+            "Niilo Mustonen",
+            "",
+            "",
+            "",
+            "",
+            "Voice actors",
+            "",
+            "Player    Niilo Mustonen",
+            "",
+            "",
+            "Boss      Santtu Sirén",
+            "",
+            "",
+            "",
+            "",
+            "Very Special Thanks To",
+            "",
+            "",
+            "Erkki Sinkko",
+            "",
+            "",
+            "Santtu's mother",
+            "",
+            "",
+            "Phaser developers",
+            "",
+            "",
+            "Pixabay for their free sound effects and music",
+
+        ];
+        const startY = config.height + 20;
+        let offset = 0;
+        messages.forEach(msg => {
+            const t = this.add.text(
+                config.width / 2,
+                startY + offset,
+                msg,
+                {
+                    fontSize: "28px",
+                    color: "#ffffff",
+                    align: "center",
+                    wordWrap: { width: 700 }
+                }
+            ).setOrigin(0.5, 0);
+            this.textItems.push(t);
+            offset += 60;
+        });
+    }
+    update(time, delta) {
+        const speed = 50;
+
+        this.textItems.forEach(t => {
+            t.y -= speed * (delta / 1000);
+        });
+    }
+}
 class peli_ohi extends Phaser.Scene {
     constructor() {
         super({ key: 'peli_ohi' });}
@@ -4577,7 +4683,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi, training_arena]
+    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi, training_arena, training_arena_credits]
 };
 var tutorialStart=true;
 var player_velocity = 160;
@@ -4761,6 +4867,8 @@ const boss_cheat3_dialogue_1 = new Audio('assets/sound/dialogue/boss_cheat3_dial
 const cheating_didnt_go_to_plan = new Audio('assets/sound/boss_wins_brutality.mp3')
 const showdown = new Audio('assets/sound/arena_battle.mp3')
 showdown.volume = 0.5;
+const trial_over = new Audio('assets/sound/arena_credits.mp3')
+trial_over.volume = 0.5;
 boss_dialogy_1S.volume=1;
 boss_dialogy_2S.volume=1;
 boss_dialogy_3S.volume=1;
@@ -4846,6 +4954,16 @@ function hitPlayer(player, bullet) {
         this.scene.start(this.scene.key)
         deathState=true;
     }
+}
+function hitPlayer_Arena(player, bullet) {
+
+        cannon_death.play()
+        if (player && player.getData && player.getData('invulnerable')) {
+            if (bullet && bullet.disableBody) bullet.disableBody(true, true);
+            return;
+        };
+        // Päivitä näkyvä teksti
+        this.scene.start('training_arena_credits')
 }
 function level1Transition() {
     if (dialogueActive) {
