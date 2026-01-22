@@ -5011,7 +5011,7 @@ function bossPlayerContact(boss,player) {
 
 function knifehitboss(boss,knifeSprite) {
     knifeSprite.destroy();
-    const currentDeaths = this.registry.get('deaths')-10000;
+    const currentDeaths = this.registry.get('deaths');
     var bosshitchanchethingy = Phaser.Math.Between(0, 3);
     console.log(bosshitchanchethingy)
     //knife_deflect_first_Time=false;
