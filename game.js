@@ -1200,7 +1200,13 @@ this.anims.create({
         bottom_of_game.create(450,850, 'bottom_of_game').setScale(6).refreshBody();
         //level1 bottom_of_game luonti lopuu
         //kolikoiden luonti
-    
+        //
+        this.spikes = this.physics.add.staticGroup();
+        this.spikes.create(225, 715, 'spike').setScale(0.6).refreshBody();
+        this.spikes.create(475, 715, 'spike').setScale(0.6).refreshBody();
+        this.spikes.create(735, 715, 'spike').setScale(0.6).refreshBody();
+        this.spikes.create(965, 715, 'spike').setScale(0.6).refreshBody();
+        this.physics.add.collider(player, this.spikes, hitBySpike_Arena, null, this);
     
 
     coin.children.iterate(c => {
@@ -1234,7 +1240,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 2050,
+            delay: 2150,
             callback: () => {
                 this.cannons.forEach(c => shootBullet(c, bullets));
             },
@@ -1254,7 +1260,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 3850,
+            delay: 3950,
             callback: () => {
                 this.cannons2.forEach(c => shootBullet(c, bullets));
             },
@@ -1274,7 +1280,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 2150,
+            delay: 2250,
             callback: () => {
                 this.cannons_back.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
             },
@@ -1294,7 +1300,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 4150,
+            delay: 4250,
             callback: () => {
                 this.cannons_back2.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
             },
@@ -5227,6 +5233,10 @@ function hitBySpike(player, spike) {
     this.scene.start(this.scene.key)
     deathState=true;
 }
+}
+function hitBySpike_Arena(player, spike) {
+    spike_death.play()
+    this.scene.start('training_arena_credits')
 }
 function knifehit(player, knife2) {
      if (cheat2===true){
