@@ -1234,7 +1234,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 2150,
+            delay: 2050,
             callback: () => {
                 this.cannons.forEach(c => shootBullet(c, bullets));
             },
@@ -1254,7 +1254,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 4350,
+            delay: 3850,
             callback: () => {
                 this.cannons2.forEach(c => shootBullet(c, bullets));
             },
@@ -1274,7 +1274,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 2450,
+            delay: 2150,
             callback: () => {
                 this.cannons_back.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
             },
@@ -1294,7 +1294,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 4650,
+            delay: 4150,
             callback: () => {
                 this.cannons_back2.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
             },
@@ -1317,7 +1317,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 3000,
+            delay: 2800,
             callback: () => {
                 this.cannons_down.forEach(c => shootBullet_cannon_down(c, cannon_down_bullets));
             },
@@ -1340,7 +1340,7 @@ this.anims.create({
         });
 
         this.time.addEvent({
-            delay: 4000,
+            delay: 3800,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
