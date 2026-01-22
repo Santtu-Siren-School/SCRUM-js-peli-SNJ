@@ -1219,35 +1219,133 @@ this.anims.create({
 
 // Käytä Phaserin dataa (stabiilimpi kuin plain property)
 // Debug: seuraa kutsuja disableBody-metodille (näytetään pinosta löytyvä trace)
-    cannon_back = this.physics.add.image(1100, 680, 'cannon_back');
-        cannon_back.setImmovable(true);
-        cannon_back.body.allowGravity = false;
 
-        cannon_back_bullets = this.physics.add.group({
-            defaultKey: 'bullet',
-            maxSize: 10000000000
+        this.cannons = [
+            this.physics.add.image(10, 680, 'cannon'),
+        ];
+
+        this.cannons.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
         });
-
-        this.time.addEvent({
-            delay: 900,
-            callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
-            loop: true
-        });
-       cannon = this.physics.add.image(10, 680, 'cannon');
-        cannon.setImmovable(true);
-        cannon.body.allowGravity = false;
-
         bullets = this.physics.add.group({
             defaultKey: 'bullet',
             maxSize: 10000000000
         });
 
         this.time.addEvent({
-            delay: 1300,
-            callback: () => shootBullet(cannon, bullets),
+            delay: 2000,
+            callback: () => {
+                this.cannons.forEach(c => shootBullet(c, bullets));
+            },
             loop: true
         });
-        
+            this.cannons2 = [
+            this.physics.add.image(10, 490, 'cannon'),
+        ];
+
+        this.cannons2.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
+        });
+        bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 4000,
+            callback: () => {
+                this.cannons2.forEach(c => shootBullet(c, bullets));
+            },
+            loop: true
+        });
+ this.cannons_back = [
+            this.physics.add.image(1100, 680, 'cannon_back'),
+        ];
+
+        this.cannons_back.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
+        });
+        cannon_back_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 2000,
+            callback: () => {
+                this.cannons_back.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
+            },
+            loop: true
+        });
+         this.cannons_back2 = [
+           this.physics.add.image(1100, 490, 'cannon_back'),
+        ];
+
+        this.cannons_back2.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
+        });
+        cannon_back_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 4000,
+            callback: () => {
+                this.cannons_back2.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
+            },
+            loop: true
+        });
+        this.cannons_down = [
+            this.physics.add.image(50, 10, 'cannon_down'),
+            this.physics.add.image(300, 10, 'cannon_down'),
+            this.physics.add.image(600, 10, 'cannon_down'),
+            this.physics.add.image(900, 10, 'cannon_down'),
+        ];
+
+        this.cannons_down.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
+        });
+        cannon_down_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 3000,
+            callback: () => {
+                this.cannons_down.forEach(c => shootBullet_cannon_down(c, cannon_down_bullets));
+            },
+            loop: true
+        });
+            this.cannons_up = [
+            this.physics.add.image(80, 1000, 'cannon_up'),
+            this.physics.add.image(330, 1000, 'cannon_up'),
+            this.physics.add.image(630, 1000, 'cannon_up'),
+            this.physics.add.image(930, 1000, 'cannon_up'),
+        ];
+
+        this.cannons_up.forEach(c => {
+            c.setImmovable(true);
+            c.body.allowGravity = false;
+        });
+        cannon_up_bullets = this.physics.add.group({
+            defaultKey: 'bullet',
+            maxSize: 10000000000
+        });
+
+        this.time.addEvent({
+            delay: 4000,
+            callback: () => {
+                this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
+            },
+            loop: true
+        });
 // Colliders
 this.physics.add.collider(player, platforms);
 this.physics.add.collider(player, wall);
@@ -1270,9 +1368,10 @@ this.physics.add.collider(player, knife);
         //Pelaajan liikumisen animaatio määritely pätyy
         this.physics.add.overlap(player, ovi, secretLevel1, null, this);
         this.physics.add.overlap(player, coin, CollectCoin, null, this);
-         this.physics.add.collider(player, bullets, hitPlayer_Arena, null, this);
-        this.physics.add.collider(player, cannon_back_bullets, hitPlayer_Arena, null, this);
-        this.physics.add.collider(player, cannon_down_bullets, hitPlayer_Arena, null, this);
+        this.physics.add.collider(player, bullets, hitPlayer_Arena_Bullets, null, this);
+        this.physics.add.collider(player, cannon_back_bullets, hitPlayer_Arena_Bullets_Back, null, this);
+        this.physics.add.collider(player, cannon_down_bullets, hitPlayer_Arena_Bullets_Down, null, this);
+        this.physics.add.collider(player, cannon_up_bullets, hitPlayer_Arena_Bullets_Up, null, this);
         this.cameras.main.setBounds(0, 0, 1000, 900);
         this.physics.world.setBounds(0, 0, 1100, 900);
         this.cameras.main.startFollow(player);
@@ -1687,7 +1786,7 @@ if (!enemy.active) return;
             callback: () => shootBullet_cannon_back(cannon_back, cannon_back_bullets),
             loop: true
         });
-          cannon_down = this.physics.add.image(2000, 10, 'cannon_down');
+        cannon_down = this.physics.add.image(2000, 10, 'cannon_down');
         cannon_down.setImmovable(true);
         cannon_down.body.allowGravity = false;
 
@@ -4547,6 +4646,11 @@ class training_arena_credits extends Phaser.Scene {
             "",
             "",
             "",
+            "Try again to beat your best time one day!",
+            "",
+            "",
+            "",
+            "",
             "Your time was",
             `${totalTime} seconds`,
             "",
@@ -4955,11 +5059,41 @@ function hitPlayer(player, bullet) {
         deathState=true;
     }
 }
-function hitPlayer_Arena(player, bullet) {
+function hitPlayer_Arena_Bullets(player, bullet) {
 
         cannon_death.play()
         if (player && player.getData && player.getData('invulnerable')) {
             if (bullet && bullet.disableBody) bullet.disableBody(true, true);
+            return;
+        };
+        // Päivitä näkyvä teksti
+        this.scene.start('training_arena_credits')
+}
+function hitPlayer_Arena_Bullets_Down(player, cannon_back_bullets) {
+
+        cannon_death.play()
+        if (player && player.getData && player.getData('invulnerable')) {
+            if (cannon_back_bullets && cannon_back_bullets.disableBody) bullet.disableBody(true, true);
+            return;
+        };
+        // Päivitä näkyvä teksti
+        this.scene.start('training_arena_credits')
+}
+function hitPlayer_Arena_Bullets_Back(player, cannon_down_bullets) {
+
+        cannon_death.play()
+        if (player && player.getData && player.getData('invulnerable')) {
+            if (cannon_down_bullets && cannon_down_bullets.disableBody) bullet.disableBody(true, true);
+            return;
+        };
+        // Päivitä näkyvä teksti
+        this.scene.start('training_arena_credits')
+}
+function hitPlayer_Arena_Bullets_Up(player, cannon_up_bullets) {
+
+        cannon_death.play()
+        if (player && player.getData && player.getData('invulnerable')) {
+            if (cannon_up_bullets && cannon_up_bullets.disableBody) bullet.disableBody(true, true);
             return;
         };
         // Päivitä näkyvä teksti
