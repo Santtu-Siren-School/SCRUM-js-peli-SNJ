@@ -2562,7 +2562,7 @@ this.anims.create({
         wall.create(570,455,'wall')
         wall.create(443,755,'wall')
         wall.create(570,655,'wall')
-        wall.create(1245,100,'wall')
+        wall.create(1245,207,'wall')
         wall.create(1700,840,'wall')
         wall.create(1200,840,'wall')
 
