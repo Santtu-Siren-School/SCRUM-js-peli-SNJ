@@ -145,6 +145,7 @@ class force_interaction extends Phaser.Scene {
             this.load.image('end5_3D', 'assets/textures/cutscene_end5_3D.png')
             this.load.image('end5_4D', 'assets/textures/cutscene_end5_4D.png')
             this.load.image('play_button_tutorial_skip', 'assets/textures/play_button_tutorial_skip.png')
+            this.load.image('play_training_arena_button', 'assets/textures/play_training_arena_button.png')
             this.load.image('training_arena_button', 'assets/textures/training_arena_button.png')
             this.load.image('areena', 'assets/textures/areena.webp')
         }
@@ -152,6 +153,7 @@ class force_interaction extends Phaser.Scene {
             this.registry.set('playerTexture', 'main_character');
             const play_button=this.add.image(400,500,'play_button').setInteractive();
             const play_button_tutorial_skip=this.add.image(600,500,'play_button_tutorial_skip').setInteractive();
+            const play_button_arena=this.add.image(800,500,'play_training_arena_button').setInteractive();
             play_button.on('pointerdown', () => {
                 tutorialStart=true;
                 this.scene.start('Intro'),
@@ -160,6 +162,11 @@ class force_interaction extends Phaser.Scene {
             play_button_tutorial_skip.on('pointerdown', () => {
                 tutorialStart=false;
                 this.scene.start('Intro'),
+                console.log("Start Game");
+            });
+            play_button_arena.on('pointerdown', () => {
+                tutorialStart=false;
+                this.scene.start('training_arena'),
                 console.log("Start Game");
             });
             setTimeout(() => {            
@@ -1193,6 +1200,7 @@ this.anims.create({
         platforms = this.physics.add.staticGroup();
         //määritelee bottom_of_game staatiseksi
         bottom_of_game = this.physics.add.staticGroup();
+        
         //level1 platformien luonti
 
         //level1 platformien luonti loppuu
@@ -1202,12 +1210,31 @@ this.anims.create({
         //kolikoiden luonti
         //
         this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(225, 715, 'spike').setScale(0.6).refreshBody();
-        this.spikes.create(475, 715, 'spike').setScale(0.6).refreshBody();
-        this.spikes.create(735, 715, 'spike').setScale(0.6).refreshBody();
-        this.spikes.create(975, 715, 'spike').setScale(0.6).refreshBody();
+        this.spikes.create(200, 715, 'spike').setScale(0.5).refreshBody();
+        this.spikes.create(400, 715, 'spike').setScale(0.5).refreshBody();
+        this.spikes.create(600, 715, 'spike').setScale(0.5).refreshBody();
+        this.spikes.create(800, 715, 'spike').setScale(0.5).refreshBody();
+        this.spikes.create(1000, 715, 'spike').setScale(0.5).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike_Arena, null, this);
     
+          this.enemies = this.physics.add.group();
+
+        this.enemySpawn = { x: 600, y: 315 };
+
+this.enemy = this.enemies.create(
+    this.enemySpawn.x,
+    this.enemySpawn.y,
+    'enemy'
+);
+        //vihollisen koko ja elämäpisteet
+        this.enemy.setScale(2.5);
+        this.enemy.body.setSize(this.enemy.width, this.enemy.height);
+        this.enemy.body.setOffset(0, 0);
+        this.enemy.refreshBody();
+        this.enemy.maxHp = 150;
+        this.enemy.hp = 150;
+        this.enemy.setPushable(false);
+        // Käytä Phaserin dataa (stabiilimpi 
 
     coin.children.iterate(c => {
     if (!c) return;
@@ -1309,9 +1336,9 @@ this.anims.create({
         this.cannons_down = [
             this.physics.add.image(10, 10, 'cannon_down'),
             this.physics.add.image(100, 10, 'cannon_down'),
-            this.physics.add.image(300, 10, 'cannon_down'),
-            this.physics.add.image(600, 10, 'cannon_down'),
-            this.physics.add.image(900, 10, 'cannon_down'),
+            this.physics.add.image(400, 10, 'cannon_down'),
+            this.physics.add.image(700, 10, 'cannon_down'),
+            this.physics.add.image(1000, 10, 'cannon_down'),
             this.physics.add.image(1080, 10, 'cannon_down'),
         ];
 
@@ -1366,11 +1393,81 @@ this.physics.add.collider(player, knife);
     weapon.body.allowGravity = false; 
     weapon.body.immovable = true;     
 });
-   this.physics.add.collider(knife, wall, (weapon) => {
-            weapon.setVelocity(0, 0);
-            weapon.body.allowGravity = false;
-            weapon.body.immovable = true;
-        });
+this.physics.add.collider(knife, this.enemies, (weapon, enemy) => {
+    if (!enemy.active) return;
+
+    // estetään tuplahitti samasta veitsestä
+    if (enemy.wasHit) {
+        weapon.disableBody(true, true);
+        return;
+    }
+
+    enemy.wasHit = true;
+enemy.hp -= 50;
+
+if (enemy.hp <= 0) {
+    enemy_death.play();
+
+    if (enemy.hpBar) enemy.hpBar.setVisible(false);
+    if (enemy.hpBarBG) enemy.hpBarBG.setVisible(false);
+
+    enemy.disableBody(true, true);
+    weapon.disableBody(true, true);
+
+    this.time.delayedCall(5000, () => {
+        enemy.enableBody(
+            true,
+            this.enemySpawn.x,
+            this.enemySpawn.y,
+            true,
+            true
+        );
+
+        enemy.hp = enemy.maxHp;
+        enemy.wasHit = false;
+        enemy.direction = 1;
+        enemy.setVelocityX(150);
+        enemy.play('walkRightEnemy');
+
+        if (enemy.hpBar) enemy.hpBar.setVisible(true);
+        if (enemy.hpBarBG) enemy.hpBarBG.setVisible(true);
+    });
+
+    return;
+}
+
+// ⬇️ TÄMÄ VAIN JOS VIHOLLINEN JÄI ELOON
+enemy_hit.play();
+enemy.setTintFill(0xff0000);
+
+this.time.delayedCall(100, () => {
+    enemy.clearTint();
+});
+
+weapon.disableBody(true, true);
+
+this.time.delayedCall(150, () => {
+    enemy.wasHit = false;
+});
+
+
+});
+
+          this.enemy.body.setGravityY(300); // lisää painovoima
+        this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
+        this.enemy.setVelocityX(150); // alku nopeus
+        this.enemy.direction = 1;
+        this.physics.add.collider(this.enemy, platforms);
+           this.physics.add.collider(this.enemy, bottom_of_game);
+        this.physics.add.collider(player, this.enemy, enemyArena, null, this); 
+        this.enemyHpOffset = 80;
+        // luodaan HP-palkki taustineen
+        this.enemy.hpBarBG = this.add.rectangle(this.enemy.x, this.enemy.y - this.enemyHpOffset, 40, 6, 0x000000);
+        this.enemy.hpBar = this.add.rectangle(this.enemy.x, this.enemy.y - this.enemyHpOffset, 40, 6, 0xff0000);
+        // scroll factor, jotta palkki liikkuu kameran mukana
+        this.enemy.hpBar.setScrollFactor(1);
+        this.enemy.hpBarBG.setScrollFactor(1);
+        this.enemy.play('walkRightEnemy');
         // jos puukko osuu alustaan -> pysäytä puukko
         this.physics.add.collider(knife, bottom_of_game);
         //Pelaajan liikumisen animaatio määritely pätyy
@@ -1527,6 +1624,64 @@ this.physics.add.collider(player, knife);
                 }
             }
             }
+              const e = this.enemy;
+if (e && e.body && e.active) {
+
+    // osui seinään
+    if (e.body.blocked.left || e.body.blocked.right) {
+        e.direction *= -1;
+        e.setVelocityX(150 * e.direction);
+        e.play(
+            e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy',
+            true
+        );
+    }
+}
+
+        if (!e || !e.body || !e.active) {
+            // Ei vihollista — ohitetaan viholliseen liittyvä logiikka
+        } else {
+            // Reunantunnistus (probe)
+        const checkDistanceX = e.direction * (e.body.width / 2 + 5);
+        const probeX = e.x + checkDistanceX;
+        const probeY = e.y + e.body.height / 2 + 1;
+        // Onko maata suoraan edessä?
+        let groundAhead = false;
+        bottom_of_game.getChildren().forEach(p => {
+            const left = p.x - p.displayWidth / 2;
+            const right = p.x + p.displayWidth / 2;
+            const top = p.y - p.displayHeight / 2;
+            if (probeX >= left && probeX <= right && Math.abs(probeY - top) < 5) {
+                groundAhead = true;
+            }
+        });
+        if (!e.lastTurnTime) e.lastTurnTime = 0;
+        if (this.time.now - e.lastTurnTime > 100) {
+        if (!groundAhead && e.body.blocked.down) {
+            if(enemy_footstep) {
+                e.direction *= -1; 
+                e.setVelocityX(150 * e.direction);
+                e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
+                e.lastTurnTime = this.time.now;
+            }
+            else {
+                enemy_footstep=true;
+                enemy.play();
+                setTimeout(() => {enemy_footstep=false;}, enemy_delay);
+            }
+        }
+        }
+
+        if (this.enemy.hpBar && this.enemy.hpBarBG && this.enemy.active) {
+        this.enemy.hpBarBG.x = this.enemy.x;
+        this.enemy.hpBarBG.y = this.enemy.y - this.enemyHpOffset;
+
+        this.enemy.hpBar.width = 40 * (this.enemy.hp / this.enemy.maxHp);
+        this.enemy.hpBar.x = this.enemy.x - (40 * (1 - this.enemy.hp / this.enemy.maxHp)) / 2;
+        this.enemy.hpBar.y = this.enemy.y - this.enemyHpOffset;
+    }
+
+    }
            if (Phaser.Input.Keyboard.JustDown(shoot)) {
 
     const now = this.time.now;
@@ -5215,6 +5370,10 @@ function CollectCoin(player, coin) {
 }
 function tutorialDeath(player, enemy) {
     this.scene.start(this.scene.key)
+    player_death.play()
+}
+function enemyArena(player, enemy) {
+     this.scene.start('training_arena_credits')
     player_death.play()
 }
 function low_power_trampolinePlayer(player, low_power_trampoline) {
