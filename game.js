@@ -1210,11 +1210,11 @@ this.anims.create({
         //kolikoiden luonti
         //
         this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(200, 715, 'spike').setScale(0.5).refreshBody();
-        this.spikes.create(400, 715, 'spike').setScale(0.5).refreshBody();
-        this.spikes.create(600, 715, 'spike').setScale(0.5).refreshBody();
-        this.spikes.create(800, 715, 'spike').setScale(0.5).refreshBody();
-        this.spikes.create(1000, 715, 'spike').setScale(0.5).refreshBody();
+        this.spikes.create(200, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(400, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(600, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(800, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(1000, 715, 'spike').setScale(0.4).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike_Arena, null, this);
     
           this.enemies = this.physics.add.group();
@@ -1267,7 +1267,7 @@ this.enemy = this.enemies.create(
         });
 
         this.time.addEvent({
-            delay: 2150,
+            delay: 2550,
             callback: () => {
                 this.cannons.forEach(c => shootBullet(c, bullets));
             },
@@ -1287,7 +1287,7 @@ this.enemy = this.enemies.create(
         });
 
         this.time.addEvent({
-            delay: 3950,
+            delay: 4350,
             callback: () => {
                 this.cannons2.forEach(c => shootBullet(c, bullets));
             },
@@ -1307,7 +1307,7 @@ this.enemy = this.enemies.create(
         });
 
         this.time.addEvent({
-            delay: 2250,
+            delay: 2650,
             callback: () => {
                 this.cannons_back.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
             },
@@ -1327,7 +1327,7 @@ this.enemy = this.enemies.create(
         });
 
         this.time.addEvent({
-            delay: 4250,
+            delay: 4650,
             callback: () => {
                 this.cannons_back2.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
             },
@@ -1352,7 +1352,7 @@ this.enemy = this.enemies.create(
         });
 
         this.time.addEvent({
-            delay: 2800,
+            delay: 3200,
             callback: () => {
                 this.cannons_down.forEach(c => shootBullet_cannon_down(c, cannon_down_bullets));
             },
@@ -1375,7 +1375,7 @@ this.enemy = this.enemies.create(
         });
 
         this.time.addEvent({
-            delay: 3800,
+            delay: 4200,
             callback: () => {
                 this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
             },
@@ -1415,28 +1415,35 @@ if (enemy.hp <= 0) {
     weapon.disableBody(true, true);
 
     this.time.delayedCall(5000, () => {
-        enemy.enableBody(
-            true,
-            this.enemySpawn.x,
-            this.enemySpawn.y,
-            true,
-            true
-        );
+    enemy.enableBody(
+        true,
+        this.enemySpawn.x,
+        this.enemySpawn.y,
+        true,
+        true
+    );
 
-        enemy.hp = enemy.maxHp;
-        enemy.wasHit = false;
+    enemy.hp = enemy.maxHp;
+    enemy.wasHit = false;
+
+    if (player.x < this.enemySpawn.x) {
+        enemy.direction = -1;
+        enemy.setVelocityX(-130);
+        enemy.play('walkLeftEnemy');
+    } else {
         enemy.direction = 1;
-        enemy.setVelocityX(150);
+        enemy.setVelocityX(130);
         enemy.play('walkRightEnemy');
+    }
 
-        if (enemy.hpBar) enemy.hpBar.setVisible(true);
-        if (enemy.hpBarBG) enemy.hpBarBG.setVisible(true);
-    });
+    if (enemy.hpBar) enemy.hpBar.setVisible(true);
+    if (enemy.hpBarBG) enemy.hpBarBG.setVisible(true);
+});
+
 
     return;
 }
 
-// ⬇️ TÄMÄ VAIN JOS VIHOLLINEN JÄI ELOON
 enemy_hit.play();
 enemy.setTintFill(0xff0000);
 
@@ -1455,8 +1462,16 @@ this.time.delayedCall(150, () => {
 
           this.enemy.body.setGravityY(300); // lisää painovoima
         this.enemy.setCollideWorldBounds(true); // estää vihollista putoamasta
-        this.enemy.setVelocityX(150); // alku nopeus
-        this.enemy.direction = 1;
+      if (player.x < this.enemySpawn.x) {
+    this.enemy.direction = -1;
+    this.enemy.setVelocityX(-130);
+    this.enemy.play('walkLeftEnemy');
+} else {
+    this.enemy.direction = 1;
+    this.enemy.setVelocityX(130);
+    this.enemy.play('walkRightEnemy');
+}
+
         this.physics.add.collider(this.enemy, platforms);
            this.physics.add.collider(this.enemy, bottom_of_game);
         this.physics.add.collider(player, this.enemy, enemyArena, null, this); 
@@ -1467,7 +1482,6 @@ this.time.delayedCall(150, () => {
         // scroll factor, jotta palkki liikkuu kameran mukana
         this.enemy.hpBar.setScrollFactor(1);
         this.enemy.hpBarBG.setScrollFactor(1);
-        this.enemy.play('walkRightEnemy');
         // jos puukko osuu alustaan -> pysäytä puukko
         this.physics.add.collider(knife, bottom_of_game);
         //Pelaajan liikumisen animaatio määritely pätyy
@@ -1630,7 +1644,7 @@ if (e && e.body && e.active) {
     // osui seinään
     if (e.body.blocked.left || e.body.blocked.right) {
         e.direction *= -1;
-        e.setVelocityX(150 * e.direction);
+        e.setVelocityX(130 * e.direction);
         e.play(
             e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy',
             true
@@ -1660,7 +1674,7 @@ if (e && e.body && e.active) {
         if (!groundAhead && e.body.blocked.down) {
             if(enemy_footstep) {
                 e.direction *= -1; 
-                e.setVelocityX(150 * e.direction);
+                e.setVelocityX(130 * e.direction);
                 e.play(e.direction > 0 ? 'walkRightEnemy' : 'walkLeftEnemy', true);
                 e.lastTurnTime = this.time.now;
             }
