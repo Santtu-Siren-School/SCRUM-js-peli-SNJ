@@ -258,6 +258,10 @@ class MainMenu extends Phaser.Scene {
         console.log("no, only one of us plays that game.");
         cheat4 = true;
     }
+      if (this.secretBuffer.includes("check out this banger my friend")) {
+        console.log("good shit.");
+        cheat5 = true;
+    }
 });
 
 
@@ -582,7 +586,12 @@ player = this.physics.add.sprite(100, 750, tex);
         this.enemy.play('walkRightEnemy');
     }
     update (){
+          if (cheat5===true){
+            secret_song.play();
+    }
+    else {
         tutorial_music.play();
+    }
         //katsoo onko peli loppunut
         if (gameOver == true)
         {
@@ -997,8 +1006,13 @@ this.physics.add.collider(player, knife);
                 deathState=false
             }
         }
-       footsteps.pause();  
-         virus_beaten.play();
+       footsteps.pause();
+          if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+              virus_beaten.play();
+    } 
         if (knockback==1) {
             return;
         }
@@ -1539,8 +1553,13 @@ this.time.delayedCall(150, () => {
                 deathState=false
             }
         }
-       footsteps.pause();  
-         showdown.play();
+       footsteps.pause(); 
+           if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+        showdown.play();
+    }
         if (knockback==1) {
             return;
         }
@@ -2047,9 +2066,13 @@ if (!enemy.active) return;
                 deathState=false
             }
         }
-        backgroundsound.play();
+          if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+     backgroundsound.play();
+    }
        footsteps.pause();  
-        backgroundsound.play();
         if (knockback==1) {
             return;
         }
@@ -2568,9 +2591,13 @@ this.time.delayedCall(1, () => enemy.wasHit = false);
                 deathState=false
             }
         }
-              backgroundsound.play();
        footsteps.pause();  
-        backgroundsound.play();
+             if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+     backgroundsound.play();
+    }
                 if (knockback==1) {
             return;
         }
@@ -3086,9 +3113,13 @@ this.anims.create({
                 deathState=false
             }
         }
-        backgroundsound.play();
        footsteps.pause();  
-        backgroundsound.play();
+              if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+     backgroundsound.play();
+    }
                 if (knockback==1) {
             return;
         }
@@ -3640,7 +3671,12 @@ this.anims.create({
             }
         }
         footsteps.pause();  
-        backgroundsound.play();
+              if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+     backgroundsound.play();
+    }
         if (knockback==1) {
             return;
         }
@@ -4084,7 +4120,12 @@ this.anims.create({
                 }
             }
         }
-        boss_fight_background_music.play()
+               if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+     boss_fight_background_music.play()
+    }
         if (knockback==1) {
             return;
         }
@@ -4331,7 +4372,12 @@ class end1 extends Phaser.Scene {
         super({ key: 'end1' });}
         create(){
             boss_fight_background_music.pause();
-            end1_background_song.play();
+             if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+           end1_background_song.play();
+    }
             let dialogue7_boss=this.add.image(500,450,'dialogue7_boss').setScale(4);
             boss_dialogy_7S.play();
             setTimeout(() => {
@@ -4396,7 +4442,12 @@ class end2 extends Phaser.Scene {
         super({ key: 'end2' });}
     create() {
         boss_fight_background_music.pause();
-        end2_background_song.play();
+                 if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+            end2_background_song.play();
+    }
         let end2_1D=this.add.image(500,450,'end2_1D').setScale(4);
         end2_1s.play();
         setTimeout(() => { end2_1D.destroy();let end2_2D=this.add.image(500,450,'end2_2D').setScale(4);end2_2s.play();
@@ -4438,7 +4489,13 @@ class end3 extends Phaser.Scene {
         create() {
             let end3_1=this.add.image(500,450,'end2_1')
             boss_fight_background_music.pause();
-            end3_background_song.play();
+             boss_fight_background_music.pause();
+                 if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+        end3_background_song.play();
+    }
             setTimeout(() => {end3_1.destroy();let end3_2=this.add.image(500,450,'end2_2');
                 setTimeout(() => {end3_2.destroy();let end3_3=this.add.image(500,450,'end2_2');
                     setTimeout(() => {end3_3.destroy();let end3_4=this.add.image(500,450,'end2_3');
@@ -4481,7 +4538,12 @@ class end4 extends Phaser.Scene {
         super({ key: 'end4' });}
         create() {
             boss_fight_background_music.pause();
-            end4_background_song.play();
+                if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+       end4_background_song.play();
+    }
             let end4_1D=this.add.image(500,500, 'end4_1D').setScale(4);
             end4_1s.play();
             setTimeout(() => {end4_1D.destroy();let end4_2D=this.add.image(500,500, 'end4_2D').setScale(4); end4_2s.play();
@@ -4500,7 +4562,12 @@ class end5 extends Phaser.Scene {
     }
     create() {
         boss_fight_background_music.pause();
+                  if (cheat5===true){
+            secret_song.play();
+    }
+    else {
         end3_background_song.play();
+    }
         let end5_1D=this.add.image(500,500, 'end5_1D').setScale(4);
         end5_1s.play();
         setTimeout(() => {end5_1D.destroy();let end5_2D=this.add.image(500,500, 'end5_2D').setScale(4);end5_2s.play();
@@ -4545,7 +4612,12 @@ class endcheat extends Phaser.Scene {
     constructor() {
         super({ key: 'endcheat' });}
         create() {
+                           if (cheat5===true){
+            secret_song.play();
+    }
+    else {
         lets_cheat.play();
+    }
         this.secretBuffer = "";
             boss_fight_background_music.pause();
             let endcheat1D=this.add.image(500,500, 'Boss_dialogue_cheat_1').setScale(4);
@@ -4694,8 +4766,13 @@ class game_over extends Phaser.Scene {
     }
 
     create() {
-            setTimeout(() => { unused_until_now.play(); }, 100000);
+                              if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+          setTimeout(() => { unused_until_now.play(); }, 100000);
             setTimeout(() => { hacked.pause(); }, 100000);
+    }
         this.textItems = [];
         const messages = [
             "...Why did you do it?",
@@ -4804,8 +4881,14 @@ class training_arena_credits extends Phaser.Scene {
 
     create() {
          showdown.pause();
-         trial_over.play();
          footsteps.pause();
+         
+         if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+           trial_over.play();
+    }
         const totalTime = this.registry.get('totalTime') || 0;
         this.textItems = [];
         const messages = [
@@ -4907,7 +4990,13 @@ class peli_ohi extends Phaser.Scene {
        create() {
         let petya=this.add.image(530,450,'petya').setScale(0.9)
          tutorial_music.pause();
-        hacked.play();
+            if (cheat5===true){
+            secret_song.play();
+    }
+    else {
+           hacked.play();
+    }
+        
         setTimeout(() => {petya.destroy(); this.scene.start('game_over');
         }, 10000);
         this.secretBuffer = "";
@@ -5040,8 +5129,11 @@ var cheat=false;
 var cheat2=false;
 var cheat3=false;
 var cheat4=false;
+var cheat5=false;
 var scoreText;
 const backgroundsound = new Audio('assets/sound/background_music.mp3');
+const secret_song = new Audio('assets/sound/insane_song.mp3');
+secret_song.volume = 0.3;
 const nextlevelsound=new Audio('assets/sound/level_finish_sound.wav');
 const invisible=new Audio('assets/sound/invisible.mp3');
 const jump=new Audio('assets/sound/jump.ogg');
