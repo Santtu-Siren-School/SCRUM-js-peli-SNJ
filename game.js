@@ -1224,11 +1224,11 @@ this.anims.create({
         //kolikoiden luonti
         //
         this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(200, 715, 'spike').setScale(0.3).refreshBody();
-        this.spikes.create(400, 715, 'spike').setScale(0.3).refreshBody();
-        this.spikes.create(600, 715, 'spike').setScale(0.3).refreshBody();
-        this.spikes.create(800, 715, 'spike').setScale(0.3).refreshBody();
-        this.spikes.create(1000, 715, 'spike').setScale(0.3).refreshBody();
+        this.spikes.create(200, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(400, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(600, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(800, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(1000, 715, 'spike').setScale(0.4).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike_Arena, null, this);
     
           this.enemies = this.physics.add.group();
