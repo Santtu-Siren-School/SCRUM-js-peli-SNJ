@@ -5274,13 +5274,13 @@ function shootBullet(cannonInstance, bulletsGroup) {
         }, 5000);
     }
 }
-function shootBullet(cannonInstance, bulletsGroup) {
+function shootBulletArena(cannonInstance, bulletsGroup) {
     cannon_fire.play()
     const c = cannonInstance;
     const bullet = bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (bullet) {
         bullet.enableBody(true, c.x + 40, c.y, true, true);
-        bullet.setVelocityX(300);
+        bullet.setVelocityX(350);
         bullet.body.allowGravity = false;
         setTimeout(() => {
             if (bullet.active) {
@@ -5310,7 +5310,7 @@ function shootBullet_cannon_up_arena(cannon_upInstance, cannon_up_bulletsGroup) 
     const cannon_up_bullets = cannon_up_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_up_bullets) {
         cannon_up_bullets.enableBody(true, c.x, c.y-40, true, true);
-        cannon_up_bullets.setVelocityY(-300);
+        cannon_up_bullets.setVelocityY(-350);
         cannon_up_bullets.body.allowGravity = false;
         setTimeout(() => {
             if (cannon_up_bullets.active) {
@@ -5340,7 +5340,7 @@ function shootBullet_cannon_back_arena(cannon_backInstance, cannon_back_bulletsG
     const cannon_back_bullets = cannon_back_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_back_bullets) {
         cannon_back_bullets.enableBody(true, c.x, c.y, true, true);
-        cannon_back_bullets.setVelocityX(-300);
+        cannon_back_bullets.setVelocityX(-350);
         cannon_back_bullets.body.allowGravity = false;
         setTimeout(() => {
             if (cannon_back_bullets.active) {
@@ -5371,7 +5371,7 @@ function shootBullet_cannon_down_arena(cannon_downInstance, cannon_down_bulletsG
     const cannon_down_bullets = cannon_down_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
     if (cannon_down_bullets) {
         cannon_down_bullets.enableBody(true, c.x, c.y+40, true, true);
-        cannon_down_bullets.setVelocityY(400);
+        cannon_down_bullets.setVelocityY(350);
         cannon_down_bullets.body.allowGravity = false;
         setTimeout(() => {
             if (cannon_down_bullets.active) {
