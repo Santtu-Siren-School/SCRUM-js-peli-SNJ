@@ -4699,6 +4699,9 @@ class credit_scene extends Phaser.Scene {
             "",
             "",
             "Pixabay for their free sound effects and music",
+            "",
+            "",
+            "Sr Pelo for the Saness Mogolovonio song",
 
         ];
         const startY = config.height + 20;
@@ -4956,6 +4959,9 @@ class training_arena_credits extends Phaser.Scene {
             "",
             "",
             "Pixabay for their free sound effects and music",
+            "",
+            "",
+            "Sr Pelo for the Saness Mogolovonio song",
 
         ];
         const startY = config.height + 20;
