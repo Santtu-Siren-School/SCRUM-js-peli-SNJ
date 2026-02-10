@@ -242,7 +242,7 @@ class MainMenu extends Phaser.Scene {
     }
     // tarkistus
     if (this.secretBuffer.includes("you think that is a knoif, this is a knoif")) {
-        console.log("knives sharpened");
+        console.log("knives sharpened.");
         cheat = true;
     }
     if (this.secretBuffer.includes("i use adrenaline to gain better armor and speed")) {
