@@ -1224,11 +1224,11 @@ this.anims.create({
         //kolikoiden luonti
         //
         this.spikes = this.physics.add.staticGroup();
-        this.spikes.create(200, 715, 'spike').setScale(0.4).refreshBody();
-        this.spikes.create(400, 715, 'spike').setScale(0.4).refreshBody();
-        this.spikes.create(600, 715, 'spike').setScale(0.4).refreshBody();
-        this.spikes.create(800, 715, 'spike').setScale(0.4).refreshBody();
-        this.spikes.create(1000, 715, 'spike').setScale(0.4).refreshBody();
+        this.spikes.create(200, 715, 'spike').setScale(0.3).refreshBody();
+        this.spikes.create(400, 715, 'spike').setScale(0.3).refreshBody();
+        this.spikes.create(600, 715, 'spike').setScale(0.3).refreshBody();
+        this.spikes.create(800, 715, 'spike').setScale(0.3).refreshBody();
+        this.spikes.create(1000, 715, 'spike').setScale(0.3).refreshBody();
         this.physics.add.collider(player, this.spikes, hitBySpike_Arena, null, this);
     
           this.enemies = this.physics.add.group();
@@ -1283,7 +1283,7 @@ this.enemy = this.enemies.create(
         this.time.addEvent({
             delay: 2550,
             callback: () => {
-                this.cannons.forEach(c => shootBullet(c, bullets));
+                this.cannons.forEach(c => shootBulletArena(c, bullets));
             },
             loop: true
         });
@@ -1303,7 +1303,7 @@ this.enemy = this.enemies.create(
         this.time.addEvent({
             delay: 4350,
             callback: () => {
-                this.cannons2.forEach(c => shootBullet(c, bullets));
+                this.cannons2.forEach(c => shootBulletArena(c, bullets));
             },
             loop: true
         });
@@ -1323,7 +1323,7 @@ this.enemy = this.enemies.create(
         this.time.addEvent({
             delay: 2650,
             callback: () => {
-                this.cannons_back.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
+                this.cannons_back.forEach(c => shootBullet_cannon_back_arena(c, cannon_back_bullets));
             },
             loop: true
         });
@@ -1343,7 +1343,7 @@ this.enemy = this.enemies.create(
         this.time.addEvent({
             delay: 4650,
             callback: () => {
-                this.cannons_back2.forEach(c => shootBullet_cannon_back(c, cannon_back_bullets));
+                this.cannons_back2.forEach(c => shootBullet_cannon_back_arena(c, cannon_back_bullets));
             },
             loop: true
         });
@@ -1368,7 +1368,7 @@ this.enemy = this.enemies.create(
         this.time.addEvent({
             delay: 3200,
             callback: () => {
-                this.cannons_down.forEach(c => shootBullet_cannon_down(c, cannon_down_bullets));
+                this.cannons_down.forEach(c => shootBullet_cannon_down_arena(c, cannon_down_bullets));
             },
             loop: true
         });
@@ -1391,7 +1391,7 @@ this.enemy = this.enemies.create(
         this.time.addEvent({
             delay: 4200,
             callback: () => {
-                this.cannons_up.forEach(c => shootBullet_cannon_up(c, cannon_up_bullets));
+                this.cannons_up.forEach(c => shootBullet_cannon_up_arena(c, cannon_up_bullets));
             },
             loop: true
         });
@@ -5274,6 +5274,21 @@ function shootBullet(cannonInstance, bulletsGroup) {
         }, 5000);
     }
 }
+function shootBullet(cannonInstance, bulletsGroup) {
+    cannon_fire.play()
+    const c = cannonInstance;
+    const bullet = bulletsGroup.get();  // käytetään parametrina annettua ryhmää
+    if (bullet) {
+        bullet.enableBody(true, c.x + 40, c.y, true, true);
+        bullet.setVelocityX(300);
+        bullet.body.allowGravity = false;
+        setTimeout(() => {
+            if (bullet.active) {
+                bullet.disableBody(true, true);
+            }
+        }, 5000);
+    }
+}
 function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
     cannon_fire.play()
     const c = cannon_upInstance;
@@ -5289,6 +5304,21 @@ function shootBullet_cannon_up(cannon_upInstance, cannon_up_bulletsGroup) {
         }, 5000);
     }
 }
+function shootBullet_cannon_up_arena(cannon_upInstance, cannon_up_bulletsGroup) {
+    cannon_fire.play()
+    const c = cannon_upInstance;
+    const cannon_up_bullets = cannon_up_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
+    if (cannon_up_bullets) {
+        cannon_up_bullets.enableBody(true, c.x, c.y-40, true, true);
+        cannon_up_bullets.setVelocityY(-300);
+        cannon_up_bullets.body.allowGravity = false;
+        setTimeout(() => {
+            if (cannon_up_bullets.active) {
+                cannon_up_bullets.disableBody(true, true);
+            }
+        }, 5000);
+    }
+}
 function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) {
     cannon_fire.play()
     const c = cannon_backInstance;
@@ -5296,6 +5326,21 @@ function shootBullet_cannon_back(cannon_backInstance, cannon_back_bulletsGroup) 
     if (cannon_back_bullets) {
         cannon_back_bullets.enableBody(true, c.x, c.y, true, true);
         cannon_back_bullets.setVelocityX(-400);
+        cannon_back_bullets.body.allowGravity = false;
+        setTimeout(() => {
+            if (cannon_back_bullets.active) {
+                cannon_back_bullets.disableBody(true, true);
+            }
+        }, 5000);
+    }
+}
+function shootBullet_cannon_back_arena(cannon_backInstance, cannon_back_bulletsGroup) {
+    cannon_fire.play()
+    const c = cannon_backInstance;
+    const cannon_back_bullets = cannon_back_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
+    if (cannon_back_bullets) {
+        cannon_back_bullets.enableBody(true, c.x, c.y, true, true);
+        cannon_back_bullets.setVelocityX(-300);
         cannon_back_bullets.body.allowGravity = false;
         setTimeout(() => {
             if (cannon_back_bullets.active) {
@@ -5320,6 +5365,23 @@ function shootBullet_cannon_down(cannon_downInstance, cannon_down_bulletsGroup) 
         
     }
 }
+function shootBullet_cannon_down_arena(cannon_downInstance, cannon_down_bulletsGroup) {
+    cannon_fire.play()
+    const c = cannon_downInstance;
+    const cannon_down_bullets = cannon_down_bulletsGroup.get();  // käytetään parametrina annettua ryhmää
+    if (cannon_down_bullets) {
+        cannon_down_bullets.enableBody(true, c.x, c.y+40, true, true);
+        cannon_down_bullets.setVelocityY(400);
+        cannon_down_bullets.body.allowGravity = false;
+        setTimeout(() => {
+            if (cannon_down_bullets.active) {
+                cannon_down_bullets.disableBody(true, true);
+            }
+        }, 5000);
+        
+    }
+}
+
 
 
 function hitPlayer(player, bullet) {
