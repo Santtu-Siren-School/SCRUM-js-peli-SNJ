@@ -148,12 +148,18 @@ class force_interaction extends Phaser.Scene {
             this.load.image('play_training_arena_button', 'assets/textures/play_training_arena_button.png')
             this.load.image('training_arena_button', 'assets/textures/training_arena_button.png')
             this.load.image('areena', 'assets/textures/areena.webp')
+            this.load.image('loreba', 'assets/textures/lore_background.png')
+            this.load.image('lorebo', 'assets/textures/lore_boss.png')
+            this.load.image('loreco', 'assets/textures/lore_common_enemy.png')
+            this.load.image('lorepl', 'assets/textures/lore_player.png')
+            this.load.image('lore_button', 'assets/textures/lore_button.png')
         }
         create() {
             this.registry.set('playerTexture', 'main_character');
-            const play_button=this.add.image(400,500,'play_button').setInteractive();
-            const play_button_tutorial_skip=this.add.image(600,500,'play_button_tutorial_skip').setInteractive();
-            const play_button_arena=this.add.image(800,500,'play_training_arena_button').setInteractive();
+            const play_button=this.add.image(300,500,'play_button').setInteractive();
+            const play_button_tutorial_skip=this.add.image(500,500,'play_button_tutorial_skip').setInteractive();
+            const play_button_arena=this.add.image(700,500,'play_training_arena_button').setInteractive();
+            const read_lore=this.add.image(900,500,'lore_button').setInteractive();
             play_button.on('pointerdown', () => {
                 tutorialStart=true;
                 this.scene.start('Intro'),
@@ -168,6 +174,11 @@ class force_interaction extends Phaser.Scene {
                 tutorialStart=false;
                 this.scene.start('training_arena'),
                 console.log("Start Game");
+            });
+            read_lore.on('pointerdown', () => {
+            tutorialStart=false;
+            this.scene.start('lore'),
+            console.log("Start Game");
             });
             setTimeout(() => {            
                 const skipcutscene_button=this.add.image(1050,10,'skipcutscene_button').setInteractive();
@@ -282,6 +293,7 @@ class MainMenu extends Phaser.Scene {
             const petya_button=this.add.image(300,300,'petya_button').setInteractive();
             const secret_level_button=this.add.image(700,100,'secret_level_button').setInteractive();
             const training_arena_button=this.add.image(800,100,'training_arena_button').setInteractive();
+            const lore_button=this.add.image(400,300,'lore_button').setInteractive();
             level1_button.on('pointerdown', () => {
                 this.scene.start('Level1'),
                 console.log("game start at level1");
@@ -345,6 +357,10 @@ class MainMenu extends Phaser.Scene {
             training_arena_button.on('pointerdown', () => {
             this.scene.start('training_arena'),
             console.log("Training arena");
+            });
+            lore_button.on('pointerdown', () => {
+            this.scene.start('lore'),
+            console.log("Lore");
             });
         }
 }
@@ -4763,6 +4779,19 @@ class Boss_Dialogue3 extends Phaser.Scene {
         setTimeout(() => {let boss_dialogue_img6=this.add.image(500,450,'dialogue6_boss').setScale(5);boss_dialogy_6S.play();setTimeout(() => {boss_dialogue_img6.destroy();this.scene.start('Level5');}, 4000)}, 4000);
     }
 }
+class lore extends Phaser.Scene {
+    constructor() {
+        super({ key: 'lore' });}
+        create() {
+            let lorebo=this.add.image(500,500, 'lorebo').setScale(0.7);
+             setTimeout(() => {lorebo.destroy();let loreco=this.add.image(500,500, 'loreco').setScale(0.7);
+                setTimeout(() => {loreco.destroy();let lorepl=this.add.image(500,500, 'lorepl').setScale(0.7);
+                        setTimeout(() => {lorepl.destroy(); this.scene.start('tutorial')
+                        }, lore_scene);
+                    }, lore_scene);
+                }, lore_scene);
+        }
+    }
 class game_over extends Phaser.Scene {
     constructor() {
         super({ key: 'game_over' });
@@ -5050,7 +5079,7 @@ var config = {
             debug: false
         }
     },
-    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi, training_arena, training_arena_credits]
+    scene: [force_interaction,secret_level,Intro,MainMenu,Tutorial,Level1,Level2,Level3,Level4,Level5,Cutscene_knife,Boss_Dialogue1,Boss_Dialogue2,Boss_Dialogue3,end1,end2,end3,end4,end5,endcheat,cheat3Dialogue,credit_scene,game_over,peli_ohi, training_arena, training_arena_credits, lore]
 };
 var tutorialStart=true;
 var player_velocity = 160;
@@ -5090,6 +5119,7 @@ var weapon_gravity=-200;
 var weapon_scale=0.1;
 var throwtimelast=0;
 var cooldownthrow=1000;
+var lore_scene=5000;
 var coin;
 var ending=0;
 var enemy_footstep=false;
