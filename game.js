@@ -4786,7 +4786,7 @@ class lore extends Phaser.Scene {
             let lorebo=this.add.image(500,500, 'lorebo').setScale(0.7);
              setTimeout(() => {lorebo.destroy();let loreco=this.add.image(500,500, 'loreco').setScale(0.7);
                 setTimeout(() => {loreco.destroy();let lorepl=this.add.image(500,500, 'lorepl').setScale(0.7);
-                        setTimeout(() => {lorepl.destroy(); this.scene.start('tutorial')
+                        setTimeout(() => {lorepl.destroy(); this.scene.start('force_interaction')
                         }, lore_scene);
                     }, lore_scene);
                 }, lore_scene);
@@ -5119,7 +5119,7 @@ var weapon_gravity=-200;
 var weapon_scale=0.1;
 var throwtimelast=0;
 var cooldownthrow=1000;
-var lore_scene=5000;
+var lore_scene=8000;
 var coin;
 var ending=0;
 var enemy_footstep=false;
