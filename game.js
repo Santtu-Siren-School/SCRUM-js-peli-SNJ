@@ -5131,7 +5131,7 @@ var boss_spike;
 var bosswall;
 var fireball;
 var boss_animation_play=false;
-var phase=1;
+var phase=0;
 var bossattack;
 var bossattackchanche;
 let dialogueActive = false;
